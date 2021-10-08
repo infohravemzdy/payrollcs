@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>HraveMzdy.Legalios</AssemblyName>
+    <RootNamespace>HraveMzdy.Legalios</RootNamespace>
+    <PackageId>HraveMzdy.Legalios</PackageId>
+    <PackageVersion>0.0.2</PackageVersion>
+    <Authors>Ladislav Lisy</Authors>
+    <Copyright>Copyright 2022</Copyright>
+    <Owners>hrave.mzdy.legalios</Owners>
+    <Title>Legal Monthly Attributes 2011-2022</Title>
+    <Description>Salary, Health, Social, Taxing Properties for years 2011-2022</Description>
+    <Version>0.0.2</Version>
+    <PackageTags>payroll, legal, wages, social, health, tax, income, insurance</PackageTags>
+    <RepositoryUrl>https://github.com/mzdyhrave/payroll-procezor-public.git</RepositoryUrl>
+    <PackageProjectUrl>http://hravemzdy.org/legalios</PackageProjectUrl>
+    <RepositoryType>github</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>hravemzdy__org_publish_key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ResultMonad" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
