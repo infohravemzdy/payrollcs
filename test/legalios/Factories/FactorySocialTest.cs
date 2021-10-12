@@ -9,10 +9,11 @@ using HraveMzdy.Legalios.Providers;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest.TestFactory
+namespace LegaliosTest.Factories
 {
-    public class FactorySocialTest : Service_Legalios_Example_SocialTest
+    public class FactorySocialTest : LegaliosBaseTest
     {
         private readonly IProviderFactory<IProviderSocial, IPropsSocial> _sut;
 

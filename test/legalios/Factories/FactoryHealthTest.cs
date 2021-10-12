@@ -9,10 +9,11 @@ using HraveMzdy.Legalios.Providers;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest.TestFactory
+namespace LegaliosTest.Factories
 {
-    public class FactoryHealthTest : Service_Legalios_Example_HealthTest
+    public class FactoryHealthTest : LegaliosBaseTest
     {
         private readonly IProviderFactory<IProviderHealth, IPropsHealth> _sut;
 

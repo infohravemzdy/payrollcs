@@ -7,8 +7,9 @@ using HraveMzdy.Legalios.Service.Types;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest.ServiceTest
+namespace LegaliosTest.Service
 {
     [Collection("TestEngine")]
     public class Service_Legalios_Example_04_Taxing_14_MarginIncomeOfTaxBonusTest : Service_Legalios_Example_TaxingTest

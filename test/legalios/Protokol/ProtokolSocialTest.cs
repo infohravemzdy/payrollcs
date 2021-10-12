@@ -5,7 +5,7 @@ using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Legalios.Interfaces;
 using Xunit;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Protokol
 {
     public class ProtokolSocialTest : ProtokolBaseTest
     {

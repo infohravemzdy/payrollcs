@@ -13,7 +13,7 @@
     <Description>Salary, Health, Social, Taxing Properties for years 2011-2022</Description>
     <Version>0.0.7</Version>
     <PackageTags>payroll, legal, wages, social, health, tax, income, insurance</PackageTags>
-    <RepositoryUrl>https://github.com/mzdyhrave/payroll-procezor-public.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mzdyhrave/payrolcs.git</RepositoryUrl>
     <PackageProjectUrl>http://hravemzdy.org/legalios</PackageProjectUrl>
     <RepositoryType>github</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

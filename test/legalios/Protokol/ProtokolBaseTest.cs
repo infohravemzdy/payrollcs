@@ -5,7 +5,7 @@ using HraveMzdy.Legalios.Service.Types;
 using System;
 using System.IO;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Protokol
 {
     public class ProtokolBaseTest
     {

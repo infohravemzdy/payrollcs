@@ -7,7 +7,7 @@ using HraveMzdy.Legalios.Service.Types;
 using NSubstitute;
 using Xunit;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Service
 {
     public class Service_Legalios_Example_BundleFailure2010Test
     {

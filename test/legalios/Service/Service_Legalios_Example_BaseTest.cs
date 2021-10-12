@@ -6,11 +6,12 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Service
 {
     [CollectionDefinition("TestEngine")]
-    public class Service_Legalios_Example_BaseTest
+    public class Service_Legalios_Example_BaseTest : LegaliosBaseTest
     {
 #if __MACOS__
         public const string EXAMPLE_TEST_FOLDER = "../../../test_expected";
@@ -18,12 +19,6 @@ namespace LegaliosUnitTest
         public const string EXAMPLE_TEST_FOLDER = "..\\..\\..\\test_expected";
 #endif
 
-        public static IEnumerable<object[]> GetTestData(TestScenario[] tests) =>
-            tests.SelectMany((tt) => tt.tests.Select((tx) => (new object[] { tt.testTitle, tx.testName, tx.testYear, tx.testMonth, tx.resultYear })));
-        public static IEnumerable<object[]> GetTestIntData(TestIntScenario[] tests) =>
-            tests.SelectMany((tt) => tt.tests.Select((tx) => (new object[] { tt.testTitle, tx.testName, tx.testYear, tx.testMonth, tx.resultYear, tx.resultMonth, tx.resultValue })));
-        public static IEnumerable<object[]> GetTestDecData(TestDecScenario[] tests) =>
-            tests.SelectMany((tt) => tt.tests.Select((tx) => (new object[] { tt.testTitle, tx.testName, tx.testYear, tx.testMonth, tx.resultYear, tx.resultMonth, tx.resultValue })));
         public Service_Legalios_Example_BaseTest()
         {
         }
@@ -100,14 +95,4 @@ namespace LegaliosUnitTest
             protokol.Write("\t{0}", intValue);
         }
     }
-
-    public record TestScenario(string testTitle, TestParams[] tests);
-    public record TestParams(string testName, Int16 testYear, Int16 testMonth, Int16 resultYear);
-    public record TestData(string testTitle, TestParams test);
-    public record TestIntScenario(string testTitle, TestIntParams[] tests);
-    public record TestIntParams(string testName, Int16 testYear, Int16 testMonth, Int16 resultYear, Int16 resultMonth, Int32 resultValue);
-    public record TestIntData(string testTitle, TestIntParams test);
-    public record TestDecScenario(string testTitle, TestDecParams[] tests);
-    public record TestDecParams(string testName, Int16 testYear, Int16 testMonth, Int16 resultYear, Int16 resultMonth, Decimal resultValue);
-    public record TestDecData(string testTitle, TestDecParams test);
 }

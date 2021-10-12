@@ -9,10 +9,11 @@ using HraveMzdy.Legalios.Providers;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest.TestFactory
+namespace LegaliosTest.Factories
 {
-    public class FactoryTaxingTest : Service_Legalios_Example_TaxingTest
+    public class FactoryTaxingTest : LegaliosBaseTest
     {
         private readonly IProviderFactory<IProviderTaxing, IPropsTaxing> _sut;
 

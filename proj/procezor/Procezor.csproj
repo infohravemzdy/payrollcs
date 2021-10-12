@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>HraveMzdy.Procezor</AssemblyName>
+    <RootNamespace>HraveMzdy.Procezor</RootNamespace>
+    <Version>0.0.7</Version>
+    <Authors>Ladislav Lisy</Authors>
+    <Description>General payroll procesor</Description>
+    <Copyright>Copyright 2022</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>http://hravemzdy.org/legalios</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mzdyhrave/payrolcs.git</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>payroll, legal, wages, social, health, tax, income, insurance</PackageTags>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>hravemzdy__org_publish_key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ResultMonad" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Legalios\Legalios.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

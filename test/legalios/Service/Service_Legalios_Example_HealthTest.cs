@@ -6,7 +6,7 @@ using FluentAssertions;
 using HraveMzdy.Legalios.Service.Errors;
 using HraveMzdy.Legalios.Service.Interfaces;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Service
 {
     public class Service_Legalios_Example_HealthTest : Service_Legalios_Example_BaseTest
     {

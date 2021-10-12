@@ -2,7 +2,7 @@
 using HraveMzdy.Legalios.Service.Errors;
 using HraveMzdy.Legalios.Service.Interfaces;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Service
 {
     public class Service_Legalios_Example_TaxingTest : Service_Legalios_Example_BaseTest
     {

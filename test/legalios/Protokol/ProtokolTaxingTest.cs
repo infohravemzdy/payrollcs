@@ -4,7 +4,7 @@ using HraveMzdy.Legalios.Providers;
 using HraveMzdy.Legalios.Service.Interfaces;
 using Xunit;
 
-namespace LegaliosUnitTest
+namespace LegaliosTest.Protokol
 {
     public class ProtokolTaxingTest : ProtokolBaseTest
     {

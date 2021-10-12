@@ -5,10 +5,11 @@ using HraveMzdy.Legalios.Service;
 using HraveMzdy.Legalios.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 using NSubstitute;
-using Xunit;
 using System.Collections.Generic;
+using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest.ServiceTest
+namespace LegaliosTest.Service
 {
     [Collection("TestEngine")]
     public class Service_Legalios_Example_01_Health_01_MinMonthlyBasisTest : Service_Legalios_Example_HealthTest

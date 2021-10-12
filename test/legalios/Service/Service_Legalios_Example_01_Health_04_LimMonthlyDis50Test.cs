@@ -7,8 +7,9 @@ using HraveMzdy.Legalios.Service.Types;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
+using LegaliosTests;
 
-namespace LegaliosUnitTest.ServiceTest
+namespace LegaliosTest.Service
 {
     [Collection("TestEngine")]
     public class Service_Legalios_Example_01_Health_04_LimMonthlyDis50Test : Service_Legalios_Example_HealthTest
