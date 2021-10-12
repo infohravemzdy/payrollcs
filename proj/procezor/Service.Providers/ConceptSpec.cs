@@ -10,7 +10,7 @@ using MaybeMonad;
 
 namespace HraveMzdy.Procezor.Service.Providers
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
     public abstract class ConceptSpec : IConceptSpec
     {
         public IEnumerable<ArticleCode> Path { get; protected set; }

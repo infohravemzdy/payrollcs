@@ -11,7 +11,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
     class ResultBuilder<EA, EC> : IResultBuilder<EA, EC>
         where EA : struct, IComparable
         where EC : struct, IComparable
@@ -49,11 +49,11 @@ namespace HraveMzdy.Procezor.Registry
 
             return true;
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IEnumerable<ITermTarget> targets, IArticleDefine finDefs)
+        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IBundleProps propsLegal, IEnumerable<ITermTarget> targets, IArticleDefine finDefs)
         {
             IEnumerable<ITermCalcul> calculTargets = BuildCalculsList(PeriodInit, targets, finDefs);
 
-            IEnumerable<Result<ITermResult, ITermResultError>> calculResults = BuildResultsList(PeriodInit, calculTargets);
+            IEnumerable<Result<ITermResult, ITermResultError>> calculResults = BuildResultsList(PeriodInit, propsLegal, calculTargets);
 
             return calculResults;
         }
@@ -71,11 +71,11 @@ namespace HraveMzdy.Procezor.Registry
 
             return calculsList;
         }
-        private IEnumerable<Result<ITermResult, ITermResultError>> BuildResultsList(IPeriod period, IEnumerable<ITermCalcul> calculs)
+        private IEnumerable<Result<ITermResult, ITermResultError>> BuildResultsList(IPeriod period, IBundleProps propsLegal, IEnumerable<ITermCalcul> calculs)
         { 
             IList<Result<ITermResult, ITermResultError>> resultsInit = new List<Result<ITermResult, ITermResultError>>();
 
-            return calculs.Aggregate(resultsInit, (agr, x) => (MergeResults(agr, x.GetResults<EA, EC>(period, agr).ToArray()))).ToList();
+            return calculs.Aggregate(resultsInit, (agr, x) => (MergeResults(agr, x.GetResults<EA, EC>(period, propsLegal, agr).ToArray()))).ToList();
         }
         private static IList<Result<ITermResult, ITermResultError>> MergeResults(IList<Result<ITermResult, ITermResultError>> results, params Result<ITermResult, ITermResultError>[] resultValues)
         {
@@ -145,7 +145,7 @@ namespace HraveMzdy.Procezor.Registry
             }
             return conceptSpec.ResultDelegate;
         }
-        private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results)
+        private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
         {
             return new Result<ITermResult, ITermResultError>[] { NoResultFuncError<EA, EC>.CreateResultError(period, target) };
         }

@@ -4,7 +4,7 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    class PropsBase : IProps
+    public class PropsBase : IProps
     {
         public const Int16 VERSION_ZERO = 0;
         public PropsBase(Int16 version)

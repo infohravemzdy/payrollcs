@@ -25,7 +25,7 @@ namespace ProcezorTests.Registry.Providers.Concepts
 
                 ResultDelegate = ConceptEval;
             }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results)
+            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
             {
                 ITermResult resultsValues = new TaxingAdvPaymResult(target, 0, 0, TestResultConst.DESCRIPTION_EMPTY);
 

@@ -16,7 +16,7 @@ namespace HraveMzdy.Procezor.Service
         IList<ArticleCode> BuilderOrder { get; }
         IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get; }
 
-        IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IEnumerable<ITermTarget> targets);
+        IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps propsLegal, IEnumerable<ITermTarget> targets);
         bool BuildFactories();
         bool InitWithPeriod(IPeriod period);
         IArticleSpec GetArticleSpec(ArticleCode code, IPeriod period, VersionCode version);

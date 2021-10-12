@@ -10,7 +10,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry.Factories
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
     class NotFoundConceptProvider : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ConceptConst.CONCEPT_NOTFOUND;

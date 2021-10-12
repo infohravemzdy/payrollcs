@@ -4,7 +4,7 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    class PropsHealth : PropsBase, IPropsHealth
+    public class PropsHealth : PropsBase, IPropsHealth
     {
         public static IPropsHealth Empty()
         {

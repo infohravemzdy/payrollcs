@@ -12,6 +12,7 @@ using FluentAssertions;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
+using HraveMzdy.Legalios.Factories;
 
 namespace ProcezorTests.Service.Examples
 {
@@ -84,6 +85,8 @@ namespace ProcezorTests.Service.Examples
             var testPeriod = new Period(2021, 1);
             testPeriod.Code.Should().Be(202101);
 
+            IBundleProps testLegal = BundleProps.Empty(testPeriod);
+
             var factoryArticleCode = ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING);
 
             var factoryArticle = _sut.GetArticleSpec(factoryArticleCode, testPeriod, testVersion);
@@ -100,7 +103,7 @@ namespace ProcezorTests.Service.Examples
             initService.Should().BeTrue();
 
             var restTargets = GetTargetsWithSalaryHomeOffice(testPeriod);
-            var restService = _sut.GetResults(testPeriod, restTargets);
+            var restService = _sut.GetResults(testPeriod, testLegal, restTargets);
             restService.Count().Should().NotBe(0);
 
             foreach (var (result, index) in restService.Select((item, index) => (item, index))) {
@@ -136,6 +139,8 @@ namespace ProcezorTests.Service.Examples
             var testPeriod = new Period(2021, 1);
             testPeriod.Code.Should().Be(202101);
 
+            IBundleProps testLegal = BundleProps.Empty(testPeriod);
+
             var factoryArticleCode = ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING);
 
             var factoryArticle = _sut.GetArticleSpec(factoryArticleCode, testPeriod, testVersion);
@@ -152,7 +157,7 @@ namespace ProcezorTests.Service.Examples
             initService.Should().BeTrue();
 
             var restTargets = GetTargetsWithSalaryBonusBarter(testPeriod);
-            var restService = _sut.GetResults(testPeriod, restTargets);
+            var restService = _sut.GetResults(testPeriod, testLegal, restTargets);
             restService.Count().Should().NotBe(0);
 
             foreach (var (result, index) in restService.Select((item, index) => (item, index))) {

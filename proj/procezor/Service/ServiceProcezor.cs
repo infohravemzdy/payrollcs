@@ -31,7 +31,7 @@ namespace HraveMzdy.Procezor.Service
 
             BuildFactories();
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IEnumerable<ITermTarget> targets)
+        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps propsLegal, IEnumerable<ITermTarget> targets)
         {
             IEnumerable<Result<ITermResult, ITermResultError>> results = new List<Result<ITermResult, ITermResultError>>();
 
@@ -43,7 +43,7 @@ namespace HraveMzdy.Procezor.Service
             }
             if (Builder != null)
             {
-                results = Builder.GetResults(targets, FinDefs);
+                results = Builder.GetResults(propsLegal, targets, FinDefs);
             }
             return (results);
         }

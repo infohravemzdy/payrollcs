@@ -1,9 +1,10 @@
 ﻿using System;
+using HraveMzdy.Legalios.Props;
 using HraveMzdy.Legalios.Service.Interfaces;
 
 namespace HraveMzdy.Legalios.Factories
 {
-    class BundleProps : IBundleProps
+    public class BundleProps : IBundleProps
     {
         public BundleProps(IPeriod period, 
             IPropsSalary salary, 
@@ -22,5 +23,13 @@ namespace HraveMzdy.Legalios.Factories
         public IPropsHealth HealthProps { get; }
         public IPropsSocial SocialProps { get; }
         public IPropsTaxing TaxingProps { get; }
+        public static IBundleProps Empty(IPeriod period)
+        {
+            return new BundleProps(period,
+                PropsSalary.Empty(),
+                PropsHealth.Empty(),
+                PropsSocial.Empty(),
+                PropsTaxing.Empty());
+        }
     }
 }

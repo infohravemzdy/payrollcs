@@ -4,7 +4,7 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    class PropsTaxing : PropsBase, IPropsTaxing
+    public class PropsTaxing : PropsBase, IPropsTaxing
     {
         public static IPropsTaxing Empty()
         {

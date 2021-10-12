@@ -9,7 +9,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
     class TermCalcul : TermSymbol, ITermCalcul
     {
         public TermCalcul(ITermTarget target, ResultFunc resultDelegate)
@@ -23,14 +23,14 @@ namespace HraveMzdy.Procezor.Registry
 
         public ResultFunc ResultDelegate { get; }
 
-        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IList<Result<ITermResult, ITermResultError>> results)
+        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
             where EA : struct, IComparable
             where EC : struct, IComparable
         {
-            var resultTarget = CallResultDelegate<EA, EC>(Target, period, results);
+            var resultTarget = CallResultDelegate<EA, EC>(Target, period, propsLegal, results);
             return resultTarget.ToArray();
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate<EA, EC>(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results)
+        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate<EA, EC>(ITermTarget target, IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
             where EA : struct, IComparable
             where EC : struct, IComparable
         {
@@ -39,7 +39,7 @@ namespace HraveMzdy.Procezor.Registry
                 var resultError = NoResultFuncError<EA, EC>.CreateResultError(period, target);
                 return new Result<ITermResult, ITermResultError>[] { resultError };
             }
-            var resultTarget = ResultDelegate(target, period, results);
+            var resultTarget = ResultDelegate(target, period, propsLegal, results);
             return resultTarget.ToArray();
         }
     }
