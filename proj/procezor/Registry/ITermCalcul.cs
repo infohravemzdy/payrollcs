@@ -12,7 +12,7 @@ namespace HraveMzdy.Procezor.Registry
     {
         ITermTarget Target { get; }
         ResultFunc ResultDelegate { get; }
-        IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
+        IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
             where EA : struct, IComparable where EC : struct, IComparable;
     }
 }

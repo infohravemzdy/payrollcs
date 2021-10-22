@@ -23,14 +23,14 @@ namespace HraveMzdy.Procezor.Registry
 
         public ResultFunc ResultDelegate { get; }
 
-        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
+        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
             where EA : struct, IComparable
             where EC : struct, IComparable
         {
-            var resultTarget = CallResultDelegate<EA, EC>(Target, period, propsLegal, results);
+            var resultTarget = CallResultDelegate<EA, EC>(Target, period, ruleset, results);
             return resultTarget.ToArray();
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate<EA, EC>(ITermTarget target, IPeriod period, IBundleProps propsLegal, IList<Result<ITermResult, ITermResultError>> results)
+        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate<EA, EC>(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
             where EA : struct, IComparable
             where EC : struct, IComparable
         {
@@ -39,7 +39,7 @@ namespace HraveMzdy.Procezor.Registry
                 var resultError = NoResultFuncError<EA, EC>.CreateResultError(period, target);
                 return new Result<ITermResult, ITermResultError>[] { resultError };
             }
-            var resultTarget = ResultDelegate(target, period, propsLegal, results);
+            var resultTarget = ResultDelegate(target, period, ruleset, results);
             return resultTarget.ToArray();
         }
     }
