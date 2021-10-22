@@ -18,11 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HraveMzdy.Legalios" Version="0.0.7" />
     <PackageReference Include="ResultMonad" Version="1.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Legalios\Legalios.csproj" />
   </ItemGroup>
 
   <ItemGroup>
