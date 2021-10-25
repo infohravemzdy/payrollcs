@@ -21,11 +21,11 @@ namespace HraveMzdy.Procezor.Registry
 
             IEnumerable<ArticleEdge> edgeModel = CreateEdgeModel(articlesModel, conceptsModel);
 
-            IEnumerable<ArticleEdge> depsModel = CreatePendModel(articlesModel, conceptsModel);
+            IEnumerable<ArticleEdge> pendModel = CreatePendModel(articlesModel, conceptsModel);
 
             var order = CreateTopoModel(vertModel, edgeModel);
 
-            var paths = CreatePathModel(articlesModel, vertModel, depsModel, order);
+            var paths = CreatePathModel(articlesModel, vertModel, pendModel, order);
 
             return new Tuple<IList<ArticleCode>, IDictionary<ArticleCode, IEnumerable<IArticleDefine>>>(order, paths);
         }
