@@ -9,8 +9,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry
 {
-    public interface IResultBuilder<EA, EC>
-            where EA : struct, IComparable where EC : struct, IComparable
+    public interface IResultBuilder
     {
         VersionCode Version { get; }
         IPeriod PeriodInit { get; } 

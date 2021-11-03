@@ -86,6 +86,10 @@ namespace HraveMzdy.Procezor.Service.Types
             this.Variant = variant;
             this.Article = article;
         }
+        public virtual string ArticleDescr()
+        {
+            return string.Format("ArticleCode for {0}", Article.Value);
+        }
         public bool IsPositionArticleEqual(ITermSymbol symbol)
         {
             if (symbol == null)

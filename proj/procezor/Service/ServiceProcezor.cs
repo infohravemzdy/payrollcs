@@ -10,14 +10,13 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service
 {
-    public abstract class ServiceProcezor<EA, EC> : IServiceProcezor<EA, EC>
-        where EA : struct, IComparable where EC : struct, IComparable
+    public abstract class ServiceProcezor : IServiceProcezor
     {
         public VersionCode Version { get; }
         public IArticleDefine FinDefs { get; }
         protected IArticleSpecFactory ArticleFactory { get; set; }
         protected IConceptSpecFactory ConceptFactory { get; set; }
-        protected IResultBuilder<EA, EC> Builder { get; set; }
+        protected IResultBuilder Builder { get; set; }
         public IList<ArticleCode> BuilderOrder { get { return Builder.ArticleOrder; } }
         public IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get { return Builder.ArticlePaths; } }
 
@@ -27,7 +26,7 @@ namespace HraveMzdy.Procezor.Service
 
             this.FinDefs = finDefs;
 
-            this.Builder = new ResultBuilder<EA, EC>();
+            this.Builder = new ResultBuilder();
 
             BuildFactories();
         }

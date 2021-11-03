@@ -23,20 +23,16 @@ namespace HraveMzdy.Procezor.Registry
 
         public ResultFunc ResultDelegate { get; }
 
-        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults<EA, EC>(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            where EA : struct, IComparable
-            where EC : struct, IComparable
+        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resultTarget = CallResultDelegate<EA, EC>(Target, period, ruleset, results);
+            var resultTarget = CallResultDelegate(Target, period, ruleset, results);
             return resultTarget.ToArray();
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate<EA, EC>(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            where EA : struct, IComparable
-            where EC : struct, IComparable
+        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
             if (ResultDelegate == null)
             {
-                var resultError = NoResultFuncError<EA, EC>.CreateResultError(period, target);
+                var resultError = NoResultFuncError.CreateResultError(period, target);
                 return new Result<ITermResult, ITermResultError>[] { resultError };
             }
             var resultTarget = ResultDelegate(target, period, ruleset, results);

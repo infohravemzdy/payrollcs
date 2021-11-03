@@ -8,5 +8,7 @@ namespace HraveMzdy.Procezor.Service.Errors
         string Description();
         ArticleCode Article { get; }
         ConceptCode Concept { get; }
+        string ArticleDescr();
+        string ConceptDescr();
     }
 }

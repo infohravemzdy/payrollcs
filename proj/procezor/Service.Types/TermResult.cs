@@ -31,13 +31,9 @@ namespace HraveMzdy.Procezor.Service.Types
             ResultBasis = basis;
             ResultDescr = descr;
         }
-        public virtual string ArticleDescr()
-        {
-            return "";
-        }
         public virtual string ConceptDescr()
         {
-            return "";
+            return Target?.ConceptDescr() ?? string.Format("ConceptCode for {0}", Concept.Value);
         }
     }
 }

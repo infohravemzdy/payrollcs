@@ -10,6 +10,7 @@ namespace HraveMzdy.Procezor.Service.Interfaces
         MonthCode MonthCode { get; }
         ArticleCode Article { get; }
         VariantCode Variant { get; }
+        string ArticleDescr();
 
         bool IsPositionArticleEqual(ITermSymbol symbol);
         bool IsContractArticleEqual(ITermSymbol symbol);

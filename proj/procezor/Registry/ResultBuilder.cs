@@ -12,9 +12,7 @@ using ResultMonad;
 namespace HraveMzdy.Procezor.Registry
 {
     using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
-    class ResultBuilder<EA, EC> : IResultBuilder<EA, EC>
-        where EA : struct, IComparable
-        where EC : struct, IComparable
+    class ResultBuilder : IResultBuilder
     {
         public VersionCode Version { get; private set; }
         public IPeriod PeriodInit { get; private set; }
@@ -75,7 +73,7 @@ namespace HraveMzdy.Procezor.Registry
         { 
             IList<Result<ITermResult, ITermResultError>> resultsInit = new List<Result<ITermResult, ITermResultError>>();
 
-            return calculs.Aggregate(resultsInit, (agr, x) => (MergeResults(agr, x.GetResults<EA, EC>(period, ruleset, agr).ToArray()))).ToList();
+            return calculs.Aggregate(resultsInit, (agr, x) => (MergeResults(agr, x.GetResults(period, ruleset, agr).ToArray()))).ToList();
         }
         private static IList<Result<ITermResult, ITermResultError>> MergeResults(IList<Result<ITermResult, ITermResultError>> results, params Result<ITermResult, ITermResultError>[] resultValues)
         {
@@ -147,7 +145,7 @@ namespace HraveMzdy.Procezor.Registry
         }
         private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            return new Result<ITermResult, ITermResultError>[] { NoResultFuncError<EA, EC>.CreateResultError(period, target) };
+            return new Result<ITermResult, ITermResultError>[] { NoResultFuncError.CreateResultError(period, target) };
         }
         private class TargetComparator : IComparer<ITermTarget>
         {

@@ -7,7 +7,7 @@ using ProcezorTests.Registry.Factories;
 
 namespace ProcezorTests.Service
 {
-    public class TestService : ServiceProcezor<TestArticleConst, TestConceptConst>
+    public class TestService : ServiceProcezor
     {
         public const Int32 TEST_VERSION = 100;
 

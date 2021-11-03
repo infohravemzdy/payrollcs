@@ -13,6 +13,7 @@ using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
 using HraveMzdy.Legalios.Factories;
+using ProcezorTests.Registry.Providers;
 
 namespace ProcezorTests.Service.Examples
 {
@@ -32,13 +33,13 @@ namespace ProcezorTests.Service.Examples
             var variant1 = VariantCode.Get(1);
 
             var targets = new TermTarget[] {
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_TIMESHT_WORKING)),
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_SALARY),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_BASIS)),
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_ALLOWCE_HOFFICE),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_FIXED))
             };
@@ -54,16 +55,16 @@ namespace ProcezorTests.Service.Examples
             var variant1 = VariantCode.Get(1);
 
             var targets = new TermTarget[] {
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_TIMESHT_WORKING)),
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_SALARY),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_BASIS)),
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_BONUS),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_FIXED)),
-                new TermTarget(montCode, contract, position, variant1,
+                new TestTermTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_BARTER),
                     ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_FIXED))
             };
@@ -110,15 +111,15 @@ namespace ProcezorTests.Service.Examples
                 if (result.IsSuccess) 
                 {
                     var resultValue = result.Value;
-                    var articleSymbol = ArticleEnumUtils.GetSymbol(resultValue.Article.Value);
-                    var conceptSymbol = ConceptEnumUtils.GetSymbol(resultValue.Concept.Value);
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
                     output.WriteLine("Index: {0}, ART: {1}, CON: {2}", index, articleSymbol, conceptSymbol);
                 }
                 else if (result.IsFailure) 
                 {
                     var errorValue = result.Error;
-                    var articleSymbol = ArticleEnumUtils.GetSymbol(errorValue.Article.Value);
-                    var conceptSymbol = ConceptEnumUtils.GetSymbol(errorValue.Concept.Value);
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
                     output.WriteLine("Index: {0}, Error: {1}", errorValue);
                 }
             }
@@ -164,15 +165,15 @@ namespace ProcezorTests.Service.Examples
                 if (result.IsSuccess) 
                 {
                     var resultValue = result.Value;
-                    var articleSymbol = ArticleEnumUtils.GetSymbol(resultValue.Article.Value);
-                    var conceptSymbol = ConceptEnumUtils.GetSymbol(resultValue.Concept.Value);
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
                     output.WriteLine("Index: {0}, ART: {1}, CON: {2}", index, articleSymbol, conceptSymbol);
                 }
                 else if (result.IsFailure) 
                 {
                     var errorValue = result.Error;
-                    var articleSymbol = ArticleEnumUtils.GetSymbol(errorValue.Article.Value);
-                    var conceptSymbol = ConceptEnumUtils.GetSymbol(errorValue.Concept.Value);
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
                     output.WriteLine("Index: {0}, Error: {1}", errorValue);
                 }
             }

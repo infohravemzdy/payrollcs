@@ -10,9 +10,6 @@ namespace HraveMzdy.Procezor.Service.Interfaces
         Int32 TargetBasis { get; }
         string TargetDescr { get; }
         IArticleDefine Defs();
-        string ArticleEnumDescr<EA>() where EA : struct, Enum;
-        string ConceptEnumDescr<EC>() where EC : struct, Enum;
-        string ArticleDescr();
         string ConceptDescr();
     }
 }

@@ -10,7 +10,6 @@ namespace HraveMzdy.Procezor.Service.Interfaces
         string ResultDescr { get; }
         Int32 ResultBasis { get; }
         Int32 ResultValue { get; }
-        string ArticleDescr();
         string ConceptDescr();
     }
 }

@@ -8,9 +8,8 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service
 {
-    public interface IServiceProcezor<EA, EC> 
-        where EA : struct, IComparable where EC : struct, IComparable
-   {
+    public interface IServiceProcezor
+    {
         VersionCode Version { get; }
         IArticleDefine FinDefs { get; }
         IList<ArticleCode> BuilderOrder { get; }

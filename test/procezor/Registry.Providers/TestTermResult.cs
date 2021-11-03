@@ -12,11 +12,11 @@ namespace ProcezorTests.Registry.Providers
         }
         public override string ArticleDescr()
         {
-            return Target?.ArticleEnumDescr<TestArticleConst>();
+            return ArticleEnumUtils.GetSymbol(Article.Value);
         }
         public override string ConceptDescr()
         {
-            return Target?.ConceptEnumDescr<TestConceptConst>();
+            return ConceptEnumUtils.GetSymbol(Concept.Value);
         }
     }
 }

@@ -5,17 +5,15 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service.Errors
 {
-    class NoResultFuncError<EA, EC> : TermResultError<EA, EC>
-        where EA : struct, IComparable
-        where EC : struct, IComparable
+    class NoResultFuncError : TermResultError
     {
         public static ITermResultError CreateError(IPeriod period, ITermTarget target)
         {
-            return new NoResultFuncError<EA, EC>(period, target);
+            return new NoResultFuncError(period, target);
         }
         public static Result<ITermResult, ITermResultError> CreateResultError(IPeriod period, ITermTarget target)
         {
-            return Result.Fail<ITermResult, ITermResultError>(NoResultFuncError<EA, EC>.CreateError(period, target));
+            return Result.Fail<ITermResult, ITermResultError>(NoResultFuncError.CreateError(period, target));
         }
         NoResultFuncError(IPeriod period, ITermTarget target) : base(period, target, null, "No result calculation function!")
         {

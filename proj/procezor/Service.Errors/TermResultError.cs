@@ -7,17 +7,15 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service.Errors
 {
-    class TermResultError<EA, EC> : ITermResultError 
-        where EA : struct, IComparable
-        where EC : struct, IComparable
+    class TermResultError : ITermResultError 
     {
         public static ITermResultError CreateError(IPeriod period, ITermTarget target, ITermResultError inner, string errorText)
         {
-            return new TermResultError<EA, EC>(period, target, inner, errorText);
+            return new TermResultError(period, target, inner, errorText);
         }
         public static Result<ITermResult, ITermResultError> CreateResultError(IPeriod period, ITermTarget target, ITermResultError inner, string errorText)
         {
-            return Result.Fail<ITermResult, ITermResultError>(TermResultError<EA, EC>.CreateError(period, target, inner, errorText));
+            return Result.Fail<ITermResult, ITermResultError>(TermResultError.CreateError(period, target, inner, errorText));
         }
         protected TermResultError(IPeriod period, ITermTarget target, ITermResultError inner, string errorText)
         {
@@ -33,6 +31,14 @@ namespace HraveMzdy.Procezor.Service.Errors
             InnerResult = inner;
 
             Error = errorText;
+        }
+        public string ArticleDescr()
+        {
+             return Target?.ArticleDescr() ?? string.Format("ArticleCode for {0}", Article.Value);
+        }
+        public string ConceptDescr()
+        {
+             return Target?.ConceptDescr() ?? string.Format("ConceptCode for {0}", Concept.Value);
         }
         public string Description()
         {
