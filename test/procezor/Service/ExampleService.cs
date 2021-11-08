@@ -1,6 +1,7 @@
 ﻿using System;
 using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Service.Interfaces;
+using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using ProcezorTests.Registry.Constants;
 using ProcezorTests.Registry.Factories;

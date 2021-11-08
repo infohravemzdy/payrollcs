@@ -14,6 +14,7 @@ using Xunit;
 using Xunit.Abstractions;
 using HraveMzdy.Legalios.Factories;
 using ProcezorTests.Registry.Providers;
+using ProcezorTests.Registry.Factories;
 
 namespace ProcezorTests.Service.Examples
 {

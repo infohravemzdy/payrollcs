@@ -10,6 +10,49 @@ using ResultMonad;
 
 namespace ProcezorTests.Registry.Providers
 {
+    class ExampleConceptSpec : ConceptSpec
+    {
+        public ExampleConceptSpec(Int32 code) : base(code)
+        {
+        }
+    }
+
+    class ExampleTermResult : TermResult
+    {
+        public ExampleTermResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        {
+        }
+        public override string ArticleDescr()
+        {
+            return ArticleEnumUtils.GetSymbol(Article.Value);
+        }
+        public override string ConceptDescr()
+        {
+            return ConceptEnumUtils.GetSymbol(Concept.Value);
+        }
+    }
+    class ExampleTermTarget : TermTarget
+    {
+        public ExampleTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 basis, string descr) :
+            base(monthCode, contract, position, variant, article, concept, basis, descr)
+        {
+        }
+        public ExampleTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept)
+        {
+        }
+        public override string ArticleDescr()
+        {
+            return ArticleEnumUtils.GetSymbol(Article.Value);
+        }
+        public override string ConceptDescr()
+        {
+            return ConceptEnumUtils.GetSymbol(Concept.Value);
+        }
+    }
     // TimeshtWorking			TIMESHT_WORKING
     class TimeshtWorkingConProv : ConceptSpecProvider
     {
