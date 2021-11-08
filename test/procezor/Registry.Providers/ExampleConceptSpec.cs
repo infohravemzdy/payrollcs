@@ -3,9 +3,9 @@ using HraveMzdy.Procezor.Service.Providers;
 
 namespace ProcezorTests.Registry.Providers
 {
-    class TestConceptSpec : ConceptSpec
+    class ExampleConceptSpec : ConceptSpec
     {
-        public TestConceptSpec(Int32 code) : base(code)
+        public ExampleConceptSpec(Int32 code) : base(code)
         {
         }
     }

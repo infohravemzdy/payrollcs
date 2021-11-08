@@ -5,9 +5,9 @@ using ProcezorTests.Registry.Constants;
 
 namespace ProcezorTests.Registry.Providers
 {
-    class TestTermResult : TermResult
+    class ExampleTermResult : TermResult
     {
-        public TestTermResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public ExampleTermResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
         {
         }
         public override string ArticleDescr()

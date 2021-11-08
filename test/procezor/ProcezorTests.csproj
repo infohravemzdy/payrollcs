@@ -24,12 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Registry.Providers.Results\" />
-    <Folder Include="Registry.Providers.Concepts\" />
-    <Folder Include="Registry.Providers.Articles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\proj\legalios\Legalios.csproj" />
     <ProjectReference Include="..\..\proj\procezor\Procezor.csproj" />
   </ItemGroup>

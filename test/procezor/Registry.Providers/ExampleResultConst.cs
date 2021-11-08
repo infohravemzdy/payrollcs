@@ -2,7 +2,7 @@
 
 namespace ProcezorTests.Registry.Providers
 {
-    class TestResultConst
+    class ExampleResultConst
     {
         public const Int32 VALUE_ZERO = 0;
         public const Int32 BASIS_ZERO = 0;

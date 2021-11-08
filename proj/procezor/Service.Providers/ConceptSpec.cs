@@ -150,5 +150,9 @@ namespace HraveMzdy.Procezor.Service.Providers
         {
             return results.Concat(resultValues).ToList();
         }
+        public static IEnumerable<ArticleCode> ConstToPathArray(IEnumerable<Int32> _path)
+        {
+            return _path.Select((x) => ArticleCode.Get(x));
+        }
     }
 }

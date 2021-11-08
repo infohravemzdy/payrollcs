@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProcezorTests.Registry.Constants
 {
-    public enum TestArticleConst : Int32
+    public enum ExampleArticleConst : Int32
     {
         ARTICLE_TIMESHT_WORKING = 80001,
         ARTICLE_PAYMENT_SALARY = 80002,
@@ -22,9 +22,9 @@ namespace ProcezorTests.Registry.Constants
         ARTICLE_INCOME_GROSS = 80012,
         ARTICLE_INCOME_NETTO = 80013,
     }
-    public static class TestArticleExtensions
+    public static class ExampleArticleExtensions
     {
-        public static string GetSymbol(this TestArticleConst article)
+        public static string GetSymbol(this ExampleArticleConst article)
         {
             return article.ToString();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
 
@@ -48,6 +49,11 @@ namespace HraveMzdy.Procezor.Service.Providers
             int result = this.Code.GetHashCode();
 
             return result;
+        }
+
+        public static IEnumerable<ArticleCode> ConstToSumsArray(IEnumerable<Int32> _sums)
+        {
+            return _sums.Select((x) => ArticleCode.Get(x));
         }
     }
 }

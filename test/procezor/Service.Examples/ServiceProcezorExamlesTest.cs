@@ -21,7 +21,7 @@ namespace ProcezorTests.Service.Examples
     {
         private readonly ITestOutputHelper output;
 
-        private readonly TestService _sut;
+        private readonly ExampleService _sut;
 
         static IEnumerable<ITermTarget> GetTargetsWithSalaryHomeOffice(IPeriod period) {
             const Int16 CONTRACT_CODE = 0;
@@ -33,15 +33,15 @@ namespace ProcezorTests.Service.Examples
             var variant1 = VariantCode.Get(1);
 
             var targets = new TermTarget[] {
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_TIMESHT_WORKING)),
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_SALARY),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_BASIS)),
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_ALLOWCE_HOFFICE),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_FIXED))
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING)),
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_PAYMENT_SALARY),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_AMOUNT_BASIS)),
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_ALLOWCE_HOFFICE),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED))
             };
             return targets;
         }
@@ -55,18 +55,18 @@ namespace ProcezorTests.Service.Examples
             var variant1 = VariantCode.Get(1);
 
             var targets = new TermTarget[] {
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_TIMESHT_WORKING)),
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_SALARY),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_BASIS)),
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_BONUS),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_FIXED)),
-                new TestTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)TestArticleConst.ARTICLE_PAYMENT_BARTER),
-                    ConceptCode.Get((Int32)TestConceptConst.CONCEPT_AMOUNT_FIXED))
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING)),
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_PAYMENT_SALARY),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_AMOUNT_BASIS)),
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_PAYMENT_BONUS),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED)),
+                new ExampleTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_PAYMENT_BARTER),
+                    ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED))
             };
             return targets;
         }
@@ -74,7 +74,7 @@ namespace ProcezorTests.Service.Examples
         {
             this.output = output;
 
-            this._sut = new TestService();
+            this._sut = new ExampleService();
 
          }
         [Fact]
@@ -88,13 +88,13 @@ namespace ProcezorTests.Service.Examples
 
             IBundleProps testLegal = BundleProps.Empty(testPeriod);
 
-            var factoryArticleCode = ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING);
+            var factoryArticleCode = ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING);
 
             var factoryArticle = _sut.GetArticleSpec(factoryArticleCode, testPeriod, testVersion);
             factoryArticle.Should().NotBeNull();
             factoryArticle.Code.Value.Should().NotBe(0);
 
-            var factoryConceptCode = ConceptCode.Get((Int32)TestConceptConst.CONCEPT_TIMESHT_WORKING);
+            var factoryConceptCode = ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING);
 
             var factoryConcept = _sut.GetConceptSpec(factoryConceptCode, testPeriod, testVersion);
             factoryConcept.Should().NotBeNull();
@@ -142,13 +142,13 @@ namespace ProcezorTests.Service.Examples
 
             IBundleProps testLegal = BundleProps.Empty(testPeriod);
 
-            var factoryArticleCode = ArticleCode.Get((Int32)TestArticleConst.ARTICLE_TIMESHT_WORKING);
+            var factoryArticleCode = ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING);
 
             var factoryArticle = _sut.GetArticleSpec(factoryArticleCode, testPeriod, testVersion);
             factoryArticle.Should().NotBeNull();
             factoryArticle.Code.Value.Should().NotBe(0);
 
-            var factoryConceptCode = ConceptCode.Get((Int32)TestConceptConst.CONCEPT_TIMESHT_WORKING);
+            var factoryConceptCode = ConceptCode.Get((Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING);
 
             var factoryConcept = _sut.GetConceptSpec(factoryConceptCode, testPeriod, testVersion);
             factoryConcept.Should().NotBeNull();

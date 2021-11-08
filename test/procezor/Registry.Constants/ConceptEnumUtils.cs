@@ -3,7 +3,7 @@ using HraveMzdy.Procezor.Registry.Constants;
 
 namespace ProcezorTests.Registry.Constants
 {
-    class ConceptEnumUtils : EnumConstUtils<TestConceptConst>
+    class ConceptEnumUtils : EnumConstUtils<ExampleConceptConst>
     {
     }
 }
