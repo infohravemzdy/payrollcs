@@ -9,10 +9,9 @@ namespace ProcezorTests.Registry.Providers
         public const Int32 BASIS_ZERO = 0;
         public const string DESCRIPTION_EMPTY = "result from input value";
     }
-    // TimeshtWorking           TIMESHT_WORKING
     class TimeshtWorkingResult : ExampleTermResult
     {
-        public TimeshtWorkingResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public TimeshtWorkingResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
         public TimeshtWorkingResult(ITermTarget target)
@@ -20,10 +19,10 @@ namespace ProcezorTests.Registry.Providers
         {
         }
     }
-    // AmountBasis              AMOUNT_BASIS
+
     class AmountBasisResult : ExampleTermResult
     {
-        public AmountBasisResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public AmountBasisResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
         public AmountBasisResult(ITermTarget target)
@@ -31,10 +30,10 @@ namespace ProcezorTests.Registry.Providers
         {
         }
     }
-    // AmountFixed              AMOUNT_FIXED
+
     class AmountFixedResult : ExampleTermResult
     {
-        public AmountFixedResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public AmountFixedResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
         public AmountFixedResult(ITermTarget target)
@@ -42,76 +41,76 @@ namespace ProcezorTests.Registry.Providers
         {
         }
     }
-    // HealthInsBase            HEALTH_INSBASE
-    class HealthInsBaseResult : ExampleTermResult
+
+    class HealthInsbaseResult : ExampleTermResult
     {
-        public HealthInsBaseResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public HealthInsbaseResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
-        public HealthInsBaseResult(ITermTarget target)
+        public HealthInsbaseResult(ITermTarget target)
         : base(target, ExampleResultConst.VALUE_ZERO, ExampleResultConst.BASIS_ZERO, ExampleResultConst.DESCRIPTION_EMPTY)
         {
         }
     }
-    // SocialInsBase            SOCIAL_INSBASE
-    class SocialInsBaseResult : ExampleTermResult
+
+    class SocialInsbaseResult : ExampleTermResult
     {
-        public SocialInsBaseResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public SocialInsbaseResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
-        public SocialInsBaseResult(ITermTarget target)
+        public SocialInsbaseResult(ITermTarget target)
         : base(target, ExampleResultConst.VALUE_ZERO, ExampleResultConst.BASIS_ZERO, ExampleResultConst.DESCRIPTION_EMPTY)
         {
         }
     }
-    // TaxingAdvBase            TAXING_ADVBASE
-    class TaxingAdvBaseResult : ExampleTermResult
+
+    class HealthInspaymResult : ExampleTermResult
     {
-        public TaxingAdvBaseResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public HealthInspaymResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
-        public TaxingAdvBaseResult(ITermTarget target)
+        public HealthInspaymResult(ITermTarget target)
         : base(target, ExampleResultConst.VALUE_ZERO, ExampleResultConst.BASIS_ZERO, ExampleResultConst.DESCRIPTION_EMPTY)
         {
         }
     }
-    // HealthInsPaym            HEALTH_INSPAYM
-    class HealthInsPaymResult : ExampleTermResult
+
+    class SocialInspaymResult : ExampleTermResult
     {
-        public HealthInsPaymResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public SocialInspaymResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
-        public HealthInsPaymResult(ITermTarget target)
+        public SocialInspaymResult(ITermTarget target)
         : base(target, ExampleResultConst.VALUE_ZERO, ExampleResultConst.BASIS_ZERO, ExampleResultConst.DESCRIPTION_EMPTY)
         {
         }
     }
-    // SocialInsPaym            SOCIAL_INSPAYM
-    class SocialInsPaymResult : ExampleTermResult
+
+    class TaxingAdvbaseResult : ExampleTermResult
     {
-        public SocialInsPaymResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public TaxingAdvbaseResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
-        public SocialInsPaymResult(ITermTarget target)
+        public TaxingAdvbaseResult(ITermTarget target)
         : base(target, ExampleResultConst.VALUE_ZERO, ExampleResultConst.BASIS_ZERO, ExampleResultConst.DESCRIPTION_EMPTY)
         {
         }
     }
-    // TaxingAdvPaym            TAXING_ADVPAYM
-    class TaxingAdvPaymResult : ExampleTermResult
+
+    class TaxingAdvpaymResult : ExampleTermResult
     {
-        public TaxingAdvPaymResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public TaxingAdvpaymResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
-        public TaxingAdvPaymResult(ITermTarget target)
+        public TaxingAdvpaymResult(ITermTarget target)
         : base(target, ExampleResultConst.VALUE_ZERO, ExampleResultConst.BASIS_ZERO, ExampleResultConst.DESCRIPTION_EMPTY)
         {
         }
     }
-    // IncomeGross              INCOME_GROSS
+
     class IncomeGrossResult : ExampleTermResult
     {
-        public IncomeGrossResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public IncomeGrossResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
         public IncomeGrossResult(ITermTarget target)
@@ -119,10 +118,10 @@ namespace ProcezorTests.Registry.Providers
         {
         }
     }
-    // IncomeNetto              INCOME_NETTO
+
     class IncomeNettoResult : ExampleTermResult
     {
-        public IncomeNettoResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public IncomeNettoResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
         {
         }
         public IncomeNettoResult(ITermTarget target)
@@ -130,4 +129,5 @@ namespace ProcezorTests.Registry.Providers
         {
         }
     }
+
 }

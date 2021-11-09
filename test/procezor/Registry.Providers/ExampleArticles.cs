@@ -8,294 +8,319 @@ using ProcezorTests.Registry.Constants;
 
 namespace ProcezorTests.Registry.Providers
 {
-    // TimeshtWorking           TIMESHT_WORKING
+    // TimeshtWorking		TIMESHT_WORKING
     class TimeshtWorkingArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING;
-        class TimeshtWorkingArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING;
-
-            public TimeshtWorkingArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-
         public TimeshtWorkingArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new TimeshtWorkingArtSpec(this.Code.Value);
         }
     }
-    // PaymentSalary            PAYMENT_SALARY
+
+    class TimeshtWorkingArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING;
+        public TimeshtWorkingArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // PaymentSalary		PAYMENT_SALARY
     class PaymentSalaryArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_PAYMENT_SALARY;
-        class PaymentSalaryArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_BASIS;
-
-            public PaymentSalaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
-                    (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
-                    (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
-                    (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
-               });
-            }
-        }
         public PaymentSalaryArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new PaymentSalaryArtSpec(this.Code.Value);
         }
     }
-    // PaymentBonus             PAYMENT_BONUS
+
+    class PaymentSalaryArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_BASIS;
+        public PaymentSalaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
+                (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
+                (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
+                (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
+            });
+        }
+    }
+
+    // PaymentBonus		PAYMENT_BONUS
     class PaymentBonusArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_PAYMENT_BONUS;
-        class PaymentBonusArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-
-            public PaymentBonusArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
-                    (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
-                    (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
-                    (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
-                });
-            }
-        }
         public PaymentBonusArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new PaymentBonusArtSpec(this.Code.Value);
         }
     }
-    // PaymentBarter            PAYMENT_BARTER
+
+    class PaymentBonusArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
+        public PaymentBonusArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
+                (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
+                (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
+                (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
+            });
+        }
+    }
+
+    // PaymentBarter		PAYMENT_BARTER
     class PaymentBarterArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_PAYMENT_BARTER;
-        class PaymentBarterArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-
-            public PaymentBarterArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
-                    (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
-                    (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
-                });
-            }
-        }
         public PaymentBarterArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new PaymentBarterArtSpec(this.Code.Value);
         }
     }
-    // AllowceHoffice           ALLOWCE_HOFFICE
+
+    class PaymentBarterArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
+        public PaymentBarterArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
+                (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
+                (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
+            });
+        }
+    }
+
+    // AllowceHoffice		ALLOWCE_HOFFICE
     class AllowceHofficeArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_ALLOWCE_HOFFICE;
-        class AllowceHofficeArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-
-            public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ExampleArticleConst.ARTICLE_INCOME_NETTO,
-                });
-            }
-        }
         public AllowceHofficeArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new AllowceHofficeArtSpec(this.Code.Value);
         }
     }
-    // HealthInsBase            HEALTH_INSBASE
-    class HealthInsBaseArtProv : ArticleSpecProvider
+
+    class AllowceHofficeArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
+        public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_INCOME_NETTO,
+            });
+        }
+    }
+
+    // HealthInsbase		HEALTH_INSBASE
+    class HealthInsbaseArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE;
-        class HealthInsBaseArtSpec : ArticleSpec
+        public HealthInsbaseArtProv() : base(ARTICLE_CODE)
         {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSBASE;
+        }
 
-            public HealthInsBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-        public HealthInsBaseArtProv() : base(ARTICLE_CODE)
-        {
-        }
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new HealthInsBaseArtSpec(this.Code.Value);
+            return new HealthInsbaseArtSpec(this.Code.Value);
         }
     }
-    // SocialInsBase            SOCIAL_INSBASE
-    class SocialInsBaseArtProv : ArticleSpecProvider
+
+    class HealthInsbaseArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSBASE;
+        public HealthInsbaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // SocialInsbase		SOCIAL_INSBASE
+    class SocialInsbaseArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE;
-        class SocialInsBaseArtSpec : ArticleSpec
+        public SocialInsbaseArtProv() : base(ARTICLE_CODE)
         {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSBASE;
+        }
 
-            public SocialInsBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-        public SocialInsBaseArtProv() : base(ARTICLE_CODE)
-        {
-        }
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new SocialInsBaseArtSpec(this.Code.Value);
+            return new SocialInsbaseArtSpec(this.Code.Value);
         }
     }
-    // TaxingAdvBase            TAXING_ADVBASE
-    class TaxingAdvBaseArtProv : ArticleSpecProvider
+
+    class SocialInsbaseArtSpec : ArticleSpec
     {
-        public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE;
-        class TaxingAdvBaseArtSpec : ArticleSpec
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSBASE;
+        public SocialInsbaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVBASE;
-
-            public TaxingAdvBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-        public TaxingAdvBaseArtProv() : base(ARTICLE_CODE)
-        {
-        }
-        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
-        {
-            return new TaxingAdvBaseArtSpec(this.Code.Value);
+            Sums = new List<ArticleCode>();
         }
     }
-    // HealthInsPaym            HEALTH_INSPAYM
-    class HealthInsPaymArtProv : ArticleSpecProvider
+
+    // HealthInspaym		HEALTH_INSPAYM
+    class HealthInspaymArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSPAYM;
-        class HealthInsPaymArtSpec : ArticleSpec
+        public HealthInspaymArtProv() : base(ARTICLE_CODE)
         {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSPAYM;
+        }
 
-            public HealthInsPaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-        public HealthInsPaymArtProv() : base(ARTICLE_CODE)
-        {
-        }
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new HealthInsPaymArtSpec(this.Code.Value);
+            return new HealthInspaymArtSpec(this.Code.Value);
         }
     }
-    // SocialInsPaym            SOCIAL_INSPAYM
-    class SocialInsPaymArtProv : ArticleSpecProvider
+
+    class HealthInspaymArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSPAYM;
+        public HealthInspaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // SocialInspaym		SOCIAL_INSPAYM
+    class SocialInspaymArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSPAYM;
-        class SocialInsPaymArtSpec : ArticleSpec
+        public SocialInspaymArtProv() : base(ARTICLE_CODE)
         {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSPAYM;
+        }
 
-            public SocialInsPaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-        public SocialInsPaymArtProv() : base(ARTICLE_CODE)
-        {
-        }
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new SocialInsPaymArtSpec(this.Code.Value);
+            return new SocialInspaymArtSpec(this.Code.Value);
         }
     }
-    // TaxingAdvPaym            TAXING_ADVPAYM
-    class TaxingAdvPaymArtProv : ArticleSpecProvider
+
+    class SocialInspaymArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSPAYM;
+        public SocialInspaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingAdvbase		TAXING_ADVBASE
+    class TaxingAdvbaseArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE;
+        public TaxingAdvbaseArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAdvbaseArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAdvbaseArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVBASE;
+        public TaxingAdvbaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingAdvpaym		TAXING_ADVPAYM
+    class TaxingAdvpaymArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVPAYM;
-        class TaxingAdvPaymArtSpec : ArticleSpec
+        public TaxingAdvpaymArtProv() : base(ARTICLE_CODE)
         {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVPAYM;
+        }
 
-            public TaxingAdvPaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
-        public TaxingAdvPaymArtProv() : base(ARTICLE_CODE)
-        {
-        }
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvPaymArtSpec(this.Code.Value);
+            return new TaxingAdvpaymArtSpec(this.Code.Value);
         }
     }
-    // IncomeGross              INCOME_GROSS
+
+    class TaxingAdvpaymArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVPAYM;
+        public TaxingAdvpaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // IncomeGross		INCOME_GROSS
     class IncomeGrossArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS;
-        class IncomeGrossArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_GROSS;
-
-            public IncomeGrossArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
         public IncomeGrossArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new IncomeGrossArtSpec(this.Code.Value);
         }
     }
-    // IncomeNetto              INCOME_NETTO
+
+    class IncomeGrossArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_GROSS;
+        public IncomeGrossArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // IncomeNetto		INCOME_NETTO
     class IncomeNettoArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)ExampleArticleConst.ARTICLE_INCOME_NETTO;
-        class IncomeNettoArtSpec : ArticleSpec
-        {
-            const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_NETTO;
-
-            public IncomeNettoArtSpec(Int32 code) : base(code, CONCEPT_CODE)
-            {
-                Sums = new List<ArticleCode>();
-            }
-        }
         public IncomeNettoArtProv() : base(ARTICLE_CODE)
         {
         }
+
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new IncomeNettoArtSpec(this.Code.Value);
         }
     }
+
+    class IncomeNettoArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_NETTO;
+        public IncomeNettoArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
 }

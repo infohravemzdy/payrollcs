@@ -59,22 +59,6 @@ namespace ProcezorTests.Registry.Providers
     class TimeshtWorkingConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING;
-        class TimeshtWorkingConSpec : ExampleConceptSpec
-        {
-
-            public TimeshtWorkingConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>();
-                ResultDelegate = ConceptEval;
-            }
-
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new TimeshtWorkingResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-                return BuildOkResults(resultsValues);
-            }
-        }
-
         public TimeshtWorkingConProv() : base(CONCEPT_CODE)
         {
         }
@@ -84,297 +68,354 @@ namespace ProcezorTests.Registry.Providers
             return new TimeshtWorkingConSpec(this.Code.Value);
         }
     }
-    // AmountBasis              AMOUNT_BASIS
+
+    class TimeshtWorkingConSpec : ExampleConceptSpec
+    {
+        public TimeshtWorkingConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new TimeshtWorkingResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // AmountBasis			AMOUNT_BASIS
     class AmountBasisConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_BASIS;
-        class AmountBasisConSpec : ExampleConceptSpec
-        {
-            public AmountBasisConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>() {
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING),
-                };
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new AmountBasisResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
         public AmountBasisConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new AmountBasisConSpec(this.Code.Value);
         }
     }
-    // AmountFixed              AMOUNT_FIXED
+
+    class AmountBasisConSpec : ExampleConceptSpec
+    {
+        public AmountBasisConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_TIMESHT_WORKING,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new AmountBasisResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // AmountFixed			AMOUNT_FIXED
     class AmountFixedConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-        class AmountFixedConSpec : ExampleConceptSpec
-        {
-            public AmountFixedConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>();
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new AmountFixedResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
         public AmountFixedConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new AmountFixedConSpec(this.Code.Value);
         }
     }
-    // HealthInsBase            HEALTH_INSBASE
-    class HealthInsBaseConProv : ConceptSpecProvider
+
+    class AmountFixedConSpec : ExampleConceptSpec
+    {
+        public AmountFixedConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new AmountFixedResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // HealthInsbase			HEALTH_INSBASE
+    class HealthInsbaseConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSBASE;
-        class HealthInsBaseConSpec : ExampleConceptSpec
-        {
-            public HealthInsBaseConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>();
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new HealthInsBaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
-        public HealthInsBaseConProv() : base(CONCEPT_CODE)
+        public HealthInsbaseConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new HealthInsBaseConSpec(this.Code.Value);
+            return new HealthInsbaseConSpec(this.Code.Value);
         }
     }
-    // SocialInsBase            SOCIAL_INSBASE
-    class SocialInsBaseConProv : ConceptSpecProvider
+
+    class HealthInsbaseConSpec : ExampleConceptSpec
+    {
+        public HealthInsbaseConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new HealthInsbaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // SocialInsbase			SOCIAL_INSBASE
+    class SocialInsbaseConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSBASE;
-        class SocialInsBaseConSpec : ExampleConceptSpec
-        {
-            public SocialInsBaseConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>();
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new SocialInsBaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
-        public SocialInsBaseConProv() : base(CONCEPT_CODE)
+        public SocialInsbaseConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new SocialInsBaseConSpec(this.Code.Value);
+            return new SocialInsbaseConSpec(this.Code.Value);
         }
     }
-    // TaxingAdvBase            TAXING_ADVBASE
-    class TaxingAdvBaseConProv : ConceptSpecProvider
+
+    class SocialInsbaseConSpec : ExampleConceptSpec
     {
-        const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVBASE;
-        class TaxingAdvBaseConSpec : ExampleConceptSpec
+        public SocialInsbaseConSpec(Int32 code) : base(code)
         {
-            public TaxingAdvBaseConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>();
+            Path = new List<ArticleCode>();
 
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new TaxingAdvBaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
+            ResultDelegate = ConceptEval;
         }
 
-        public TaxingAdvBaseConProv() : base(CONCEPT_CODE)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-        }
-        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
-        {
-            return new TaxingAdvBaseConSpec(this.Code.Value);
+            ITermResult resultsValues = new SocialInsbaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
-    // HealthInsPaym            HEALTH_INSPAYM
-    class HealthInsPaymConProv : ConceptSpecProvider
+
+
+    // HealthInspaym			HEALTH_INSPAYM
+    class HealthInspaymConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSPAYM;
-        class HealthInsPaymConSpec : ExampleConceptSpec
-        {
-            public HealthInsPaymConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>() {
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE),
-                };
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new HealthInsPaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
-        public HealthInsPaymConProv() : base(CONCEPT_CODE)
+        public HealthInspaymConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new HealthInsPaymConSpec(this.Code.Value);
+            return new HealthInspaymConSpec(this.Code.Value);
         }
     }
-    // SocialInsPaym            SOCIAL_INSPAYM
-    class SocialInsPaymConProv : ConceptSpecProvider
+
+    class HealthInspaymConSpec : ExampleConceptSpec
+    {
+        public HealthInspaymConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new HealthInspaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // SocialInspaym			SOCIAL_INSPAYM
+    class SocialInspaymConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSPAYM;
-        class SocialInsPaymConSpec : ExampleConceptSpec
-        {
-            public SocialInsPaymConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>() {
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE),
-                };
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new SocialInsPaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
-        public SocialInsPaymConProv() : base(CONCEPT_CODE)
+        public SocialInspaymConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new SocialInsPaymConSpec(this.Code.Value);
+            return new SocialInspaymConSpec(this.Code.Value);
         }
     }
-    // TaxingAdvPaym            TAXING_ADVPAYM
-    class TaxingAdvPaymConProv : ConceptSpecProvider
+
+    class SocialInspaymConSpec : ExampleConceptSpec
+    {
+        public SocialInspaymConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSBASE,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new SocialInspaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // TaxingAdvbase			TAXING_ADVBASE
+    class TaxingAdvbaseConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVBASE;
+        public TaxingAdvbaseConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAdvbaseConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAdvbaseConSpec : ExampleConceptSpec
+    {
+        public TaxingAdvbaseConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new TaxingAdvbaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // TaxingAdvpaym			TAXING_ADVPAYM
+    class TaxingAdvpaymConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVPAYM;
-        class TaxingAdvPaymConSpec : ExampleConceptSpec
-        {
-            public TaxingAdvPaymConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>() {
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE),
-                };
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new TaxingAdvPaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
-        public TaxingAdvPaymConProv() : base(CONCEPT_CODE)
+        public TaxingAdvpaymConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvPaymConSpec(this.Code.Value);
+            return new TaxingAdvpaymConSpec(this.Code.Value);
         }
     }
-    // IncomeGross              INCOME_GROSS
+
+    class TaxingAdvpaymConSpec : ExampleConceptSpec
+    {
+        public TaxingAdvpaymConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVBASE,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new TaxingAdvpaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // IncomeGross			INCOME_GROSS
     class IncomeGrossConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_GROSS;
-        class IncomeGrossConSpec : ExampleConceptSpec
-        {
-            public IncomeGrossConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>();
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new IncomeGrossResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
         public IncomeGrossConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new IncomeGrossConSpec(this.Code.Value);
         }
     }
-    // IncomeNetto              INCOME_NETTO
+
+    class IncomeGrossConSpec : ExampleConceptSpec
+    {
+        public IncomeGrossConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new IncomeGrossResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+
+    // IncomeNetto			INCOME_NETTO
     class IncomeNettoConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_NETTO;
-        class IncomeNettoConSpec : ExampleConceptSpec
-        {
-            public IncomeNettoConSpec(Int32 code) : base(code)
-            {
-                Path = new List<ArticleCode>() {
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS),
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_HEALTH_INSPAYM),
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSPAYM),
-                    ArticleCode.Get((Int32)ExampleArticleConst.ARTICLE_TAXING_ADVPAYM),
-                };
-
-                ResultDelegate = ConceptEval;
-            }
-            private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-            {
-                ITermResult resultsValues = new IncomeNettoResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
-
-                return BuildOkResults(resultsValues);
-            }
-        }
-
         public IncomeNettoConProv() : base(CONCEPT_CODE)
         {
         }
+
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
             return new IncomeNettoConSpec(this.Code.Value);
+        }
+    }
+
+    class IncomeNettoConSpec : ExampleConceptSpec
+    {
+        public IncomeNettoConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
+                (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSPAYM,
+                (Int32)ExampleArticleConst.ARTICLE_SOCIAL_INSPAYM,
+                (Int32)ExampleArticleConst.ARTICLE_TAXING_ADVPAYM,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            ITermResult resultsValues = new IncomeNettoResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 }
