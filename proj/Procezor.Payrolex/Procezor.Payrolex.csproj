@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>HraveMzdy.Procezor.Payrolex</AssemblyName>
+    <PackageProjectUrl>http://hravemzdy.org/procezor-payrolex</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mzdyhrave/payrolcs.git</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>payroll, legal, wages, social, health, tax, income, insurance</PackageTags>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <Copyright>Copyright 2022</Copyright>
+    <Description>Czech payroll procesor</Description>
+    <Version>0.0.1</Version>
+    <Authors>Ladislav Lisy</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>hravemzdy__org_publish_key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\procezor\Procezor.csproj" />
+  </ItemGroup>
+
+</Project>

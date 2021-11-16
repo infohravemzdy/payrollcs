@@ -5,7 +5,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service.Errors
 {
-    class ExtractResultError : TermResultError
+    public class ExtractResultError : TermResultError
     {
         public static ITermResultError CreateError(IPeriod period, ITermTarget result, ITermSymbol target, ITermResultError inner, string errorText)
         {

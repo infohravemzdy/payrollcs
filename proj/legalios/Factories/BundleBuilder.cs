@@ -1,5 +1,6 @@
 ﻿using System;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Legalios.Interfaces;
 using HraveMzdy.Legalios.Providers;
 

@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using AutoFixture;
+using FluentAssertions;
+using NSubstitute;
+using Xunit;
+using Xunit.Abstractions;
 using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
 using ProcezorTests.Registry.Constants;
-using AutoFixture;
-using FluentAssertions;
-using NSubstitute;
-using Xunit;
-using Xunit.Abstractions;
-using HraveMzdy.Legalios.Factories;
 using ProcezorTests.Registry.Providers;
 using ProcezorTests.Registry.Factories;
 
@@ -121,7 +120,7 @@ namespace ProcezorTests.Service.Examples
                     var errorValue = result.Error;
                     var articleSymbol = errorValue.ArticleDescr();
                     var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, Error: {1}", errorValue);
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
                 }
             }
 
@@ -175,7 +174,7 @@ namespace ProcezorTests.Service.Examples
                     var errorValue = result.Error;
                     var articleSymbol = errorValue.ArticleDescr();
                     var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, Error: {1}", errorValue);
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
                 }
             }
 

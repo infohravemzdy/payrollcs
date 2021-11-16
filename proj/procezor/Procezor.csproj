@@ -4,12 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>HraveMzdy.Procezor</AssemblyName>
     <RootNamespace>HraveMzdy.Procezor</RootNamespace>
-    <Version>0.0.7</Version>
+    <Version>0.0.3</Version>
     <Authors>Ladislav Lisy</Authors>
     <Description>General payroll procesor</Description>
     <Copyright>Copyright 2022</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>http://hravemzdy.org/legalios</PackageProjectUrl>
+    <PackageProjectUrl>http://hravemzdy.org/procezor</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mzdyhrave/payrolcs.git</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>payroll, legal, wages, social, health, tax, income, insurance</PackageTags>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HraveMzdy.Legalios" Version="0.0.7" />
+    <PackageReference Include="HraveMzdy.Legalios" Version="0.0.13" />
     <PackageReference Include="ResultMonad" Version="1.0.1" />
   </ItemGroup>
 

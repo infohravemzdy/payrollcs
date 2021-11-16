@@ -2,7 +2,7 @@
 using HraveMzdy.Legalios.Props;
 using HraveMzdy.Legalios.Service.Interfaces;
 
-namespace HraveMzdy.Legalios.Factories
+namespace HraveMzdy.Legalios.Service.Types
 {
     public class BundleProps : IBundleProps
     {
