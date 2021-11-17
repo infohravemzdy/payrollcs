@@ -7,24 +7,25 @@ using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Registry;
 using HraveMzdy.Procezor.Registry.Factories;
 using ResultMonad;
+using System.Linq;
 
 namespace HraveMzdy.Procezor.Service
 {
     public abstract class ServiceProcezor : IServiceProcezor
     {
         public VersionCode Version { get; }
-        public IArticleDefine FinDefs { get; }
+        public IList<ArticleCode> CalcArticles { get; }
         protected IArticleSpecFactory ArticleFactory { get; set; }
         protected IConceptSpecFactory ConceptFactory { get; set; }
         protected IResultBuilder Builder { get; set; }
         public IList<ArticleCode> BuilderOrder { get { return Builder.ArticleOrder; } }
         public IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get { return Builder.ArticlePaths; } }
 
-        public ServiceProcezor(Int32 version, IArticleDefine finDefs)
+        public ServiceProcezor(Int32 version, IList<ArticleCode> calcArticles)
         {
             this.Version = new VersionCode(version);
 
-            this.FinDefs = finDefs;
+            this.CalcArticles = calcArticles.ToList();
 
             this.Builder = new ResultBuilder();
 
@@ -42,7 +43,7 @@ namespace HraveMzdy.Procezor.Service
             }
             if (Builder != null)
             {
-                results = Builder.GetResults(ruleset, targets, FinDefs);
+                results = Builder.GetResults(ruleset, targets, CalcArticles);
             }
             return (results);
         }

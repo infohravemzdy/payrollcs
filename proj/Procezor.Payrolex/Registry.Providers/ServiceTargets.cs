@@ -9,7 +9,7 @@ using Procezor.Payrolex.Registry.Constants;
 namespace Procezor.Payrolex.Registry.Providers
 {
     // ContractTerm		CONTRACT_TERM
-    class ContractTermTarget : PayrolexTermTarget
+    public class ContractTermTarget : PayrolexTermTarget
     {
         public WorkContractTerms TermType { get; private set; }
         public DateTime? DateFrom { get; private set; }
@@ -27,7 +27,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTerm		POSITION_TERM
-    class PositionTermTarget : PayrolexTermTarget
+    public class PositionTermTarget : PayrolexTermTarget
     {
         public DateTime? DateFrom { get; private set; }
         public DateTime? DateStop { get; private set; }
@@ -44,21 +44,27 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PositionWorkPlan		POSITION_WORK_PLAN
-    class PositionWorkPlanTarget : PayrolexTermTarget
+    public class PositionWorkPlanTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public WorkScheduleType WorkType { get; private set; }
+        public Int32 WeekShiftPlaned { get; set; }
+        public Int32 WeekShiftLiable { get; set; }
+        public Int32 WeekShiftActual { get; set; }
 
         public PositionWorkPlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
+            WorkScheduleType workType, Int32 shiftPlaned, Int32 shiftLiable, Int32 shiftActual) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
+            WorkType = workType;
+            WeekShiftPlaned = shiftPlaned;
+            WeekShiftLiable = shiftLiable;
+            WeekShiftActual = shiftActual;
         }
     }
 
     // PositionTimePlan		POSITION_TIME_PLAN
-    class PositionTimePlanTarget : PayrolexTermTarget
+    public class PositionTimePlanTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -72,7 +78,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTimeWork		POSITION_TIME_WORK
-    class PositionTimeWorkTarget : PayrolexTermTarget
+    public class PositionTimeWorkTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -86,7 +92,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTimeAbsc		POSITION_TIME_ABSC
-    class PositionTimeAbscTarget : PayrolexTermTarget
+    public class PositionTimeAbscTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -100,7 +106,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // ContractTimePlan		CONTRACT_TIME_PLAN
-    class ContractTimePlanTarget : PayrolexTermTarget
+    public class ContractTimePlanTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -114,7 +120,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // ContractTimeWork		CONTRACT_TIME_WORK
-    class ContractTimeWorkTarget : PayrolexTermTarget
+    public class ContractTimeWorkTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -128,7 +134,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // ContractTimeAbsc		CONTRACT_TIME_ABSC
-    class ContractTimeAbscTarget : PayrolexTermTarget
+    public class ContractTimeAbscTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -142,7 +148,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PaymentBasis		PAYMENT_BASIS
-    class PaymentBasisTarget : PayrolexTermTarget
+    public class PaymentBasisTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -156,7 +162,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PaymentFixed		PAYMENT_FIXED
-    class PaymentFixedTarget : PayrolexTermTarget
+    public class PaymentFixedTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -170,7 +176,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // IncomeGross		INCOME_GROSS
-    class IncomeGrossTarget : PayrolexTermTarget
+    public class IncomeGrossTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
@@ -184,7 +190,7 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // IncomeNetto		INCOME_NETTO
-    class IncomeNettoTarget : PayrolexTermTarget
+    public class IncomeNettoTarget : PayrolexTermTarget
     {
         public Int32 TargetVals { get; private set; }
 

@@ -21,6 +21,10 @@ namespace HraveMzdy.Procezor.Service.Providers
         {
             Code = new ConceptCode(code);
         }
+        public virtual ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        {
+            return new TermTarget(month, con, pos, var, article, this.Code);
+        }
         public int CompareTo(object obj)
         {
             IConceptSpec other = obj as IConceptSpec;
@@ -154,5 +158,6 @@ namespace HraveMzdy.Procezor.Service.Providers
         {
             return _path.Select((x) => ArticleCode.Get(x));
         }
+
     }
 }

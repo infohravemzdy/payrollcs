@@ -34,11 +34,11 @@ namespace HraveMzdy.Procezor.Service.Errors
         }
         public string ArticleDescr()
         {
-             return Target?.ArticleDescr() ?? string.Format("ArticleCode for {0}", Article.Value);
+             return Target?.ArticleDescr() ?? $"ArticleCode for {Article.Value}";
         }
         public string ConceptDescr()
         {
-             return Target?.ConceptDescr() ?? string.Format("ConceptCode for {0}", Concept.Value);
+            return Target?.ConceptDescr() ?? $"ConceptCode for {Concept.Value}";
         }
         public string Description()
         {

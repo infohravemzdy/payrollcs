@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Procezor.Payrolex.Registry.Constants
 {
-    public enum ServiceArticleConst : Int32
+    public enum PayrolexArticleConst : Int32
     {
         ARTICLE_CONTRACT_TERM,
         ARTICLE_POSITION_TERM,
@@ -27,12 +27,12 @@ namespace Procezor.Payrolex.Registry.Constants
     }
     public static class ServiceArticleExtensions
     {
-        public static string GetSymbol(this ServiceArticleConst article)
+        public static string GetSymbol(this PayrolexArticleConst article)
         {
             return article.ToString();
         }
     }
-    class ServiceArticleEnumUtils : EnumConstUtils<ServiceArticleConst>
+    class ServiceArticleEnumUtils : EnumConstUtils<PayrolexArticleConst>
     {
     }
 }

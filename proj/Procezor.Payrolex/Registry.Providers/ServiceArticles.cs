@@ -11,7 +11,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // ContractTerm		CONTRACT_TERM
     class ContractTermArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_CONTRACT_TERM;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM;
         public ContractTermArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -24,7 +24,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class ContractTermArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_CONTRACT_TERM;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TERM;
         public ContractTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -34,7 +34,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PositionTerm		POSITION_TERM
     class PositionTermArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_POSITION_TERM;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM;
         public PositionTermArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -47,7 +47,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PositionTermArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_POSITION_TERM;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TERM;
         public PositionTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -57,7 +57,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PositionWorkPlan		POSITION_WORK_PLAN
     class PositionWorkPlanArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_POSITION_WORK_PLAN;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN;
         public PositionWorkPlanArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -70,7 +70,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PositionWorkPlanArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_POSITION_WORK_PLAN;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_PLAN;
         public PositionWorkPlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -80,7 +80,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PositionTimePlan		POSITION_TIME_PLAN
     class PositionTimePlanArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_POSITION_TIME_PLAN;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN;
         public PositionTimePlanArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -93,7 +93,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PositionTimePlanArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_POSITION_TIME_PLAN;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TIME_PLAN;
         public PositionTimePlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -103,7 +103,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PositionTimeWork		POSITION_TIME_WORK
     class PositionTimeWorkArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_POSITION_TIME_WORK;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_WORK;
         public PositionTimeWorkArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -116,7 +116,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PositionTimeWorkArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_POSITION_TIME_WORK;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TIME_WORK;
         public PositionTimeWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -126,7 +126,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PositionTimeAbsc		POSITION_TIME_ABSC
     class PositionTimeAbscArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_POSITION_TIME_ABSC;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_ABSC;
         public PositionTimeAbscArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -139,7 +139,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PositionTimeAbscArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_POSITION_TIME_ABSC;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TIME_ABSC;
         public PositionTimeAbscArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -149,7 +149,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // ContractTimePlan		CONTRACT_TIME_PLAN
     class ContractTimePlanArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_CONTRACT_TIME_PLAN;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_PLAN;
         public ContractTimePlanArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -162,7 +162,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class ContractTimePlanArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_CONTRACT_TIME_PLAN;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_PLAN;
         public ContractTimePlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -172,7 +172,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // ContractTimeWork		CONTRACT_TIME_WORK
     class ContractTimeWorkArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_CONTRACT_TIME_WORK;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_WORK;
         public ContractTimeWorkArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -185,7 +185,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class ContractTimeWorkArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_CONTRACT_TIME_WORK;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_WORK;
         public ContractTimeWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -195,7 +195,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // ContractTimeAbsc		CONTRACT_TIME_ABSC
     class ContractTimeAbscArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_CONTRACT_TIME_ABSC;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC;
         public ContractTimeAbscArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -208,7 +208,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class ContractTimeAbscArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_CONTRACT_TIME_ABSC;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_ABSC;
         public ContractTimeAbscArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -218,7 +218,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PaymentSalary		PAYMENT_SALARY
     class PaymentSalaryArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_PAYMENT_SALARY;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_PAYMENT_SALARY;
         public PaymentSalaryArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -231,11 +231,11 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PaymentSalaryArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_PAYMENT_BASIS;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_BASIS;
         public PaymentSalaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ServiceArticleConst.ARTICLE_INCOME_GROSS,
+                    (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
                 });
         }
     }
@@ -243,7 +243,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PaymentBonus		PAYMENT_BONUS
     class PaymentBonusArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_PAYMENT_BONUS;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_PAYMENT_BONUS;
         public PaymentBonusArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -256,11 +256,11 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PaymentBonusArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_PAYMENT_FIXED;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
         public PaymentBonusArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ServiceArticleConst.ARTICLE_INCOME_GROSS,
+                    (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
                 });
         }
     }
@@ -268,7 +268,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // PaymentBarter		PAYMENT_BARTER
     class PaymentBarterArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_PAYMENT_BARTER;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_PAYMENT_BARTER;
         public PaymentBarterArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -281,7 +281,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class PaymentBarterArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_PAYMENT_FIXED;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
         public PaymentBarterArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -291,7 +291,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // AllowceHoffice		ALLOWCE_HOFFICE
     class AllowceHofficeArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_ALLOWCE_HOFFICE;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_ALLOWCE_HOFFICE;
         public AllowceHofficeArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -304,11 +304,11 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class AllowceHofficeArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_PAYMENT_FIXED;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
         public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
-                    (Int32)ServiceArticleConst.ARTICLE_INCOME_NETTO,
+                    (Int32)PayrolexArticleConst.ARTICLE_INCOME_NETTO,
                 });
         }
     }
@@ -316,7 +316,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // IncomeGross		INCOME_GROSS
     class IncomeGrossArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_INCOME_GROSS;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS;
         public IncomeGrossArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -329,7 +329,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class IncomeGrossArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_INCOME_GROSS;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_INCOME_GROSS;
         public IncomeGrossArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -339,7 +339,7 @@ namespace Procezor.Payrolex.Registry.Providers
     // IncomeNetto		INCOME_NETTO
     class IncomeNettoArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)ServiceArticleConst.ARTICLE_INCOME_NETTO;
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_INCOME_NETTO;
         public IncomeNettoArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -352,7 +352,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
     class IncomeNettoArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)ServiceConceptConst.CONCEPT_INCOME_NETTO;
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_INCOME_NETTO;
         public IncomeNettoArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();

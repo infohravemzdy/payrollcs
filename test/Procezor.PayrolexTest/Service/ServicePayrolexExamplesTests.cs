@@ -41,28 +41,34 @@ namespace Procezor.PayrolexTest.Service
             var position = PositionCode.Get(POSITION_CODE);
             var variant1 = VariantCode.Get(1);
 
+            DateTime? dateTermFrom = new DateTime(2021, 1, 1);
+            DateTime? dateTermStop = null;
+
             var targets = new TermTarget[] {
+                new ContractTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TERM), 
+                    WorkContractTerms.WORKTERM_EMPLOYMENT_1, dateTermFrom, dateTermStop),
+                new PositionTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_TERM),
+                    "position one", dateTermFrom, dateTermStop),
+                new PositionWorkPlanTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_PLAN),
+                    WorkScheduleType.SCHEDULE_NORMALY_WEEK, 5, 8, 8),
                 new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_CONTRACT_TERM),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_CONTRACT_TERM)),
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_PAYMENT_SALARY),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_PAYMENT_BASIS)),
                 new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_POSITION_TERM),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_POSITION_TERM)),
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_PLAN),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_PLAN)),
                 new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_POSITION_TIME_PLAN),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_POSITION_TIME_PLAN)),
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_WORK),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_WORK)),
                 new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_PAYMENT_SALARY),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_PAYMENT_BASIS)),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_CONTRACT_TIME_PLAN),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_CONTRACT_TIME_PLAN)),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_CONTRACT_TIME_WORK),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_CONTRACT_TIME_WORK)),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)ServiceArticleConst.ARTICLE_CONTRACT_TIME_ABSC),
-                    ConceptCode.Get((Int32)ServiceConceptConst.CONCEPT_CONTRACT_TIME_ABSC)),
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_ABSC)),
             };
             return targets;
         }
@@ -98,7 +104,7 @@ namespace Procezor.PayrolexTest.Service
                     var errorValue = result.Error;
                     var articleSymbol = errorValue.ArticleDescr();
                     var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                 }
             }
         }

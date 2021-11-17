@@ -39,16 +39,30 @@ namespace Procezor.Payrolex.Registry.Providers
     // PositionWorkPlan		POSITION_WORK_PLAN
     class PositionWorkPlanResult : PayrolexTermResult
     {
-        public PositionWorkPlanResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
+        public WorkScheduleType WorkType { get; private set; }
+        public Int32[] HoursFullWeeks { get; private set; }
+        public Int32[] HoursRealWeeks { get; private set; }
+
+        public PositionWorkPlanResult(ITermTarget target, 
+            WorkScheduleType workType, Int32[] fullWeeks, Int32[] realWeeks)
+            : base(target, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
+            WorkType = workType;
+            HoursFullWeeks = fullWeeks;
+            HoursRealWeeks = realWeeks;
         }
     }
 
     // PositionTimePlan		POSITION_TIME_PLAN
     class PositionTimePlanResult : PayrolexTermResult
     {
-        public PositionTimePlanResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, value, basis, descr)
+        public Int32[] HoursFullMonth { get; private set; }
+        public Int32[] HoursRealMonth { get; private set; }
+        public PositionTimePlanResult(ITermTarget target, Int32[] fullMonth, Int32[] realMonth)
+            : base(target, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
+            HoursFullMonth = fullMonth;
+            HoursRealMonth = realMonth;
         }
     }
 

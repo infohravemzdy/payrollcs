@@ -14,7 +14,7 @@ namespace HraveMzdy.Procezor.Registry
         VersionCode Version { get; }
         IPeriod PeriodInit { get; } 
         bool InitWithPeriod(VersionCode version, IPeriod period, IArticleSpecFactory articleFactory, IConceptSpecFactory conceptFactory);
-        IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IBundleProps ruleset, IEnumerable<ITermTarget> targets, IArticleDefine finDefs);
+        IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IBundleProps ruleset, IEnumerable<ITermTarget> targets, IEnumerable<ArticleCode> calcArticles);
         IList<ArticleCode> ArticleOrder { get; }
         IDictionary<ArticleCode, IEnumerable<IArticleDefine>> ArticlePaths { get; }
     }

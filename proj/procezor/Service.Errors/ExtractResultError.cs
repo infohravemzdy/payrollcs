@@ -17,7 +17,7 @@ namespace HraveMzdy.Procezor.Service.Errors
         }
         protected ExtractResultError(IPeriod period, ITermTarget result, ITermSymbol target, ITermResultError inner, string errorText) : base(period, result, inner, errorText)
         {
-            Error = string.Format("{0} for {1}", Error, target.ArticleDescr());  
+            Error = $"{Error} for {target.ArticleDescr()}";  
         }
     }
 }

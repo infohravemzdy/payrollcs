@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
@@ -11,11 +12,11 @@ namespace Procezor.Payrolex.Service
     {
         public const Int32 TEST_VERSION = 100;
 
-        public const Int32 TEST_FINAL_ARTICLE = (Int32)ServiceArticleConst.ARTICLE_INCOME_NETTO;
+        public const Int32 TEST_FINAL_ARTICLE = (Int32)PayrolexArticleConst.ARTICLE_INCOME_NETTO;
 
-        public const Int32 TEST_FINAL_CONCEPT = (Int32)ServiceConceptConst.CONCEPT_INCOME_NETTO;
-
-        private static readonly IArticleDefine TEST_FINAL_DEFS = new ArticleDefine(TEST_FINAL_ARTICLE, TEST_FINAL_CONCEPT);
+        private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
+            ArticleCode.Get(TEST_FINAL_ARTICLE),
+        };
 
         public ServicePayrolex() : base(TEST_VERSION, TEST_FINAL_DEFS)
         {

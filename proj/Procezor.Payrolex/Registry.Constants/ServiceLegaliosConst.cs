@@ -34,4 +34,11 @@ namespace Procezor.Payrolex.Registry.Constants
         SOCIAL_TERM_SHORTS_MEET = 2,
         SOCIAL_TERM_SHORTS_DENY = 3,
     };
+    public enum WorkScheduleType : UInt16
+    {
+        SCHEDULE_NORMALY_WEEK = 0,
+        SCHEDULE_SPECIAL_WEEK = 1,
+        SCHEDULE_SPECIAL_TURN = 2,
+        SCHEDULE_NONEDAY_WORK = 9,
+    };
 }

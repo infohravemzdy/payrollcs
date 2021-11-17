@@ -11,7 +11,7 @@ namespace HraveMzdy.Procezor.Service
     public interface IServiceProcezor
     {
         VersionCode Version { get; }
-        IArticleDefine FinDefs { get; }
+        IList<ArticleCode> CalcArticles { get; }
         IList<ArticleCode> BuilderOrder { get; }
         IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get; }
 

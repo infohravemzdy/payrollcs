@@ -47,21 +47,22 @@ namespace HraveMzdy.Procezor.Registry
 
             return true;
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IBundleProps ruleset, IEnumerable<ITermTarget> targets, IArticleDefine finDefs)
+        public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IBundleProps ruleset, IEnumerable<ITermTarget> targets, IEnumerable<ArticleCode> calcArticles)
         {
-            IEnumerable<ITermCalcul> calculTargets = BuildCalculsList(PeriodInit, targets, finDefs);
+            IEnumerable<ITermCalcul> calculTargets = BuildCalculsList(PeriodInit, ruleset, targets, calcArticles);
 
             IEnumerable<Result<ITermResult, ITermResultError>> calculResults = BuildResultsList(PeriodInit, ruleset, calculTargets);
 
             return calculResults;
         }
-        private IEnumerable<ITermCalcul> BuildCalculsList(IPeriod period, IEnumerable<ITermTarget> targets, IArticleDefine finDefs)
+        private IEnumerable<ITermCalcul> BuildCalculsList(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> targets, IEnumerable<ArticleCode> calcArticles)
         {
-            IArticleDefine finDefine = new ArticleDefine(finDefs);
+            IEnumerable<IArticleDefine> calcDefines = calcArticles.Select((a) => articleModel.FirstOrDefault((m) => (m.Code.Equals(a))))
+                .Where((s) => (s != null)).Select((x) => (new ArticleDefine(x.Code.Value, x.Role.Value)));
 
-            IEnumerable<ITermTarget> targetsSpec = AddFinDefToTargets(period, targets.ToList(), finDefine);
+            IEnumerable<ITermTarget> targetsSpec = AddFinDefToTargets(period, ruleset, targets.ToList(), calcDefines);
 
-            IEnumerable<ITermTarget> targetsStep = AddExternToTargets(period, targetsSpec);
+            IEnumerable<ITermTarget> targetsStep = AddExternToTargets(period, ruleset, targetsSpec);
 
             //ServiceDebugUtils?.LogArticleTargetsToFiles(targetList);
 
@@ -79,26 +80,30 @@ namespace HraveMzdy.Procezor.Registry
         {
             return results.Concat(resultValues).ToList();
         }
-        private IEnumerable<ITermTarget> AddFinDefToTargets(IPeriod period, IEnumerable<ITermTarget> targets, IArticleDefine finDef)
+        private IEnumerable<ITermTarget> AddFinDefToTargets(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> targets, IEnumerable<IArticleDefine> calcDefines)
         {
-            return MergeItemPendings(period, targets, finDef);
+            return MergeListPendings(period, ruleset, targets, calcDefines);
         }
-        private IEnumerable<ITermTarget> AddExternToTargets(IPeriod period, IEnumerable<ITermTarget> targets)
+        private IEnumerable<ITermTarget> AddExternToTargets(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> targets)
         {
             IEnumerable<ITermTarget> targetsInit = targets.ToList();
 
             var targetList = targets.Aggregate(targetsInit, 
-                (agr, item) => (MergePendings(period, agr, item))).ToList();
+                (agr, item) => (MergePendings(period, ruleset, agr, item))).ToList();
 
             var targetSort = targetList.OrderBy((x) => (x), new TargetComparator(ArticleOrder)).ToList();
 
             return targetSort;
         }
+        private IEnumerable<ITermTarget> AddDefinesToTargets(IPeriod period, IBundleProps ruleset, IEnumerable<IArticleDefine> defines)
+        {
+            return defines.Select((x) => GetTargetItem(period, ruleset, conceptModel, x.Code, x.Role)).ToList();
+        }
         private IEnumerable<ITermCalcul> AddTargetToCalculs(IEnumerable<ITermTarget> targets)
         {
             return targets.Select((x) => (new TermCalcul(x, GetCalculFunc(conceptModel, x.Concept)))).ToList();
         }
-        private IEnumerable<ITermTarget> MergePendings(IPeriod period, IEnumerable<ITermTarget> init, ITermTarget target)
+        private IEnumerable<ITermTarget> MergePendings(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> init, ITermTarget target)
         {
             IEnumerable<ITermTarget> resultList = init.ToList();
 
@@ -107,18 +112,13 @@ namespace HraveMzdy.Procezor.Registry
 
             if (pendingsPath != null)
             {
-                resultList = pendingsPath.Aggregate(resultList, (agr, def) => (MergeItemPendings(period, agr, def))).ToList();
+                resultList = pendingsPath.Aggregate(resultList, (agr, def) => (MergeItemPendings(period, ruleset, agr, def))).ToList();
             }
 
             return resultList;
         }
-        private IEnumerable<ITermTarget> MergeItemPendings(IPeriod period, IEnumerable<ITermTarget> init, IArticleDefine articleDefs)
+        private IEnumerable<ITermTarget> MergeItemPendings(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> init, IArticleDefine articleDefs)
         {
-            MonthCode monthCode = MonthCode.Get(period.Code);
-
-            ContractCode contract = ContractCode.New();
-            PositionCode position = PositionCode.New();
-
             IEnumerable<ITermTarget> resultList = init.ToList();
 
             var initTarget = init.FirstOrDefault((x) => (x.Article == articleDefs.Code));
@@ -127,10 +127,28 @@ namespace HraveMzdy.Procezor.Registry
             {
                 VariantCode variant = VariantCode.Get(1);
 
-                var resultItem = new TermTarget(monthCode, contract, position, variant, articleDefs.Code, articleDefs.Role);
+                var resultItem = GetTargetItem(period, ruleset, conceptModel, articleDefs.Code, articleDefs.Role);
 
                 resultList = resultList.Concat(new List<ITermTarget>() { resultItem }).ToList();
             }
+
+            return resultList;
+        }
+
+        private IEnumerable<ITermTarget> MergeListPendings(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> init, IEnumerable<IArticleDefine> calcDefines)
+        {
+            MonthCode monthCode = MonthCode.Get(period.Code);
+
+            ContractCode contract = ContractCode.New();
+            PositionCode position = PositionCode.New();
+
+            IEnumerable<ITermTarget> resultList = init.ToList();
+
+            var defineList = calcDefines.Where((x) => init.FirstOrDefault((t) => (t.Article == x.Code))==null);
+
+            var targetList = AddDefinesToTargets(period, ruleset, defineList);
+
+            resultList = resultList.Concat(targetList).ToList();
 
             return resultList;
         }
@@ -142,6 +160,20 @@ namespace HraveMzdy.Procezor.Registry
                 return NotFoundCalculFunc;
             }
             return conceptSpec.ResultDelegate;
+        }
+        private ITermTarget GetTargetItem(IPeriod period, IBundleProps ruleset, IEnumerable<IConceptSpec> conceptsModel, ArticleCode article, ConceptCode concept)
+        {
+            MonthCode monthCode = MonthCode.Get(period.Code);
+            ContractCode contract = ContractCode.New();
+            PositionCode position = PositionCode.New();
+            VariantCode variant = VariantCode.Get(1);
+
+            var conceptSpec = conceptsModel.FirstOrDefault((a) => (a.Code == concept));
+            if (conceptSpec == null)
+            {
+                return new TermTarget(monthCode, contract, position, variant, article, concept);
+            }
+            return conceptSpec.DefaultTarget(article, period, ruleset, monthCode, contract, position, variant);
         }
         private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {

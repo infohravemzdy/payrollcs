@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
@@ -16,7 +17,9 @@ namespace ProcezorTests.Service
 
         public const Int32 TEST_FINAL_CONCEPT = (Int32)ExampleConceptConst.CONCEPT_INCOME_NETTO;
 
-        private static readonly IArticleDefine TEST_FINAL_DEFS = new ArticleDefine(TEST_FINAL_ARTICLE, TEST_FINAL_CONCEPT);
+        private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
+            ArticleCode.Get(TEST_FINAL_ARTICLE),
+        };
 
         public ExampleService() : base(TEST_VERSION, TEST_FINAL_DEFS)
         {

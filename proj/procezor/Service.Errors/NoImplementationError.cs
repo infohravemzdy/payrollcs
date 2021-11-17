@@ -5,17 +5,17 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service.Errors
 {
-    class NoImplementationError : TermResultError
+    public class NoImplementationError : TermResultError
     {
-        public static ITermResultError CreateError(IPeriod period, ITermTarget target)
+        public static ITermResultError CreateError(IPeriod period, ITermTarget target, string impDescr)
         {
-            return new NoImplementationError(period, target);
+            return new NoImplementationError(period, target, impDescr);
         }
-        public static Result<ITermResult, ITermResultError> CreateResultError(IPeriod period, ITermTarget target)
+        public static Result<ITermResult, ITermResultError> CreateResultError(IPeriod period, ITermTarget target, string impDescr)
         {
-            return Result.Fail<ITermResult, ITermResultError>(NoImplementationError.CreateError(period, target));
+            return Result.Fail<ITermResult, ITermResultError>(NoImplementationError.CreateError(period, target, impDescr));
         }
-        NoImplementationError(IPeriod period, ITermTarget target) : base(period, target, null, "No implementation!")
+        NoImplementationError(IPeriod period, ITermTarget target, string impDescr) : base(period, target, null, $"No implementation for {impDescr}!")
         {
         }
     }
