@@ -9,8 +9,8 @@ namespace Procezor.Payrolex.Registry.Constants
 {
     public enum PayrolexArticleConst : Int32
     {
-        ARTICLE_CONTRACT_TERM,
-        ARTICLE_POSITION_TERM,
+        ARTICLE_CONTRACT_WORK_TERM,
+        ARTICLE_POSITION_WORK_TERM,
         ARTICLE_POSITION_WORK_PLAN,
         ARTICLE_POSITION_TIME_PLAN,
         ARTICLE_POSITION_TIME_WORK,

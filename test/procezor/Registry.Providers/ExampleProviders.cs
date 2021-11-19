@@ -42,7 +42,7 @@ namespace ProcezorTests.Registry.Providers
 
     class ExampleTermResult : TermResult
     {
-        public ExampleTermResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public ExampleTermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, basis, value, descr)
         {
         }
         public override string ArticleDescr()
@@ -78,9 +78,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new TimeshtWorkingResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TimeshtWorkingResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -112,9 +112,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new AmountBasisResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new AmountBasisResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -144,9 +144,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new AmountFixedResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new AmountFixedResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -176,9 +176,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new HealthInsbaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new HealthInsbaseResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -208,9 +208,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new SocialInsbaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialInsbaseResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -242,9 +242,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new HealthInspaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new HealthInspaymResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -276,9 +276,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new SocialInspaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialInspaymResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -308,9 +308,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new TaxingAdvbaseResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvbaseResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -342,9 +342,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new TaxingAdvpaymResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvpaymResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -374,9 +374,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new IncomeGrossResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new IncomeGrossResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -411,9 +411,9 @@ namespace ProcezorTests.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new IncomeNettoResult(target, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new IncomeNettoResult(target, spec, 0, 0, ExampleResultConst.DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

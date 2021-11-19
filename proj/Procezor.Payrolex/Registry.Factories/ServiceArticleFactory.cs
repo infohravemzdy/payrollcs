@@ -12,9 +12,9 @@ namespace Procezor.Payrolex.Registry.Factories
     class ServiceArticleFactory : ArticleSpecFactory
     {
         private readonly IEnumerable<ProviderRecord> ArticleConfig = new ProviderRecord[] {
-            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM, (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TERM,
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM, (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_WORK_TERM,
                 Array.Empty<Int32>()),
-            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM, (Int32)PayrolexConceptConst.CONCEPT_POSITION_TERM,
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM, (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM,
                 Array.Empty<Int32>()),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN, (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_PLAN,
                 Array.Empty<Int32>()),

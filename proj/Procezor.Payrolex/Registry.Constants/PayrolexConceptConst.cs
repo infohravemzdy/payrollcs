@@ -9,8 +9,8 @@ namespace Procezor.Payrolex.Registry.Constants
 {
     public enum PayrolexConceptConst : Int32
     {
-        CONCEPT_CONTRACT_TERM,
-        CONCEPT_POSITION_TERM,
+        CONCEPT_CONTRACT_WORK_TERM,
+        CONCEPT_POSITION_WORK_TERM,
         CONCEPT_POSITION_WORK_PLAN,
         CONCEPT_POSITION_TIME_PLAN,
         CONCEPT_POSITION_TIME_WORK,

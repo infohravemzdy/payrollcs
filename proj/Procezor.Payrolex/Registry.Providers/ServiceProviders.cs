@@ -46,6 +46,32 @@ namespace Procezor.Payrolex.Registry.Providers
             }
             return Result.Ok<T, ITermResultError>(resultType);
         }
+        public static Result<T, ITermResultError> GetResult<T>(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results, ArticleCode article)
+            where T : class, ITermResult
+        {
+            var resultRest = results.Where((x) => (x.IsSuccess && x.Value.Article.Equals(article)))
+                .DefaultIfEmpty(Result.Fail<ITermResult, ITermResultError>(
+                    ExtractResultError.CreateError(period, target, target, null, 
+                    $"Result for {ServiceArticleEnumUtils.GetSymbol(article.Value)} Not Found")))
+                .First();
+
+            if (resultRest.IsFailure)
+            {
+                var error = ExtractResultError.CreateError(period, target, target, resultRest.Error, "Failure found");
+                return Result.Fail<T, ITermResultError>(error);
+            }
+            if (resultRest.Value == null)
+            {
+                var error = ExtractResultError.CreateError(period, target, target, null, "Result found but Instance is Null");
+                return Result.Fail<T, ITermResultError>(error);
+            }
+            var resultType = GetTypedResult<T>(resultRest.Value, target, period);
+            if (resultType.IsFailure)
+            {
+                return Result.Fail<T, ITermResultError>(resultType.Error);
+            }
+            return Result.Ok<T, ITermResultError>(resultType.Value);
+        }
         public static Result<T, ITermResultError> GetContractResult<T>(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results, ContractCode contract, ArticleCode article)
             where T : class, ITermResult
         {
@@ -138,7 +164,7 @@ namespace Procezor.Payrolex.Registry.Providers
 
         public static readonly UInt16 TERM_BEG_FINISHED = 32;
         public static readonly UInt16 TERM_END_FINISHED = 0;
-        public PayrolexTermResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base(target, basis, value, descr)
+        public PayrolexTermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
         }
         public override string ArticleDescr()

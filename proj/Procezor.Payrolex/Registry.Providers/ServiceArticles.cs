@@ -9,46 +9,46 @@ using Procezor.Payrolex.Registry.Constants;
 namespace Procezor.Payrolex.Registry.Providers
 {
     // ContractTerm		CONTRACT_TERM
-    class ContractTermArtProv : ArticleSpecProvider
+    class ContractWorkTermArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM;
-        public ContractTermArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM;
+        public ContractWorkTermArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new ContractTermArtSpec(this.Code.Value);
+            return new ContractWorkTermArtSpec(this.Code.Value);
         }
     }
 
-    class ContractTermArtSpec : ArticleSpec
+    class ContractWorkTermArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TERM;
-        public ContractTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_WORK_TERM;
+        public ContractWorkTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
     // PositionTerm		POSITION_TERM
-    class PositionTermArtProv : ArticleSpecProvider
+    class PositionWorkTermArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM;
-        public PositionTermArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM;
+        public PositionWorkTermArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PositionTermArtSpec(this.Code.Value);
+            return new PositionWorkTermArtSpec(this.Code.Value);
         }
     }
 
-    class PositionTermArtSpec : ArticleSpec
+    class PositionWorkTermArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TERM;
-        public PositionTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM;
+        public PositionWorkTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

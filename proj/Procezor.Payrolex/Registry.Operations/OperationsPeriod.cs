@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Procezor.Payrolex.Registry.Operations
 {
-    class OperationsPeriod
+    public static class OperationsPeriod
     {
         public const Byte TERM_BEG_FINISHED = 32;
 
@@ -21,6 +21,22 @@ namespace Procezor.Payrolex.Registry.Operations
 
         public const Int16 WEEKDAYS_COUNT = 7;
 
+        public static Int32[] EmptyMonthSchedule()
+        {
+            return new Int32[31] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        }
+        public static Int32 TotalWeeksHours(Int32[] template)
+        {
+            Int32 result = template.Take(7).Aggregate(0, (agr, x) => (agr + x));
+
+            return result;
+        }
+        public static Int32 TotalMonthHours(Int32[] template)
+        {
+            Int32 result = template.Take(31).Aggregate(0, (agr, x) => (agr + x));
+
+            return result;
+        }
         public static Int16 DaysInMonth(IPeriod period)
         {
             return (Int16)DateTime.DaysInMonth(period.Year, period.Month);
@@ -133,6 +149,12 @@ namespace Procezor.Payrolex.Registry.Operations
 
             return monthSchedule;
         }
+        public static Int32[] TimesheetWorkSchedule(Int32[] monthSchedule, Byte dayTermFrom, Byte dayTermStop)
+        {
+            Int32[] timeSheet = monthSchedule.Select((x, i) => (HoursFromCalendar(dayTermFrom, dayTermStop, (Byte)i, x))).ToArray();
+
+            return timeSheet;
+        }
         private static Int32 SecondsFromPeriodWeekSchedule(IPeriod period, Int32[] weekSchedule, int dayOrdinal)
         {
             int periodBeginCwd = WeekDayOfMonth(period, 1);
@@ -168,7 +190,67 @@ namespace Procezor.Payrolex.Registry.Operations
 
             return timeTable[indexTable];
         }
+        public static Int32[] ScheduleBaseSubtract(Int32[] template, Int32[] subtract, Byte dayFrom, Byte dayStop)
+        {
+            int idxFrom = (dayFrom - 1);
+            int idxStop = (dayStop - 1);
+            var zipedWorkAbsc = template.Zip(subtract);
+            Int32[] result = zipedWorkAbsc.Select((z, idx) =>
+            {
+                int res = 0;
+                if (idx >= idxFrom && idx <= idxStop)
+                {
+                    res = Math.Max(0, z.First - z.Second);
+                }
+                return res;
+            }).ToArray();
+            return result;
+        }
+        private static Int32 HoursFromCalendar(Byte dayTermFrom, Byte dayTermStop, Byte dayIndex, Int32 workSeconds)
+        {
+            Byte dayOrdinal = (Byte)(dayIndex + 1);
 
+            Int32 workingDay = workSeconds;
 
+            if (dayTermFrom > dayOrdinal)
+            {
+                workingDay = 0;
+            }
+            if (dayTermStop < dayOrdinal)
+            {
+                workingDay = 0;
+            }
+            return workingDay;
+        }
+        public static Decimal SalaryAmountScheduleWork(Decimal amountMonthly,
+            Int32 fullWeekHour, Int32 workWeekHours,
+            Int32 fulltimeHour, Int32 workingsHours)
+        {
+            decimal coeffSalary = OperationsDec.Divide(workWeekHours, fullWeekHour); // 1.0m;
+
+            decimal salaryValue = MonthlyAmountWithWorkingHours(amountMonthly, coeffSalary, fulltimeHour, workingsHours);
+
+            return salaryValue;
+        }
+        public static Decimal SalaryAmountFixedValue(Decimal amountFixed)
+        {
+            decimal paymentValue = RoundingPay.PaymentFromFixedAmount(amountFixed);
+
+            return RoundingDec.RoundUp(paymentValue);
+        }
+        public static decimal FactorizeAmount(decimal amount, decimal factor)
+        {
+            decimal result = OperationsDec.Multiply(amount, factor);
+
+            return result;
+        }
+        public static decimal MonthlyAmountWithWorkingHours(decimal amountMonthly, decimal scheduleFactor, int scheduledHours, int workingsHours)
+        {
+            decimal amountFactor = FactorizeAmount(amountMonthly, scheduleFactor);
+
+            decimal paymentValue = RoundingPay.PaymentFromAmount(amountFactor, scheduledHours, workingsHours);
+
+            return RoundingDec.RoundUp(paymentValue);
+        }
     }
 }

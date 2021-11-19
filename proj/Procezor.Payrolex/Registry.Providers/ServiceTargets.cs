@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
 using Procezor.Payrolex.Registry.Constants;
 
 namespace Procezor.Payrolex.Registry.Providers
 {
     // ContractTerm		CONTRACT_TERM
-    public class ContractTermTarget : PayrolexTermTarget
+    public class ContractWorkTermTarget : PayrolexTermTarget
     {
         public WorkContractTerms TermType { get; private set; }
         public DateTime? DateFrom { get; private set; }
         public DateTime? DateStop { get; private set; }
 
-        public ContractTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public ContractWorkTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             WorkContractTerms termType, DateTime? dateFrom, DateTime? dateStop) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
@@ -27,12 +28,12 @@ namespace Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTerm		POSITION_TERM
-    public class PositionTermTarget : PayrolexTermTarget
+    public class PositionWorkTermTarget : PayrolexTermTarget
     {
         public DateTime? DateFrom { get; private set; }
         public DateTime? DateStop { get; private set; }
         public string TermName { get; private set; }
-        public PositionTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public PositionWorkTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             string termName, DateTime? dateFrom, DateTime? dateStop) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
@@ -150,14 +151,11 @@ namespace Procezor.Payrolex.Registry.Providers
     // PaymentBasis		PAYMENT_BASIS
     public class PaymentBasisTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
-
         public PaymentBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 monthBasis) :
+            base(monthCode, contract, position, variant, article, concept, monthBasis, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
         }
     }
 

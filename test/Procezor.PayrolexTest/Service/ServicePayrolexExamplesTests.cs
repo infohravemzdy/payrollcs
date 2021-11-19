@@ -45,30 +45,22 @@ namespace Procezor.PayrolexTest.Service
             DateTime? dateTermStop = null;
 
             var targets = new TermTarget[] {
-                new ContractTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM),
-                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TERM), 
+                new ContractWorkTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_WORK_TERM), 
                     WorkContractTerms.WORKTERM_EMPLOYMENT_1, dateTermFrom, dateTermStop),
-                new PositionTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM),
-                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_TERM),
+                new PositionWorkTermTarget(montCode, contract, position, variant1,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM),
                     "position one", dateTermFrom, dateTermStop),
                 new PositionWorkPlanTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_PLAN),
                     WorkScheduleType.SCHEDULE_NORMALY_WEEK, 5, 8, 8),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
+                new PaymentBasisTarget(montCode, contract, position, variant1,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_PAYMENT_SALARY),
-                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_PAYMENT_BASIS)),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_PLAN),
-                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_PLAN)),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_WORK),
-                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_WORK)),
-                new PayrolexTermTarget(montCode, contract, position, variant1,
-                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC),
-                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_ABSC)),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_PAYMENT_BASIS),
+                    10000),
             };
             return targets;
         }
@@ -97,7 +89,7 @@ namespace Procezor.PayrolexTest.Service
                     var resultValue = result.Value;
                     var articleSymbol = resultValue.ArticleDescr();
                     var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}", index, articleSymbol, conceptSymbol);
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                 }
                 else if (result.IsFailure)
                 {

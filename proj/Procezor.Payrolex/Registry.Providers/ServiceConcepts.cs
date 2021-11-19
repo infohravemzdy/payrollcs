@@ -13,22 +13,22 @@ using ResultMonad;
 namespace Procezor.Payrolex.Registry.Providers
 {
     // ContractTerm			CONTRACT_TERM
-    class ContractTermConProv : ConceptSpecProvider
+    class ContractWorkTermConProv : ConceptSpecProvider
     {
-        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TERM;
-        public ContractTermConProv() : base(CONCEPT_CODE)
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_WORK_TERM;
+        public ContractWorkTermConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new ContractTermConSpec(this.Code.Value);
+            return new ContractWorkTermConSpec(this.Code.Value);
         }
     }
 
-    class ContractTermConSpec : PayrolexConceptSpec
+    class ContractWorkTermConSpec : PayrolexConceptSpec
     {
-        public ContractTermConSpec(Int32 code) : base(code)
+        public ContractWorkTermConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -37,21 +37,21 @@ namespace Procezor.Payrolex.Registry.Providers
 
         public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
         {
-            return new ContractTermTarget(month, con, pos, var, article, this.Code, WorkContractTerms.WORKTERM_EMPLOYMENT_1, null, null);
+            return new ContractWorkTermTarget(month, con, pos, var, article, this.Code, WorkContractTerms.WORKTERM_EMPLOYMENT_1, null, null);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<ContractTermTarget>(target, period);
+            var resTarget = GetTypedTarget<ContractWorkTermTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            ContractTermTarget evalTarget = resTarget.Value;
+            ContractWorkTermTarget evalTarget = resTarget.Value;
 
             Byte termDayFrom = OperationsPeriod.DateFromInPeriod(period, evalTarget.DateFrom);
             Byte termDayStop = OperationsPeriod.DateStopInPeriod(period, evalTarget.DateStop);
 
-            ITermResult resultsValues = new ContractTermResult(target, evalTarget.TermType, termDayFrom, termDayStop);
+            ITermResult resultsValues = new ContractWorkTermResult(target, spec, evalTarget.TermType, termDayFrom, termDayStop);
 
             return BuildOkResults(resultsValues);
         }
@@ -59,44 +59,44 @@ namespace Procezor.Payrolex.Registry.Providers
 
 
     // PositionTerm			POSITION_TERM
-    class PositionTermConProv : ConceptSpecProvider
+    class PositionWorkTermConProv : ConceptSpecProvider
     {
-        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TERM;
-        public PositionTermConProv() : base(CONCEPT_CODE)
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM;
+        public PositionWorkTermConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PositionTermConSpec(this.Code.Value);
+            return new PositionWorkTermConSpec(this.Code.Value);
         }
     }
 
-    class PositionTermConSpec : PayrolexConceptSpec
+    class PositionWorkTermConSpec : PayrolexConceptSpec
     {
-        public PositionTermConSpec(Int32 code) : base(code)
+        public PositionWorkTermConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM,
+                (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM,
             });
 
             ResultDelegate = ConceptEval;
         }
         public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
         {
-            return new PositionTermTarget(month, con, pos, var, article, this.Code, "position unknown", null, null);
+            return new PositionWorkTermTarget(month, con, pos, var, article, this.Code, "position unknown", null, null);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<PositionTermTarget>(target, period);
+            var resTarget = GetTypedTarget<PositionWorkTermTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            PositionTermTarget evalTarget = resTarget.Value;
+            PositionWorkTermTarget evalTarget = resTarget.Value;
 
-            var resContract = GetContractResult<ContractTermResult>(target, period, results, 
-                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TERM));
+            var resContract = GetContractResult<ContractWorkTermResult>(target, period, results, 
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM));
 
             if (resContract.IsFailure)
             {
@@ -115,7 +115,7 @@ namespace Procezor.Payrolex.Registry.Providers
             {
                 termDayStop = evalContract.TermDayStop;
             }
-            ITermResult resultsValues = new PositionTermResult(target, evalTarget.TermName, termDayFrom, termDayStop);
+            ITermResult resultsValues = new PositionWorkTermResult(target, spec, evalTarget.TermName, termDayFrom, termDayStop);
 
             return BuildOkResults(resultsValues);
         }
@@ -141,7 +141,7 @@ namespace Procezor.Payrolex.Registry.Providers
         public PositionWorkPlanConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM,
+                (Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM,
             });
 
             ResultDelegate = ConceptEval;
@@ -151,7 +151,8 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             Int32 RulesetWDays = 5;
             Int32 RulesetShift = 8;
-            if (ruleset != null && ruleset.PeriodProps == period)
+            IPropsSalary salaryRules = GetSalaryProps(ruleset, period);
+            if (salaryRules != null)
             {
                 RulesetWDays = ruleset.SalaryProps.WorkingShiftWeek;
                 RulesetShift = ruleset.SalaryProps.WorkingShiftTime;
@@ -159,7 +160,7 @@ namespace Procezor.Payrolex.Registry.Providers
             return new PositionWorkPlanTarget(month, con, pos, var, article, this.Code, 
                 WorkScheduleType.SCHEDULE_NORMALY_WEEK, RulesetWDays, RulesetShift, RulesetShift);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
             var resTarget = GetTypedTarget<PositionWorkPlanTarget>(target, period);
             if (resTarget.IsFailure)
@@ -170,6 +171,8 @@ namespace Procezor.Payrolex.Registry.Providers
 
             Int32[] hoursFullWeeks = Array.Empty<Int32>();
             Int32[] hoursRealWeeks = Array.Empty<Int32>();
+            Int32[] hoursFullMonth = Array.Empty<Int32>();
+            Int32[] hoursRealMonth = Array.Empty<Int32>();
 
             if (evalTarget.WorkType == WorkScheduleType.SCHEDULE_NORMALY_WEEK)
             {
@@ -177,14 +180,16 @@ namespace Procezor.Payrolex.Registry.Providers
                 Int32 weekShiftLiable = evalTarget.WeekShiftLiable * evalTarget.WeekShiftPlaned;
                 hoursFullWeeks = OperationsPeriod.TimesheetWeekSchedule(period, weekShiftLiable, (Byte)weekShiftPlaned);
                 hoursRealWeeks = OperationsPeriod.TimesheetWeekSchedule(period, weekShiftLiable, (Byte)weekShiftPlaned);
+                hoursFullMonth = OperationsPeriod.TimesheetFullSchedule(period, hoursFullWeeks);
+                hoursRealMonth = OperationsPeriod.TimesheetFullSchedule(period, hoursRealWeeks);
             }
             else
             {
                 var error = NoImplementationError.CreateError(period, target, $"WorkScheduleType.{evalTarget.WorkType}");
                 return BuildFailResults(error);
             }
-            ITermResult resultsValues = new PositionWorkPlanResult(target, 
-                evalTarget.WorkType, hoursFullWeeks, hoursRealWeeks);
+            ITermResult resultsValues = new PositionWorkPlanResult(target, spec,
+                evalTarget.WorkType, hoursFullWeeks, hoursRealWeeks, hoursFullMonth, hoursRealMonth);
 
             return BuildOkResults(resultsValues);
         }
@@ -211,7 +216,7 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN,
-                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM,
+                (Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM,
             });
 
             ResultDelegate = ConceptEval;
@@ -221,7 +226,7 @@ namespace Procezor.Payrolex.Registry.Providers
             return new PositionTimePlanTarget(month, con, pos, var, article, this.Code, 0);
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
             var resTarget = GetTypedTarget<PositionTimePlanTarget>(target, period);
             if (resTarget.IsFailure)
@@ -229,9 +234,6 @@ namespace Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resTarget.Error);
             }
             PositionTimePlanTarget evalTarget = resTarget.Value;
-
-            Int32[] hoursFullMonth = Array.Empty<Int32>();
-            Int32[] hoursRealMonth = Array.Empty<Int32>();
 
             var resWorkPlan = GetPositionResult<PositionWorkPlanResult>(target, period, results,
                 target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN));
@@ -243,17 +245,22 @@ namespace Procezor.Payrolex.Registry.Providers
 
             var evalWorkPlan = resWorkPlan.Value;
 
-            if (evalWorkPlan.WorkType == WorkScheduleType.SCHEDULE_NORMALY_WEEK)
+            var resWorkTerm = GetPositionResult<PositionWorkTermResult>(target, period, results,
+                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM));
+
+            if (resWorkTerm.IsFailure)
             {
-                hoursFullMonth = OperationsPeriod.TimesheetFullSchedule(period, evalWorkPlan.HoursFullWeeks);
-                hoursRealMonth = OperationsPeriod.TimesheetFullSchedule(period, evalWorkPlan.HoursRealWeeks);
+                return BuildFailResults(resWorkTerm.Error);
             }
-            else
-            {
-                var error = NoImplementationError.CreateError(period, target, $"WorkScheduleType.{evalWorkPlan.WorkType}");
-                return BuildFailResults(error);
-            }
-            ITermResult resultsValues = new PositionTimePlanResult(target, hoursFullMonth, hoursRealMonth);
+
+            var evalWorkTerm = resWorkTerm.Value;
+
+            Int32[] hoursRealMonth = evalWorkPlan.HoursRealMonth.ToArray();
+            Int32[] hoursTermMonth = OperationsPeriod.TimesheetWorkSchedule(hoursRealMonth, 
+                evalWorkTerm.TermDayFrom, evalWorkTerm.TermDayStop);
+
+            ITermResult resultsValues = new PositionTimePlanResult(target, spec,
+                evalWorkTerm.TermDayFrom, evalWorkTerm.TermDayStop, hoursRealMonth, hoursTermMonth);
 
             return BuildOkResults(resultsValues);
         }
@@ -280,6 +287,7 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN,
+                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_ABSC,
             });
 
             ResultDelegate = ConceptEval;
@@ -289,9 +297,40 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new PositionTimeWorkTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new PositionTimeWorkResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<PositionTimeWorkTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            PositionTimeWorkTarget evalTarget = resTarget.Value;
+
+            var resTimePlan = GetPositionResult<PositionTimePlanResult>(target, period, results,
+                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN));
+
+            if (resTimePlan.IsFailure)
+            {
+                return BuildFailResults(resTimePlan.Error);
+            }
+
+            var evalTimePlan = resTimePlan.Value;
+
+            var resTimeAbsc = GetPositionResult<PositionTimeAbscResult>(target, period, results,
+                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_ABSC));
+
+            if (resTimeAbsc.IsFailure)
+            {
+                return BuildFailResults(resTimeAbsc.Error);
+            }
+
+            var evalTimeAbsc = resTimeAbsc.Value;
+
+            Int32[] hoursWorkMonth = OperationsPeriod.ScheduleBaseSubtract(
+                evalTimePlan.HoursTermMonth, evalTimeAbsc.HoursTermMonth, 1, 31);
+
+            ITermResult resultsValues = new PositionTimeWorkResult(target, spec,
+                evalTimePlan.TermDayFrom, evalTimePlan.TermDayStop, hoursWorkMonth);
 
             return BuildOkResults(resultsValues);
         }
@@ -318,6 +357,7 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN,
+                (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC,
             });
 
             ResultDelegate = ConceptEval;
@@ -327,9 +367,29 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new PositionTimeAbscTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new PositionTimeAbscResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<PositionTimeAbscTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            PositionTimeAbscTarget evalTarget = resTarget.Value;
+
+            var resTimePlan = GetPositionResult<PositionTimePlanResult>(target, period, results,
+                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN));
+
+            if (resTimePlan.IsFailure)
+            {
+                return BuildFailResults(resTimePlan.Error);
+            }
+
+            var evalTimePlan = resTimePlan.Value;
+
+            Int32[] hoursAbscMonth = OperationsPeriod.EmptyMonthSchedule();
+
+            ITermResult resultsValues = new PositionTimeAbscResult(target, spec,
+                evalTimePlan.TermDayFrom, evalTimePlan.TermDayStop, hoursAbscMonth);
 
             return BuildOkResults(resultsValues);
         }
@@ -355,7 +415,6 @@ namespace Procezor.Payrolex.Registry.Providers
         public ContractTimePlanConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM,
                 (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN,
             });
 
@@ -366,9 +425,16 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new ContractTimePlanTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new ContractTimePlanResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<ContractTimePlanTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            ContractTimePlanTarget evalTarget = resTarget.Value;
+
+            ITermResult resultsValues = new ContractTimePlanResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -394,7 +460,6 @@ namespace Procezor.Payrolex.Registry.Providers
         public ContractTimeWorkConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM,
                 (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_WORK,
             });
 
@@ -405,9 +470,16 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new ContractTimeWorkTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new ContractTimeWorkResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<ContractTimeWorkTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            ContractTimeWorkTarget evalTarget = resTarget.Value;
+
+            ITermResult resultsValues = new ContractTimeWorkResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -433,8 +505,7 @@ namespace Procezor.Payrolex.Registry.Providers
         public ContractTimeAbscConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TERM,
-                (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_ABSC,
+                (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_PLAN,
             });
 
             ResultDelegate = ConceptEval;
@@ -444,9 +515,16 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new ContractTimeAbscTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new ContractTimeAbscResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<ContractTimeAbscTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            ContractTimeAbscTarget evalTarget = resTarget.Value;
+
+            ITermResult resultsValues = new ContractTimeAbscResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -483,9 +561,55 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new PaymentBasisTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new PaymentBasisResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<PaymentBasisTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            PaymentBasisTarget evalTarget = resTarget.Value;
+
+            var resWorkPlan = GetPositionResult<PositionWorkPlanResult>(target, period, results,
+               target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN));
+
+            if (resWorkPlan.IsFailure)
+            {
+                return BuildFailResults(resWorkPlan.Error);
+            }
+
+            var evalWorkPlan = resWorkPlan.Value;
+
+            var resTimePlan = GetPositionResult<PositionTimePlanResult>(target, period, results,
+               target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN));
+
+            if (resTimePlan.IsFailure)
+            {
+                return BuildFailResults(resTimePlan.Error);
+            }
+
+            var evalTimePlan = resTimePlan.Value;
+
+            var resTimeWork = GetPositionResult<PositionTimeWorkResult>(target, period, results,
+               target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_WORK));
+
+            if (resTimeWork.IsFailure)
+            {
+                return BuildFailResults(resTimeWork.Error);
+            }
+
+            var evalTimeWork = resTimeWork.Value;
+
+            Int32 shiftLiable = OperationsPeriod.TotalWeeksHours(evalWorkPlan.HoursFullWeeks);
+            Int32 shiftWorked = OperationsPeriod.TotalWeeksHours(evalWorkPlan.HoursRealWeeks);
+            Int32 hoursLiable = OperationsPeriod.TotalMonthHours(evalTimePlan.HoursRealMonth);
+            Int32 hoursWorked = OperationsPeriod.TotalMonthHours(evalTimeWork.HoursTermMonth);
+
+            Decimal resValue = OperationsPeriod.SalaryAmountScheduleWork(evalTarget.TargetBasis, 
+                shiftLiable, shiftWorked,
+                hoursLiable, hoursWorked);
+            ITermResult resultsValues = new PaymentBasisResult(target, spec,
+                RoundingInt.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -519,9 +643,19 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new PaymentFixedTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new PaymentFixedResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<PaymentFixedTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            PaymentFixedTarget evalTarget = resTarget.Value;
+
+            Decimal resValue = OperationsPeriod.SalaryAmountFixedValue(evalTarget.TargetBasis);
+
+            ITermResult resultsValues = new PaymentFixedResult(target, spec,
+                RoundingInt.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -555,9 +689,31 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return new IncomeGrossTarget(month, con, pos, var, article, this.Code, 0);
         }
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new IncomeGrossResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<IncomeGrossTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            IncomeGrossTarget evalTarget = resTarget.Value;
+
+            decimal resValue = results.Aggregate(decimal.Zero,
+                (agr, item) =>
+                {
+                    if (item.IsFailure)
+                    {
+                        return 0;
+                    }
+                    var itemValue = item.Value;
+                    if (itemValue.Spec.Sums.Contains(evalTarget.Article)==false)
+                    {
+                        return 0;
+                    }
+                    return decimal.Add(agr, itemValue.ResultValue);
+                });
+
+            ITermResult resultsValues = new IncomeGrossResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -594,9 +750,28 @@ namespace Procezor.Payrolex.Registry.Providers
             return new IncomeNettoTarget(month, con, pos, var, article, this.Code, 0);
         }
 
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            ITermResult resultsValues = new IncomeNettoResult(target, 0, 0, DESCRIPTION_EMPTY);
+            var resTarget = GetTypedTarget<IncomeNettoTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            IncomeNettoTarget evalTarget = resTarget.Value;
+
+            var resIncGross = GetResult<IncomeGrossResult>(target, period, results,
+               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS));
+
+            if (resIncGross.IsFailure)
+            {
+                return BuildFailResults(resIncGross.Error);
+            }
+
+            var evalIncGross = resIncGross.Value;
+
+            decimal resValue = evalIncGross.ResultValue;
+
+            ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
