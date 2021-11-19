@@ -54,39 +54,39 @@ namespace HraveMzdy.Procezor.Service.Providers
         {
             return MonthCode.Get(period.Code);
         }
-        protected IList<Result<ITermResult, ITermResultError>> BuildResultList(params Result<ITermResult, ITermResultError>[] results)
+        protected static IList<Result<ITermResult, ITermResultError>> BuildResultList(params Result<ITermResult, ITermResultError>[] results)
         {
             return results.ToList();
         }
-        protected IList<Result<ITermResult, ITermResultError>> BuildOkResults(params ITermResult[] resultValues)
+        protected static IList<Result<ITermResult, ITermResultError>> BuildOkResults(params ITermResult[] resultValues)
         {
             return resultValues.Select((x) => Result.Ok<ITermResult, ITermResultError>(x)).ToList();
         }
-        protected IList<Result<ITermResult, ITermResultError>> BuildFailResults(params ITermResultError[] errorsValues)
+        protected static IList<Result<ITermResult, ITermResultError>> BuildFailResults(params ITermResultError[] errorsValues)
         {
             return errorsValues.Select((x) => Result.Fail<ITermResult, ITermResultError>(x)).ToList();
         }
-        protected IList<Result<ITermResult, ITermResultError>> GetResults(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol)
+        protected static IList<Result<ITermResult, ITermResultError>> GetResults(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol)
         {
             return results.Where((x) => (x.IsSuccess && x.Value.IsPositionArticleEqual(symbol))).ToList();
         }
-        protected IList<ITermResult> GetOkPositionArticleResults(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol)
+        protected static IList<ITermResult> GetOkPositionArticleResults(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol)
         {
             return results.Where((x) => (x.IsSuccess && x.Value.IsPositionArticleEqual(symbol)))
                 .Select(x => x.Value).ToList();
         }
-        protected Result<IList<ITermResult>, ITermResultError> GetPositionArticleList(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol)
+        protected static Result<IList<ITermResult>, ITermResultError> GetPositionArticleList(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol)
         {
             var reduceInit = Result.Ok<IList<ITermResult>, ITermResultError>(new List<ITermResult>());
 
             return results.Where((x) => (x.IsSuccess && x.Value.IsPositionArticleEqual(symbol)))
                 .Aggregate(reduceInit, (agr, x) => ReduceResultList(agr, x));
         }
-        protected IList<ITermResultError> GetFailPositionArticleResults(IList<Result<ITermResult, ITermResultError>> results, MonthCode monthCode, ArticleCode article, ContractCode contract, PositionCode position)
+        protected static IList<ITermResultError> GetFailPositionArticleResults(IList<Result<ITermResult, ITermResultError>> results, MonthCode monthCode, ArticleCode article, ContractCode contract, PositionCode position)
         {
             return results.Where((x) => (x.IsFailure)).Select(x => x.Error).ToList();
         }
-        protected Result<Maybe<V>, ITermResultError> ReducePositionArticleList<V>(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol, 
+        protected static Result<Maybe<V>, ITermResultError> ReducePositionArticleList<V>(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol, 
             Func<Result<Maybe<V>, ITermResultError>, Result<ITermResult, ITermResultError>, Result<Maybe<V>, ITermResultError>> selector)
         {
             var reduceInit = Result.Ok<Maybe<V>, ITermResultError>(Maybe<V>.Nothing);
@@ -94,14 +94,14 @@ namespace HraveMzdy.Procezor.Service.Providers
             return results.Where((x) => (x.IsSuccess && x.Value.IsPositionArticleEqual(symbol)))
                 .Aggregate(reduceInit, (agr, t) => selector(agr, t));
         }
-        protected Result<Maybe<V>, ITermResultError> SelectPositionArticle<V>(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol, 
+        protected static Result<Maybe<V>, ITermResultError> SelectPositionArticle<V>(IList<Result<ITermResult, ITermResultError>> results, ITermSymbol symbol, 
             Func<Result<ITermResult, ITermResultError>, Result<Maybe<V>, ITermResultError>> selector)
         {
             Result<ITermResult, ITermResultError> resultItem = results.FirstOrDefault((x) => (x.IsSuccess && x.Value.IsPositionArticleEqual(symbol)));
             
             return selector(resultItem);
         }
-        protected Result<Maybe<R>, ITermResultError> ResultSums<R>(Result<Maybe<R>, ITermResultError> agr, Result<ITermResult, ITermResultError> x, Func<ITermResult, R> valSelector, Func<R, R, R> sumFunc)
+        protected static Result<Maybe<R>, ITermResultError> ResultSums<R>(Result<Maybe<R>, ITermResultError> agr, Result<ITermResult, ITermResultError> x, Func<ITermResult, R> valSelector, Func<R, R, R> sumFunc)
         {
             if (x.IsFailure)
             {
@@ -118,7 +118,7 @@ namespace HraveMzdy.Procezor.Service.Providers
             }
             return Result.Ok<Maybe<R>, ITermResultError>(Maybe.From<R>(sumFunc(resultValue, valSelector(x.Value))));
         }
-        protected Result<Maybe<R>, ITermResultError> ResultVals<R>(Result<ITermResult, ITermResultError> x, Func<ITermResult, R> valSelector)
+        protected static Result<Maybe<R>, ITermResultError> ResultVals<R>(Result<ITermResult, ITermResultError> x, Func<ITermResult, R> valSelector)
         {
             if (x.IsFailure)
             {
@@ -130,7 +130,7 @@ namespace HraveMzdy.Procezor.Service.Providers
             }
             return Result.Ok<Maybe<R>, ITermResultError>(Maybe.From<R>(valSelector(x.Value)));
         }
-        private Result<IList<ITermResult>, ITermResultError> ReduceResultList(Result<IList<ITermResult>, ITermResultError> agr, Result<ITermResult, ITermResultError> x)
+        private static Result<IList<ITermResult>, ITermResultError> ReduceResultList(Result<IList<ITermResult>, ITermResultError> agr, Result<ITermResult, ITermResultError> x)
         {
             if (agr.IsFailure)
             {
