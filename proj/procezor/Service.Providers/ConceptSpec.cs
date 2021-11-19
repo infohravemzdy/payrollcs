@@ -10,7 +10,7 @@ using MaybeMonad;
 
 namespace HraveMzdy.Procezor.Service.Providers
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IArticleSpec, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
     public abstract class ConceptSpec : IConceptSpec
     {
         public IEnumerable<ArticleCode> Path { get; protected set; }
@@ -130,14 +130,6 @@ namespace HraveMzdy.Procezor.Service.Providers
             }
             return Result.Ok<Maybe<R>, ITermResultError>(Maybe.From<R>(valSelector(x.Value)));
         }
-        protected Result<ITermResult, ITermResultError> BuildResult(ITermTarget target, ITermSymbol symbol,
-            Int32 basis, Int32 value, string descr)
-        {
-            var resultsValues = new TermResult(target, basis, value, descr);
-
-            return Result.Ok<ITermResult, ITermResultError>(resultsValues);
-        }
-
         private Result<IList<ITermResult>, ITermResultError> ReduceResultList(Result<IList<ITermResult>, ITermResultError> agr, Result<ITermResult, ITermResultError> x)
         {
             if (agr.IsFailure)
@@ -159,5 +151,81 @@ namespace HraveMzdy.Procezor.Service.Providers
             return _path.Select((x) => ArticleCode.Get(x));
         }
 
+        public static Result<IPropsSalary, ITermResultError> GetSalaryPropsResult(IBundleProps ruleset, ITermTarget target, IPeriod period)
+        {
+            IPropsSalary propsType = GetSalaryProps(ruleset, period);
+            if (propsType == null)
+            {
+                var error = InvalidRulesetError<IPropsSalary>.CreateError(period, target);
+                return Result.Fail<IPropsSalary, ITermResultError>(error);
+            }
+            return Result.Ok<IPropsSalary, ITermResultError>(propsType);
+        }
+        public static Result<IPropsHealth, ITermResultError> GetHealthPropsResult(IBundleProps ruleset, ITermTarget target, IPeriod period)
+        {
+            IPropsHealth propsType = GetHealthProps(ruleset, period);
+            if (propsType == null)
+            {
+                var error = InvalidRulesetError<IPropsHealth>.CreateError(period, target);
+                return Result.Fail<IPropsHealth, ITermResultError>(error);
+            }
+            return Result.Ok<IPropsHealth, ITermResultError>(propsType);
+        }
+        public static Result<IPropsSocial, ITermResultError> GetSocialPropsResult(IBundleProps ruleset, ITermTarget target, IPeriod period)
+        {
+            IPropsSocial propsType = GetSocialProps(ruleset, period);
+            if (propsType == null)
+            {
+                var error = InvalidRulesetError<IPropsSocial>.CreateError(period, target);
+                return Result.Fail<IPropsSocial, ITermResultError>(error);
+            }
+            return Result.Ok<IPropsSocial, ITermResultError>(propsType);
+        }
+        public static Result<IPropsTaxing, ITermResultError> GetTaxingPropsResult(IBundleProps ruleset, ITermTarget target, IPeriod period)
+        {
+            IPropsTaxing propsType = GetTaxingProps(ruleset, period);
+            if (propsType == null)
+            {
+                var error = InvalidRulesetError<IPropsTaxing>.CreateError(period, target);
+                return Result.Fail<IPropsTaxing, ITermResultError>(error);
+            }
+            return Result.Ok<IPropsTaxing, ITermResultError>(propsType);
+        }
+        public static IPropsSalary GetSalaryProps(IBundleProps ruleset, IPeriod period)
+        {
+            IPropsSalary propsType = ruleset.SalaryProps as IPropsSalary;
+            if (propsType == null || ruleset.PeriodProps != period)
+            {
+                return null;
+            }
+            return propsType;
+        }
+        public static IPropsHealth GetHealthProps(IBundleProps ruleset, IPeriod period)
+        {
+            IPropsHealth propsType = ruleset.HealthProps as IPropsHealth;
+            if (propsType == null || ruleset.PeriodProps != period)
+            {
+                return null;
+            }
+            return propsType;
+        }
+        public static IPropsSocial GetSocialProps(IBundleProps ruleset, IPeriod period)
+        {
+            IPropsSocial propsType = ruleset.SocialProps as IPropsSocial;
+            if (propsType == null || ruleset.PeriodProps != period)
+            {
+                return null;
+            }
+            return propsType;
+        }
+        public static IPropsTaxing GetTaxingProps(IBundleProps ruleset, IPeriod period)
+        {
+            IPropsTaxing propsType = ruleset.TaxingProps as IPropsTaxing;
+            if (propsType == null || ruleset.PeriodProps != period)
+            {
+                return null;
+            }
+            return propsType;
+        }
     }
 }

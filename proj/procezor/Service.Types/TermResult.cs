@@ -6,14 +6,16 @@ namespace HraveMzdy.Procezor.Service.Types
     public class TermResult : TermSymbol, ITermResult
     {
         public ITermTarget Target { get; protected set; }
+        public IArticleSpec Spec { get; protected set; }
         public ConceptCode Concept { get; private set; }
         public string ResultDescr { get; private set; }
         public Int32 ResultBasis { get; private set; }
         public Int32 ResultValue { get; private set; }
 
-        public TermResult(ITermTarget target, Int32 value, Int32 basis, string descr) : base()
+        public TermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base()
         {
             Target = target;
+            Spec = spec;
 
             Concept = ConceptCode.Zero;
 
@@ -34,6 +36,10 @@ namespace HraveMzdy.Procezor.Service.Types
         public virtual string ConceptDescr()
         {
             return Target?.ConceptDescr() ?? string.Format("ConceptCode for {0}", Concept.Value);
+        }
+        public virtual string ResultMessage()
+        {
+            return ResultDescr;
         }
     }
 }
