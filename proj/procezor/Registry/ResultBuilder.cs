@@ -11,7 +11,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IArticleSpec, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
     class ResultBuilder : IResultBuilder
     {
         public VersionCode Version { get; private set; }
@@ -101,7 +101,10 @@ namespace HraveMzdy.Procezor.Registry
         }
         private IEnumerable<ITermCalcul> AddTargetToCalculs(IEnumerable<ITermTarget> targets)
         {
-            return targets.Select((x) => (new TermCalcul(x, GetCalculFunc(conceptModel, x.Concept)))).ToList();
+            return targets.Select((x) => {
+                var articleSpec = articleModel.FirstOrDefault((a) => (a.Code == x.Article));
+                return (new TermCalcul(x, articleSpec, GetCalculFunc(conceptModel, x.Concept)));
+            }).ToList();
         }
         private IEnumerable<ITermTarget> MergePendings(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> init, ITermTarget target)
         {
@@ -175,7 +178,7 @@ namespace HraveMzdy.Procezor.Registry
             }
             return conceptSpec.DefaultTarget(article, period, ruleset, monthCode, contract, position, variant);
         }
-        private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
             return new Result<ITermResult, ITermResultError>[] { NoResultFuncError.CreateResultError(period, target) };
         }

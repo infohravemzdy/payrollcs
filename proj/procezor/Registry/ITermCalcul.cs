@@ -7,7 +7,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IArticleSpec, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
     interface ITermCalcul : ITermSymbol
     {
         ITermTarget Target { get; }

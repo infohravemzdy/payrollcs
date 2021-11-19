@@ -7,7 +7,7 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Service.Interfaces
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IArticleSpec, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IList<Result<ITermResult, ITermResultError>>>;
     public interface IConceptSpec : IConceptDefine
     {
         IEnumerable<ArticleCode> Path { get; }

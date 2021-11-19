@@ -9,33 +9,34 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Registry
 {
-    using ResultFunc = Func<ITermTarget, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
+    using ResultFunc = Func<ITermTarget, IArticleSpec, IPeriod, IBundleProps, IList<Result<ITermResult, ITermResultError>>, IEnumerable<Result<ITermResult, ITermResultError>>>;
     class TermCalcul : TermSymbol, ITermCalcul
     {
-        public TermCalcul(ITermTarget target, ResultFunc resultDelegate)
+        public TermCalcul(ITermTarget target, IArticleSpec spec, ResultFunc resultDelegate)
             : base(target.MonthCode, target.Contract, target.Position, target.Variant, target.Article)
         {
             Target = target;
+            Spec = spec;
 
             ResultDelegate = resultDelegate;
         }
         public ITermTarget Target { get; }
-
+        public IArticleSpec Spec { get; }
         public ResultFunc ResultDelegate { get; }
 
         public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resultTarget = CallResultDelegate(Target, period, ruleset, results);
+            var resultTarget = CallResultDelegate(Target, Spec, period, ruleset, results);
             return resultTarget.ToArray();
         }
-        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate(ITermTarget target, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
             if (ResultDelegate == null)
             {
                 var resultError = NoResultFuncError.CreateResultError(period, target);
                 return new Result<ITermResult, ITermResultError>[] { resultError };
             }
-            var resultTarget = ResultDelegate(target, period, ruleset, results);
+            var resultTarget = ResultDelegate(target, spec, period, ruleset, results);
             return resultTarget.ToArray();
         }
     }
