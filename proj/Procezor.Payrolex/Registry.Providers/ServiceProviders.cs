@@ -129,6 +129,49 @@ namespace Procezor.Payrolex.Registry.Providers
             }
             return Result.Ok<T, ITermResultError>(resultType.Value);
         }
+        public static Result<Int32, ITermResultError> GetFailedResultOrOk<T>(params Result<T, ITermResultError>[] results)
+            where T : class, ITermResult
+        {
+            Result<T, ITermResultError> faliedResult = results.FirstOrDefault((x) => x.IsFailure);
+            if (faliedResult.IsFailure)
+            {
+                return Result.Fail<Int32, ITermResultError>(faliedResult.Error);
+            }
+            return Result.Ok<Int32, ITermResultError>(0);
+        }
+        public static Result<Int32, ITermResultError> GetFailedResultOrOk<T1, T2>(Result<T1, ITermResultError> result1, Result<T2, ITermResultError> result2)
+            where T1 : class, ITermResult
+            where T2 : class, ITermResult
+        {
+            if (result1.IsFailure)
+            {
+                return Result.Fail<Int32, ITermResultError>(result1.Error);
+            }
+            if (result2.IsFailure)
+            {
+                return Result.Fail<Int32, ITermResultError>(result2.Error);
+            }
+            return Result.Ok<Int32, ITermResultError>(0);
+        }
+        public static Result<Int32, ITermResultError> GetFailedResultOrOk<T1, T2, T3>(Result<T1, ITermResultError> result1, Result<T2, ITermResultError> result2, Result<T3, ITermResultError> result3)
+            where T1 : class, ITermResult
+            where T2 : class, ITermResult
+            where T3 : class, ITermResult
+        {
+            if (result1.IsFailure)
+            {
+                return Result.Fail<Int32, ITermResultError>(result1.Error);
+            }
+            if (result2.IsFailure)
+            {
+                return Result.Fail<Int32, ITermResultError>(result2.Error);
+            }
+            if (result3.IsFailure)
+            {
+                return Result.Fail<Int32, ITermResultError>(result3.Error);
+            }
+            return Result.Ok<Int32, ITermResultError>(0);
+        }
     }
 
     public class PayrolexTermTarget : TermTarget

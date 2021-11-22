@@ -238,20 +238,15 @@ namespace Procezor.Payrolex.Registry.Providers
             var resWorkPlan = GetPositionResult<PositionWorkPlanResult>(target, period, results,
                 target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN));
 
-            if (resWorkPlan.IsFailure)
-            {
-                return BuildFailResults(resWorkPlan.Error);
-            }
-
-            var evalWorkPlan = resWorkPlan.Value;
-
             var resWorkTerm = GetPositionResult<PositionWorkTermResult>(target, period, results,
                 target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM));
 
-            if (resWorkTerm.IsFailure)
-            {
-                return BuildFailResults(resWorkTerm.Error);
+            var resCompound = GetFailedResultOrOk(resWorkPlan, resWorkTerm);
+            if (resCompound.IsFailure) {
+                return BuildFailResults(resCompound.Error);
             }
+
+            var evalWorkPlan = resWorkPlan.Value;
 
             var evalWorkTerm = resWorkTerm.Value;
 
@@ -309,20 +304,16 @@ namespace Procezor.Payrolex.Registry.Providers
             var resTimePlan = GetPositionResult<PositionTimePlanResult>(target, period, results,
                 target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN));
 
-            if (resTimePlan.IsFailure)
-            {
-                return BuildFailResults(resTimePlan.Error);
-            }
-
-            var evalTimePlan = resTimePlan.Value;
-
             var resTimeAbsc = GetPositionResult<PositionTimeAbscResult>(target, period, results,
                 target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_ABSC));
 
-            if (resTimeAbsc.IsFailure)
+            var resCompound = GetFailedResultOrOk(resTimePlan, resTimeAbsc);
+            if (resCompound.IsFailure)
             {
-                return BuildFailResults(resTimeAbsc.Error);
+                return BuildFailResults(resCompound.Error);
             }
+
+            var evalTimePlan = resTimePlan.Value;
 
             var evalTimeAbsc = resTimeAbsc.Value;
 
@@ -573,30 +564,21 @@ namespace Procezor.Payrolex.Registry.Providers
             var resWorkPlan = GetPositionResult<PositionWorkPlanResult>(target, period, results,
                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN));
 
-            if (resWorkPlan.IsFailure)
-            {
-                return BuildFailResults(resWorkPlan.Error);
-            }
-
-            var evalWorkPlan = resWorkPlan.Value;
-
             var resTimePlan = GetPositionResult<PositionTimePlanResult>(target, period, results,
                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN));
-
-            if (resTimePlan.IsFailure)
-            {
-                return BuildFailResults(resTimePlan.Error);
-            }
-
-            var evalTimePlan = resTimePlan.Value;
 
             var resTimeWork = GetPositionResult<PositionTimeWorkResult>(target, period, results,
                target.Contract, target.Position, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_WORK));
 
-            if (resTimeWork.IsFailure)
+            var resCompound = GetFailedResultOrOk(resWorkPlan, resTimePlan, resTimeWork);
+            if (resCompound.IsFailure)
             {
-                return BuildFailResults(resTimeWork.Error);
+                return BuildFailResults(resCompound.Error);
             }
+
+            var evalWorkPlan = resWorkPlan.Value;
+
+            var evalTimePlan = resTimePlan.Value;
 
             var evalTimeWork = resTimeWork.Value;
 
