@@ -11,6 +11,7 @@ namespace HraveMzdy.Procezor.Registry
     interface ITermCalcul : ITermSymbol
     {
         ITermTarget Target { get; }
+        IArticleSpec Spec { get; }
         ResultFunc ResultDelegate { get; }
         IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results);
     }

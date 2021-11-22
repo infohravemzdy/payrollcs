@@ -12,10 +12,11 @@ namespace Procezor.Payrolex.Service
     {
         public const Int32 TEST_VERSION = 100;
 
-        public const Int32 TEST_FINAL_ARTICLE = (Int32)PayrolexArticleConst.ARTICLE_INCOME_NETTO;
-
         private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
-            ArticleCode.Get(TEST_FINAL_ARTICLE),
+            ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_EMPLOYER_COSTS),
+            ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_WORK),
+            ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC),
+            ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_INCOME_NETTO),
         };
 
         public ServicePayrolex() : base(TEST_VERSION, TEST_FINAL_DEFS)

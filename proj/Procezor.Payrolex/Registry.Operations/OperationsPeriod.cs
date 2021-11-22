@@ -155,6 +155,22 @@ namespace Procezor.Payrolex.Registry.Operations
 
             return timeSheet;
         }
+        public static Int32[] TimesheetWorkContract(Int32[] monthContract, Int32[] monthPosition, Byte dayTermFrom, Byte dayTermStop)
+        {
+            int idxFrom = (dayTermFrom - 1);
+            int idxStop = (dayTermStop - 1);
+            var zipedMonth = monthContract.Zip(monthPosition);
+            Int32[] result = zipedMonth.Select((z, idx) =>
+            {
+                int res = 0;
+                if (idx >= idxFrom && idx <= idxStop)
+                {
+                    res = (z.First + z.Second);
+                }
+                return res;
+            }).ToArray();
+            return result;
+        }
         private static Int32 SecondsFromPeriodWeekSchedule(IPeriod period, Int32[] weekSchedule, int dayOrdinal)
         {
             int periodBeginCwd = WeekDayOfMonth(period, 1);
@@ -205,6 +221,22 @@ namespace Procezor.Payrolex.Registry.Operations
                 return res;
             }).ToArray();
             return result;
+        }
+        private static Int32 PLusHoursFromCalendar(Byte dayTermFrom, Byte dayTermStop, Byte dayIndex, Int32 partSeconds, Int32 workSeconds)
+        {
+            Byte dayOrdinal = (Byte)(dayIndex + 1);
+
+            Int32 plusSeconds = workSeconds;
+
+            if (dayTermFrom > dayOrdinal)
+            {
+                plusSeconds = 0;
+            }
+            if (dayTermStop < dayOrdinal)
+            {
+                plusSeconds = 0;
+            }
+            return plusSeconds + partSeconds;
         }
         private static Int32 HoursFromCalendar(Byte dayTermFrom, Byte dayTermStop, Byte dayIndex, Int32 workSeconds)
         {

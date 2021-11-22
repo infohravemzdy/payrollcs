@@ -9,41 +9,6 @@ using Procezor.Payrolex.Registry.Constants;
 
 namespace Procezor.Payrolex.Registry.Providers
 {
-    // ContractTerm		CONTRACT_TERM
-    public class ContractWorkTermTarget : PayrolexTermTarget
-    {
-        public WorkContractTerms TermType { get; private set; }
-        public DateTime? DateFrom { get; private set; }
-        public DateTime? DateStop { get; private set; }
-
-        public ContractWorkTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            WorkContractTerms termType, DateTime? dateFrom, DateTime? dateStop) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TermType = termType;
-            DateFrom = dateFrom;
-            DateStop = dateStop;
-        }
-    }
-
-    // PositionTerm		POSITION_TERM
-    public class PositionWorkTermTarget : PayrolexTermTarget
-    {
-        public DateTime? DateFrom { get; private set; }
-        public DateTime? DateStop { get; private set; }
-        public string TermName { get; private set; }
-        public PositionWorkTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            string termName, DateTime? dateFrom, DateTime? dateStop) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TermName = termName;
-            DateFrom = dateFrom;
-            DateStop = dateStop;
-        }
-    }
-
     // PositionWorkPlan		POSITION_WORK_PLAN
     public class PositionWorkPlanTarget : PayrolexTermTarget
     {
@@ -140,59 +105,6 @@ namespace Procezor.Payrolex.Registry.Providers
         public Int32 TargetVals { get; private set; }
 
         public ContractTimeAbscTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TargetVals = targetVals;
-        }
-    }
-
-    // PaymentBasis		PAYMENT_BASIS
-    public class PaymentBasisTarget : PayrolexTermTarget
-    {
-        public PaymentBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 monthBasis) :
-            base(monthCode, contract, position, variant, article, concept, monthBasis, DESCRIPTION_EMPTY)
-        {
-        }
-    }
-
-    // PaymentFixed		PAYMENT_FIXED
-    public class PaymentFixedTarget : PayrolexTermTarget
-    {
-        public Int32 TargetVals { get; private set; }
-
-        public PaymentFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TargetVals = targetVals;
-        }
-    }
-
-    // IncomeGross		INCOME_GROSS
-    public class IncomeGrossTarget : PayrolexTermTarget
-    {
-        public Int32 TargetVals { get; private set; }
-
-        public IncomeGrossTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TargetVals = targetVals;
-        }
-    }
-
-    // IncomeNetto		INCOME_NETTO
-    public class IncomeNettoTarget : PayrolexTermTarget
-    {
-        public Int32 TargetVals { get; private set; }
-
-        public IncomeNettoTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)

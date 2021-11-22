@@ -49,21 +49,18 @@ namespace Procezor.Payrolex.Registry.Providers
         public static Result<T, ITermResultError> GetResult<T>(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results, ArticleCode article)
             where T : class, ITermResult
         {
+            var notFoundError = NoResultFoundError<ITermResult>.CreateResultError(period, target, 
+                ServiceArticleEnumUtils.GetSymbol(article.Value));
             var resultRest = results.Where((x) => (x.IsSuccess && x.Value.Article.Equals(article)))
-                .DefaultIfEmpty(Result.Fail<ITermResult, ITermResultError>(
-                    ExtractResultError.CreateError(period, target, target, null, 
-                    $"Result for {ServiceArticleEnumUtils.GetSymbol(article.Value)} Not Found")))
-                .First();
+                .DefaultIfEmpty(notFoundError).First();
 
             if (resultRest.IsFailure)
             {
-                var error = ExtractResultError.CreateError(period, target, target, resultRest.Error, "Failure found");
-                return Result.Fail<T, ITermResultError>(error);
+                return Result.Fail<T, ITermResultError>(resultRest.Error);
             }
             if (resultRest.Value == null)
             {
-                var error = ExtractResultError.CreateError(period, target, target, null, "Result found but Instance is Null");
-                return Result.Fail<T, ITermResultError>(error);
+                return NullResultFoundError<T>.CreateResultError(period, target, ServiceArticleEnumUtils.GetSymbol(article.Value));
             }
             var resultType = GetTypedResult<T>(resultRest.Value, target, period);
             if (resultType.IsFailure)
@@ -75,23 +72,20 @@ namespace Procezor.Payrolex.Registry.Providers
         public static Result<T, ITermResultError> GetContractResult<T>(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results, ContractCode contract, ArticleCode article)
             where T : class, ITermResult
         {
+            var notFoundError = NoResultFoundError<ITermResult>.CreateResultError(period, target, 
+                ServiceArticleEnumUtils.GetSymbol(article.Value), contract);
             var resultRest = results.Where((x) => (x.IsSuccess 
                 && x.Value.Contract.Equals(contract) 
                 && x.Value.Article.Equals(article)))
-                .DefaultIfEmpty(Result.Fail<ITermResult, ITermResultError>(
-                    ExtractResultError.CreateError(period, target, target, null, 
-                    $"Result for {ServiceArticleEnumUtils.GetSymbol(article.Value)}, contract={contract.Value} Not Found")))
-                .First();
+                .DefaultIfEmpty(notFoundError).First();
 
             if (resultRest.IsFailure)
             {
-                var error = ExtractResultError.CreateError(period, target, target, resultRest.Error, "Failure found");
-                return Result.Fail<T, ITermResultError>(error);
+                return Result.Fail<T, ITermResultError>(resultRest.Error);
             }
             if (resultRest.Value == null)
             {
-                var error = ExtractResultError.CreateError(period, target, target, null, "Result found but Instance is Null");
-                return Result.Fail<T, ITermResultError>(error);
+                return NullResultFoundError<T>.CreateResultError(period, target, ServiceArticleEnumUtils.GetSymbol(article.Value), contract);
             }
             var resultType = GetTypedResult<T>(resultRest.Value, target, period);
             if (resultType.IsFailure)
@@ -103,24 +97,21 @@ namespace Procezor.Payrolex.Registry.Providers
         public static Result<T, ITermResultError> GetPositionResult<T>(ITermTarget target, IPeriod period, IList<Result<ITermResult, ITermResultError>> results, ContractCode contract, PositionCode position, ArticleCode article)
                 where T : class, ITermResult
         {
+            var notFoundError = NoResultFoundError<ITermResult>.CreateResultError(period, target, 
+                ServiceArticleEnumUtils.GetSymbol(article.Value), contract, position);
             var resultRest = results.Where((x) => (x.IsSuccess 
                 && x.Value.Contract.Equals(contract) 
                 && x.Value.Position.Equals(position) 
                 && x.Value.Article.Equals(article)))
-                .DefaultIfEmpty(Result.Fail<ITermResult, ITermResultError>(
-                    ExtractResultError.CreateError(period, target, target, null,
-                    $"Result for {ServiceArticleEnumUtils.GetSymbol(article.Value)}, contract={contract.Value}, position={position.Value} Not Found")))
-                .First();
+                .DefaultIfEmpty(notFoundError).First();
 
             if (resultRest.IsFailure)
             {
-                var error = ExtractResultError.CreateError(period, target, target, resultRest.Error, "Failure found");
-                return Result.Fail<T, ITermResultError>(error);
+                return Result.Fail<T, ITermResultError>(resultRest.Error);
             }
             if (resultRest.Value == null)
             {
-                var error = ExtractResultError.CreateError(period, target, target, null, "Result found but Instance is Null");
-                return Result.Fail<T, ITermResultError>(error);
+                return NullResultFoundError<T>.CreateResultError(period, target, ServiceArticleEnumUtils.GetSymbol(article.Value), contract, position);
             }
             var resultType = GetTypedResult<T>(resultRest.Value, target, period);
             if (resultType.IsFailure)
@@ -129,48 +120,9 @@ namespace Procezor.Payrolex.Registry.Providers
             }
             return Result.Ok<T, ITermResultError>(resultType.Value);
         }
-        public static Result<Int32, ITermResultError> GetFailedResultOrOk<T>(params Result<T, ITermResultError>[] results)
-            where T : class, ITermResult
+        public static ResultWithError<ITermResultError> GetFailedOrOk(params ResultWithError<ITermResultError>[] results)
         {
-            Result<T, ITermResultError> faliedResult = results.FirstOrDefault((x) => x.IsFailure);
-            if (faliedResult.IsFailure)
-            {
-                return Result.Fail<Int32, ITermResultError>(faliedResult.Error);
-            }
-            return Result.Ok<Int32, ITermResultError>(0);
-        }
-        public static Result<Int32, ITermResultError> GetFailedResultOrOk<T1, T2>(Result<T1, ITermResultError> result1, Result<T2, ITermResultError> result2)
-            where T1 : class, ITermResult
-            where T2 : class, ITermResult
-        {
-            if (result1.IsFailure)
-            {
-                return Result.Fail<Int32, ITermResultError>(result1.Error);
-            }
-            if (result2.IsFailure)
-            {
-                return Result.Fail<Int32, ITermResultError>(result2.Error);
-            }
-            return Result.Ok<Int32, ITermResultError>(0);
-        }
-        public static Result<Int32, ITermResultError> GetFailedResultOrOk<T1, T2, T3>(Result<T1, ITermResultError> result1, Result<T2, ITermResultError> result2, Result<T3, ITermResultError> result3)
-            where T1 : class, ITermResult
-            where T2 : class, ITermResult
-            where T3 : class, ITermResult
-        {
-            if (result1.IsFailure)
-            {
-                return Result.Fail<Int32, ITermResultError>(result1.Error);
-            }
-            if (result2.IsFailure)
-            {
-                return Result.Fail<Int32, ITermResultError>(result2.Error);
-            }
-            if (result3.IsFailure)
-            {
-                return Result.Fail<Int32, ITermResultError>(result3.Error);
-            }
-            return Result.Ok<Int32, ITermResultError>(0);
+            return results.FirstOrDefault((x) => x.IsFailure);
         }
     }
 
@@ -218,5 +170,20 @@ namespace Procezor.Payrolex.Registry.Providers
         {
             return ServiceConceptEnumUtils.GetSymbol(Concept.Value);
         }
+    }
+
+    public static class ResultErrorExtensions
+    {
+        public static ResultWithError<E> ErrOrOk<T, E>(this Result<T, E> self)
+            where E : class, ITermResultError
+            where T : class, ITermResult
+        {
+            if (self.IsFailure)
+            {
+                return ResultWithError.Fail<E>(self.Error);
+            }
+            return ResultWithError.Ok<E>();
+        }
+
     }
 }

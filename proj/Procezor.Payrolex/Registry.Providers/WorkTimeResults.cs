@@ -8,42 +8,6 @@ using Procezor.Payrolex.Registry.Constants;
 
 namespace Procezor.Payrolex.Registry.Providers
 {
-    // ContractTerm		CONTRACT_TERM
-    class ContractWorkTermResult : PayrolexTermResult
-    {
-        public WorkContractTerms TermType { get; private set; }
-        public Byte TermDayFrom { get; private set; }
-        public Byte TermDayStop { get; private set; }
-        public ContractWorkTermResult(ITermTarget target, IArticleSpec spec, WorkContractTerms termType, Byte dayTermFrom, Byte dayTermStop) : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TermType = termType;
-            TermDayFrom = dayTermFrom;
-            TermDayStop = dayTermStop;
-        }
-        public override string ResultMessage()
-        {
-            return $"{TermDayFrom} - {TermDayStop}";
-        }
-    }
-
-    // PositionTerm		POSITION_TERM
-    class PositionWorkTermResult : PayrolexTermResult
-    {
-        public string TermName { get; private set; }
-        public Byte TermDayFrom { get; private set; }
-        public Byte TermDayStop { get; private set; }
-        public PositionWorkTermResult(ITermTarget target, IArticleSpec spec, string termName, Byte dayFrom, Byte dayStop) : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
-        {
-            TermName = termName;
-            TermDayFrom = dayFrom;
-            TermDayStop = dayStop;
-        }
-        public override string ResultMessage()
-        {
-            return $"{TermDayFrom} - {TermDayStop}";
-        }
-    }
-
     // PositionWorkPlan		POSITION_WORK_PLAN
     class PositionWorkPlanResult : PayrolexTermResult
     {
@@ -140,72 +104,48 @@ namespace Procezor.Payrolex.Registry.Providers
     // ContractTimePlan		CONTRACT_TIME_PLAN
     class ContractTimePlanResult : PayrolexTermResult
     {
-        public ContractTimePlanResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public Int32[] HoursTimeMonth { get; private set; }
+        public ContractTimePlanResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
+            HoursTimeMonth = timeMonth.ToArray();
+        }
+        public override string ResultMessage()
+        {
+            Int32 TotalTimeMonth = HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
+            return $"Total Work Schedule => {TotalTimeMonth}";
         }
     }
 
     // ContractTimeWork		CONTRACT_TIME_WORK
     class ContractTimeWorkResult : PayrolexTermResult
     {
-        public ContractTimeWorkResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public Int32[] HoursTimeMonth { get; private set; }
+        public ContractTimeWorkResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
+            HoursTimeMonth = timeMonth.ToArray();
+        }
+        public override string ResultMessage()
+        {
+            Int32 TotalTimeMonth = HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
+            return $"Total worked => {TotalTimeMonth}";
         }
     }
 
     // ContractTimeAbsc		CONTRACT_TIME_ABSC
     class ContractTimeAbscResult : PayrolexTermResult
     {
-        public ContractTimeAbscResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public Int32[] HoursTimeMonth { get; private set; }
+        public ContractTimeAbscResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-        }
-    }
-
-    // PaymentBasis		PAYMENT_BASIS
-    class PaymentBasisResult : PayrolexTermResult
-    {
-        public PaymentBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
-        {
+            HoursTimeMonth = timeMonth.ToArray();
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
-        }
-    }
-
-    // PaymentFixed		PAYMENT_FIXED
-    class PaymentFixedResult : PayrolexTermResult
-    {
-        public PaymentFixedResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
-        {
-        }
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
-        }
-    }
-
-    // IncomeGross		INCOME_GROSS
-    class IncomeGrossResult : PayrolexTermResult
-    {
-        public IncomeGrossResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
-        {
-        }
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
-        }
-    }
-
-    // IncomeNetto		INCOME_NETTO
-    class IncomeNettoResult : PayrolexTermResult
-    {
-        public IncomeNettoResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
-        {
-        }
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            Int32 TotalTimeMonth = HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
+            return $"Total absence => {TotalTimeMonth}";
         }
     }
 
