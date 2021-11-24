@@ -4,20 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Types;
+using Procezor.Payrolex.Registry.Constants;
 
 namespace Procezor.Payrolex.Registry.Providers
 {
     // HealthDeclare		HEALTH_DECLARE
     public class HealthDeclareTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int16 InterestCode { get; private set; }
+        public WorkHealthTerms ContractType { get; private set; }
+        public Int16 MandatorBase { get; private set; }
 
         public HealthDeclareTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
+            Int16 interestCode, WorkHealthTerms contractType, Int16 mandatorBase) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
+            InterestCode = interestCode;
+            ContractType = contractType;
+            MandatorBase = mandatorBase;
         }
     }
 
@@ -38,14 +43,14 @@ namespace Procezor.Payrolex.Registry.Providers
     // HealthBase		HEALTH_BASE
     public class HealthBaseTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 AnnuityBase { get; private set; }
 
         public HealthBaseTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
+            Int32 annuityBase) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
+            AnnuityBase = annuityBase;
         }
     }
 
@@ -83,6 +88,20 @@ namespace Procezor.Payrolex.Registry.Providers
         public Int32 TargetVals { get; private set; }
 
         public HealthBaseMandateTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
+
+    // HealthBaseOvercap		HEALTH_BASE_OVERCAP
+    public class HealthBaseOvercapTarget : PayrolexTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public HealthBaseOvercapTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)

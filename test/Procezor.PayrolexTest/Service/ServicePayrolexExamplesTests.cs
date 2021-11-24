@@ -15,6 +15,7 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
 using Procezor.Payrolex.Registry.Providers;
 using Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Legalios.Service;
 
 namespace Procezor.PayrolexTest.Service
 {
@@ -23,13 +24,14 @@ namespace Procezor.PayrolexTest.Service
         private readonly ITestOutputHelper output;
 
         private readonly ServicePayrolex _sut;
+        private readonly ServiceLegalios _leg;
 
         public ServicePayrolexExamplesTests(ITestOutputHelper output)
         {
             this.output = output;
 
             this._sut = new ServicePayrolex();
-
+            this._leg = new ServiceLegalios();
         }
         static IEnumerable<ITermTarget> GetTargetsWithSalaryHomeOffice(IPeriod period)
         {
@@ -73,7 +75,10 @@ namespace Procezor.PayrolexTest.Service
             var testPeriod = new Period(2021, 1);
             testPeriod.Code.Should().Be(202101);
 
-            IBundleProps testLegal = BundleProps.Empty(testPeriod);
+            var testLegalResult = _leg.GetBundle(testPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            IBundleProps testLegal = testLegalResult.Value;
 
             var initService = _sut.InitWithPeriod(testPeriod);
             initService.Should().BeTrue();

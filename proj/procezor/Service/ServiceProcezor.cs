@@ -31,6 +31,8 @@ namespace HraveMzdy.Procezor.Service
 
             BuildFactories();
         }
+        public abstract IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets);
+        public abstract IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets);
         public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> targets)
         {
             IEnumerable<Result<ITermResult, ITermResultError>> results = new List<Result<ITermResult, ITermResultError>>();
@@ -43,7 +45,10 @@ namespace HraveMzdy.Procezor.Service
             }
             if (Builder != null)
             {
-                results = Builder.GetResults(ruleset, targets, CalcArticles);
+                var contractTerms = GetContractTerms(period, targets);
+                var positionTerms = GetPositionTerms(period, contractTerms, targets);
+
+                results = Builder.GetResults(ruleset, contractTerms, positionTerms, targets, CalcArticles);
             }
             return (results);
         }

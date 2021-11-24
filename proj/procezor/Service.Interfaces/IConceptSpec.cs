@@ -12,6 +12,7 @@ namespace HraveMzdy.Procezor.Service.Interfaces
     {
         IEnumerable<ArticleCode> Path { get; }
         ResultFunc ResultDelegate { get; }
-        ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var);
+        IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, 
+            IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var);
     }
 }

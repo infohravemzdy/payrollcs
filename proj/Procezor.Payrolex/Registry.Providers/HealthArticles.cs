@@ -149,6 +149,29 @@ namespace Procezor.Payrolex.Registry.Providers
         }
     }
 
+    // HealthBaseOvercap		HEALTH_BASE_OVERCAP
+    class HealthBaseOvercapArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_OVERCAP;
+        public HealthBaseOvercapArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new HealthBaseOvercapArtSpec(this.Code.Value);
+        }
+    }
+
+    class HealthBaseOvercapArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_OVERCAP;
+        public HealthBaseOvercapArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
     // HealthPaymEmployee		HEALTH_PAYM_EMPLOYEE
     class HealthPaymEmployeeArtProv : ArticleSpecProvider
     {

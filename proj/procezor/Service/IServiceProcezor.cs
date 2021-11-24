@@ -15,6 +15,8 @@ namespace HraveMzdy.Procezor.Service
         IList<ArticleCode> BuilderOrder { get; }
         IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get; }
 
+        IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets);
+        IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets);
         IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps ruleset, IEnumerable<ITermTarget> targets);
         bool BuildFactories();
         bool InitWithPeriod(IPeriod period);

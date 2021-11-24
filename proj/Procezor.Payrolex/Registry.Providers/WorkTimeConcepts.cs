@@ -37,8 +37,11 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
             Int32 RulesetWDays = 5;
             Int32 RulesetShift = 8;
             IPropsSalary salaryRules = GetSalaryProps(ruleset, period);
@@ -47,8 +50,11 @@ namespace Procezor.Payrolex.Registry.Providers
                 RulesetWDays = ruleset.SalaryProps.WorkingShiftWeek;
                 RulesetShift = ruleset.SalaryProps.WorkingShiftTime;
             }
-            return new PositionWorkPlanTarget(month, con, pos, var, article, this.Code, 
-                WorkScheduleType.SCHEDULE_NORMALY_WEEK, RulesetWDays, RulesetShift, RulesetShift);
+
+            return new ITermTarget[] { 
+                new PositionWorkPlanTarget(month, con, pos, var, article, this.Code,
+                    WorkScheduleType.SCHEDULE_NORMALY_WEEK, RulesetWDays, RulesetShift, RulesetShift) 
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -111,9 +117,14 @@ namespace Procezor.Payrolex.Registry.Providers
 
             ResultDelegate = ConceptEval;
         }
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new PositionTimePlanTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new PositionTimePlanTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -178,9 +189,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new PositionTimeWorkTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new PositionTimeWorkTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -244,9 +260,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new PositionTimeAbscTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new PositionTimeAbscTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -302,9 +323,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new ContractTimePlanTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new ContractTimePlanTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -319,8 +345,10 @@ namespace Procezor.Payrolex.Registry.Providers
 
             Int32 posArticle = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN;
             var positionList = results
-                .Where((x) => (x.IsSuccess && x.Value.Article.Value == posArticle))
-                .Select((r) => (r.Value as PositionTimePlanResult)).ToArray();
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Article.Value == posArticle))
+                .Select((tr) => (tr as PositionTimePlanResult))
+                .Where((pr) => (pr!=null)).ToArray();
 
             Int32[] resValue = positionList.Aggregate(zerMonth, (agr, item) =>
             {
@@ -359,9 +387,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new ContractTimeWorkTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new ContractTimeWorkTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -376,8 +409,10 @@ namespace Procezor.Payrolex.Registry.Providers
 
             Int32 posArticle = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_WORK;
             var positionList = results
-                .Where((x) => (x.IsSuccess && x.Value.Article.Value == posArticle))
-                .Select((r) => (r.Value as PositionTimeWorkResult)).ToArray();
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Article.Value == posArticle))
+                .Select((tr) => (tr as PositionTimeWorkResult))
+                .Where((pr) => (pr != null)).ToArray();
 
             Int32[] resValue = positionList.Aggregate(zerMonth, (agr, item) =>
             {
@@ -416,9 +451,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new ContractTimeAbscTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new ContractTimeAbscTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {

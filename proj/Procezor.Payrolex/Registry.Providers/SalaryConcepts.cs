@@ -38,9 +38,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new PaymentBasisTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new PaymentBasisTarget(month, con, pos, var, article, this.Code, 0) 
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -111,9 +116,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new PaymentFixedTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new PaymentFixedTarget(month, con, pos, var, article, this.Code, 0) 
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {

@@ -26,8 +26,4 @@
     <ProjectReference Include="..\..\proj\Procezor.Payrolex\Procezor.Payrolex.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Examples\" />
-  </ItemGroup>
-
 </Project>

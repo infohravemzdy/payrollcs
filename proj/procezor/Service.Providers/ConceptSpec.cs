@@ -21,9 +21,13 @@ namespace HraveMzdy.Procezor.Service.Providers
         {
             Code = new ConceptCode(code);
         }
-        public virtual ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public virtual IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new TermTarget(month, con, pos, var, article, this.Code);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            return new ITermTarget[] {
+                new TermTarget(month, con, pos, var, article, this.Code)
+            };
         }
         public int CompareTo(object obj)
         {
@@ -57,6 +61,10 @@ namespace HraveMzdy.Procezor.Service.Providers
         protected static IList<Result<ITermResult, ITermResultError>> BuildResultList(params Result<ITermResult, ITermResultError>[] results)
         {
             return results.ToList();
+        }
+        protected static IList<Result<ITermResult, ITermResultError>> BuildEmptyResults()
+        {
+            return new List<Result<ITermResult, ITermResultError>>();
         }
         protected static IList<Result<ITermResult, ITermResultError>> BuildOkResults(params ITermResult[] resultValues)
         {
@@ -203,7 +211,7 @@ namespace HraveMzdy.Procezor.Service.Providers
         public static IPropsHealth GetHealthProps(IBundleProps ruleset, IPeriod period)
         {
             IPropsHealth propsType = ruleset.HealthProps as IPropsHealth;
-            if (propsType == null || ruleset.PeriodProps != period)
+            if (propsType == null || ruleset.PeriodProps.Code!=period.Code)
             {
                 return null;
             }

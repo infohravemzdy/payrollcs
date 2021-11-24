@@ -35,9 +35,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new ContractWorkTermTarget(month, con, pos, var, article, this.Code, WorkContractTerms.WORKTERM_EMPLOYMENT_1, null, null);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new ContractWorkTermTarget(month, con, pos, var, article, this.Code, WorkContractTerms.WORKTERM_EMPLOYMENT_1, null, null) 
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -82,9 +87,14 @@ namespace Procezor.Payrolex.Registry.Providers
 
             ResultDelegate = ConceptEval;
         }
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new PositionWorkTermTarget(month, con, pos, var, article, this.Code, "position unknown", null, null);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new PositionWorkTermTarget(month, con, pos, var, article, this.Code, "position unknown", null, null) 
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {

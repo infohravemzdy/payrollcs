@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
@@ -23,6 +24,16 @@ namespace ProcezorTests.Service
 
         public ExampleService() : base(TEST_VERSION, TEST_FINAL_DEFS)
         {
+        }
+
+        public override IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets)
+        {
+            return new List<IContractTerm>();
+        }
+
+        public override IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets)
+        {
+            return new List<IPositionTerm>();
         }
 
         protected override bool BuildArticleFactory()

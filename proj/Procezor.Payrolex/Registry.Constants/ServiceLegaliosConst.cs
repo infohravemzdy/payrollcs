@@ -16,23 +16,26 @@ namespace Procezor.Payrolex.Registry.Constants
     };
     public enum WorkTaxingTerms : UInt16
     {
-        TAXING_TERM_EMPLOYMENTS = 0,
-        TAXING_TERM_AGREEM_TASK = 1,
-        TAXING_TERM_STATUT_PART = 2,
+        TAXING_TERM_BY_CONTRACT = 0,
+        TAXING_TERM_EMPLOYMENTS = 1,
+        TAXING_TERM_AGREEM_TASK = 2,
+        TAXING_TERM_STATUT_PART = 3,
     };
     public enum WorkHealthTerms : UInt16
     {
-        HEALTH_TERM_EMPLOYMENTS = 0,
-        HEALTH_TERM_AGREEM_WORK = 1,
-        HEALTH_TERM_AGREEM_TASK = 2,
-        HEALTH_TERM_NONE_EMPLOY = 3,
+        HEALTH_TERM_BY_CONTRACT = 0,
+        HEALTH_TERM_EMPLOYMENTS = 1,
+        HEALTH_TERM_AGREEM_WORK = 2,
+        HEALTH_TERM_AGREEM_TASK = 3,
+        HEALTH_TERM_NONE_EMPLOY = 4,
     };
     public enum WorkSocialTerms : UInt16
     {
-        SOCIAL_TERM_EMPLOYMENTS = 0,
-        SOCIAL_TERM_SMALLS_EMPL = 1,
-        SOCIAL_TERM_SHORTS_MEET = 2,
-        SOCIAL_TERM_SHORTS_DENY = 3,
+        SOCIAL_TERM_BY_CONTRACT = 0,
+        SOCIAL_TERM_EMPLOYMENTS = 1,
+        SOCIAL_TERM_SMALLS_EMPL = 2,
+        SOCIAL_TERM_SHORTS_MEET = 3,
+        SOCIAL_TERM_SHORTS_DENY = 4,
     };
     public enum WorkScheduleType : UInt16
     {

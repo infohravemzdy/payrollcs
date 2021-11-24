@@ -68,12 +68,12 @@ namespace Procezor.Payrolex.Registry.Factories
                 Array.Empty<Int32>()),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE, (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_MANDATE,
                 Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_OVERCAP, (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_OVERCAP,
+                Array.Empty<Int32>()),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE, (Int32)PayrolexConceptConst.CONCEPT_HEALTH_PAYM_EMPLOYEE,
                 Array.Empty<Int32>()),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER, (Int32)PayrolexConceptConst.CONCEPT_HEALTH_PAYM_EMPLOYER,
-                new Int32[] {
-                    (Int32)PayrolexArticleConst.ARTICLE_EMPLOYER_COSTS,
-                }),
+                Array.Empty<Int32>()),
         };
         public ServiceArticleFactory()
         {

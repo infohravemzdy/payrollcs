@@ -35,9 +35,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new IncomeGrossTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new IncomeGrossTarget(month, con, pos, var, article, this.Code, 0) 
+            };
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -48,20 +53,13 @@ namespace Procezor.Payrolex.Registry.Providers
             }
             IncomeGrossTarget evalTarget = resTarget.Value;
 
-            decimal resValue = results.Aggregate(decimal.Zero,
-                (agr, item) =>
-                {
-                    if (item.IsFailure)
-                    {
-                        return agr;
-                    }
-                    var itemValue = item.Value;
-                    if (itemValue.Spec.Sums.Contains(evalTarget.Article)==false)
-                    {
-                        return agr;
-                    }
-                    return decimal.Add(agr, itemValue.ResultValue);
-                });
+            var incomeList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((tr) => (tr.ResultValue)).ToArray();
+
+            decimal resValue = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
 
             ITermResult resultsValues = new IncomeGrossResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
@@ -96,9 +94,14 @@ namespace Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new IncomeNettoTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new IncomeNettoTarget(month, con, pos, var, article, this.Code, 0)
+            };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -120,7 +123,29 @@ namespace Procezor.Payrolex.Registry.Providers
 
             var evalIncGross = resIncGross.Value;
 
-            decimal resValue = evalIncGross.ResultValue;
+            decimal resGross = evalIncGross.ResultValue;
+
+            var resPayHealth = GetResult<HealthPaymEmployeeResult>(target, period, results,
+               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE));
+
+            if (resPayHealth.IsFailure)
+            {
+                return BuildFailResults(resPayHealth.Error);
+            }
+
+            var evalPayHealth = resPayHealth.Value;
+
+            decimal resHealth = evalPayHealth.ResultValue;
+
+            var incomeList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((tr) => (tr.ResultValue)).ToArray();
+
+            decimal resNetto = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            decimal resValue = decimal.Subtract(decimal.Add(resGross, resNetto), resHealth);
 
             ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
@@ -146,14 +171,21 @@ namespace Procezor.Payrolex.Registry.Providers
     {
         public EmployerCostsConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER,
+            });
 
             ResultDelegate = ConceptEval;
         }
 
-        public override ITermTarget DefaultTarget(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, ContractCode con, PositionCode pos, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
         {
-            return new EmployerCostsTarget(month, con, pos, var, article, this.Code, 0);
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+
+            return new ITermTarget[] {
+                new EmployerCostsTarget(month, con, pos, var, article, this.Code, 0) 
+            };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -165,7 +197,26 @@ namespace Procezor.Payrolex.Registry.Providers
             }
             EmployerCostsTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new EmployerCostsResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            var incomeList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((tr) => (tr.ResultValue)).ToArray();
+
+            decimal resValue = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            var resCostHealth = GetResult<HealthPaymEmployerResult>(target, period, results,
+               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER));
+
+            if (resCostHealth.IsFailure)
+            {
+                return BuildFailResults(resCostHealth.Error);
+            }
+
+            var evalCostHealth = resCostHealth.Value;
+            resValue = decimal.Add(resValue, evalCostHealth.ResultValue);
+
+            ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
