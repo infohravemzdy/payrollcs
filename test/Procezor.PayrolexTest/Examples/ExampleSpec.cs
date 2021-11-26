@@ -710,17 +710,117 @@ namespace Procezor.PayrolexTest.Examples
         {
             Id = 0;
             Name = "";
+            Type = WorkContractTerms.WORKTERM_EMPLOYMENT_1;
             Schedule = 0;
             NonAttendance = 0;
             Salary = 0;
             Agreem = 0;
-            InsSocialPayer = false;
             InsHealthPayer = false;
             InsHealthMinim = false;
+            InsHealthZahran = false;
+            InsHealthZahEhp = false;
             InsHealthEmpler = false;
+            InsSocialPayer = false;
+            InsSocialMalRoz = false;
+            InsSocialZahran = false;
+            InsSocialZahEhp = false;
             InsSocialEmpler = false;
         }
 
+        public string NemPojCin()
+        {
+            string imp = "0";
+            switch (this.Type)
+            {
+                case WorkContractTerms.WORKTERM_EMPLOYMENT_1:imp = "1";
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_A:imp = "10";
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_T:imp = "30";
+                    break;
+                case WorkContractTerms.WORKTERM_PARTNER_STAT:imp = "26";
+                    break;
+                case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:imp = "40";
+                    break;
+            }
+            return imp;
+        }
+        public string NemPojImp()
+        {
+            string imp = "0";
+            if (InsSocialPayer)
+            {
+                if (InsSocialMalRoz)
+                {
+                    //const int ZAMESTNANI09_ZAMESTPP = 0;
+                    //const int ZAMESTNANI09_MALEROZS = 1;
+                    //const int ZAMESTNANI09_KRATKE01 = 2;
+                    //const int ZAMESTNANI09_KRATKE00 = 3;
+                    //const int ZAMESTNANI09_KRATKE02 = 4;
+                    if (InsSocialZahran)
+                    {
+                        imp = "12";
+                    }
+                    else if (InsSocialZahEhp)
+                    {
+                        imp = "19";
+                    }
+                    else
+                    {
+                        imp = "11";
+                    }
+                }
+                else
+                {
+                    if (InsSocialZahran)
+                    {
+                        imp = "2";
+                    }
+                    else if (InsSocialZahEhp)
+                    {
+                        imp = "9";
+                    }
+                    else
+                    {
+                        imp = "1";
+                    }
+                }
+            }
+            return imp;
+        }
+        public string ZdrPojImp()
+        {
+            string imp = "0";
+            if (InsHealthPayer)
+            {
+                if (InsHealthZahran)
+                {
+                    imp = "2";
+                }
+                else
+                if (InsHealthZahEhp)
+                {
+                    imp = "9";
+                }
+                else
+                {
+                    imp = "1";
+                }
+            }
+            return imp;
+        }
+        public string ZdrPojMin()
+        {
+            string imp = "0";
+            if (InsHealthPayer)
+            {
+                if (InsHealthMinim)
+                {
+                    imp = "1";
+                }
+            }
+            return imp;
+        }
         public static ContractSpec[] One(Int16 id, string name, Int32 sched, Int32 nonAtt, Int32 sal, Int32 agr, bool health, bool minum, bool social, bool heaemp, bool socemp)
         {
             return new ContractSpec[] {
@@ -741,14 +841,20 @@ namespace Procezor.PayrolexTest.Examples
         }
         public Int16 Id { get; set; }
         public string Name { get; set; }
+        public WorkContractTerms Type { get; set; }
         public Int32 Schedule { get; set; }
         public Int32 NonAttendance { get; set; }
         public decimal Salary { get; set; }
         public decimal Agreem { get; set; }
         public bool InsHealthPayer { get; set; }
-        public bool InsSocialPayer { get; set; }
         public bool InsHealthMinim { get; set; }
+        public bool InsHealthZahran { get; set; }
+        public bool InsHealthZahEhp { get; set; }
         public bool InsHealthEmpler { get; set; }
+        public bool InsSocialPayer { get; set; }
+        public bool InsSocialMalRoz { get; set; }
+        public bool InsSocialZahran { get; set; }
+        public bool InsSocialZahEhp { get; set; }
         public bool InsSocialEmpler { get; set; }
     }
     public class ChildSpec
@@ -1953,13 +2059,13 @@ namespace Procezor.PayrolexTest.Examples
                 {
                     IMP_OSC = this.Number,
                     IMP_POM = $"{this.Number}-{con.Id}",
-                    IMP17_CINNOSTSPOJ = "1",
+                    IMP17_CINNOSTSPOJ = con.NemPojCin(),
                     IMP17_DATUMZAC = $"1.1.{period.Year}",
                     IMP17_DATUMKON = "",
-                    IMP17_PLATCEDANPR = "1",
-                    IMP17_PLATCESPOJ = "1",
-                    IMP17_PLATCEZPOJ = "1",
-                    IMP17_MIN_ZP = "1",
+                    IMP17_PLATCEDANPR = boolToImp(TaxPayer),
+                    IMP17_PLATCESPOJ = con.NemPojImp(),
+                    IMP17_PLATCEZPOJ = con.ZdrPojImp(),
+                    IMP17_MIN_ZP = con.ZdrPojMin(),
                 };
                 ImportData18 imp18 = new ImportData18()
                 {
@@ -2031,6 +2137,14 @@ namespace Procezor.PayrolexTest.Examples
                 return "YES";
             }
             return "NO";
+        }
+        public string boolToImp(bool val)
+        {
+            if (val)
+            {
+                return "1";
+            }
+            return "0";
         }
     }
 }
