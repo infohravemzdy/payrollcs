@@ -164,23 +164,23 @@ namespace Procezor.PayrolexTest.Examples
 
         public WorkContractTerms contractType { get; set; }
 
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, Int32> scheduleWeek { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, Int32> salaryBasis { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, Int32> agreemBasis { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> socialPayer { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> healthPayer { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> healthMinim { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> penzisPayer { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> socialEmper { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> healthEmper { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxingPayer { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxDeclarat { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenPayer { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenDis01 { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenDis02 { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenDis03 { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBebStudy { get; set; }
-        public Func<IPeriod, IServiceLegalios, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, ChildSpec[]> taxChildren { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, Int32> scheduleWeek { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, Int32> salaryBasis { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, Int32> agreemBasis { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> socialPayer { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> healthPayer { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> healthMinim { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> penzisPayer { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> socialEmper { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> healthEmper { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxingPayer { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxDeclarat { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenPayer { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenDis01 { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenDis02 { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBenDis03 { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, bool> taxBebStudy { get; set; }
+        public Func<IPeriod, IBundleProps, IBundleProps, ExampleParam, SpecGeneratorParams, ChildSpec[]> taxChildren { get; set; }
 
         public SpecGeneratorItem()    
         {
@@ -188,7 +188,7 @@ namespace Procezor.PayrolexTest.Examples
             Description = new string[0];
         }
 
-        public ExampleSpec CreateExample(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, Int32 id, string name, string number, Int32 schedWeek, Int32 nonAtten, ExampleParam ex)
+        public ExampleSpec CreateExample(IPeriod period, IBundleProps ruleset, IBundleProps prevset, Int32 id, string name, string number, Int32 schedWeek, Int32 nonAtten, ExampleParam ex)
         { 
             SpecGeneratorParams param = new SpecGeneratorParams();
             param.Id = id;
@@ -197,22 +197,22 @@ namespace Procezor.PayrolexTest.Examples
             param.Description = this.Description.ToArray();
 
             param.contractType = this.contractType;
-            param.scheduleWeek = this.scheduleWeek(period, legSvc, ruleset, prevset, ex, param);
-            param.salaryBasis = this.salaryBasis(period, legSvc, ruleset, prevset, ex, param);
-            param.agreemBasis = this.agreemBasis(period, legSvc, ruleset, prevset, ex, param);
-            param.socialPayer = this.socialPayer(period, legSvc, ruleset, prevset, ex, param);
-            param.healthPayer = this.healthPayer(period, legSvc, ruleset, prevset, ex, param);
-            param.healthMinim = this.healthMinim(period, legSvc, ruleset, prevset, ex, param);
-            param.socialEmper = this.socialEmper(period, legSvc, ruleset, prevset, ex, param);
-            param.healthEmper = this.healthEmper(period, legSvc, ruleset, prevset, ex, param);
-            param.penzisPayer = this.penzisPayer(period, legSvc, ruleset, prevset, ex, param);
-            param.taxingPayer = this.taxingPayer(period, legSvc, ruleset, prevset, ex, param);
-            param.taxDeclarat = this.taxDeclarat(period, legSvc, ruleset, prevset, ex, param);
-            param.taxBenPayer = this.taxBenPayer(period, legSvc, ruleset, prevset, ex, param);
-            param.taxBenDis01 = this.taxBenDis01(period, legSvc, ruleset, prevset, ex, param);
-            param.taxBenDis02 = this.taxBenDis02(period, legSvc, ruleset, prevset, ex, param);
-            param.taxBenDis03 = this.taxBenDis03(period, legSvc, ruleset, prevset, ex, param);
-            param.taxBenStudy = this.taxBebStudy(period, legSvc, ruleset, prevset, ex, param);
+            param.scheduleWeek = this.scheduleWeek(period, ruleset, prevset, ex, param);
+            param.salaryBasis = this.salaryBasis(period, ruleset, prevset, ex, param);
+            param.agreemBasis = this.agreemBasis(period, ruleset, prevset, ex, param);
+            param.socialPayer = this.socialPayer(period, ruleset, prevset, ex, param);
+            param.healthPayer = this.healthPayer(period, ruleset, prevset, ex, param);
+            param.healthMinim = this.healthMinim(period, ruleset, prevset, ex, param);
+            param.socialEmper = this.socialEmper(period, ruleset, prevset, ex, param);
+            param.healthEmper = this.healthEmper(period, ruleset, prevset, ex, param);
+            param.penzisPayer = this.penzisPayer(period, ruleset, prevset, ex, param);
+            param.taxingPayer = this.taxingPayer(period, ruleset, prevset, ex, param);
+            param.taxDeclarat = this.taxDeclarat(period, ruleset, prevset, ex, param);
+            param.taxBenPayer = this.taxBenPayer(period, ruleset, prevset, ex, param);
+            param.taxBenDis01 = this.taxBenDis01(period, ruleset, prevset, ex, param);
+            param.taxBenDis02 = this.taxBenDis02(period, ruleset, prevset, ex, param);
+            param.taxBenDis03 = this.taxBenDis03(period, ruleset, prevset, ex, param);
+            param.taxBenStudy = this.taxBebStudy(period, ruleset, prevset, ex, param);
 
             ExampleSpec spec = new ExampleSpec();
             spec.Id = param.Id;
@@ -236,16 +236,16 @@ namespace Procezor.PayrolexTest.Examples
             spec.TaxBenefitDisab2 = param.taxBenDis02;
             spec.TaxBenefitDisab3 = param.taxBenDis03;
             spec.TaxBenefitStudy = param.taxBenStudy;
-            spec.TaxChildren = this.taxChildren(period, legSvc, ruleset, prevset, ex, param);
+            spec.TaxChildren = this.taxChildren(period, ruleset, prevset, ex, param);
             spec.InsPenzisPayer = param.penzisPayer;
 
             return spec;
         }
-        public static Int32 DefScheduleWeek(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static Int32 DefScheduleWeek(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return 40; 
         }
-        public static Int32 DefSalaryBasis(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static Int32 DefSalaryBasis(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (ex.agreemGen)
             {
@@ -429,7 +429,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return 15000; 
         }
-        public static Int32 DefAgreemBasis(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static Int32 DefAgreemBasis(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (ex.salaryGen)
             {
@@ -537,15 +537,15 @@ namespace Procezor.PayrolexTest.Examples
             }
             return 0; 
         }
-        public static bool DefSocialPayer(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefSocialPayer(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return true; 
         }
-        public static bool DefHealthPayer(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefHealthPayer(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return true; 
         }
-        public static bool DefHealthMinim(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefHealthMinim(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (ex.conMinZdr)
             {
@@ -553,23 +553,23 @@ namespace Procezor.PayrolexTest.Examples
             }
             return true; 
         }
-        public static bool DefSocialEmper(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefSocialEmper(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return true; 
         }
-        public static bool DefHealthEmper(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefHealthEmper(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return true; 
         }
-        public static bool DefPenzisPayer(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefPenzisPayer(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return false; 
         }
-        public static bool DefTaxingPayer(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxingPayer(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             return true; 
         }
-        public static bool DefTaxDeclarat(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxDeclarat(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxingPayer==false)
             {
@@ -589,7 +589,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return true; 
         }
-        public static bool DefTaxBenPayer(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxBenPayer(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxDeclarat == false)
             {
@@ -597,7 +597,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return true; 
         }
-        public static bool DefTaxBenDis01(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxBenDis01(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxBenPayer == false)
             {
@@ -613,7 +613,7 @@ namespace Procezor.PayrolexTest.Examples
 
             return false; 
         }
-        public static bool DefTaxBenDis02(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxBenDis02(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxBenPayer == false)
             {
@@ -628,7 +628,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return false; 
         }
-        public static bool DefTaxBenDis03(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxBenDis03(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxBenPayer == false)
             {
@@ -643,7 +643,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return false; 
         }
-        public static bool DefTaxBebStudy(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static bool DefTaxBebStudy(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxBenPayer == false)
             {
@@ -658,7 +658,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return false; 
         }
-        public static ChildSpec[] DefTaxChildren(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
+        public static ChildSpec[] DefTaxChildren(IPeriod period, IBundleProps ruleset, IBundleProps prevset, ExampleParam ex, SpecGeneratorParams param) 
         {
             if (param.taxBenPayer == false)
             {
@@ -671,8 +671,8 @@ namespace Procezor.PayrolexTest.Examples
                 for (int por1 = 0; por1 < ex.taxChildPor1; por1++)
                 {
                     childs = childs.Append(new ChildSpec {
-                        Id = 1,
-                        Name = "Poradi1 Dite",
+                        Id = ((Int16)(por1+1+10)),
+                        Name = $"Poradi1{por1+1} Dite",
                         TaxBenefitChild = ex.taxChildNorm,
                         TaxBenefitDisab = ex.taxChildZtpp,
                         TaxBenefitOrder = 1,
@@ -681,8 +681,8 @@ namespace Procezor.PayrolexTest.Examples
                 for (int por2 = 0; por2 < ex.taxChildPor2; por2++)
                 {
                     childs = childs.Append(new ChildSpec {
-                        Id = 1,
-                        Name = "Poradi2 Dite",
+                        Id = ((Int16)(por2+1+20)),
+                        Name = $"Poradi2{por2+1} Dite",
                         TaxBenefitChild = ex.taxChildNorm,
                         TaxBenefitDisab = ex.taxChildZtpp,
                         TaxBenefitOrder = 2,
@@ -691,8 +691,8 @@ namespace Procezor.PayrolexTest.Examples
                 for (int por3 = 0; por3 < ex.taxChildPor3; por3++)
                 {
                     childs = childs.Append(new ChildSpec {
-                        Id = 1,
-                        Name = "Poradi3 Dite",
+                        Id = ((Int16)(por3+1+30)),
+                        Name = $"Poradi3{por3+1} Dite",
                         TaxBenefitChild = ex.taxChildNorm,
                         TaxBenefitDisab = ex.taxChildZtpp,
                         TaxBenefitOrder = 3,
@@ -898,7 +898,7 @@ namespace Procezor.PayrolexTest.Examples
                 ExampleSpec.ExampleForMinBonus(15)
             };
         }
-        public static IEnumerable<ExampleSpec> GetExamples2013(IPeriod period, IServiceLegalios legSvc, IBundleProps ruleset, IBundleProps prevset)
+        public static IEnumerable<ExampleSpec> GetExamples2013(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             //Employment with Tax Advance, Withholding tax, no Minimum Health, Absence hours
             SpecGeneratorItem pomGenItem = new SpecGeneratorItem()
@@ -1075,8 +1075,8 @@ namespace Procezor.PayrolexTest.Examples
                 salaryMaxBon = true,
                 taxChild = true,
                 taxChildPor1 = 1,
-                taxChildPor2 = 2,
-                taxChildPor3 = 4,
+                taxChildPor2 = 1,
+                taxChildPor3 = 5,
                 taxChildZtpp = true,
             };
             ExampleParam exSalaryMinZdr(Int32 kc)
@@ -1245,74 +1245,74 @@ namespace Procezor.PayrolexTest.Examples
 
             return new List<ExampleSpec>()
             {
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 101, "PP-Mzda_DanPoj-SlevyZaklad",      "101", 40, 0, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 102, "PP-Mzda_DanPoj-SlevyDite1",       "102", 40, 0, exSalaryDiteZtp(15600, 1, 0, 0)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 103, "PP-Mzda_DanPoj-BonusDite1",       "103", 40, 0, exDiteZtp(1,0,0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 104, "PP-Mzda_DanPoj-BonusDite2",       "104", 40, 0, exDiteZtp(2,0,0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 2,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 105, "PP-Mzda_DanPoj-MaxBonus",         "105", 40, 0, exDiteMaxBonus), //, CZK 10000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 7,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 106, "PP-Mzda_DanPoj-MinZdravPrev",     "106", 40, 0, exSalaryMinZdrPrev(-200)), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 107, "PP-Mzda_DanPoj-MinZdravCurr",     "107", 40, 0, exSalaryMinZdr(-200)), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 108, "PP-Mzda_DanPoj-MaxZdravPrev",     "108", 40, 0, exSalaryMaxZdrPrev(100)), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 109, "PP-Mzda_DanPoj-MaxZdravCurr",     "109", 40, 0, exSalaryMaxZdr(100)), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 110, "PP-Mzda_DanPoj-MaxSocialPrev",    "110", 40, 0, exSalaryMaxSocPrev(100)), //, CZK 1206676  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 111, "PP-Mzda_DanPoj-MaxSocialCurr",    "111", 40, 0, exSalaryMaxSoc(100)), //, CZK 1242532  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 112, "PP-Mzda_DanPoj-SolidarDanPrev",   "112", 40, 0, exSalarySolTaxPrev(1000)), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 113, "PP-Mzda_DanPoj-SolidarDanCurr",   "113", 40, 0, exSalarySolTax(1000)), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 114, "PP-Mzda_DanPoj-DuchSpor",         "114", 40, 0, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 115, "PP-Mzda_DanPoj-SlevyInv1",        "115", 40, 0, exSalaryInv(20000, yes, no, no)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  YES, NO, NO              ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 116, "PP-Mzda_DanPoj-SlevyInv2",        "116", 40, 0, exTaxInval(no, yes, no)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 117, "PP-Mzda_DanPoj-SlevyInv3",        "117", 40, 0, exTaxInval(no, no, yes)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 118, "PP-Mzda_DanPoj-SlevyStud",        "118", 40, 0, exTaxStudy), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  YES                  ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 119, "PP-Mzda_DanPoj-SlevyZakl015",     "119", 40, 0, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 120, "PP-Mzda_DanPoj-SlevyZakl020",     "120", 40, 0, exSalary(20000 )), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 121, "PP-Mzda_DanPoj-SlevyZakl025",     "121", 40, 0, exSalary(25000 )), //, CZK 25000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 122, "PP-Mzda_DanPoj-SlevyZakl030",     "122", 40, 0, exSalary(30000 )), //, CZK 30000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 123, "PP-Mzda_DanPoj-SlevyZakl035",     "123", 40, 0, exSalary(35000 )), //, CZK 35000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 124, "PP-Mzda_DanPoj-SlevyZakl040",     "124", 40, 0, exSalary(40000 )), //, CZK 40000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 125, "PP-Mzda_DanPoj-SlevyZakl045",     "125", 40, 0, exSalary(45000 )), //, CZK 45000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 126, "PP-Mzda_DanPoj-SlevyZakl050",     "126", 40, 0, exSalary(50000 )), //, CZK 50000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 127, "PP-Mzda_DanPoj-SlevyZakl055",     "127", 40, 0, exSalary(55000 )), //, CZK 55000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 128, "PP-Mzda_DanPoj-SlevyZakl060",     "128", 40, 0, exSalary(60000 )), //, CZK 60000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 129, "PP-Mzda_DanPoj-SlevyZakl065",     "129", 40, 0, exSalary(65000 )), //, CZK 65000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 130, "PP-Mzda_DanPoj-SlevyZakl070",     "130", 40, 0, exSalary(70000 )), //, CZK 70000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 131, "PP-Mzda_DanPoj-SlevyZakl075",     "131", 40, 0, exSalary(75000 )), //, CZK 75000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 132, "PP-Mzda_DanPoj-SlevyZakl080",     "132", 40, 0, exSalary(80000 )), //, CZK 80000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 133, "PP-Mzda_DanPoj-SlevyZakl085",     "133", 40, 0, exSalary(85000 )), //, CZK 85000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 134, "PP-Mzda_DanPoj-SlevyZakl090",     "134", 40, 0, exSalary(90000 )), //, CZK 90000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 135, "PP-Mzda_DanPoj-SlevyZakl095",     "135", 40, 0, exSalary(95000 )), //, CZK 95000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 136, "PP-Mzda_DanPoj-SlevyZakl100",     "136", 40, 0, exSalary(100000)), //, CZK 100000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 137, "PP-Mzda_DanPoj-SlevyZakl105",     "137", 40, 0, exSalary(105000)), //, CZK 105000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 138, "PP-Mzda_DanPoj-SlevyZakl110",     "138", 40, 0, exSalary(110000)), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 101, "PP-Mzda_DanPoj-SlevyZaklad",      "101", 40, 0, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 102, "PP-Mzda_DanPoj-SlevyDite1",       "102", 40, 0, exSalaryDiteZtp(15600, 1, 0, 0)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 103, "PP-Mzda_DanPoj-BonusDite1",       "103", 40, 0, exDiteZtp(1,0,0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 104, "PP-Mzda_DanPoj-BonusDite2",       "104", 40, 0, exDiteZtp(1,1,0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 2,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 105, "PP-Mzda_DanPoj-MaxBonus",         "105", 40, 0, exDiteMaxBonus), //, CZK 10000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 7,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 106, "PP-Mzda_DanPoj-MinZdravPrev",     "106", 40, 0, exSalaryMinZdrPrev(-200)), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 107, "PP-Mzda_DanPoj-MinZdravCurr",     "107", 40, 0, exSalaryMinZdr(-200)), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 108, "PP-Mzda_DanPoj-MaxZdravPrev",     "108", 40, 0, exSalaryMaxZdrPrev(100)), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 109, "PP-Mzda_DanPoj-MaxZdravCurr",     "109", 40, 0, exSalaryMaxZdr(100)), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 110, "PP-Mzda_DanPoj-MaxSocialPrev",    "110", 40, 0, exSalaryMaxSocPrev(100)), //, CZK 1206676  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 111, "PP-Mzda_DanPoj-MaxSocialCurr",    "111", 40, 0, exSalaryMaxSoc(100)), //, CZK 1242532  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 112, "PP-Mzda_DanPoj-SolidarDanPrev",   "112", 40, 0, exSalarySolTaxPrev(1000)), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 113, "PP-Mzda_DanPoj-SolidarDanCurr",   "113", 40, 0, exSalarySolTax(1000)), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 114, "PP-Mzda_DanPoj-DuchSpor",         "114", 40, 0, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 115, "PP-Mzda_DanPoj-SlevyInv1",        "115", 40, 0, exSalaryInv(20000, yes, no, no)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  YES, NO, NO              ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 116, "PP-Mzda_DanPoj-SlevyInv2",        "116", 40, 0, exTaxInval(no, yes, no)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 117, "PP-Mzda_DanPoj-SlevyInv3",        "117", 40, 0, exTaxInval(no, no, yes)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 118, "PP-Mzda_DanPoj-SlevyStud",        "118", 40, 0, exTaxStudy), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  YES                  ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 119, "PP-Mzda_DanPoj-SlevyZakl015",     "119", 40, 0, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 120, "PP-Mzda_DanPoj-SlevyZakl020",     "120", 40, 0, exSalary(20000 )), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 121, "PP-Mzda_DanPoj-SlevyZakl025",     "121", 40, 0, exSalary(25000 )), //, CZK 25000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 122, "PP-Mzda_DanPoj-SlevyZakl030",     "122", 40, 0, exSalary(30000 )), //, CZK 30000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 123, "PP-Mzda_DanPoj-SlevyZakl035",     "123", 40, 0, exSalary(35000 )), //, CZK 35000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 124, "PP-Mzda_DanPoj-SlevyZakl040",     "124", 40, 0, exSalary(40000 )), //, CZK 40000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 125, "PP-Mzda_DanPoj-SlevyZakl045",     "125", 40, 0, exSalary(45000 )), //, CZK 45000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 126, "PP-Mzda_DanPoj-SlevyZakl050",     "126", 40, 0, exSalary(50000 )), //, CZK 50000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 127, "PP-Mzda_DanPoj-SlevyZakl055",     "127", 40, 0, exSalary(55000 )), //, CZK 55000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 128, "PP-Mzda_DanPoj-SlevyZakl060",     "128", 40, 0, exSalary(60000 )), //, CZK 60000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 129, "PP-Mzda_DanPoj-SlevyZakl065",     "129", 40, 0, exSalary(65000 )), //, CZK 65000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 130, "PP-Mzda_DanPoj-SlevyZakl070",     "130", 40, 0, exSalary(70000 )), //, CZK 70000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 131, "PP-Mzda_DanPoj-SlevyZakl075",     "131", 40, 0, exSalary(75000 )), //, CZK 75000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 132, "PP-Mzda_DanPoj-SlevyZakl080",     "132", 40, 0, exSalary(80000 )), //, CZK 80000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 133, "PP-Mzda_DanPoj-SlevyZakl085",     "133", 40, 0, exSalary(85000 )), //, CZK 85000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 134, "PP-Mzda_DanPoj-SlevyZakl090",     "134", 40, 0, exSalary(90000 )), //, CZK 90000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 135, "PP-Mzda_DanPoj-SlevyZakl095",     "135", 40, 0, exSalary(95000 )), //, CZK 95000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 136, "PP-Mzda_DanPoj-SlevyZakl100",     "136", 40, 0, exSalary(100000)), //, CZK 100000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 137, "PP-Mzda_DanPoj-SlevyZakl105",     "137", 40, 0, exSalary(105000)), //, CZK 105000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 138, "PP-Mzda_DanPoj-SlevyZakl110",     "138", 40, 0, exSalary(110000)), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 201, "PP-Mzda_NepodPoj-PrevLo",         "201", 40, 0, exSrazNepPrev0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 202, "PP-Mzda_NepodPoj-PrevHi",         "202", 40, 0, exSrazNepPrev1), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 203, "PP-Mzda_NepodPoj-CurrLo",         "203", 40, 0, exSrazNep0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 204, "PP-Mzda_NepodPoj-CurrHi",         "204", 40, 0, exSrazNep1), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 201, "PP-Mzda_NepodPoj-PrevLo",         "201", 40, 0, exSrazNepPrev0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 202, "PP-Mzda_NepodPoj-PrevHi",         "202", 40, 0, exSrazNepPrev1), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 203, "PP-Mzda_NepodPoj-CurrLo",         "203", 40, 0, exSrazNep0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 204, "PP-Mzda_NepodPoj-CurrHi",         "204", 40, 0, exSrazNep1), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 301, "PP-Mzda_DanPoj-Dan099",           "301", 40, 0, exNoMinAgreem(74)), //, CZK 74       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 302, "PP-Mzda_DanPoj-Dan100",           "302", 40, 0, exNoMinSalary(75)), //, CZK 75       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 303, "PP-Mzda_DanPoj-Dan101",           "303", 40, 0, exNoMinSalary(100)), //, CZK 100      ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 301, "PP-Mzda_DanPoj-Dan099",           "301", 40, 0, exNoMinAgreem(74)), //, CZK 74       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 302, "PP-Mzda_DanPoj-Dan100",           "302", 40, 0, exNoMinSalary(75)), //, CZK 75       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 303, "PP-Mzda_DanPoj-Dan101",           "303", 40, 0, exNoMinSalary(100)), //, CZK 100      ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 401, "PP-Mzda_DanPoj-Neodpr064",        "401", 40,  46, exSalary(20000)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                pomGenItem.CreateExample(period, legSvc, ruleset, prevset, 402, "PP-Mzda_DanPoj-Neodpr184",        "402", 40, 184, exNoMinSalary(20000)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 401, "PP-Mzda_DanPoj-Neodpr064",        "401", 40,  46, exSalary(20000)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                pomGenItem.CreateExample(period, ruleset, prevset, 402, "PP-Mzda_DanPoj-Neodpr184",        "402", 40, 184, exNoMinSalary(20000)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 501, "DPC-Mzda_NeUcastZdrav-Prev",      "501", 40, 0, exSalaryUcastZdrPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 502, "DPC-Mzda_UcastZdrav-Prev",        "502", 40, 0, exSalaryUcastZdrPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 503, "DPC-Mzda_NeUcastNemoc-Prev",      "503", 40, 0, exSalaryUcastNemPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 504, "DPC-Mzda_UcastNemoc-Prev",        "504", 40, 0, exSalaryUcastNemPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 505, "DPP-Mzda_NeUcastZdrav-Prev",      "505", 40, 0, exSalaryUcastZdrEmpPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 506, "DPP-Mzda_UcastZdrav-Prev",        "506", 40, 0, exSalaryUcastZdrEmpPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 507, "DPC-Mzda_NeUcastZdrav-Curr",      "507", 40, 0, exSalaryUcastZdr(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 508, "DPC-Mzda_UcastZdrav-Curr",        "508", 40, 0, exSalaryUcastZdr(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 509, "DPC-Mzda_NeUcastNemoc-Curr",      "509", 40, 0, exSalaryUcastNem(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dpcGenItem.CreateExample(period, legSvc, ruleset, prevset, 510, "DPC-Mzda_UcastNemoc-Curr",        "510", 40, 0, exSalaryUcastNem(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 511, "DPP-Mzda_NeUcastZdrav-Curr",      "511", 40, 0, exSalaryUcastZdrEmp(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 512, "DPP-Mzda_UcastZdrav-Curr",        "512", 40, 0, exSalaryUcastZdrEmp(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 501, "DPC-Mzda_NeUcastZdrav-Prev",      "501", 40, 0, exSalaryUcastZdrPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 502, "DPC-Mzda_UcastZdrav-Prev",        "502", 40, 0, exSalaryUcastZdrPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 503, "DPC-Mzda_NeUcastNemoc-Prev",      "503", 40, 0, exSalaryUcastNemPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 504, "DPC-Mzda_UcastNemoc-Prev",        "504", 40, 0, exSalaryUcastNemPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 505, "DPP-Mzda_NeUcastZdrav-Prev",      "505", 40, 0, exSalaryUcastZdrEmpPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 506, "DPP-Mzda_UcastZdrav-Prev",        "506", 40, 0, exSalaryUcastZdrEmpPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 507, "DPC-Mzda_NeUcastZdrav-Curr",      "507", 40, 0, exSalaryUcastZdr(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 508, "DPC-Mzda_UcastZdrav-Curr",        "508", 40, 0, exSalaryUcastZdr(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 509, "DPC-Mzda_NeUcastNemoc-Curr",      "509", 40, 0, exSalaryUcastNem(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dpcGenItem.CreateExample(period, ruleset, prevset, 510, "DPC-Mzda_UcastNemoc-Curr",        "510", 40, 0, exSalaryUcastNem(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 511, "DPP-Mzda_NeUcastZdrav-Curr",      "511", 40, 0, exSalaryUcastZdrEmp(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 512, "DPP-Mzda_UcastZdrav-Curr",        "512", 40, 0, exSalaryUcastZdrEmp(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 601, "DPP-Mzda_NeUcastNemoc-Prev",      "601", 40, 0, exSalaryUcastNemPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 602, "DPP-Mzda_UcastNemoc-Prev",        "602", 40, 0, exSalaryUcastNemPrev(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 603, "DPP-Mzda_NeUcastNemoc-Curr",      "603", 40, 0, exSalaryUcastNem(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                dppGenItem.CreateExample(period, legSvc, ruleset, prevset, 604, "DPP-Mzda_UcastNemoc-Curr",        "604", 40, 0, exSalaryUcastNem(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 601, "DPP-Mzda_NeUcastNemoc-Prev",      "601", 40, 0, exSalaryUcastNemPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 602, "DPP-Mzda_UcastNemoc-Prev",        "602", 40, 0, exSalaryUcastNemPrev(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 603, "DPP-Mzda_NeUcastNemoc-Curr",      "603", 40, 0, exSalaryUcastNem(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+                dppGenItem.CreateExample(period, ruleset, prevset, 604, "DPP-Mzda_UcastNemoc-Curr",        "604", 40, 0, exSalaryUcastNem(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             };
         }
         public ExampleSpec()
@@ -2023,7 +2023,7 @@ namespace Procezor.PayrolexTest.Examples
             ImportData01 imp01 = new ImportData01()
             {
                 IMP_OSC = this.Number,
-                IMP01_PRIJ = $"{names[1]}",
+                IMP01_PRIJ = $"X{this.Number}{names[1]}",
                 IMP01_JMENO = $"{names[0]}",
                 IMP01_RODPRIJ = $"{names[1]}{this.Number}",
                 IMP01_RODCIS = $"7707077{this.Number}",
@@ -2046,10 +2046,10 @@ namespace Procezor.PayrolexTest.Examples
             ImportData08 imp08 = new ImportData08()
             {
                 IMP_OSC = this.Number,
-                IMP08_PODEPSAL = "3",
-                IMP08_INVALIDITA1 = "0",
-                IMP08_INVALIDITA2 = "0",
-                IMP08_INVALIDITA3 = "0",
+                IMP08_PODEPSAL = this.TaxPodImp(), 
+                IMP08_INVALIDITA1 = boolToImp(this.TaxBenefitDisab1),
+                IMP08_INVALIDITA2 = boolToImp(this.TaxBenefitDisab2),
+                IMP08_INVALIDITA3 = boolToImp(this.TaxBenefitDisab3),
             };
 
             importResult = importResult.Concat(new string[] { imp01.Export(), imp02.Export(), imp05.Export(), imp08.Export() }).ToArray();
@@ -2076,51 +2076,93 @@ namespace Procezor.PayrolexTest.Examples
                     IMP18_PLNUVAZ = "2400",
                     IMP18_SKUTUVAZ = "2400",
                 };
+                ImportData19 imp19 = null;
+                if (con.Salary != 0m)
+                {
+                    imp19 = new ImportData19()
+                    {
+                        IMP_OSC = this.Number,
+                        IMP_POM = $"{this.Number}-{con.Id}",
+                        IMP19_KODMZDA = "1000",
+                        IMP19_SAZBAKC = $"{ con.Salary.ToString()}00",
+                        IMP19_TRVALE = "A-1",
+                    };
+                }
+                if (con.Agreem != 0m)
+                {
+                    imp19 = new ImportData19()
+                    {
+                        IMP_OSC = this.Number,
+                        IMP_POM = $"{this.Number}-{con.Id}",
+                        IMP19_KODMZDA = "1809",
+                        IMP19_SAZBAKC = $"{ con.Agreem.ToString()}00",
+                        IMP19_TRVALE = "A-1",
+                    };
+                }
                 importResult = importResult.Concat(new string[] { imp17.Export(), imp18.Export() }).ToArray();
+                if (imp19 != null)
+                {
+                    importResult = importResult.Concat(new string[] { imp19.Export() }).ToArray();
+                }
             }
-            //ContractSpec con = Contracts.FirstOrDefault();
-            //var detiNorm = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitChild ? 1 : 0)));
-            //var detiZtpp = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitDisab ? 1 : 0)));
-            //var detiCis1 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 1 ? 1 : 0)));
-            //var detiCis2 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 2 ? 1 : 0)));
-            //var detiCis3 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 3 ? 1 : 0)));
-            //StringBuilder builder = new StringBuilder($"{this.Number};");
-            //builder.Append($"{this.Name};");
-            //builder.Append($"{con.Schedule};");
-            //builder.Append($"{con.NonAttendance};");
-            //builder.Append($"CZK {con.Salary};");
-            //builder.Append($"CZK {con.Agreem};");
-            //builder.Append($"{boolToYES_NO(this.TaxPayer)};");//1;
-            //builder.Append($"{boolToYES_NO(this.TaxDeclaration)};");//1;
-            //builder.Append($"{boolToYES_NO(con.InsHealthPayer)};");//1;
-            //builder.Append($"{boolToYES_NO(con.InsHealthMinim)};");//1;
-            //builder.Append($"{boolToYES_NO(con.InsSocialPayer)};");//1;
-            //builder.Append($"{boolToYES_NO(this.InsPenzisPayer)};");//0;
-            //builder.Append($"{boolToYES_NO(this.TaxBenefitPayer)};");//1;
-            //builder.Append($"{detiNorm};");//0;
-            //builder.Append($"{detiZtpp};");//0;
-            //builder.Append($"{boolToYES_NO(this.TaxBenefitDisab1)};");//0;
-            //builder.Append($"{boolToYES_NO(this.TaxBenefitDisab2)};");//0;
-            //builder.Append($"{boolToYES_NO(this.TaxBenefitDisab3)};");//0;
-            //builder.Append($"{boolToYES_NO(this.TaxBenefitStudy)};");//0;
-            //builder.Append($"{boolToYES_NO(con.InsHealthEmpler)};");//0;
-            //builder.Append($"{boolToYES_NO(con.InsSocialEmpler)};");//0;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-            //builder.Append(";");//;
-
-            //return builder.ToString();
+            foreach (var child in TaxChildren)
+            {
+                string[] cnames = child.Name.Split(' ');
+                ImportData09 imp09 = new ImportData09()
+                {
+                    IMP_OSC = this.Number,
+                    IMP_ROK = period.Year.ToString(),
+                    IMP09_JMENO = cnames[1],
+                    IMP09_PRIJ = cnames[0],
+                    IMP09_DATUMNAR = "9.9.2009",
+                    IMP09_RODCIS = $"09090990{child.Id}",
+                    IMP09_AKTUALNIOBD = boolToImp(child.TaxBenefitChild || child.TaxBenefitDisab),
+                    IMP09_PLATNOSTOBD = "#",
+                    IMP09_AKTUALNIPOR = child.TaxBenefitOrder.ToString(),
+                    IMP09_PLATNOSTPOR = "#",
+                    IMP09_ZTPP = boolToImp(child.TaxBenefitDisab),
+                };
+                importResult = importResult.Concat(new string[] { imp09.Export() }).ToArray();
+            }
             return importResult;
+        }
+
+        private string TaxPodImp()
+        {
+            string imp = "0";
+            // (boolToYesNo(this.TaxBenefitPayer, 2, 0) + boolToYesNo(this.TaxDeclaration, 1, 0)).ToString(),           if (InsSocialPayer)
+            {
+                if (TaxDeclaration)
+                {
+                    //const int ZAMESTNANI09_ZAMESTPP = 0;
+                    //const int ZAMESTNANI09_MALEROZS = 1;
+                    //const int ZAMESTNANI09_KRATKE01 = 2;
+                    //const int ZAMESTNANI09_KRATKE00 = 3;
+                    //const int ZAMESTNANI09_KRATKE02 = 4;
+                    if (TaxBenefitPayer)
+                    {
+                        imp = "3";
+                    }
+                    else
+                    {
+                        imp = "1";
+                    }
+                }
+                else
+                {
+                    imp = "0";
+                }
+            }
+            return imp;
+        }
+
+        public Int32 boolToYesNo(bool val, Int32 yes, Int32 no)
+        {
+            if (val)
+            {
+                return yes;
+            }
+            return no;
         }
         public Int32 boolToNumber(bool val)
         {

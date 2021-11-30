@@ -57,7 +57,7 @@ namespace Procezor.PayrolexTest.Service
 
             var prevRuleset = prevLegalResult.Value;
 
-            var examples = ExampleSpec.GetExamples2013(testPeriod, _leg, testRuleset, prevRuleset);
+            var examples = ExampleSpec.GetExamples2013(testPeriod, testRuleset, prevRuleset);
             //foreach (var (ex, index) in examples.Select((item, index) => (item, index)))
             //{
             //    output.WriteLine(ex.exampleString());
