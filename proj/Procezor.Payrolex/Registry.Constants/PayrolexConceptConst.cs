@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Procezor.Payrolex.Registry.Constants
+namespace HraveMzdy.Procezor.Payrolex.Registry.Constants
 {
     public enum PayrolexConceptConst : Int32
     {
@@ -29,6 +29,14 @@ namespace Procezor.Payrolex.Registry.Constants
         CONCEPT_HEALTH_BASE_OVERCAP,
         CONCEPT_HEALTH_PAYM_EMPLOYEE,
         CONCEPT_HEALTH_PAYM_EMPLOYER,
+        CONCEPT_SOCIAL_DECLARE,
+        CONCEPT_SOCIAL_INCOME,
+        CONCEPT_SOCIAL_BASE,
+        CONCEPT_SOCIAL_BASE_EMPLOYEE,
+        CONCEPT_SOCIAL_BASE_EMPLOYER,
+        CONCEPT_SOCIAL_BASE_OVERCAP,
+        CONCEPT_SOCIAL_PAYM_EMPLOYEE,
+        CONCEPT_SOCIAL_PAYM_EMPLOYER,
         CONCEPT_INCOME_GROSS,
         CONCEPT_INCOME_NETTO,
         CONCEPT_EMPLOYER_COSTS,

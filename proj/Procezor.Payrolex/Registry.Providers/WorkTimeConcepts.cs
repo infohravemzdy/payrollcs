@@ -6,11 +6,11 @@ using HraveMzdy.Procezor.Service.Errors;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
-using Procezor.Payrolex.Registry.Constants;
-using Procezor.Payrolex.Registry.Operations;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using ResultMonad;
 
-namespace Procezor.Payrolex.Registry.Providers
+namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // PositionWorkPlan			POSITION_WORK_PLAN
     class PositionWorkPlanConProv : ConceptSpecProvider

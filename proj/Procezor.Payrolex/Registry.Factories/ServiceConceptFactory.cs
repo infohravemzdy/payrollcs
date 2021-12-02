@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Procezor.Payrolex.Registry.Factories
+namespace HraveMzdy.Procezor.Payrolex.Registry.Factories
 {
     class ServiceConceptFactory : ConceptSpecFactory
     {

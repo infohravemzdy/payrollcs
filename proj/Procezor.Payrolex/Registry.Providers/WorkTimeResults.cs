@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Interfaces;
-using Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 
-namespace Procezor.Payrolex.Registry.Providers
+namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // PositionWorkPlan		POSITION_WORK_PLAN
     class PositionWorkPlanResult : PayrolexTermResult

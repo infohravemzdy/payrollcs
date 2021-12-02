@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Procezor.Payrolex.Registry.Operations
+namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
 {
     public static class RoundingPay
     {

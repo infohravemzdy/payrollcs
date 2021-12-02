@@ -5,12 +5,12 @@ using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
-using Procezor.Payrolex.Registry.Constants;
-using Procezor.Payrolex.Registry.Factories;
-using Procezor.Payrolex.Registry.Operations;
-using Procezor.Payrolex.Registry.Providers;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Payrolex.Registry.Factories;
+using HraveMzdy.Procezor.Payrolex.Registry.Operations;
+using HraveMzdy.Procezor.Payrolex.Registry.Providers;
 
-namespace Procezor.Payrolex.Service
+namespace HraveMzdy.Procezor.Payrolex.Service
 {
     public class ServicePayrolex : ServiceProcezor
     {

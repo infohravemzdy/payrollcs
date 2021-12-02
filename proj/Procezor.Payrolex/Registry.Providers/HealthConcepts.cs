@@ -9,11 +9,11 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using MaybeMonad;
-using Procezor.Payrolex.Registry.Constants;
-using Procezor.Payrolex.Registry.Operations;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using ResultMonad;
 
-namespace Procezor.Payrolex.Registry.Providers
+namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // HealthDeclare			HEALTH_DECLARE
     class HealthDeclareConProv : ConceptSpecProvider

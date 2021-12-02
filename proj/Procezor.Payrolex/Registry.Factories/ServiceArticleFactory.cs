@@ -1,13 +1,13 @@
-﻿using HraveMzdy.Procezor.Registry.Constants;
-using HraveMzdy.Procezor.Registry.Factories;
-using Procezor.Payrolex.Registry.Constants;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HraveMzdy.Procezor.Registry.Constants;
+using HraveMzdy.Procezor.Registry.Factories;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 
-namespace Procezor.Payrolex.Registry.Factories
+namespace HraveMzdy.Procezor.Payrolex.Registry.Factories
 {
     class ServiceArticleFactory : ArticleSpecFactory
     {
@@ -74,7 +74,23 @@ namespace Procezor.Payrolex.Registry.Factories
                 Array.Empty<Int32>()),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER, (Int32)PayrolexConceptConst.CONCEPT_HEALTH_PAYM_EMPLOYER,
                 Array.Empty<Int32>()),
-        };
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_DECLARE,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_INCOME,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE_EMPLOYEE, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE_EMPLOYEE,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE_EMPLOYER, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE_EMPLOYER,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE_OVERCAP, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE_OVERCAP,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_PAYM_EMPLOYEE,
+                Array.Empty<Int32>()),
+            new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYER, (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_PAYM_EMPLOYER,
+                Array.Empty<Int32>()),
+       };
         public ServiceArticleFactory()
         {
             this.Providers = BuildProvidersFromRecords(ArticleConfig);

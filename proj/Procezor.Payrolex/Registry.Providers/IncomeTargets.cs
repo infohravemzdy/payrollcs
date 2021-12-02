@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
-using Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 
-namespace Procezor.Payrolex.Registry.Providers
+namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // IncomeGross		INCOME_GROSS
     public class IncomeGrossTarget : PayrolexTermTarget

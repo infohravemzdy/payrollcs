@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HraveMzdy.Procezor.Service.Interfaces;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 
-namespace Procezor.Payrolex.Registry.Providers
+namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
 }

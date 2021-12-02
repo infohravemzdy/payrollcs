@@ -2,7 +2,7 @@
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
 {
-    public static class OperationsHealth
+    public static class OperationsSocial
     {
         public static decimal DecInsuranceRoundUp(decimal valueDec)
         {

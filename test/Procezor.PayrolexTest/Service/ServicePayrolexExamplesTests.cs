@@ -8,13 +8,13 @@ using FluentAssertions;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
-using Procezor.Payrolex.Service;
+using HraveMzdy.Procezor.Payrolex.Service;
 using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
-using Procezor.Payrolex.Registry.Providers;
-using Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Payrolex.Registry.Providers;
+using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Legalios.Service;
 
 namespace Procezor.PayrolexTest.Service

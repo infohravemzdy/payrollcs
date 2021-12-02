@@ -1,11 +1,11 @@
-﻿using HraveMzdy.Procezor.Registry.Constants;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HraveMzdy.Procezor.Registry.Constants;
 
-namespace Procezor.Payrolex.Registry.Constants
+namespace HraveMzdy.Procezor.Payrolex.Registry.Constants
 {
     public enum PayrolexArticleConst : Int32
     {
@@ -31,6 +31,14 @@ namespace Procezor.Payrolex.Registry.Constants
         ARTICLE_HEALTH_BASE_OVERCAP,
         ARTICLE_HEALTH_PAYM_EMPLOYEE,
         ARTICLE_HEALTH_PAYM_EMPLOYER,
+        ARTICLE_SOCIAL_DECLARE,
+        ARTICLE_SOCIAL_INCOME,
+        ARTICLE_SOCIAL_BASE,
+        ARTICLE_SOCIAL_BASE_EMPLOYEE,
+        ARTICLE_SOCIAL_BASE_EMPLOYER,
+        ARTICLE_SOCIAL_BASE_OVERCAP,
+        ARTICLE_SOCIAL_PAYM_EMPLOYEE,
+        ARTICLE_SOCIAL_PAYM_EMPLOYER,
         ARTICLE_INCOME_GROSS,
         ARTICLE_INCOME_NETTO,
         ARTICLE_EMPLOYER_COSTS,

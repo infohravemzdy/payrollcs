@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Procezor.Payrolex.Registry.Constants
+namespace HraveMzdy.Procezor.Payrolex.Registry.Constants
 {
     public enum WorkContractTerms : UInt16
     {
