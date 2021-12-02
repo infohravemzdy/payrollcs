@@ -109,16 +109,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class HealthPaymEmployeeResult : PayrolexTermResult
     {
         public Int32 EmployeeBasis { get; private set; }
-        public Int32 CompoundBasis { get; private set; }
+        public Int32 GeneralsBasis { get; private set; }
         public HealthPaymEmployeeResult(ITermTarget target, IArticleSpec spec, 
-            Int32 employeeBasis, Int32 compoundBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
             EmployeeBasis = employeeBasis;
-            CompoundBasis = compoundBasis;
+            GeneralsBasis = generalsBasis;
         }
         public override string ResultMessage()
         {
-            return $"Employee: {this.EmployeeBasis}, Compound: {this.CompoundBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Employee: {this.EmployeeBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
     }
 
@@ -126,16 +126,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class HealthPaymEmployerResult : PayrolexTermResult
     {
         public Int32 EmployerBasis { get; private set; }
-        public Int32 CompoundBasis { get; private set; }
+        public Int32 GeneralsBasis { get; private set; }
         public HealthPaymEmployerResult(ITermTarget target, IArticleSpec spec, 
-            Int32 employerBasis, Int32 compoundBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employerBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
             EmployerBasis = employerBasis;
-            CompoundBasis = compoundBasis;
+            GeneralsBasis = generalsBasis;
         }
         public override string ResultMessage()
         {
-            return $"Employer: {this.EmployerBasis}, Compound: {this.CompoundBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Employer: {this.EmployerBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
     }
 

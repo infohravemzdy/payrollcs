@@ -35,16 +35,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Factories
                     (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
                     (Int32)PayrolexArticleConst.ARTICLE_EMPLOYER_COSTS,
                     (Int32)PayrolexArticleConst.ARTICLE_HEALTH_INCOME,
+                    (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_INCOME,
                 }),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_PAYMENT_BONUS, (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED,
                 new Int32[] {
                     (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
                     (Int32)PayrolexArticleConst.ARTICLE_EMPLOYER_COSTS,
                     (Int32)PayrolexArticleConst.ARTICLE_HEALTH_INCOME,
+                    (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_INCOME,
                 }),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_PAYMENT_BARTER, (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED,
                 new Int32[] {
                     (Int32)PayrolexArticleConst.ARTICLE_HEALTH_INCOME,
+                    (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_INCOME,
                 }),
             new ProviderRecord((Int32)PayrolexArticleConst.ARTICLE_ALLOWCE_HOFFICE, (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED,
                 new Int32[] {

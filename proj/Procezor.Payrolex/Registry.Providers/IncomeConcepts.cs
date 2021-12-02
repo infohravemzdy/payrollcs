@@ -35,11 +35,15 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
             var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
 
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
             return new ITermTarget[] {
                 new IncomeGrossTarget(month, con, pos, var, article, this.Code, 0) 
             };
@@ -88,17 +92,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE,
+                (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE,
                 (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
             });
 
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
             var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
 
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
             return new ITermTarget[] {
                 new IncomeNettoTarget(month, con, pos, var, article, this.Code, 0)
             };
@@ -173,16 +182,21 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER,
+                (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYER,
             });
 
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
             var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
 
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
             return new ITermTarget[] {
                 new EmployerCostsTarget(month, con, pos, var, article, this.Code, 0) 
             };

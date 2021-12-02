@@ -8,10 +8,10 @@ using HraveMzdy.Procezor.Service.Errors;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
-using MaybeMonad;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using ResultMonad;
+using MaybeMonad;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
@@ -38,13 +38,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialDeclareTarget(month, con, pos, var, article, this.Code, 1, WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialDeclareTarget(month, t.Contract, pos, var, article, this.Code, 1, WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -121,13 +121,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialIncomeTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialIncomeTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -179,13 +179,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialBaseTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialBaseTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -197,9 +197,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             SocialBaseTarget evalTarget = resTarget.Value;
 
-            var resDeclare = GetContractResult<HealthDeclareResult>(target, period, results,
+            var resDeclare = GetContractResult<SocialDeclareResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE));
-            var resIncomes = GetContractResult<HealthIncomeResult>(target, period, results,
+            var resIncomes = GetContractResult<SocialIncomeResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_INCOME));
 
             var resCompound = GetFailedOrOk(resDeclare.ErrOrOk(), resIncomes.ErrOrOk());
@@ -249,13 +249,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialBaseEmployeeTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialBaseEmployeeTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -300,13 +300,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialBaseEmployerTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialBaseEmployerTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -352,13 +352,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialBaseOvercapTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialBaseOvercapTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -430,13 +430,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialPaymEmployeeTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialPaymEmployeeTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -489,10 +489,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployee);
             valBaseEmployee = valBaseEmployee - empBaseOvercaps;
+            valBaseOvercaps = (valBaseOvercaps - empBaseOvercaps);
 
-            Int32 employeePayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(valBaseEmployee, factorEmployee));
+            Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
+            valBaseGenerals = valBaseGenerals - genBaseOvercaps;
+            valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
 
-            ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, valBaseEmployee, employeePayment, valBaseEmployee, DESCRIPTION_EMPTY);
+            Int32 compoundBasis = valBaseEmployee + valBaseGenerals;
+
+            Int32 employeePayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorEmployee));
+
+            ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, valBaseEmployee, valBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -524,13 +531,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-            return new ITermTarget[] {
-                new SocialPaymEmployerTarget(month, con, pos, var, article, this.Code, 0),
-            };
+
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new SocialPaymEmployerTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -563,8 +570,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 valBaseGenerals = evalBaseVal.ResultValue;
 
+            Int32 valBaseEmployee = 0;
             Int32 valBaseEmployer = 0;
             Int32 valBaseOvercaps = 0;
+            var resBaseEmployee = GetContractResult<SocialBaseEmployeeResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE_EMPLOYEE));
+
+            if (resBaseEmployee.IsSuccess)
+            {
+                valBaseEmployee = resBaseEmployee.Value.ResultValue;
+            }
             var resBaseEmployer = GetContractResult<SocialBaseEmployerResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE_EMPLOYER));
 
@@ -581,12 +596,23 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployer);
-            valBaseEmployer = valBaseEmployer - empBaseOvercaps;
+            Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployee);
+            valBaseEmployee = valBaseEmployee - empBaseOvercaps;
+            valBaseOvercaps = (valBaseOvercaps - empBaseOvercaps);
 
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(valBaseEmployer, factorEmployer));
+            Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
+            valBaseGenerals = valBaseGenerals - genBaseOvercaps;
+            valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
 
-            ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, valBaseEmployer, employerPayment, valBaseEmployer, DESCRIPTION_EMPTY);
+            Int32 emrBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployer);
+            valBaseEmployer = valBaseEmployer - emrBaseOvercaps;
+            valBaseOvercaps = (valBaseOvercaps - emrBaseOvercaps);
+
+            Int32 compoundBasis = valBaseEmployer + valBaseGenerals;
+
+            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorEmployer));
+
+            ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, valBaseEmployer, valBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

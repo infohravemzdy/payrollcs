@@ -37,11 +37,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
-
             Int32 RulesetWDays = 5;
             Int32 RulesetShift = 8;
             IPropsSalary salaryRules = GetSalaryProps(ruleset, period);
@@ -51,10 +48,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 RulesetShift = ruleset.SalaryProps.WorkingShiftTime;
             }
 
-            return new ITermTarget[] { 
-                new PositionWorkPlanTarget(month, con, pos, var, article, this.Code,
-                    WorkScheduleType.SCHEDULE_NORMALY_WEEK, RulesetWDays, RulesetShift, RulesetShift) 
-            };
+            var ter = posTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract) && x.Position.Equals(t.Position)))) == false).ToArray();
+
+            return ter.Select((t) => (new PositionWorkPlanTarget(month, t.Contract, t.Position, var, article, this.Code,
+                    WorkScheduleType.SCHEDULE_NORMALY_WEEK, RulesetWDays, RulesetShift, RulesetShift)));
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -117,14 +114,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             ResultDelegate = ConceptEval;
         }
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
+            var ter = posTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract) && x.Position.Equals(t.Position)))) == false).ToArray();
 
-            return new ITermTarget[] {
-                new PositionTimePlanTarget(month, con, pos, var, article, this.Code, 0)
-            };
+            return ter.Select((t) => (new PositionTimePlanTarget(month, t.Contract, t.Position, var, article, this.Code, 0)));
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -189,14 +183,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
+            var ter = posTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract) && x.Position.Equals(t.Position)))) == false).ToArray();
 
-            return new ITermTarget[] {
-                new PositionTimeWorkTarget(month, con, pos, var, article, this.Code, 0)
-            };
+            return ter.Select((t) => (new PositionTimeWorkTarget(month, t.Contract, t.Position, var, article, this.Code, 0)));
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -260,14 +251,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
+            var ter = posTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract) && x.Position.Equals(t.Position)))) == false).ToArray();
 
-            return new ITermTarget[] {
-                new PositionTimeAbscTarget(month, con, pos, var, article, this.Code, 0)
-            };
+            return ter.Select((t) => (new PositionTimeAbscTarget(month, t.Contract, t.Position, var, article, this.Code, 0)));
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -323,14 +311,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
 
-            return new ITermTarget[] {
-                new ContractTimePlanTarget(month, con, pos, var, article, this.Code, 0)
-            };
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new ContractTimePlanTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -387,14 +374,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
 
-            return new ITermTarget[] {
-                new ContractTimeWorkTarget(month, con, pos, var, article, this.Code, 0)
-            };
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new ContractTimeWorkTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
@@ -451,14 +437,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             ResultDelegate = ConceptEval;
         }
 
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
-            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
 
-            return new ITermTarget[] {
-                new ContractTimeAbscTarget(month, con, pos, var, article, this.Code, 0)
-            };
+            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
+
+            return ter.Select((t) => (new ContractTimeAbscTarget(month, t.Contract, pos, var, article, this.Code, 0)));
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {

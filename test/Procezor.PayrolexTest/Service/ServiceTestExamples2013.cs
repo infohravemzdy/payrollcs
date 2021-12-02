@@ -15,6 +15,7 @@ using HraveMzdy.Procezor.Service;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Payrolex.Service;
 using Procezor.PayrolexTest.Examples;
+using HraveMzdy.Procezor.Service.Interfaces;
 
 namespace Procezor.PayrolexTest.Service
 {
@@ -499,11 +500,64 @@ namespace Procezor.PayrolexTest.Service
             //}
 
             var targets = example.GetSpecTargets(testPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
             var initService = _sut.InitWithPeriod(testPeriod);
             initService.Should().BeTrue();
 
             var restService = _sut.GetResults(testPeriod, testRuleset, targets);
             restService.Count().Should().NotBe(0);
+
+            string Osc                     = example.Number; 
+            string Popis                   = example.Name;   
+            string UvazekOdprac            = ""; // UVAZEK - ODPRAC             184	
+            string UvazekNeodpr            = ""; // UVAZEK - NEODPR             0	
+            string MzdaPlatZaklad          = ""; // MZDA-PLAT - ZAKLAD          15000	
+            string MzdaPlatDohoda          = ""; // MZDA-PLAT - DOHODA          0
+            string DanPodepsal             = ""; // DAN - PODEPSAL              1
+            string DanSlevaPoplatnik       = ""; // DAN_SLEVA - POPLATNIK       1
+            string DanSlevaInvalid1        = ""; // DAN_SLEVA - INVALID1        0
+            string DanSlevaInvalid2        = ""; // DAN_SLEVA - INVALID2        0
+            string DanSlevaInvalid3        = ""; // DAN_SLEVA - INVALID3        0
+            string DanSlevaStudent         = ""; // DAN_SLEVA - STUDENT         0
+            string DanSlevaDeti            = ""; // DAN_SLEVA - DETI            0
+            string DanSlevaDetiZtp         = ""; // DAN_SLEVA - DETI_ZTP        0
+            string PojistneStropsoc	       = ""; // POJISTNE - STROPSOC	       0
+            string PojistneStropzdr	       = ""; // POJISTNE - STROPZDR	       0
+            string PojistnePojsoc	       = ""; // POJISTNE - POJSOC	       1
+            string PojistnePojzdr	       = ""; // POJISTNE - POJZDR	       1
+            string PojistnePojpenz	       = ""; // POJISTNE - POJPENZ	       0
+            string SuperhrubaSupersoc	   = ""; // SUPERHRUBA - SUPERSOC	   0
+            string SuperhrubaSuperzdr	   = ""; // SUPERHRUBA - SUPERZDR	   0
+            string DanVyslPrijem	       = ""; // DAN_VYSL - PRIJEM	       15000
+            string DanVyslSuperpoj	       = ""; // DAN_VYSL - SUPERPOJ	       5100
+            string DanVyslDanZaklad	       = ""; // DAN_VYSL - DAN_ZAKLAD	   20100
+            string PojistneVymzSoc	       = ""; // POJISTNE - VYMZ_SOC	       15000
+            string PojistneVymzZdr	       = ""; // POJISTNE - VYMZ_ZDR	       15000
+            string PojistnePojSoc	       = ""; // POJISTNE - POJ_SOC	       975
+            string PojistnePojZdr	       = ""; // POJISTNE - POJ_ZDR	       675
+            string DanZalohaVyp	           = ""; // DAN - ZALOHA	           3015
+            string DanSrazkaVyp	           = ""; // DAN - SRAZKA	           0
+            string DanSlevaBa	           = ""; // DAN - SLEVA_BA	           -2070
+            string DanPoSleveBa	           = ""; // DAN - PO SLEVE_BA	       945
+            string DanSlevaC	           = ""; // DAN - SLEVA_C	           0
+            string DanPoSleveC	           = ""; // DAN - PO_SLEVE_C	       945
+            string DanZaloha	           = ""; // DAN - ZALOHA	           945
+            string DanBonus	               = ""; // DAN - BONUS	               0
+            string PrijemHruba	           = GetResultValue(restService, PayrolexArticleConst.ARTICLE_INCOME_GROSS); // PRIJEM - HRUBA	           15000
+            string PrijemCista             = GetResultValue(restService, PayrolexArticleConst.ARTICLE_INCOME_NETTO); // PRIJEM - CISTA             12405
+
+            output.WriteLine($"{Osc};{Popis};{UvazekOdprac};{UvazekNeodpr};{MzdaPlatZaklad};{MzdaPlatDohoda};{DanPodepsal};" +
+                $"{DanSlevaPoplatnik};{DanSlevaInvalid1};{DanSlevaInvalid2};{DanSlevaInvalid3};{DanSlevaStudent};{DanSlevaDeti};{DanSlevaDetiZtp};" +
+                $"{PojistneStropsoc};{PojistneStropzdr};{PojistnePojsoc};{PojistnePojzdr};{PojistnePojpenz};{SuperhrubaSupersoc};{SuperhrubaSuperzdr};" +
+                $"{DanVyslPrijem};{DanVyslSuperpoj};{DanVyslDanZaklad};{PojistneVymzSoc};{PojistneVymzZdr};{PojistnePojSoc};{PojistnePojZdr};" +
+                $"{DanZalohaVyp};{DanSrazkaVyp};{DanSlevaBa};{DanPoSleveBa};{DanSlevaC};{DanPoSleveC};{DanZaloha};{DanBonus};" +
+                $"{PrijemHruba};{PrijemCista};");
 
             foreach (var (result, index) in restService.Select((item, index) => (item, index)))
             {
@@ -522,6 +576,24 @@ namespace Procezor.PayrolexTest.Service
                     output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                 }
             }
+        }
+
+        private ITermResult GetResultArticle<T>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode)
+            where T : class, ITermResult
+        {
+            var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
+            var resultValue = result.FirstOrDefault() as T;
+            return resultValue;
+        }
+        private string GetResultValue(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode)
+        {
+            var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
+            var resultValue = result.FirstOrDefault();
+            if (resultValue == null)
+            {
+                return "";
+            }
+            return resultValue.ResultValue.ToString();
         }
     }
 }

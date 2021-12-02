@@ -93,14 +93,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class SocialPaymEmployeeResult : PayrolexTermResult
     {
         public Int32 EmployeeBasis { get; private set; }
+        public Int32 GeneralsBasis { get; private set; }
         public SocialPaymEmployeeResult(ITermTarget target, IArticleSpec spec,
-            Int32 employeeBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
             EmployeeBasis = employeeBasis;
+            GeneralsBasis = generalsBasis;
         }
         public override string ResultMessage()
         {
-            return $"Employee: {this.EmployeeBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Employee: {this.EmployeeBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
     }
 
@@ -108,14 +110,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class SocialPaymEmployerResult : PayrolexTermResult
     {
         public Int32 EmployerBasis { get; private set; }
+        public Int32 GeneralsBasis { get; private set; }
         public SocialPaymEmployerResult(ITermTarget target, IArticleSpec spec,
-            Int32 employerBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employerBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
             EmployerBasis = employerBasis;
+            GeneralsBasis = generalsBasis;
         }
         public override string ResultMessage()
         {
-            return $"Employer: {this.EmployerBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Employer: {this.EmployerBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
     }
 

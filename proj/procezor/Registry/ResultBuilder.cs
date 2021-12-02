@@ -103,9 +103,9 @@ namespace HraveMzdy.Procezor.Registry
             return targetSort;
         }
         private IEnumerable<ITermTarget> AddDefinesToTargets(IPeriod period, IBundleProps ruleset,
-            IEnumerable<IContractTerm> contractTerms, IEnumerable<IPositionTerm> positionTerms, IEnumerable<IArticleDefine> defines)
+            IEnumerable<IContractTerm> contractTerms, IEnumerable<IPositionTerm> positionTerms, IEnumerable<ITermTarget> targets, IEnumerable<IArticleDefine> defines)
         {
-            return defines.SelectMany((x) => GetTargetList(period, ruleset, conceptModel, contractTerms, positionTerms, x.Code, x.Role)).ToList();
+            return defines.SelectMany((x) => GetTargetList(period, ruleset, conceptModel, contractTerms, positionTerms, targets.Where((t) => (t.Article.Equals(x.Code))), x.Code, x.Role)).ToList();
         }
         private IEnumerable<ITermCalcul> AddTargetToCalculs(IEnumerable<ITermTarget> targets)
         {
@@ -136,17 +136,14 @@ namespace HraveMzdy.Procezor.Registry
         {
             IEnumerable<ITermTarget> resultList = init.ToList();
 
-            var initTarget = init.FirstOrDefault((x) => (x.Article == articleDefs.Code));
+            var initTargets = init.Where((x) => (x.Article == articleDefs.Code));
 
-            if (initTarget == null)
-            {
-                VariantCode variant = VariantCode.Get(1);
+            VariantCode variant = VariantCode.Get(1);
 
-                var targetList = GetTargetList(period, ruleset, conceptModel, 
-                    contractTerms, positionTerms, articleDefs.Code, articleDefs.Role);
+            var targetList = GetTargetList(period, ruleset, conceptModel, 
+                contractTerms, positionTerms, initTargets, articleDefs.Code, articleDefs.Role);
 
-                resultList = resultList.Concat(targetList).ToList();
-            }
+            resultList = resultList.Concat(targetList).ToList();
 
             return resultList;
         }
@@ -164,7 +161,7 @@ namespace HraveMzdy.Procezor.Registry
 
             var defineList = calcDefines.Where((x) => init.FirstOrDefault((t) => (t.Article == x.Code))==null);
 
-            var targetList = AddDefinesToTargets(period, ruleset, contractTerms, positionTerms, defineList);
+            var targetList = AddDefinesToTargets(period, ruleset, contractTerms, positionTerms, init, defineList);
 
             resultList = resultList.Concat(targetList).ToList();
 
@@ -180,7 +177,7 @@ namespace HraveMzdy.Procezor.Registry
             return conceptSpec.ResultDelegate;
         }
         private IEnumerable<ITermTarget> GetTargetList(IPeriod period, IBundleProps ruleset, IEnumerable<IConceptSpec> conceptsModel,
-            IEnumerable<IContractTerm> contractTerms, IEnumerable<IPositionTerm> positionTerms, ArticleCode article, ConceptCode concept)
+            IEnumerable<IContractTerm> contractTerms, IEnumerable<IPositionTerm> positionTerms, IEnumerable<ITermTarget> targets, ArticleCode article, ConceptCode concept)
         {
             MonthCode monthCode = MonthCode.Get(period.Code);
             VariantCode variant = VariantCode.Get(1);
@@ -194,7 +191,7 @@ namespace HraveMzdy.Procezor.Registry
                     new TermTarget(monthCode, contract, position, variant, article, concept),
                 };
             }
-            return conceptSpec.DefaultTargetList(article, period, ruleset, monthCode, contractTerms, positionTerms, variant);
+            return conceptSpec.DefaultTargetList(article, period, ruleset, monthCode, contractTerms, positionTerms, targets, variant);
         }
         private IEnumerable<Result<ITermResult, ITermResultError>> NotFoundCalculFunc(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {

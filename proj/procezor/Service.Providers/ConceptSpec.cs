@@ -21,10 +21,15 @@ namespace HraveMzdy.Procezor.Service.Providers
         {
             Code = new ConceptCode(code);
         }
-        public virtual IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, VariantCode var)
+        public virtual IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
             var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
+
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
             return new ITermTarget[] {
                 new TermTarget(month, con, pos, var, article, this.Code)
             };
@@ -202,7 +207,7 @@ namespace HraveMzdy.Procezor.Service.Providers
         public static IPropsSalary GetSalaryProps(IBundleProps ruleset, IPeriod period)
         {
             IPropsSalary propsType = ruleset.SalaryProps as IPropsSalary;
-            if (propsType == null || ruleset.PeriodProps != period)
+            if (propsType == null || ruleset.PeriodProps.Code != period.Code)
             {
                 return null;
             }
@@ -211,7 +216,7 @@ namespace HraveMzdy.Procezor.Service.Providers
         public static IPropsHealth GetHealthProps(IBundleProps ruleset, IPeriod period)
         {
             IPropsHealth propsType = ruleset.HealthProps as IPropsHealth;
-            if (propsType == null || ruleset.PeriodProps.Code!=period.Code)
+            if (propsType == null || ruleset.PeriodProps.Code != period.Code)
             {
                 return null;
             }
@@ -220,7 +225,7 @@ namespace HraveMzdy.Procezor.Service.Providers
         public static IPropsSocial GetSocialProps(IBundleProps ruleset, IPeriod period)
         {
             IPropsSocial propsType = ruleset.SocialProps as IPropsSocial;
-            if (propsType == null || ruleset.PeriodProps != period)
+            if (propsType == null || ruleset.PeriodProps.Code != period.Code)
             {
                 return null;
             }
@@ -229,7 +234,7 @@ namespace HraveMzdy.Procezor.Service.Providers
         public static IPropsTaxing GetTaxingProps(IBundleProps ruleset, IPeriod period)
         {
             IPropsTaxing propsType = ruleset.TaxingProps as IPropsTaxing;
-            if (propsType == null || ruleset.PeriodProps != period)
+            if (propsType == null || ruleset.PeriodProps.Code != period.Code)
             {
                 return null;
             }
