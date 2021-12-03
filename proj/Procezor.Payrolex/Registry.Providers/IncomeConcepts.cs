@@ -8,6 +8,7 @@ using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Payrolex.Registry.Operations;
+using MaybeMonad;
 using ResultMonad;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
@@ -93,6 +94,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE,
                 (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_TOTAL,
                 (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
             });
 

@@ -33,7 +33,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public SocialDeclareConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -57,7 +59,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             SocialDeclareTarget evalTarget = resTarget.Value;
 
             var resContract = GetContractResult<ContractWorkTermResult>(target, period, results,
-             target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM));
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM));
 
             if (resContract.IsFailure)
             {

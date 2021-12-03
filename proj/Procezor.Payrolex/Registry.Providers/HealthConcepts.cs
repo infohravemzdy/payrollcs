@@ -33,7 +33,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public HealthDeclareConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM,
+            });
 
             ResultDelegate = ConceptEval;
         }
