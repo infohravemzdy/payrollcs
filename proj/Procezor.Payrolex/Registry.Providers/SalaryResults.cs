@@ -9,7 +9,7 @@ using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // PaymentBasis		PAYMENT_BASIS
-    class PaymentBasisResult : PayrolexTermResult
+    public class PaymentBasisResult : PayrolexTermResult
     {
         public PaymentBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
@@ -21,7 +21,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // PaymentFixed		PAYMENT_FIXED
-    class PaymentFixedResult : PayrolexTermResult
+    public class PaymentFixedResult : PayrolexTermResult
     {
         public PaymentFixedResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {

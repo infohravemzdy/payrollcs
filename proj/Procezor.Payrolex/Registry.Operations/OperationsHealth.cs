@@ -14,27 +14,5 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
         {
             return RoundingInt.RoundUp(valueDec);
         }
-
-        public static decimal DecTaxRoundUp(decimal valueDec)
-        {
-            return RoundingDec.RoundUp(valueDec);
-        }
-
-        public static Int32 IntTaxRoundUp(decimal valueDec)
-        {
-            return RoundingInt.RoundUp(valueDec);
-        }
-
-
-        public static decimal DecTaxRoundDown(decimal valueDec)
-        {
-            return RoundingDec.RoundDown(valueDec);
-        }
-
-
-        public static Int32 IntTaxRoundDown(decimal valueDec)
-        {
-            return RoundingInt.RoundDown(valueDec);
-        }
     }
 }

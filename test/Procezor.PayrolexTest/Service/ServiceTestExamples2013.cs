@@ -16,6 +16,7 @@ using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Payrolex.Service;
 using Procezor.PayrolexTest.Examples;
 using HraveMzdy.Procezor.Service.Interfaces;
+using HraveMzdy.Procezor.Payrolex.Registry.Providers;
 
 namespace Procezor.PayrolexTest.Service
 {
@@ -468,6 +469,106 @@ namespace Procezor.PayrolexTest.Service
             var legResult = legSvc.GetBundle(PrevYear(period));
             return legResult.Value;
         }
+        [Fact]
+        public void ServiceExamples_PPomMzdaDanPojSlevyZakladTest()
+        {
+            TestSpecParams test = new TestSpecParams(101, "PP-Mzda_DanPoj-SlevyZaklad", "101", 40, 0, pomGenItem, exDefaults);
+#if __TEST_PRESCRIPTION__
+            //name                             |101-PP-Mzda-DanPoj-SlevyZaklad
+            //period                           |01 2013
+            //schedule                         |40
+            //absence                          |0
+            //salary                           |CZK 15000
+            //tax payer                        |DECLARE
+            //health payer                     |YES
+            //health minim                     |YES
+            //social payer                     |YES
+            //pension payer                    |NO
+            //tax payer benefit                |YES
+            //tax child benefit                |0
+            //tax disability benefit           |NO:NO:NO
+            //tax studying benefit             |NO
+            //health employer                  |YES
+            //social employer                  |YES
+            //tax income                       |CZK 15000
+            //premium insurance                |CZK 5100
+            //tax base                         |CZK 20100
+            //health base                      |CZK 15000
+            //social base                      |CZK 15000
+            //health ins                       |CZK 675
+            //social ins                       |CZK 975
+            //tax before                       |CZK 3015
+            //payer relief                     |CZK 2070
+            //tax after A relief               |CZK 945
+            //child relief                     |CZK 0
+            //tax after C relief               |CZK 945
+            //tax advance                      |CZK 945
+            //tax bonus                        |CZK 0
+            //gross income                     |CZK 15000
+            //netto income                     |CZK 12405
+#endif
+            var testPeriod = new Period(2013,1);
+            testPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(testPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(testPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(testPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            //foreach (var impLine in example.importString(testPeriod))
+            //{
+            //    output.WriteLine(impLine);
+            //}
+
+            var targets = example.GetSpecTargets(testPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(testPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(testPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testResults = GetResultsLine(example, restService);
+
+            output.WriteLine(testResults);
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
 
         [Theory]
         [MemberData(nameof(TestData))]
@@ -513,51 +614,9 @@ namespace Procezor.PayrolexTest.Service
             var restService = _sut.GetResults(testPeriod, testRuleset, targets);
             restService.Count().Should().NotBe(0);
 
-            string Osc                     = example.Number; 
-            string Popis                   = example.Name;   
-            string UvazekOdprac            = ""; // UVAZEK - ODPRAC             184	
-            string UvazekNeodpr            = ""; // UVAZEK - NEODPR             0	
-            string MzdaPlatZaklad          = ""; // MZDA-PLAT - ZAKLAD          15000	
-            string MzdaPlatDohoda          = ""; // MZDA-PLAT - DOHODA          0
-            string DanPodepsal             = ""; // DAN - PODEPSAL              1
-            string DanSlevaPoplatnik       = ""; // DAN_SLEVA - POPLATNIK       1
-            string DanSlevaInvalid1        = ""; // DAN_SLEVA - INVALID1        0
-            string DanSlevaInvalid2        = ""; // DAN_SLEVA - INVALID2        0
-            string DanSlevaInvalid3        = ""; // DAN_SLEVA - INVALID3        0
-            string DanSlevaStudent         = ""; // DAN_SLEVA - STUDENT         0
-            string DanSlevaDeti            = ""; // DAN_SLEVA - DETI            0
-            string DanSlevaDetiZtp         = ""; // DAN_SLEVA - DETI_ZTP        0
-            string PojistneStropsoc	       = ""; // POJISTNE - STROPSOC	       0
-            string PojistneStropzdr	       = ""; // POJISTNE - STROPZDR	       0
-            string PojistnePojsoc	       = ""; // POJISTNE - POJSOC	       1
-            string PojistnePojzdr	       = ""; // POJISTNE - POJZDR	       1
-            string PojistnePojpenz	       = ""; // POJISTNE - POJPENZ	       0
-            string SuperhrubaSupersoc	   = ""; // SUPERHRUBA - SUPERSOC	   0
-            string SuperhrubaSuperzdr	   = ""; // SUPERHRUBA - SUPERZDR	   0
-            string DanVyslPrijem	       = ""; // DAN_VYSL - PRIJEM	       15000
-            string DanVyslSuperpoj	       = ""; // DAN_VYSL - SUPERPOJ	       5100
-            string DanVyslDanZaklad	       = ""; // DAN_VYSL - DAN_ZAKLAD	   20100
-            string PojistneVymzSoc	       = ""; // POJISTNE - VYMZ_SOC	       15000
-            string PojistneVymzZdr	       = ""; // POJISTNE - VYMZ_ZDR	       15000
-            string PojistnePojSoc	       = ""; // POJISTNE - POJ_SOC	       975
-            string PojistnePojZdr	       = ""; // POJISTNE - POJ_ZDR	       675
-            string DanZalohaVyp	           = ""; // DAN - ZALOHA	           3015
-            string DanSrazkaVyp	           = ""; // DAN - SRAZKA	           0
-            string DanSlevaBa	           = ""; // DAN - SLEVA_BA	           -2070
-            string DanPoSleveBa	           = ""; // DAN - PO SLEVE_BA	       945
-            string DanSlevaC	           = ""; // DAN - SLEVA_C	           0
-            string DanPoSleveC	           = ""; // DAN - PO_SLEVE_C	       945
-            string DanZaloha	           = ""; // DAN - ZALOHA	           945
-            string DanBonus	               = ""; // DAN - BONUS	               0
-            string PrijemHruba	           = GetResultValue(restService, PayrolexArticleConst.ARTICLE_INCOME_GROSS); // PRIJEM - HRUBA	           15000
-            string PrijemCista             = GetResultValue(restService, PayrolexArticleConst.ARTICLE_INCOME_NETTO); // PRIJEM - CISTA             12405
+            var testResults = GetResultsLine(example, restService);
 
-            output.WriteLine($"{Osc};{Popis};{UvazekOdprac};{UvazekNeodpr};{MzdaPlatZaklad};{MzdaPlatDohoda};{DanPodepsal};" +
-                $"{DanSlevaPoplatnik};{DanSlevaInvalid1};{DanSlevaInvalid2};{DanSlevaInvalid3};{DanSlevaStudent};{DanSlevaDeti};{DanSlevaDetiZtp};" +
-                $"{PojistneStropsoc};{PojistneStropzdr};{PojistnePojsoc};{PojistnePojzdr};{PojistnePojpenz};{SuperhrubaSupersoc};{SuperhrubaSuperzdr};" +
-                $"{DanVyslPrijem};{DanVyslSuperpoj};{DanVyslDanZaklad};{PojistneVymzSoc};{PojistneVymzZdr};{PojistnePojSoc};{PojistnePojZdr};" +
-                $"{DanZalohaVyp};{DanSrazkaVyp};{DanSlevaBa};{DanPoSleveBa};{DanSlevaC};{DanPoSleveC};{DanZaloha};{DanBonus};" +
-                $"{PrijemHruba};{PrijemCista};");
+            output.WriteLine(testResults);
 
             foreach (var (result, index) in restService.Select((item, index) => (item, index)))
             {
@@ -595,5 +654,130 @@ namespace Procezor.PayrolexTest.Service
             }
             return resultValue.ResultValue.ToString();
         }
+        private string GetResultSelect<T>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode, Func<T, string> selVal)
+            where T : class, ITermResult
+        {
+            var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
+            var resultValue = result.FirstOrDefault() as T;
+            if (resultValue == null)
+            {
+                return "";
+            }
+            return selVal(resultValue);
+        }
+        private string GetResultSelect<T>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode, Func<T, Int32> selVal)
+            where T : class, ITermResult
+        {
+            Int32 resultSumValue = default;
+            var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
+            var resultValue = result.FirstOrDefault() as T;
+            if (resultValue != null)
+            {
+                resultSumValue += selVal(resultValue);
+            }
+            return resultSumValue.ToString();
+        }
+        private string GetResultSelect<T>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode, string prepText, Func<T, Int32> selVal)
+            where T : class, ITermResult
+        {
+            Int32 resultSumValue = default;
+            var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
+            var resultValue = result.FirstOrDefault() as T;
+            if (resultValue != null)
+            {
+                resultSumValue += selVal(resultValue);
+            }
+            if (string.IsNullOrEmpty(prepText)==false)
+            {
+                return prepText + resultSumValue.ToString();
+            }
+            return resultSumValue.ToString();
+        }
+        private string GetResultSelect<T1, T2>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode1, PayrolexArticleConst artCode2, Func<T1, Int32> selVal1, Func<T2, Int32> selVal2)
+            where T1 : class, ITermResult
+            where T2 : class, ITermResult
+        {
+            Int32 resultSumValue = default;
+            var result1 = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode1)).Select((x) => (x.Value)).ToList();
+            var resultValue1 = result1.FirstOrDefault() as T1;
+            if (resultValue1 != null)
+            {
+                resultSumValue += selVal1(resultValue1);
+            }
+            var result2 = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode2)).Select((x) => (x.Value)).ToList();
+            var resultValue2 = result2.FirstOrDefault() as T2;
+            if (resultValue2 != null)
+            {
+                resultSumValue += selVal2(resultValue2);
+            }
+            return resultSumValue.ToString();
+        }
+        private string GetResultsLine(ExampleSpec example, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
+        {
+            ContractSpec con = example.Contracts.FirstOrDefault();
+
+            string Osc                     = example.Number; 
+            string Popis                   = example.Name;   
+            string UvazekOdprac            = GetResultSelect<ContractTimeWorkResult>(results, 
+                PayrolexArticleConst.ARTICLE_CONTRACT_TIME_WORK, (x) => (x.TotalTimeMonth())); // UVAZEK - ODPRAC             184	
+            string UvazekNeodpr            = GetResultSelect<ContractTimeAbscResult>(results, 
+                PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC, (x) => (x.TotalTimeMonth())); // UVAZEK - NEODPR             0	
+            string MzdaPlatZaklad          = GetResultSelect<PaymentBasisResult>(results, PayrolexArticleConst.ARTICLE_PAYMENT_SALARY, "CZK ", (x) => (x.ResultBasis)); // MZDA-PLAT - ZAKLAD          15000	
+            string MzdaPlatDohoda          = ""; // MZDA-PLAT - DOHODA          0
+            string TaxTaxingPayer          = ExampleSpec.boolToYES_NO(con.TaxTaxingPayer);
+            string InsHealthPayer          = ExampleSpec.boolToYES_NO(con.InsHealthPayer);
+            string InsHealthMinim          = ExampleSpec.boolToYES_NO(con.InsHealthMinim);
+            string InsSocialPayer          = ExampleSpec.boolToYES_NO(con.InsSocialPayer);
+            string InsPenzisPayer          = ExampleSpec.boolToYES_NO(example.InsPenzisPayer);
+            string DanPodepsal             = ExampleSpec.boolToYES_NO(example.TaxDeclaration); // DAN - PODEPSAL              1
+            string DanSlevaPoplatnik       = ExampleSpec.boolToYES_NO(example.TaxBenefitPayer); // DAN_SLEVA - POPLATNIK       1
+            string DanSlevaInvalid1        = ExampleSpec.boolToYES_NO(example.TaxBenefitDisab1); // DAN_SLEVA - INVALID1        0
+            string DanSlevaInvalid2        = ExampleSpec.boolToYES_NO(example.TaxBenefitDisab2); // DAN_SLEVA - INVALID2        0
+            string DanSlevaInvalid3        = ExampleSpec.boolToYES_NO(example.TaxBenefitDisab3); // DAN_SLEVA - INVALID3        0
+            string DanSlevaStudent         = ExampleSpec.boolToYES_NO(example.TaxBenefitStudy); // DAN_SLEVA - STUDENT         0
+            string DanSlevaDeti            = ""; // DAN_SLEVA - DETI            0
+            string DanSlevaDetiZtp         = ""; // DAN_SLEVA - DETI_ZTP        0
+            string PojistneStropsoc	       = ""; // POJISTNE - STROPSOC	        0
+            string PojistneStropzdr	       = ""; // POJISTNE - STROPZDR	        0
+            string PojistnePojsoc	       = ""; // POJISTNE - POJSOC	        1
+            string PojistnePojzdr	       = ""; // POJISTNE - POJZDR	        1
+            string PojistnePojpenz	       = ""; // POJISTNE - POJPENZ	        0
+            string SuperhrubaSupersoc	   = ""; // SUPERHRUBA - SUPERSOC	    0
+            string SuperhrubaSuperzdr	   = ""; // SUPERHRUBA - SUPERZDR	    0
+            string DanVyslPrijem	       = GetResultSelect<TaxingAdvancesIncomeResult>(results, 
+                PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_INCOME, (x) => (x.ResultValue)); // DAN_VYSL - PRIJEM	        15000
+            string DanVyslSuperpoj	       = GetResultSelect<TaxingAdvancesHealthResult, TaxingAdvancesSocialResult>(results, 
+                PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_HEALTH, PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_SOCIAL, (x) => (x.ResultValue), (x) => (x.ResultValue)); // DAN_VYSL - SUPERPOJ	        5100
+            string DanVyslDanZaklad	       = ""; // DAN_VYSL - DAN_ZAKLAD	    20100
+            string PojistneVymzSoc	       = GetResultSelect<SocialBaseResult>(results, 
+                PayrolexArticleConst.ARTICLE_SOCIAL_BASE, (x) => (x.ResultValue)); // POJISTNE - VYMZ_SOC	        15000
+            string PojistneVymzZdr	       = GetResultSelect<HealthBaseResult>(results, 
+                PayrolexArticleConst.ARTICLE_HEALTH_BASE, (x) => (x.ResultValue)); // POJISTNE - VYMZ_ZDR	        15000
+            string PojistnePojSoc	       = GetResultSelect<SocialPaymEmployeeResult>(results, 
+                PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE, (x) => (x.ResultValue)); // POJISTNE - POJ_SOC	        975
+            string PojistnePojZdr	       = GetResultSelect<HealthPaymEmployeeResult>(results, 
+                PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE, (x) => (x.ResultValue)); // POJISTNE - POJ_ZDR	        675
+            string DanZalohaVyp	           = ""; // DAN - ZALOHA	            3015
+            string DanSrazkaVyp	           = ""; // DAN - SRAZKA	            0
+            string DanSlevaBa	           = ""; // DAN - SLEVA_BA	            -2070
+            string DanPoSleveBa	           = ""; // DAN - PO SLEVE_BA	        945
+            string DanSlevaC	           = ""; // DAN - SLEVA_C	            0
+            string DanPoSleveC	           = ""; // DAN - PO_SLEVE_C	        945
+            string DanZaloha	           = ""; // DAN - ZALOHA	            945
+            string DanBonus	               = ""; // DAN - BONUS	                0
+            string PrijemHruba	           = GetResultValue(results, PayrolexArticleConst.ARTICLE_INCOME_GROSS); // PRIJEM - HRUBA	           15000
+            string PrijemCista             = GetResultValue(results, PayrolexArticleConst.ARTICLE_INCOME_NETTO); // PRIJEM - CISTA             12405
+
+            string resultOutput = $"{Osc};{Popis};{UvazekOdprac};{UvazekNeodpr};{MzdaPlatZaklad};{MzdaPlatDohoda};" +
+                $"{TaxTaxingPayer};{InsHealthPayer};{InsHealthMinim};{InsSocialPayer};{InsPenzisPayer};" +
+                $"{DanPodepsal};{DanSlevaPoplatnik};{DanSlevaInvalid1};{DanSlevaInvalid2};{DanSlevaInvalid3};{DanSlevaStudent};{DanSlevaDeti};{DanSlevaDetiZtp};" +
+                $"{PojistneStropsoc};{PojistneStropzdr};{PojistnePojsoc};{PojistnePojzdr};{PojistnePojpenz};{SuperhrubaSupersoc};{SuperhrubaSuperzdr};" +
+                $"{DanVyslPrijem};{DanVyslSuperpoj};{DanVyslDanZaklad};{PojistneVymzSoc};{PojistneVymzZdr};{PojistnePojSoc};{PojistnePojZdr};" +
+                $"{DanZalohaVyp};{DanSrazkaVyp};{DanSlevaBa};{DanPoSleveBa};{DanSlevaC};{DanPoSleveC};{DanZaloha};{DanBonus};" +
+                $"{PrijemHruba};{PrijemCista};";
+
+            return resultOutput;
+        }
+
     }
 }

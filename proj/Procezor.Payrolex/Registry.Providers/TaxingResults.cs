@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Service.Types;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
@@ -30,16 +31,33 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingSigning		TAXING_SIGNING
     public class TaxingSigningResult : PayrolexTermResult
     {
-        public Int16 DeclSignCode { get; private set; }
+        public TaxDeclSignOption DeclSignOpts { get; private set; }
+        public TaxNoneSignOption NoneSignOpts { get; private set; }
         public TaxingSigningResult(ITermTarget target, IArticleSpec spec,
-            Int16 declSignCode)
+            TaxDeclSignOption declSignOpts, TaxNoneSignOption noneSignOpts)
             : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            DeclSignCode = declSignCode;
+            DeclSignOpts = declSignOpts;
+            NoneSignOpts = noneSignOpts;
         }
         public override string ResultMessage()
         {
-            return $"Declaration Sign: {this.DeclSignCode}";
+            return $"Declaration Sign Opts: {Enum.GetName<TaxDeclSignOption>(this.DeclSignOpts)}, None Sign Opts: {Enum.GetName<TaxNoneSignOption>(this.NoneSignOpts)}";
+        }
+        public string DeclSignText()
+        {
+            switch (DeclSignOpts)
+            {
+                case TaxDeclSignOption.DECL_TAX_DO_SIGNED:
+                    return "YES";
+                case TaxDeclSignOption.DECL_TAX_NO_SIGNED:
+                    return "NO";
+            }
+            return "NO";
+        }
+        public TaxingSigningTarget ResultTarget()
+        {
+            return Target as TaxingSigningTarget;
         }
     }
 
@@ -62,24 +80,110 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingIncomeHealth		TAXING_INCOME_HEALTH
     public class TaxingIncomeHealthResult : PayrolexTermResult
     {
-        public TaxingIncomeHealthResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public WorkTaxingTerms SubjectType { get; private set; }
+        public WorkHealthTerms SubjectTerm { get; private set; }
+        public TaxingIncomeHealthResult(ITermTarget target, ContractCode con, IArticleSpec spec, 
+            WorkTaxingTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            SubjectType = subjectType;
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 IncomeScore()
+        {
+            Int32 resultType = 0;
+            switch (SubjectType)
+            {
+                case WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS:
+                    resultType = 900;
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_AGREEM_TASK:
+                    resultType = 100;
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_STATUT_PART:
+                    resultType = 500;
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_BY_CONTRACT:
+                    resultType = 0;
+                    break;
+            }
+            Int32 resultBase = 0;
+            switch (SubjectTerm)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
+                    resultBase = 9000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
+                    resultBase = 5000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
+                    resultBase = 4000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
+                    resultBase = 0;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
+                    resultBase = 0;
+                    break;
+            }
+            return resultType + resultBase;
         }
     }
 
     // TaxingIncomeSocial		TAXING_INCOME_SOCIAL
     public class TaxingIncomeSocialResult : PayrolexTermResult
     {
-        public TaxingIncomeSocialResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public WorkTaxingTerms SubjectType { get; private set; }
+        public WorkSocialTerms SubjectTerm { get; private set; }
+        public TaxingIncomeSocialResult(ITermTarget target, ContractCode con, IArticleSpec spec,
+            WorkTaxingTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            SubjectType = subjectType;
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 IncomeScore()
+        {
+            Int32 resultType = 0;
+            switch (SubjectType)
+            {
+                case WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS:
+                    resultType = 900;
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_AGREEM_TASK:
+                    resultType = 100;
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_STATUT_PART:
+                    resultType = 500;
+                    break;
+                case WorkTaxingTerms.TAXING_TERM_BY_CONTRACT:
+                    resultType = 0;
+                    break;
+            }
+            Int32 resultBase = 0;
+            switch (SubjectTerm)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    resultBase = 9000;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    resultBase = 5000;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    resultBase = 4000;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    resultBase = 0;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    resultBase = 0;
+                    break;
+            }
+            return resultType + resultBase;
         }
     }
 

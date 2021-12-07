@@ -162,6 +162,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PayrolexTermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
         }
+        public PayrolexTermResult(ITermTarget target, ContractCode con, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+        {
+        }
         public override string ArticleDescr()
         {
             return ServiceArticleEnumUtils.GetSymbol(Article.Value);

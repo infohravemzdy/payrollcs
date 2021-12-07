@@ -9,7 +9,7 @@ using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // IncomeGross		INCOME_GROSS
-    class IncomeGrossResult : PayrolexTermResult
+    public class IncomeGrossResult : PayrolexTermResult
     {
         public IncomeGrossResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
@@ -21,7 +21,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // IncomeNetto		INCOME_NETTO
-    class IncomeNettoResult : PayrolexTermResult
+    public class IncomeNettoResult : PayrolexTermResult
     {
         public IncomeNettoResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {

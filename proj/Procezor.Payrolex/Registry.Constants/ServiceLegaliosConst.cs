@@ -21,6 +21,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Constants
         TAXING_TERM_AGREEM_TASK = 2,
         TAXING_TERM_STATUT_PART = 3,
     };
+    public enum TaxDeclSignOption : UInt16
+    {
+        DECL_TAX_NO_SIGNED = 0,
+        DECL_TAX_DO_SIGNED = 1,
+    };
+    public enum TaxNoneSignOption : UInt16
+    {
+        NOSIGN_TAX_WITHHOLD = 0,
+        NOSIGN_TAX_ADVANCES = 1,
+    };
     public enum WorkHealthTerms : UInt16
     {
         HEALTH_TERM_BY_CONTRACT = 0,

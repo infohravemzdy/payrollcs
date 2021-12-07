@@ -27,14 +27,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingSigning		TAXING_SIGNING
     public class TaxingSigningTarget : PayrolexTermTarget
     {
-        public Int16 DeclSignCode { get; private set; }
+        public TaxDeclSignOption DeclSignOpts { get; private set; }
+        public TaxNoneSignOption NoneSignOpts { get; private set; }
 
         public TaxingSigningTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int16 declSignCode) :
+            TaxDeclSignOption declSignOpts, TaxNoneSignOption noneSignOpts) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            DeclSignCode = declSignCode;
+            DeclSignOpts = declSignOpts;
+            NoneSignOpts = noneSignOpts;
         }
     }
 
@@ -55,28 +57,20 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingIncomeHealth		TAXING_INCOME_HEALTH
     public class TaxingIncomeHealthTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
-
         public TaxingIncomeHealthTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
+            ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
         }
     }
 
     // TaxingIncomeSocial		TAXING_INCOME_SOCIAL
     public class TaxingIncomeSocialTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
-
         public TaxingIncomeSocialTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
+            ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
         }
     }
 

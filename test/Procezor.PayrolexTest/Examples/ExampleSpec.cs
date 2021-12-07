@@ -840,7 +840,7 @@ namespace Procezor.PayrolexTest.Examples
                     InsSocialPayer = social,
                     InsHealthEmpler = heaemp,
                     InsSocialEmpler = socemp,
-                    ConTaxingPayer = taxing,
+                    TaxTaxingPayer = taxing,
                 },
             };
         }
@@ -861,7 +861,7 @@ namespace Procezor.PayrolexTest.Examples
         public bool InsSocialZahran { get; set; }
         public bool InsSocialZahEhp { get; set; }
         public bool InsSocialEmpler { get; set; }
-        public bool ConTaxingPayer { get; set; }
+        public bool TaxTaxingPayer { get; set; }
     }
     public class ChildSpec
     {
@@ -958,7 +958,7 @@ namespace Procezor.PayrolexTest.Examples
                         InsSocialPayer = yes,
                         InsHealthPayer = yes,
                         InsHealthMinim = yes,
-                        ConTaxingPayer = yes,
+                        TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -992,7 +992,7 @@ namespace Procezor.PayrolexTest.Examples
                         InsSocialPayer = yes,
                         InsHealthPayer = yes,
                         InsHealthMinim = yes,
-                        ConTaxingPayer = yes,
+                        TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1034,7 +1034,7 @@ namespace Procezor.PayrolexTest.Examples
                         InsSocialPayer = yes,
                         InsHealthPayer = yes,
                         InsHealthMinim = yes,
-                        ConTaxingPayer = yes,
+                        TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1082,7 +1082,7 @@ namespace Procezor.PayrolexTest.Examples
                         InsSocialPayer = yes,
                         InsHealthPayer = yes,
                         InsHealthMinim = yes,
-                        ConTaxingPayer = yes,
+                        TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1136,7 +1136,7 @@ namespace Procezor.PayrolexTest.Examples
                         InsSocialPayer = yes,
                         InsHealthPayer = yes,
                         InsHealthMinim = yes,
-                        ConTaxingPayer = yes,
+                        TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1196,7 +1196,7 @@ namespace Procezor.PayrolexTest.Examples
                         InsSocialPayer = no,
                         InsHealthPayer = no,
                         InsHealthMinim = no,
-                        ConTaxingPayer = yes,
+                        TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = no,
@@ -1230,7 +1230,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1264,7 +1264,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1312,7 +1312,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1360,7 +1360,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = no,
@@ -1395,7 +1395,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1430,7 +1430,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1464,7 +1464,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1530,7 +1530,7 @@ namespace Procezor.PayrolexTest.Examples
                       InsSocialPayer = yes,
                       InsHealthPayer = yes,
                       InsHealthMinim = yes,
-                      ConTaxingPayer = yes,
+                      TaxTaxingPayer = yes,
                     },
                 },
                 TaxDeclaration = yes,
@@ -1570,19 +1570,19 @@ namespace Procezor.PayrolexTest.Examples
             builder.Append($"{con.NonAttendance};");
             builder.Append($"CZK {con.Salary};");
             builder.Append($"CZK {con.Agreem};");
-            builder.Append($"{boolToYES_NO(con.ConTaxingPayer)};");//1;
-            builder.Append($"{boolToYES_NO(this.TaxDeclaration)};");//1;
+            builder.Append($"{boolToYES_NO(con.TaxTaxingPayer)};");//1;
             builder.Append($"{boolToYES_NO(con.InsHealthPayer)};");//1;
             builder.Append($"{boolToYES_NO(con.InsHealthMinim)};");//1;
             builder.Append($"{boolToYES_NO(con.InsSocialPayer)};");//1;
             builder.Append($"{boolToYES_NO(this.InsPenzisPayer)};");//0;
+            builder.Append($"{boolToYES_NO(this.TaxDeclaration)};");//1;
             builder.Append($"{boolToYES_NO(this.TaxBenefitPayer)};");//1;
-            builder.Append($"{detiNorm};");//0;
-            builder.Append($"{detiZtpp};");//0;
             builder.Append($"{boolToYES_NO(this.TaxBenefitDisab1)};");//0;
             builder.Append($"{boolToYES_NO(this.TaxBenefitDisab2)};");//0;
             builder.Append($"{boolToYES_NO(this.TaxBenefitDisab3)};");//0;
             builder.Append($"{boolToYES_NO(this.TaxBenefitStudy)};");//0;
+            builder.Append($"{detiNorm};");//0;
+            builder.Append($"{detiZtpp};");//0;
             builder.Append($"{boolToYES_NO(con.InsHealthEmpler)};");//0;
             builder.Append($"{boolToYES_NO(con.InsSocialEmpler)};");//0;
             builder.Append(";");//;
@@ -1649,7 +1649,7 @@ namespace Procezor.PayrolexTest.Examples
                     IMP17_CINNOSTSPOJ = con.NemPojCin(),
                     IMP17_DATUMZAC = $"1.1.{period.Year}",
                     IMP17_DATUMKON = "",
-                    IMP17_PLATCEDANPR = boolToImp(con.ConTaxingPayer),
+                    IMP17_PLATCEDANPR = boolToImp(con.TaxTaxingPayer),
                     IMP17_PLATCESPOJ = con.NemPojImp(),
                     IMP17_PLATCEZPOJ = con.ZdrPojImp(),
                     IMP17_MIN_ZP = con.ZdrPojMin(),
@@ -1770,7 +1770,7 @@ namespace Procezor.PayrolexTest.Examples
                 var targetTax = new TaxingDeclareTarget(montCode, contractCon, positionEmp, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_DECLARE),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_DECLARE),
-                    boolToNumber(con.ConTaxingPayer), WorkTaxingTerms.TAXING_TERM_BY_CONTRACT);
+                    boolToNumber(con.TaxTaxingPayer), WorkTaxingTerms.TAXING_TERM_BY_CONTRACT);
 
                 targets = targets.Concat(new ITermTarget[] { targetCon, targetPos, targetPWP, targetHth, targetSoc, targetTax }).ToArray();
                 if (con.Salary != 0m)
@@ -1785,7 +1785,7 @@ namespace Procezor.PayrolexTest.Examples
             var targetSgn = new TaxingSigningTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING),
                 ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_SIGNING),
-                boolToNumber(this.TaxDeclaration));
+                TaxSigning(this.TaxDeclaration), TaxSignNon(this.TaxDeclaration));
 
             targets = targets.Concat(new ITermTarget[] { targetSgn }).ToArray();
 
@@ -1824,7 +1824,7 @@ namespace Procezor.PayrolexTest.Examples
             return imp;
         }
 
-        public Int32 boolToYesNo(bool val, Int32 yes, Int32 no)
+        public static Int32 boolToYesNo(bool val, Int32 yes, Int32 no)
         {
             if (val)
             {
@@ -1832,7 +1832,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return no;
         }
-        public Int16 boolToNumber(bool val)
+        public static Int16 boolToNumber(bool val)
         {
             if (val)
             {
@@ -1840,7 +1840,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return 0;
         }
-        public string boolToYES_NO(bool val)
+        public static string boolToYES_NO(bool val)
         {
             if (val)
             {
@@ -1848,7 +1848,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             return "NO";
         }
-        public string boolToImp(bool val)
+        public static string boolToImp(bool val)
         {
             if (val)
             {
@@ -1856,6 +1856,13 @@ namespace Procezor.PayrolexTest.Examples
             }
             return "0";
         }
-
+        public static TaxDeclSignOption TaxSigning(bool val)
+        {
+            return val ? TaxDeclSignOption.DECL_TAX_DO_SIGNED : TaxDeclSignOption.DECL_TAX_NO_SIGNED;
+        }
+        public static TaxNoneSignOption TaxSignNon(bool val)
+        {
+            return val ? TaxNoneSignOption.NOSIGN_TAX_ADVANCES : TaxNoneSignOption.NOSIGN_TAX_WITHHOLD;
+        }
     }
 }

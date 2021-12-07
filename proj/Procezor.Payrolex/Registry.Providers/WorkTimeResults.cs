@@ -9,7 +9,7 @@ using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     // PositionWorkPlan		POSITION_WORK_PLAN
-    class PositionWorkPlanResult : PayrolexTermResult
+    public class PositionWorkPlanResult : PayrolexTermResult
     {
         public WorkScheduleType WorkType { get; private set; }
         public Int32[] HoursFullWeeks { get; private set; }
@@ -38,7 +38,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTimePlan		POSITION_TIME_PLAN
-    class PositionTimePlanResult : PayrolexTermResult
+    public class PositionTimePlanResult : PayrolexTermResult
     {
         public Byte TermDayFrom { get; private set; }
         public Byte TermDayStop { get; private set; }
@@ -62,7 +62,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTimeWork		POSITION_TIME_WORK
-    class PositionTimeWorkResult : PayrolexTermResult
+    public class PositionTimeWorkResult : PayrolexTermResult
     {
         public Byte TermDayFrom { get; private set; }
         public Byte TermDayStop { get; private set; }
@@ -82,7 +82,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // PositionTimeAbsc		POSITION_TIME_ABSC
-    class PositionTimeAbscResult : PayrolexTermResult
+    public class PositionTimeAbscResult : PayrolexTermResult
     {
         public Byte TermDayFrom { get; private set; }
         public Byte TermDayStop { get; private set; }
@@ -102,7 +102,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // ContractTimePlan		CONTRACT_TIME_PLAN
-    class ContractTimePlanResult : PayrolexTermResult
+    public class ContractTimePlanResult : PayrolexTermResult
     {
         public Int32[] HoursTimeMonth { get; private set; }
         public ContractTimePlanResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
@@ -118,7 +118,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // ContractTimeWork		CONTRACT_TIME_WORK
-    class ContractTimeWorkResult : PayrolexTermResult
+    public class ContractTimeWorkResult : PayrolexTermResult
     {
         public Int32[] HoursTimeMonth { get; private set; }
         public ContractTimeWorkResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
@@ -128,13 +128,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalTimeMonth = HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"Total worked => {TotalTimeMonth}";
+            return $"Total worked => {TotalTimeMonth()}";
+        }
+        public Int32 TotalTimeMonth()
+        {
+            return HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 
     // ContractTimeAbsc		CONTRACT_TIME_ABSC
-    class ContractTimeAbscResult : PayrolexTermResult
+    public class ContractTimeAbscResult : PayrolexTermResult
     {
         public Int32[] HoursTimeMonth { get; private set; }
         public ContractTimeAbscResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
@@ -144,8 +147,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalTimeMonth = HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"Total absence => {TotalTimeMonth}";
+            return $"Total absence => {TotalTimeMonth()}";
+        }
+        public Int32 TotalTimeMonth()
+        {
+            return HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 
