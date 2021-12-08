@@ -774,7 +774,8 @@ namespace Procezor.PayrolexTest.Service
             string DanSlevaC	           = GetResultSelect<TaxingRebateChildResult>(results,
                 PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD, (x) => (x.ResultValue)); // DAN - SLEVA_C	            0
             string DanPoSleveC	           = ""; // DAN - PO_SLEVE_C	        945
-            string DanZaloha	           = ""; // DAN - ZALOHA	            945
+            string DanZaloha	           = GetResultSelect<TaxingBonusChildResult>(results,
+                PayrolexArticleConst.ARTICLE_TAXING_PAYM_ADVANCES, (x) => (x.ResultValue)); // DAN - ZALOHA	            945
             string DanBonus	               = GetResultSelect<TaxingBonusChildResult>(results,
                 PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD, (x) => (x.ResultValue)); // DAN - BONUS	                0
             string PrijemHruba	           = GetResultValue(results, PayrolexArticleConst.ARTICLE_INCOME_GROSS); // PRIJEM - HRUBA	           15000
