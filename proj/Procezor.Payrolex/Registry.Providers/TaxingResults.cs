@@ -342,5 +342,132 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
     }
+    // TaxingAllowancePayer		TAXING_ALLOWANCE_PAYER
+    public class TaxingAllowancePayerResult : PayrolexTermResult
+    {
+        public TaxDeclBenfOption BenefitApply { get; private set; }
+        public TaxingAllowancePayerResult(ITermTarget target, IArticleSpec spec,
+            TaxDeclBenfOption benefitApply, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+            BenefitApply = benefitApply;
+        }
+        public override string ResultMessage()
+        {
+            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
 
+    // TaxingAllowanceChild		TAXING_ALLOWANCE_CHILD
+    public class TaxingAllowanceChildResult : PayrolexTermResult
+    {
+        public TaxDeclBenfOption BenefitApply { get; private set; }
+        public Int32 BenefitDisab { get; private set; }
+        public Int32 BenefitOrder { get; private set; }
+        public TaxingAllowanceChildResult(ITermTarget target, IArticleSpec spec,
+            TaxDeclBenfOption benefitApply, Int32 benefitDisab, Int32 benefitOrder, 
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+            BenefitApply = benefitApply;
+            BenefitDisab = benefitDisab;
+            BenefitOrder = benefitOrder;
+        }
+        public override string ResultMessage()
+        {
+            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Disability: {this.BenefitDisab}, Order: {this.BenefitOrder}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TaxingAllowanceDisab		TAXING_ALLOWANCE_DISAB
+    public class TaxingAllowanceDisabResult : PayrolexTermResult
+    {
+        public TaxDeclDisabOption BenefitApply { get; private set; }
+        public TaxingAllowanceDisabResult(ITermTarget target, IArticleSpec spec,
+            TaxDeclDisabOption benefitApply, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+            BenefitApply = benefitApply;
+        }
+        public override string ResultMessage()
+        {
+            return $"Benefit: {Enum.GetName<TaxDeclDisabOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TaxingAllowanceStudy		TAXING_ALLOWANCE_STUDY
+    public class TaxingAllowanceStudyResult : PayrolexTermResult
+    {
+        public TaxDeclBenfOption BenefitApply { get; private set; }
+        public TaxingAllowanceStudyResult(ITermTarget target, IArticleSpec spec,
+            TaxDeclBenfOption benefitApply, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+            BenefitApply = benefitApply;
+        }
+        public override string ResultMessage()
+        {
+            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TaxingRebatePayer		TAXING_REBATE_PAYER
+    public class TaxingRebatePayerResult : PayrolexTermResult
+    {
+        public TaxingRebatePayerResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TaxingRebateChild		TAXING_REBATE_CHILD
+    public class TaxingRebateChildResult : PayrolexTermResult
+    {
+        public TaxingRebateChildResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TaxingBonusChild		TAXING_BONUS_CHILD
+    public class TaxingBonusChildResult : PayrolexTermResult
+    {
+        public TaxingBonusChildResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+    // TaxingPaymAdvances		TAXING_PAYM_ADVANCES
+    public class TaxingPaymAdvancesResult : PayrolexTermResult
+    {
+        public TaxingPaymAdvancesResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TaxingPaymWithhold		TAXING_PAYM_WITHHOLD
+    public class TaxingPaymWithholdResult : PayrolexTermResult
+    {
+        public TaxingPaymWithholdResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
 }

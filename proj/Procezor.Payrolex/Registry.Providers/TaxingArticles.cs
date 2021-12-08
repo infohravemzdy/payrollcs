@@ -423,5 +423,209 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Sums = new List<ArticleCode>();
         }
     }
+    // TaxingAllowancePayer		TAXING_ALLOWANCE_PAYER
+    class TaxingAllowancePayerArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_PAYER;
+        public TaxingAllowancePayerArtProv() : base(ARTICLE_CODE)
+        {
+        }
 
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowancePayerArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowancePayerArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_PAYER;
+        public TaxingAllowancePayerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingAllowanceChild		TAXING_ALLOWANCE_CHILD
+    class TaxingAllowanceChildArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_CHILD;
+        public TaxingAllowanceChildArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowanceChildArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowanceChildArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_CHILD;
+        public TaxingAllowanceChildArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingAllowanceDisab		TAXING_ALLOWANCE_DISAB
+    class TaxingAllowanceDisabArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_DISAB;
+        public TaxingAllowanceDisabArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowanceDisabArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowanceDisabArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_DISAB;
+        public TaxingAllowanceDisabArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingAllowanceStudy		TAXING_ALLOWANCE_STUDY
+    class TaxingAllowanceStudyArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_STUDY;
+        public TaxingAllowanceStudyArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowanceStudyArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowanceStudyArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_STUDY;
+        public TaxingAllowanceStudyArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingRebatePayer		TAXING_REBATE_PAYER
+    class TaxingRebatePayerArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER;
+        public TaxingRebatePayerArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingRebatePayerArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingRebatePayerArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_REBATE_PAYER;
+        public TaxingRebatePayerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingRebateChild		TAXING_REBATE_CHILD
+    class TaxingRebateChildArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD;
+        public TaxingRebateChildArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingRebateChildArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingRebateChildArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_REBATE_CHILD;
+        public TaxingRebateChildArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingBonusChild		TAXING_BONUS_CHILD
+    class TaxingBonusChildArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD;
+        public TaxingBonusChildArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingBonusChildArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingBonusChildArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_BONUS_CHILD;
+        public TaxingBonusChildArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+    // TaxingPaymAdvances		TAXING_PAYM_ADVANCES
+    class TaxingPaymAdvancesArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_PAYM_ADVANCES;
+        public TaxingPaymAdvancesArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingPaymAdvancesArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingPaymAdvancesArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_PAYM_ADVANCES;
+        public TaxingPaymAdvancesArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // TaxingPaymWithhold		TAXING_PAYM_WITHHOLD
+    class TaxingPaymWithholdArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_TAXING_PAYM_WITHHOLD;
+        public TaxingPaymWithholdArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingPaymWithholdArtSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingPaymWithholdArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_PAYM_WITHHOLD;
+        public TaxingPaymWithholdArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
 }

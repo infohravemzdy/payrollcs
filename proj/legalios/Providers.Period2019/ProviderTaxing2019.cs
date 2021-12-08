@@ -24,13 +24,13 @@ namespace HraveMzdy.Legalios.Providers
                 AllowanceChild3rd(period),
                 FactorAdvances(period),
                 FactorWithhold(period),
-                FactorSolitary(period),
+                FactorSolidary(period),
                 MinAmountOfTaxBonus(period),
                 MaxAmountOfTaxBonus(period),
                 MarginIncomeOfTaxBonus(period),
                 MarginIncomeOfRounding(period),
                 MarginIncomeOfWithhold(period),
-                MarginIncomeOfSolitary(period),
+                MarginIncomeOfSolidary(period),
                 MarginIncomeOfWthEmp(period),
                 MarginIncomeOfWthAgr(period));
         }
@@ -75,9 +75,9 @@ namespace HraveMzdy.Legalios.Providers
         {
             return HistoryConstTaxing2019.FACTOR_WITHHOLD;
         }
-        public decimal FactorSolitary(IPeriod period)
+        public decimal FactorSolidary(IPeriod period)
         {
-            return HistoryConstTaxing2019.FACTOR_SOLITARY;
+            return HistoryConstTaxing2019.FACTOR_SOLIDARY;
         }
         public Int32 MinAmountOfTaxBonus(IPeriod period)
         {
@@ -99,9 +99,9 @@ namespace HraveMzdy.Legalios.Providers
         {
             return HistoryConstTaxing2019.MARGIN_INCOME_OF_WITHHOLD;
         }
-        public Int32 MarginIncomeOfSolitary(IPeriod period)
+        public Int32 MarginIncomeOfSolidary(IPeriod period)
         {
-            return HistoryConstTaxing2019.MARGIN_INCOME_OF_SOLITARY;
+            return HistoryConstTaxing2019.MARGIN_INCOME_OF_SOLIDARY;
         }
         public Int32 MarginIncomeOfWthEmp(IPeriod period)
         {

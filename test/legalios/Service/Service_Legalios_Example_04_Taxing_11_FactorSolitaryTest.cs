@@ -12,7 +12,7 @@ using LegaliosTests;
 namespace LegaliosTest.Service
 {
     [Collection("TestEngine")]
-    public class Service_Legalios_Example_04_Taxing_11_FactorSolitaryTest : Service_Legalios_Example_TaxingTest
+    public class Service_Legalios_Example_04_Taxing_11_FactorSolidaryTest : Service_Legalios_Example_TaxingTest
     {
         private readonly IServiceLegalios _sut;
 
@@ -188,17 +188,17 @@ namespace LegaliosTest.Service
             }),
         };
         public static IEnumerable<object[]> TestData => GetTestDecData(_tests);
-        public Service_Legalios_Example_04_Taxing_11_FactorSolitaryTest()
+        public Service_Legalios_Example_04_Taxing_11_FactorSolidaryTest()
         {
             _sut = new ServiceLegalios();
 #if __PROTOKOL_TEST_FILE__
-            //04_Taxing_11_FactorSolitary
-            LogTestExamples("04_Taxing_11_FactorSolitary.txt", _tests);
+            //04_Taxing_11_FactorSolidary
+            LogTestExamples("04_Taxing_11_FactorSolidary.txt", _tests);
 #endif
         }
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GetBundle_ShouldReturnValid_FactorSolitary(string testTitle, string testName, Int16 testYear, Int16 testMonth, Int16 resultYear, Int16 resultMonth, Decimal resultValue)
+        public void GetBundle_ShouldReturnValid_FactorSolidary(string testTitle, string testName, Int16 testYear, Int16 testMonth, Int16 resultYear, Int16 resultMonth, Decimal resultValue)
         {
             var testPeriod = new Period(testYear, testMonth);
 
@@ -206,7 +206,7 @@ namespace LegaliosTest.Service
 
             ShoulBeValidBundle(testResult, resultYear, resultMonth);
 
-            testResult.Value.TaxingProps.FactorSolitary.Should().Be(resultValue, "Because Period: {0} - {1}", testTitle, testName);
+            testResult.Value.TaxingProps.FactorSolidary.Should().Be(resultValue, "Because Period: {0} - {1}", testTitle, testName);
         }
     }
 }

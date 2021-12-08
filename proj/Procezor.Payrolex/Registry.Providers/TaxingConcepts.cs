@@ -979,21 +979,20 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             return BuildOkResults(resultsValues);
         }
 
-        private int TaxAdvancesRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
+        private Int32 TaxAdvancesRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
         {
             Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
 
             Int32 advanceBase = 0;
             Int32 amountForCalc = Math.Max(0, taxableSuper);
-            if (amountForCalc > marginIncomeOfRounding)
-            {
-                advanceBase = OperationsTaxing.IntTaxRoundNearUp(amountForCalc, 100);
-            }
-            else
+            if (amountForCalc <= marginIncomeOfRounding)
             {
                 advanceBase = OperationsTaxing.IntTaxRoundUp(amountForCalc);
             }
-
+            else
+            {
+                advanceBase = OperationsTaxing.IntTaxRoundNearUp(amountForCalc, 100);
+            }
             return advanceBase;
         }
     }
@@ -1038,6 +1037,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
             var resTarget = GetTypedTarget<TaxingSolidaryBasisTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1045,9 +1051,36 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingSolidaryBasisTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TaxingSolidaryBasisResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            var resBaseVal = GetContractResult<TaxingAdvancesBasisResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS));
+
+            if (resBaseVal.IsFailure)
+            {
+                return BuildFailResults(resBaseVal.Error);
+            }
+
+            var evalBaseVal = resBaseVal.Value;
+
+            Int32 taxableSuper = evalBaseVal.ResultBasis;
+
+            Int32 solidaryBase = TaxSolidaryRoundedBase(taxingRules, taxableSuper);
+
+            ITermResult resultsValues = new TaxingSolidaryBasisResult(target, spec, solidaryBase, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
+        }
+        private Int32 TaxSolidaryRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
+        {
+            Int32 marginIncomeOfSolidary = taxingRules.MarginIncomeOfSolidary;
+            Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
+
+            Int32 solidaryBase = 0;
+            Int32 taxableIncome = Math.Max(0, taxableSuper);
+            if (marginIncomeOfSolidary != 0)
+            {
+                solidaryBase = Math.Max(0, taxableIncome - marginIncomeOfSolidary);
+            }
+            return solidaryBase;
         }
     }
 
@@ -1091,6 +1124,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
             var resTarget = GetTypedTarget<TaxingAdvancesTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1098,9 +1138,42 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAdvancesTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            var resBaseVal = GetContractResult<TaxingAdvancesBasisResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS));
+
+            if (resBaseVal.IsFailure)
+            {
+                return BuildFailResults(resBaseVal.Error);
+            }
+
+            var evalBaseVal = resBaseVal.Value;
+
+            Int32 advanceSuper = evalBaseVal.ResultValue;
+
+            Int32 advanceBasis = evalBaseVal.ResultValue;
+
+            Int32 advancePaym = TaxAdvancesRoundedPaym(taxingRules, advanceSuper, advanceBasis);
+
+            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
+        }
+        private Int32 TaxAdvancesRoundedPaym(IPropsTaxing taxingRules, Int32 taxableIncome, Int32 taxableBasis)
+        {
+            Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
+            decimal factorAdvances = OperationsDec.Divide(taxingRules.FactorAdvances, 100);
+
+            Int32 advanceTaxing = 0;
+            if (taxableBasis <= marginIncomeOfRounding)
+            {
+                advanceTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(taxableBasis, factorAdvances));
+            }
+            else
+            {
+                advanceTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(taxableBasis, factorAdvances));
+            }
+
+            return advanceTaxing;
         }
     }
 
@@ -1144,6 +1217,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
             var resTarget = GetTypedTarget<TaxingSolidaryTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1151,9 +1231,40 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingSolidaryTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TaxingSolidaryResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            var resBaseVal = GetContractResult<TaxingSolidaryBasisResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SOLIDARY_BASIS));
 
-            return BuildOkResults(resultsValues);
+            if (resBaseVal.IsFailure)
+            {
+                return BuildFailResults(resBaseVal.Error);
+            }
+
+            var evalBaseVal = resBaseVal.Value;
+
+            Int32 solidaryBasis = evalBaseVal.ResultValue;
+
+            Int32 solidaryPaym = TaxSolidaryRoundedPaym(taxingRules, solidaryBasis);
+
+            if (solidaryPaym != 0)
+            {
+                ITermResult resultsValues = new TaxingSolidaryResult(target, spec, solidaryPaym, 0, DESCRIPTION_EMPTY);
+
+                return BuildOkResults(resultsValues);
+            }
+            return BuildEmptyResults();
+        }
+        private Int32 TaxSolidaryRoundedPaym(IPropsTaxing taxingRules, Int32 solidaryBasis)
+        {
+            Int32 marginIncomeOfSolidary = taxingRules.MarginIncomeOfSolidary;
+            decimal factorSolidary = OperationsDec.Divide(taxingRules.FactorSolidary, 100);
+
+            Int32 solidaryTaxing = 0;
+            if (marginIncomeOfSolidary != 0)
+            {
+                solidaryTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(solidaryBasis, factorSolidary));
+            }
+
+            return solidaryTaxing;
         }
     }
 
@@ -1205,7 +1316,33 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAdvancesTotalTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            var advancesList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES))
+               .Select((x) => (x as TaxingAdvancesResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal advancesSum = advancesList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 advancesTaxing = RoundingInt.RoundToInt(advancesSum);
+
+            var solidaryList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_SOLIDARY))
+               .Select((x) => (x as TaxingSolidaryResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal solidarySum = solidaryList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 solidaryTaxing = RoundingInt.RoundToInt(solidarySum);
+
+            Int32 advancesTotals = (advancesTaxing + solidaryTaxing);
+
+            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -1611,6 +1748,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
             var resTarget = GetTypedTarget<TaxingWithholdBasisTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1654,11 +1798,20 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 socialRes = RoundingInt.RoundToInt(socialSum);
 
-            Int32 withholdBase = incomeRes + healthRes + socialRes;
+            Int32 taxableSuper = incomeRes + healthRes + socialRes;
+
+            Int32 withholdBase = TaxWithholdRoundedBase(taxingRules, taxableSuper);
 
             ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
+        }
+        private Int32 TaxWithholdRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
+        {
+            Int32 amountForCalc = Math.Max(0, taxableSuper);
+            Int32 withholdBase = OperationsTaxing.IntTaxRoundDown(amountForCalc);
+
+            return withholdBase;
         }
     }
 
@@ -1702,6 +1855,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
             var resTarget = GetTypedTarget<TaxingWithholdTotalTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1709,10 +1869,811 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingWithholdTotalTarget evalTarget = resTarget.Value;
 
+            var resBaseVal = GetContractResult<TaxingWithholdBasisResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_BASIS));
+
+            if (resBaseVal.IsFailure)
+            {
+                return BuildFailResults(resBaseVal.Error);
+            }
+
+            var evalBaseVal = resBaseVal.Value;
+
+            Int32 withholdBasis = evalBaseVal.ResultBasis;
+
             ITermResult resultsValues = new TaxingWithholdTotalResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+        private Int32 TaxWithholdRoundedPaym(IPropsTaxing taxingRules, Int32 withholdBasis)
+        {
+            decimal factorWithhold = OperationsDec.Divide(taxingRules.FactorWithhold, 100);
+
+            Int32 withholdTaxing = 0;
+            if (withholdTaxing != 0)
+            {
+                withholdTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(withholdBasis, factorWithhold));
+            }
+            return withholdTaxing;
+        }
+    }
+    // TaxingAllowancePayer			TAXING_ALLOWANCE_PAYER
+    class TaxingAllowancePayerConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_PAYER;
+        public TaxingAllowancePayerConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowancePayerConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowancePayerConSpec : PayrolexConceptSpec
+    {
+        public TaxingAllowancePayerConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            return Array.Empty<ITermTarget>();
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            Int32 allowancePayer = taxingRules.AllowancePayer;
+
+            var resTarget = GetTypedTarget<TaxingAllowancePayerTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAllowancePayerTarget evalTarget = resTarget.Value;
+
+            Int32 benefitValue = 0;
+            if (evalTarget.BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
+            {
+                benefitValue = allowancePayer;
+            }
+
+            ITermResult resultsValues = new TaxingAllowancePayerResult(target, spec,
+                evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
     }
 
+    // TaxingAllowanceChild			TAXING_ALLOWANCE_CHILD
+    class TaxingAllowanceChildConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_CHILD;
+        public TaxingAllowanceChildConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowanceChildConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowanceChildConSpec : PayrolexConceptSpec
+    {
+        public TaxingAllowanceChildConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            return Array.Empty<ITermTarget>();
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            Int32 allowanceChild1 = taxingRules.AllowanceChild1st;
+            Int32 allowanceChild2 = taxingRules.AllowanceChild2nd;
+            Int32 allowanceChild3 = taxingRules.AllowanceChild3rd;
+
+            var resTarget = GetTypedTarget<TaxingAllowanceChildTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAllowanceChildTarget evalTarget = resTarget.Value;
+
+            Int32 benefitUnits = 0;
+            switch (evalTarget.BenefitOrder)
+            {
+                case 0:
+                    benefitUnits = allowanceChild1;
+                    break;
+                case 1:
+                    benefitUnits = allowanceChild1;
+                    break;
+                case 2:
+                    benefitUnits = allowanceChild2;
+                    break;
+                case 3:
+                    benefitUnits = allowanceChild3;
+                    break;
+            }
+            Int32 benefitValue = 0;
+            if (evalTarget.BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
+            {
+                if (evalTarget.BenefitDisab == 1)
+                {
+                    benefitValue = benefitUnits * 2;
+                }
+                else
+                {
+                    benefitValue = benefitUnits;
+                }
+            }
+
+            ITermResult resultsValues = new TaxingAllowanceChildResult(target, spec,
+                evalTarget.BenefitApply, evalTarget.BenefitDisab, evalTarget.BenefitOrder, benefitValue, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // TaxingAllowanceDisab			TAXING_ALLOWANCE_DISAB
+    class TaxingAllowanceDisabConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_DISAB;
+        public TaxingAllowanceDisabConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowanceDisabConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowanceDisabConSpec : PayrolexConceptSpec
+    {
+        public TaxingAllowanceDisabConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            return Array.Empty<ITermTarget>();
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            Int32 allowanceDisab1 = taxingRules.AllowanceDisab1st;
+            Int32 allowanceDisab2 = taxingRules.AllowanceDisab2nd;
+            Int32 allowanceDisab3 = taxingRules.AllowanceDisab3rd;
+
+            var resTarget = GetTypedTarget<TaxingAllowanceDisabTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAllowanceDisabTarget evalTarget = resTarget.Value;
+
+            Int32 benefitValue = 0;
+            switch (evalTarget.BenefitApply)
+            {
+                case TaxDeclDisabOption.DECL_TAX_DISAB1:
+                    benefitValue = allowanceDisab1;
+                    break;
+                case TaxDeclDisabOption.DECL_TAX_DISAB2:
+                    benefitValue = allowanceDisab2;
+                    break;
+                case TaxDeclDisabOption.DECL_TAX_DISAB3:
+                    benefitValue = allowanceDisab3;
+                    break;
+            }
+
+            ITermResult resultsValues = new TaxingAllowanceDisabResult(target, spec,
+                evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // TaxingAllowanceStudy			TAXING_ALLOWANCE_STUDY
+    class TaxingAllowanceStudyConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_STUDY;
+        public TaxingAllowanceStudyConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingAllowanceStudyConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingAllowanceStudyConSpec : PayrolexConceptSpec
+    {
+        public TaxingAllowanceStudyConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            return Array.Empty<ITermTarget>();
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            Int32 allowanceStudy = taxingRules.AllowanceStudy;
+
+            var resTarget = GetTypedTarget<TaxingAllowanceStudyTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAllowanceStudyTarget evalTarget = resTarget.Value;
+
+            Int32 benefitValue = 0;
+            if (evalTarget.BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
+            {
+                benefitValue = allowanceStudy;
+            }
+
+            ITermResult resultsValues = new TaxingAllowanceStudyResult(target, spec, 
+                evalTarget.BenefitApply, 0, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // TaxingRebatePayer			TAXING_REBATE_PAYER
+    class TaxingRebatePayerConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_REBATE_PAYER;
+        public TaxingRebatePayerConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingRebatePayerConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingRebatePayerConSpec : PayrolexConceptSpec
+    {
+        public TaxingRebatePayerConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_PAYER,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_DISAB,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_STUDY,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingRebatePayerTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<TaxingRebatePayerTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingRebatePayerTarget evalTarget = resTarget.Value;
+
+            var resAdvancesTotal = GetContractResult<TaxingAdvancesTotalResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL));
+
+            if (resAdvancesTotal.IsFailure)
+            {
+                return BuildFailResults(resAdvancesTotal.Error);
+            }
+
+            var evalAdvancesTotal = resAdvancesTotal.Value;
+
+            var rebatePayerList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_PAYER))
+               .Select((x) => (x as TaxingAllowancePayerResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal rebatePayerSum = rebatePayerList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            var rebateDisabList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_DISAB))
+               .Select((x) => (x as TaxingAllowanceDisabResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal rebateDisabSum = rebateDisabList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            var rebateStudyList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_STUDY))
+               .Select((x) => (x as TaxingAllowanceStudyResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal rebateStudySum = rebateStudyList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 allowancePayer = RoundingInt.RoundToInt(rebatePayerSum);
+            Int32 allowanceDisab = RoundingInt.RoundToInt(rebateDisabSum);
+            Int32 allowanceStudy = RoundingInt.RoundToInt(rebateStudySum);
+
+            Int32 advancesTotal = evalAdvancesTotal.ResultValue;
+
+            Int32 taxPayerRebat = TaxPayerRebate(advancesTotal, allowancePayer + allowanceDisab + allowanceStudy, 0);
+
+            ITermResult resultsValues = new TaxingRebatePayerResult(target, spec, taxPayerRebat, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+        private Int32 TaxPayerRebate(Int32 taxingBasis, Int32 taxingAllow, Int32 taxingRebat)
+        {
+            decimal taxAfterRebat = decimal.Subtract(taxingBasis, taxingRebat);
+            decimal taxRebatValue = decimal.Subtract(taxingAllow,
+                Math.Max(0m, decimal.Subtract(taxingAllow, taxAfterRebat)));
+
+            return RoundingInt.RoundToInt(taxRebatValue);
+        }
+    }
+
+    // TaxingRebateChild			TAXING_REBATE_CHILD
+    class TaxingRebateChildConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_REBATE_CHILD;
+        public TaxingRebateChildConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingRebateChildConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingRebateChildConSpec : PayrolexConceptSpec
+    {
+        public TaxingRebateChildConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_CHILD,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingRebateChildTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<TaxingRebateChildTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingRebateChildTarget evalTarget = resTarget.Value;
+
+            var resAdvancesTotal = GetContractResult<TaxingAdvancesTotalResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL));
+
+            if (resAdvancesTotal.IsFailure)
+            {
+                return BuildFailResults(resAdvancesTotal.Error);
+            }
+
+            var evalAdvancesTotal = resAdvancesTotal.Value;
+
+            var resRebPayerTotal = GetContractResult<TaxingRebatePayerResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER));
+
+            if (resRebPayerTotal.IsFailure)
+            {
+                return BuildFailResults(resRebPayerTotal.Error);
+            }
+
+            var evalRebPayerTotal = resRebPayerTotal.Value;
+
+            var rebateChildList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_CHILD))
+               .Select((x) => (x as TaxingAllowanceChildResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal rebateChildSum = rebateChildList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 allowanceChild = RoundingInt.RoundToInt(rebateChildSum);
+
+            Int32 rebPayerTotal = evalRebPayerTotal.ResultValue;
+
+            Int32 advancesTotal = evalAdvancesTotal.ResultValue;
+
+            Int32 taxChildRebat = TaxChildRebate(advancesTotal, allowanceChild, rebPayerTotal);
+
+            ITermResult resultsValues = new TaxingRebateChildResult(target, spec, taxChildRebat, allowanceChild, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+        private Int32 TaxChildRebate(Int32 taxingBasis, Int32 taxingAllow, Int32 taxingRebat)
+        {
+            decimal taxAfterRebat = decimal.Subtract(taxingBasis, taxingRebat);
+            decimal taxRebatValue = decimal.Subtract(taxingAllow,
+                Math.Max(0m, decimal.Subtract(taxingAllow, taxAfterRebat)));
+
+            return RoundingInt.RoundToInt(taxRebatValue);
+        }
+    }
+
+    // TaxingBonusChild			TAXING_BONUS_CHILD
+    class TaxingBonusChildConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_BONUS_CHILD;
+        public TaxingBonusChildConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingBonusChildConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingBonusChildConSpec : PayrolexConceptSpec
+    {
+        public TaxingBonusChildConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_CHILD,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingBonusChildTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingBonusChildTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingBonusChildTarget evalTarget = resTarget.Value;
+
+            var resAdvancesTotal = GetContractResult<TaxingAdvancesTotalResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL));
+
+            if (resAdvancesTotal.IsFailure)
+            {
+                return BuildFailResults(resAdvancesTotal.Error);
+            }
+
+            var evalAdvancesTotal = resAdvancesTotal.Value;
+
+            var resRebPayerTotal = GetContractResult<TaxingRebatePayerResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER));
+
+            if (resRebPayerTotal.IsFailure)
+            {
+                return BuildFailResults(resRebPayerTotal.Error);
+            }
+
+            var evalRebPayerTotal = resRebPayerTotal.Value;
+
+            var resRebChildTotal = GetContractResult<TaxingRebateChildResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD));
+
+            if (resRebChildTotal.IsFailure)
+            {
+                return BuildFailResults(resRebChildTotal.Error);
+            }
+
+            var evalRebChildTotal = resRebChildTotal.Value;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 rebateChild = evalRebChildTotal.ResultValue;
+            Int32 summarChild = evalRebChildTotal.ResultBasis;
+
+            Int32 incomeTaxs = RoundingInt.RoundToInt(incomeSum);
+
+            Int32 bonusValue = RoundingInt.RoundToInt(BonusAfterRebate(taxingRules, incomeTaxs, summarChild, rebateChild));
+
+            ITermResult resultsValues = new TaxingBonusChildResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+        private decimal BonusAfterRebate(IPropsTaxing taxingRules, Int32 taxingBasis, Int32 childAllow, Int32 childRebat)
+        {
+            Int32 marIncomeOfTaxBonus = taxingRules.MarginIncomeOfTaxBonus;
+
+            decimal bonusForChild = decimal.Negate(Math.Min(0, childRebat - childAllow));
+
+            if (taxingBasis < marIncomeOfTaxBonus)
+            {
+                bonusForChild = 0;
+            }
+            return MaxMinBonus(taxingRules, taxingBasis, bonusForChild);
+        }
+        private decimal MaxMinBonus(IPropsTaxing taxingRules, Int32 taxingBasis, decimal taxChildBonus)
+        {
+            Int32 minAmountOfTaxBonus = taxingRules.MinAmountOfTaxBonus;
+            Int32 maxAmountOfTaxBonus = taxingRules.MaxAmountOfTaxBonus;
+
+            if (taxChildBonus < minAmountOfTaxBonus)
+            {
+                return 0m;
+            }
+            else if (taxChildBonus > maxAmountOfTaxBonus)
+            {
+                return maxAmountOfTaxBonus;
+            }
+            else
+            {
+                return taxChildBonus;
+            }
+        }
+    }
+    // TaxingPaymAdvances			TAXING_PAYM_ADVANCES
+    class TaxingPaymAdvancesConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_PAYM_ADVANCES;
+        public TaxingPaymAdvancesConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingPaymAdvancesConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingPaymAdvancesConSpec : PayrolexConceptSpec
+    {
+        public TaxingPaymAdvancesConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingPaymAdvancesTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<TaxingPaymAdvancesTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingPaymAdvancesTarget evalTarget = resTarget.Value;
+
+            var resAdvancesTotal = GetContractResult<TaxingAdvancesTotalResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL));
+
+            if (resAdvancesTotal.IsFailure)
+            {
+                return BuildFailResults(resAdvancesTotal.Error);
+            }
+
+            var evalAdvancesTotal = resAdvancesTotal.Value;
+
+            var rebatePayerList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_PAYER))
+               .Select((x) => (x as TaxingRebatePayerResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal rebatePayerSum = rebatePayerList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 rebatePayer = RoundingInt.RoundToInt(rebatePayerSum);
+
+            var rebateChildList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD))
+               .Select((x) => (x as TaxingRebateChildResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal rebateChildSum = rebateChildList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 rebateChild = RoundingInt.RoundToInt(rebateChildSum);
+
+            Int32 advancesPayment = (evalAdvancesTotal.ResultValue - rebatePayer - rebateChild);
+
+            ITermResult resultsValues = new TaxingPaymAdvancesResult(target, spec, advancesPayment, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // TaxingPaymWithhold			TAXING_PAYM_WITHHOLD
+    class TaxingPaymWithholdConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_PAYM_WITHHOLD;
+        public TaxingPaymWithholdConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TaxingPaymWithholdConSpec(this.Code.Value);
+        }
+    }
+
+    class TaxingPaymWithholdConSpec : PayrolexConceptSpec
+    {
+        public TaxingPaymWithholdConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_TOTAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingPaymWithholdTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<TaxingPaymWithholdTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingPaymWithholdTarget evalTarget = resTarget.Value;
+
+            var resWithholdTotal = GetContractResult<TaxingWithholdTotalResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_TOTAL));
+
+            if (resWithholdTotal.IsFailure)
+            {
+                return BuildFailResults(resWithholdTotal.Error);
+            }
+
+            var evalWithholdTotal = resWithholdTotal.Value;
+
+            Int32 withholdPayment = evalWithholdTotal.ResultValue;
+
+            ITermResult resultsValues = new TaxingPaymWithholdResult(target, spec, withholdPayment, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
 }

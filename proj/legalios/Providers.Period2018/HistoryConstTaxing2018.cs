@@ -23,7 +23,7 @@ namespace HraveMzdy.Legalios.Providers.Period2018
     //
     // FACTOR_WITHHOLD                  Sazba daně na srážkový příjem
     //
-    // FACTOR_SOLITARY                  Sazba daně na solidární zvýšení
+    // FACTOR_SOLIDARY                  Sazba daně na solidární zvýšení
     //
     // MIN_AMOUNT_OF_TAXBONUS           Minimální částka pro daňový bonus
     //
@@ -35,7 +35,7 @@ namespace HraveMzdy.Legalios.Providers.Period2018
     //
     // MARGIN_INCOME_OF_WITHHOLD        Maximální výše příjmu pro srážkový příjem
     //
-    // MARGIN_INCOME_OF_SOLITARY        Minimální výše příjmu pro solidární zvýšení daně
+    // MARGIN_INCOME_OF_SOLIDARY        Minimální výše příjmu pro solidární zvýšení daně
     //
     // MARGIN_INCOME_OF_WHT_AGR         hranice příjmu pro srážkovou daň pro zaměstnace v pracovním poměru (nepodepsal prohlášení)
     //
@@ -54,13 +54,13 @@ namespace HraveMzdy.Legalios.Providers.Period2018
         public const Int32 ALLOWANCE_CHILD_3RD = HistoryConstTaxing2017var07.ALLOWANCE_CHILD_3RD;
         public const decimal FACTOR_ADVANCES = HistoryConstTaxing2017.FACTOR_ADVANCES;
         public const decimal FACTOR_WITHHOLD = HistoryConstTaxing2017.FACTOR_WITHHOLD;
-        public const decimal FACTOR_SOLITARY = HistoryConstTaxing2017.FACTOR_SOLITARY;
+        public const decimal FACTOR_SOLIDARY = HistoryConstTaxing2017.FACTOR_SOLIDARY;
         public const Int32 MIN_AMOUNT_OF_TAXBONUS = HistoryConstTaxing2017.MIN_AMOUNT_OF_TAXBONUS;
         public const Int32 MAX_AMOUNT_OF_TAXBONUS = HistoryConstTaxing2017.MAX_AMOUNT_OF_TAXBONUS;
         public const Int32 MARGIN_INCOME_OF_TAXBONUS = (HistoryConstSalary2018.MIN_MONTHLY_WAGE / 2);
         public const Int32 MARGIN_INCOME_OF_ROUNDING = HistoryConstTaxing2017.MARGIN_INCOME_OF_ROUNDING;
         public const Int32 MARGIN_INCOME_OF_WITHHOLD = HistoryConstTaxing2017.MARGIN_INCOME_OF_WITHHOLD;
-        public const Int32 MARGIN_INCOME_OF_SOLITARY = (4 * 29979);
+        public const Int32 MARGIN_INCOME_OF_SOLIDARY = (4 * 29979);
         public const Int32 MARGIN_INCOME_OF_WHT_EMP = 2500;
         public const Int32 MARGIN_INCOME_OF_WHT_AGR = HistoryConstTaxing2017.MARGIN_INCOME_OF_WHT_AGR;
     }

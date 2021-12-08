@@ -22,7 +22,7 @@ namespace HraveMzdy.Legalios.Providers.Period2011
     //
     // FACTOR_WITHHOLD                  Sazba daně na srážkový příjem
     //
-    // FACTOR_SOLITARY                  Sazba daně na solidární zvýšení
+    // FACTOR_SOLIDARY                  Sazba daně na solidární zvýšení
     //
     // MIN_AMOUNT_OF_TAXBONUS           Minimální částka pro daňový bonus
     //
@@ -34,7 +34,7 @@ namespace HraveMzdy.Legalios.Providers.Period2011
     //
     // MARGIN_INCOME_OF_WITHHOLD        Maximální výše příjmu pro srážkový příjem
     //
-    // MARGIN_INCOME_OF_SOLITARY        Minimální výše příjmu pro solidární zvýšení daně
+    // MARGIN_INCOME_OF_SOLIDARY        Minimální výše příjmu pro solidární zvýšení daně
     //
     // MARGIN_INCOME_OF_WHT_AGR         hranice příjmu pro srážkovou daň pro zaměstnace v pracovním poměru (nepodepsal prohlášení)
     //
@@ -53,13 +53,13 @@ namespace HraveMzdy.Legalios.Providers.Period2011
         public const Int32 ALLOWANCE_CHILD_3RD = 967;
         public const decimal FACTOR_ADVANCES = 15;
         public const decimal FACTOR_WITHHOLD = 15;
-        public const decimal FACTOR_SOLITARY = 0;
+        public const decimal FACTOR_SOLIDARY = 0;
         public const Int32 MIN_AMOUNT_OF_TAXBONUS = 50;
         public const Int32 MAX_AMOUNT_OF_TAXBONUS = 4350;
         public const Int32 MARGIN_INCOME_OF_TAXBONUS = (HistoryConstSalary2011.MIN_MONTHLY_WAGE / 2);
         public const Int32 MARGIN_INCOME_OF_ROUNDING = 100;
         public const Int32 MARGIN_INCOME_OF_WITHHOLD = 5000;
-        public const Int32 MARGIN_INCOME_OF_SOLITARY = 0;
+        public const Int32 MARGIN_INCOME_OF_SOLIDARY = 0;
         public const Int32 MARGIN_INCOME_OF_WHT_EMP = 0;
         public const Int32 MARGIN_INCOME_OF_WHT_AGR = 0;
     }

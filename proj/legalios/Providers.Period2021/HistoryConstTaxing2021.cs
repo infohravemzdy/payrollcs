@@ -23,7 +23,7 @@ namespace HraveMzdy.Legalios.Providers.Period2021
     //
     // FACTOR_WITHHOLD                  Sazba daně na srážkový příjem
     //
-    // FACTOR_SOLITARY                  Sazba daně na solidární zvýšení
+    // FACTOR_SOLIDARY                  Sazba daně na solidární zvýšení
     //
     // MIN_AMOUNT_OF_TAXBONUS           Minimální částka pro daňový bonus
     //
@@ -35,7 +35,7 @@ namespace HraveMzdy.Legalios.Providers.Period2021
     //
     // MARGIN_INCOME_OF_WITHHOLD        Maximální výše příjmu pro srážkový příjem
     //
-    // MARGIN_INCOME_OF_SOLITARY        Minimální výše příjmu pro solidární zvýšení daně
+    // MARGIN_INCOME_OF_SOLIDARY        Minimální výše příjmu pro solidární zvýšení daně
     //
     // MARGIN_INCOME_OF_WHT_AGR         hranice příjmu pro srážkovou daň pro zaměstnace v pracovním poměru (nepodepsal prohlášení)
     //
@@ -56,13 +56,13 @@ namespace HraveMzdy.Legalios.Providers.Period2021
         public const Int32 SETTLEMENT_CHILD_3RD = 2320;
         public const decimal FACTOR_ADVANCES = HistoryConstTaxing2020.FACTOR_ADVANCES;
         public const decimal FACTOR_WITHHOLD = HistoryConstTaxing2020.FACTOR_WITHHOLD;
-        public const decimal FACTOR_SOLITARY = 0m;
+        public const decimal FACTOR_SOLIDARY = 0m;
         public const Int32 MIN_AMOUNT_OF_TAXBONUS = HistoryConstTaxing2020.MIN_AMOUNT_OF_TAXBONUS;
         public const Int32 MAX_AMOUNT_OF_TAXBONUS = HistoryConstTaxing2020.MAX_AMOUNT_OF_TAXBONUS;
         public const Int32 MARGIN_INCOME_OF_TAXBONUS = (HistoryConstSalary2021.MIN_MONTHLY_WAGE / 2);
         public const Int32 MARGIN_INCOME_OF_ROUNDING = HistoryConstTaxing2020.MARGIN_INCOME_OF_ROUNDING;
         public const Int32 MARGIN_INCOME_OF_WITHHOLD = HistoryConstTaxing2020.MARGIN_INCOME_OF_WITHHOLD;
-        public const Int32 MARGIN_INCOME_OF_SOLITARY = 0;
+        public const Int32 MARGIN_INCOME_OF_SOLIDARY = 0;
         public const Int32 MARGIN_INCOME_OF_WHT_EMP = 3500;
         public const Int32 MARGIN_INCOME_OF_WHT_AGR = HistoryConstTaxing2020.MARGIN_INCOME_OF_WHT_AGR;
     }

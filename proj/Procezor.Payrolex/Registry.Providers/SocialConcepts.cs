@@ -356,11 +356,15 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
+            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-
-            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
-
-            return ter.Select((t) => (new SocialBaseOvercapTarget(month, t.Contract, pos, var, article, this.Code, 0)));
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new SocialBaseOvercapTarget(month, con, pos, var, article, this.Code, 0),
+            };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
@@ -381,28 +385,81 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             SocialBaseOvercapTarget evalTarget = resTarget.Value;
 
-            var resBaseVal = GetContractResult<SocialBaseResult>(target, period, results,
-                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE));
+            var incomeContractList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE))
+                .Select((tr) => (tr.Contract, tr.ResultValue)).ToArray();
 
-            if (resBaseVal.IsFailure)
+            var incomeResultInit = Array.Empty<SocialBaseOvercapResult>();
+            var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
             {
-                return BuildFailResults(resBaseVal.Error);
+                var resSocialDeclare = GetContractResult<SocialDeclareResult>(target, period, results,
+                    x.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE));
+
+                if (resSocialDeclare.IsFailure)
+                {
+                    return agr;
+                }
+
+                var evalSocialDeclare = resSocialDeclare.Value;
+
+                var evalSubjectsType = evalSocialDeclare.ContractType;
+
+                var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                if (contractResult == null)
+                {
+                    contractResult = new SocialBaseOvercapResult(evalTarget, x.Contract, spec,
+                        evalSubjectsType, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                    agr = agr.Concat(new SocialBaseOvercapResult[] { contractResult }).ToArray();
+                }
+                contractResult.AddResultBasis(x.ResultValue);
+                return agr;
+            });
+
+            var incomeOrdersList = incomeResultList.OrderBy((x) => new SocialBaseOvercapComparator()).ToArray();
+
+            Int32 perAnnuityBasis = 0;
+            Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
+            var resultOrdersInit = new Tuple<Int32, Int32, SocialBaseOvercapResult[]>(
+                maxAnnualsBasis, perAnnualsBasis, Array.Empty<SocialBaseOvercapResult>());
+
+            var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
+                (agr, x) => {
+                    Int32 ovrAnnualsBasis = 0;
+                    Int32 cutAnnualsBasis = x.ResultBasis;
+                    if (agr.Item1 > 0)
+                    {
+                        ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
+                        cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
+                    }
+
+                    if (ovrAnnualsBasis > 0)
+                    {
+                        Int32 remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+
+                        x.SetResultValue(ovrAnnualsBasis);
+
+                        return new Tuple<Int32, Int32, SocialBaseOvercapResult[]>(
+                            agr.Item1, remAnnualsBasis, agr.Item3.Concat(new SocialBaseOvercapResult[] { x }).ToArray());
+                    }
+                    return new Tuple<Int32, Int32, SocialBaseOvercapResult[]>(agr.Item1, agr.Item2, agr.Item3);
+                });
+
+            return BuildOkResults(resultOrdersList.Item3);
+        }
+        private class SocialBaseOvercapComparator : IComparer<SocialBaseOvercapResult>
+        {
+            public SocialBaseOvercapComparator()
+            {
             }
 
-            var evalBaseVal = resBaseVal.Value;
-
-            Int32 resAnnuityBase = 0;
-            if (maxAnnualsBasis > 0)
+            public int Compare(SocialBaseOvercapResult x, SocialBaseOvercapResult y)
             {
-                resAnnuityBase = Math.Max(0, (evalBaseVal.AnnuityBase + evalBaseVal.ResultValue) - maxAnnualsBasis);
-            }
+                Int32 xIncomeScore = x.IncomeScore();
+                Int32 yIncomeScore = y.IncomeScore();
 
-            if (resAnnuityBase > 0)
-            {
-                ITermResult resultsValues = new SocialBaseOvercapResult(target, spec, resAnnuityBase, 0, DESCRIPTION_EMPTY);
-                return BuildOkResults(resultsValues);
+                return xIncomeScore.CompareTo(yIncomeScore);
             }
-            return BuildEmptyResults();
         }
     }
 

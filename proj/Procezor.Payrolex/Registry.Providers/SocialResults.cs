@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Procezor.Service.Types;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
@@ -80,12 +81,39 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // SocialBaseOvercap		SOCIAL_BASE_OVERCAP
     public class SocialBaseOvercapResult : PayrolexTermResult
     {
-        public SocialBaseOvercapResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public WorkSocialTerms SubjectType { get; private set; }
+        public SocialBaseOvercapResult(ITermTarget target, ContractCode con, IArticleSpec spec,
+            WorkSocialTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            SubjectType = subjectType;
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkSocialTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 IncomeScore()
+        {
+            Int32 resultBase = 0;
+            Int32 resultType = 0;
+            switch (SubjectType)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    resultType = 900;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    resultType = 100;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    resultType = 500;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    resultType = 0;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    resultType = 0;
+                    break;
+            }
+            return resultType + resultBase;
         }
     }
 

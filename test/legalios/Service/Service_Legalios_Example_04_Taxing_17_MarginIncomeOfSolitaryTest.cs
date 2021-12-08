@@ -12,7 +12,7 @@ using LegaliosTests;
 namespace LegaliosTest.Service
 {
     [Collection("TestEngine")]
-    public class Service_Legalios_Example_04_Taxing_17_MarginIncomeOfSolitaryTest : Service_Legalios_Example_TaxingTest
+    public class Service_Legalios_Example_04_Taxing_17_MarginIncomeOfSolidaryTest : Service_Legalios_Example_TaxingTest
     {
         private readonly IServiceLegalios _sut;
 
@@ -188,17 +188,17 @@ namespace LegaliosTest.Service
             }),
         };
         public static IEnumerable<object[]> TestData => GetTestIntData(_tests);
-        public Service_Legalios_Example_04_Taxing_17_MarginIncomeOfSolitaryTest()
+        public Service_Legalios_Example_04_Taxing_17_MarginIncomeOfSolidaryTest()
         {
             _sut = new ServiceLegalios();
 #if __PROTOKOL_TEST_FILE__
-            //04_Taxing_17_MarginIncomeOfSolitary
-            LogTestExamples("04_Taxing_17_MarginIncomeOfSolitary.txt", _tests);
+            //04_Taxing_17_MarginIncomeOfSolidary
+            LogTestExamples("04_Taxing_17_MarginIncomeOfSolidary.txt", _tests);
 #endif
         }
         [Theory]
         [MemberData(nameof(TestData))]
-        public void GetBundle_ShouldReturnValid_MarginIncomeOfSolitary(string testTitle, string testName, Int16 testYear, Int16 testMonth, Int16 resultYear, Int16 resultMonth, Int32 resultValue)
+        public void GetBundle_ShouldReturnValid_MarginIncomeOfSolidary(string testTitle, string testName, Int16 testYear, Int16 testMonth, Int16 resultYear, Int16 resultMonth, Int32 resultValue)
         {
             var testPeriod = new Period(testYear, testMonth);
 
@@ -206,7 +206,7 @@ namespace LegaliosTest.Service
 
             ShoulBeValidBundle(testResult, resultYear, resultMonth);
 
-            testResult.Value.TaxingProps.MarginIncomeOfSolitary.Should().Be(resultValue, "Because Period: {0} - {1}", testTitle, testName);
+            testResult.Value.TaxingProps.MarginIncomeOfSolidary.Should().Be(resultValue, "Because Period: {0} - {1}", testTitle, testName);
         }
     }
 }

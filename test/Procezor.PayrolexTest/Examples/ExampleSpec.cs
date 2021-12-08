@@ -319,21 +319,21 @@ namespace Procezor.PayrolexTest.Examples
             {
                 return ruleset.SocialProps.MaxAnnualsBasis + ex.salaryMaxSocKc;
             }
-            else if (ex.salarySolTax && ruleset.TaxingProps.MarginIncomeOfSolitary > 0)
+            else if (ex.salarySolTax && ruleset.TaxingProps.MarginIncomeOfSolidary > 0)
             {
-                return ruleset.TaxingProps.MarginIncomeOfSolitary + ex.salarySolTaxKc;
+                return ruleset.TaxingProps.MarginIncomeOfSolidary + ex.salarySolTaxKc;
             }
             else if (ex.salarySolTax)
             {
-                return prevset.TaxingProps.MarginIncomeOfSolitary + ex.salarySolTaxKc;
+                return prevset.TaxingProps.MarginIncomeOfSolidary + ex.salarySolTaxKc;
             }
-            else if (ex.salarySolTaxPrev && prevset.TaxingProps.MarginIncomeOfSolitary > 0)
+            else if (ex.salarySolTaxPrev && prevset.TaxingProps.MarginIncomeOfSolidary > 0)
             {
-                return prevset.TaxingProps.MarginIncomeOfSolitary + ex.salarySolTaxKc;
+                return prevset.TaxingProps.MarginIncomeOfSolidary + ex.salarySolTaxKc;
             }
             else if (ex.salarySolTaxPrev)
             {
-                return ruleset.TaxingProps.MarginIncomeOfSolitary + ex.salarySolTaxKc;
+                return ruleset.TaxingProps.MarginIncomeOfSolidary + ex.salarySolTaxKc;
             }
             else if (ex.salaryNemUcast)
             {
@@ -1788,9 +1788,59 @@ namespace Procezor.PayrolexTest.Examples
                 TaxSigning(this.TaxDeclaration), TaxSignNon(this.TaxDeclaration));
 
             targets = targets.Concat(new ITermTarget[] { targetSgn }).ToArray();
+            
+            if (this.TaxBenefitPayer)
+            {
+                var targetAlw = new TaxingAllowancePayerTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_PAYER),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_PAYER),
+                    TaxBenefit(this.TaxBenefitPayer));
+                targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
+            }
+            if (this.TaxBenefitDisab1)
+            {
+                var variant1Dis = VariantCode.Get(1);
+                var targetAlw = new TaxingAllowanceDisabTarget(montCode, contractEmp, positionEmp, variant1Dis,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_DISAB),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_DISAB),
+                    TaxDisab1(this.TaxBenefitDisab1));
+                targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
+            }
+            if (this.TaxBenefitDisab2)
+            {
+                var variant1Dis = VariantCode.Get(2);
+                var targetAlw = new TaxingAllowanceDisabTarget(montCode, contractEmp, positionEmp, variant1Dis,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_DISAB),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_DISAB),
+                    TaxDisab2(this.TaxBenefitDisab2));
+                targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
+            }
+            if (this.TaxBenefitDisab3)
+            {
+                var variant1Dis = VariantCode.Get(3);
+                var targetAlw = new TaxingAllowanceDisabTarget(montCode, contractEmp, positionEmp, variant1Dis,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_DISAB),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_DISAB),
+                    TaxDisab3(this.TaxBenefitDisab3));
+                targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
+            }
+            if (this.TaxBenefitStudy)
+            {
+                var targetAlw = new TaxingAllowanceStudyTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_STUDY),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_STUDY),
+                    TaxBenefit(this.TaxBenefitStudy));
+                targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
+            }
 
             foreach (var child in TaxChildren)
             {
+                var variantChld = VariantCode.Get(child.Id);
+                var targetAlw = new TaxingAllowanceChildTarget(montCode, contractEmp, positionEmp, variantChld,
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_CHILD),
+                    ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_CHILD),
+                    TaxBenefit(child.TaxBenefitChild), boolToNumber(child.TaxBenefitDisab), child.TaxBenefitOrder);
+                targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
             }
 
             return targets;
@@ -1863,6 +1913,22 @@ namespace Procezor.PayrolexTest.Examples
         public static TaxNoneSignOption TaxSignNon(bool val)
         {
             return val ? TaxNoneSignOption.NOSIGN_TAX_ADVANCES : TaxNoneSignOption.NOSIGN_TAX_WITHHOLD;
+        }
+        public static TaxDeclBenfOption TaxBenefit(bool val)
+        {
+            return val ? TaxDeclBenfOption.DECL_TAX_BENEF1 : TaxDeclBenfOption.DECL_TAX_BENEF0;
+        }
+        public static TaxDeclDisabOption TaxDisab1(bool val)
+        {
+            return val ? TaxDeclDisabOption.DECL_TAX_DISAB1 : TaxDeclDisabOption.DECL_TAX_BENEF0;
+        }
+        public static TaxDeclDisabOption TaxDisab2(bool val)
+        {
+            return val ? TaxDeclDisabOption.DECL_TAX_DISAB2 : TaxDeclDisabOption.DECL_TAX_BENEF0;
+        }
+        public static TaxDeclDisabOption TaxDisab3(bool val)
+        {
+            return val ? TaxDeclDisabOption.DECL_TAX_DISAB3 : TaxDeclDisabOption.DECL_TAX_BENEF0;
         }
     }
 }

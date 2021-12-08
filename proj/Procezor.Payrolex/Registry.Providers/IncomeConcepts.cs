@@ -94,8 +94,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE,
                 (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_TOTAL,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_TOTAL,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_PAYM_ADVANCES,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_PAYM_WITHHOLD,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD,
                 (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
             });
 
@@ -137,17 +138,53 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             decimal resGross = evalIncGross.ResultValue;
 
-            var resPayHealth = GetResult<HealthPaymEmployeeResult>(target, period, results,
-               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE));
+            var healthList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE))
+               .Select((x) => (x as HealthPaymEmployeeResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
 
-            if (resPayHealth.IsFailure)
-            {
-                return BuildFailResults(resPayHealth.Error);
-            }
+            decimal healthSum = healthList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
 
-            var evalPayHealth = resPayHealth.Value;
+            Int32 paymentHealth  = RoundingInt.RoundToInt(healthSum);
 
-            decimal resHealth = evalPayHealth.ResultValue;
+            var socialList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE))
+               .Select((x) => (x as SocialPaymEmployeeResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialSum = socialList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 paymentSocial = RoundingInt.RoundToInt(socialSum);
+
+            var advancesList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_PAYM_ADVANCES))
+               .Select((x) => (x as TaxingPaymAdvancesResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal advancesSum = advancesList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 paymentAdvances = RoundingInt.RoundToInt(advancesSum);
+
+            var withholdList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_PAYM_WITHHOLD))
+               .Select((x) => (x as TaxingPaymWithholdResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal withholdSum = withholdList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 paymentWithhold = RoundingInt.RoundToInt(withholdSum);
 
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -157,7 +194,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal resNetto = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            decimal resValue = decimal.Subtract(decimal.Add(resGross, resNetto), resHealth);
+            decimal resValue = decimal.Subtract(decimal.Add(resGross, resNetto), 
+                decimal.Add(decimal.Add(paymentHealth, paymentSocial), 
+                decimal.Add(paymentAdvances, paymentWithhold)));
 
             ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 

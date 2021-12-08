@@ -255,5 +255,132 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             TargetVals = targetVals;
         }
     }
+    // TaxingAllowancePayer		TAXING_ALLOWANCE_PAYER
+    public class TaxingAllowancePayerTarget : PayrolexTermTarget
+    {
+        public TaxDeclBenfOption BenefitApply { get; private set; }
 
+        public TaxingAllowancePayerTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            TaxDeclBenfOption benefitApply) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            BenefitApply = benefitApply;
+        }
+    }
+
+    // TaxingAllowanceChild		TAXING_ALLOWANCE_CHILD
+    public class TaxingAllowanceChildTarget : PayrolexTermTarget
+    {
+        public TaxDeclBenfOption BenefitApply { get; private set; }
+        public Int32 BenefitDisab { get; private set; }
+        public Int32 BenefitOrder { get; private set; }
+
+        public TaxingAllowanceChildTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            TaxDeclBenfOption benefitApply, Int32 benefitDisab, Int32 benefitOrder) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            BenefitApply = benefitApply;
+            BenefitDisab = benefitDisab;
+            BenefitOrder = benefitOrder;
+        }
+    }
+
+    // TaxingAllowanceDisab		TAXING_ALLOWANCE_DISAB
+    public class TaxingAllowanceDisabTarget : PayrolexTermTarget
+    {
+        public TaxDeclDisabOption BenefitApply { get; private set; }
+
+        public TaxingAllowanceDisabTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            TaxDeclDisabOption declDisabOpts) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            BenefitApply = declDisabOpts;
+        }
+    }
+
+    // TaxingAllowanceStudy		TAXING_ALLOWANCE_STUDY
+    public class TaxingAllowanceStudyTarget : PayrolexTermTarget
+    {
+        public TaxDeclBenfOption BenefitApply { get; private set; }
+
+        public TaxingAllowanceStudyTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            TaxDeclBenfOption benefitApply) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            BenefitApply = benefitApply;
+        }
+    }
+
+    // TaxingRebatePayer		TAXING_REBATE_PAYER
+    public class TaxingRebatePayerTarget : PayrolexTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public TaxingRebatePayerTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
+
+    // TaxingRebateChild		TAXING_REBATE_CHILD
+    public class TaxingRebateChildTarget : PayrolexTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public TaxingRebateChildTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
+
+    // TaxingBonusChild		TAXING_BONUS_CHILD
+    public class TaxingBonusChildTarget : PayrolexTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public TaxingBonusChildTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
+    // TaxingPaymAdvances		TAXING_PAYM_ADVANCES
+    public class TaxingPaymAdvancesTarget : PayrolexTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public TaxingPaymAdvancesTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
+
+    // TaxingPaymWithhold		TAXING_PAYM_WITHHOLD
+    public class TaxingPaymWithholdTarget : PayrolexTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public TaxingPaymWithholdTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
 }

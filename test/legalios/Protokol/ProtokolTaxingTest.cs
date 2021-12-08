@@ -167,16 +167,16 @@ namespace LegaliosTest.Protokol
         }
         [Theory]
         [InlineData(2011, 2022)]
-        public void GetProps_ShouldExport_FactorSolitary(Int16 testMinYear, Int16 testMaxYear)
+        public void GetProps_ShouldExport_FactorSolidary(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_11_FactorSolitary
-            using (var testProtokol = CreateProtokolFile("04_Taxing_11_FactorSolitary.txt"))
+            // 04_Taxing_11_FactorSolidary
+            using (var testProtokol = CreateProtokolFile("04_Taxing_11_FactorSolidary.txt"))
             {
                 ExportPropsStart(testProtokol);
 
                 for (Int16 testYear = testMinYear; testYear <= testMaxYear; testYear++)
                 {
-                    ExportPropsLine(testProtokol, testYear, _sut, ((prop) => (prop.FactorSolitary)));
+                    ExportPropsLine(testProtokol, testYear, _sut, ((prop) => (prop.FactorSolidary)));
                 }
             }
         }
@@ -257,16 +257,16 @@ namespace LegaliosTest.Protokol
         }
         [Theory]
         [InlineData(2011, 2022)]
-        public void GetProps_ShouldExport_MarginIncomeOfSolitary(Int16 testMinYear, Int16 testMaxYear)
+        public void GetProps_ShouldExport_MarginIncomeOfSolidary(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_17_MarginIncomeOfSolitary
-            using (var testProtokol = CreateProtokolFile("04_Taxing_17_MarginIncomeOfSolitary.txt"))
+            // 04_Taxing_17_MarginIncomeOfSolidary
+            using (var testProtokol = CreateProtokolFile("04_Taxing_17_MarginIncomeOfSolidary.txt"))
             {
                 ExportPropsStart(testProtokol);
 
                 for (Int16 testYear = testMinYear; testYear <= testMaxYear; testYear++)
                 {
-                    ExportPropsLine(testProtokol, testYear, _sut, ((prop) => (prop.MarginIncomeOfSolitary)));
+                    ExportPropsLine(testProtokol, testYear, _sut, ((prop) => (prop.MarginIncomeOfSolidary)));
                 }
             }
         }

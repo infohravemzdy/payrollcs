@@ -15,13 +15,13 @@ namespace HraveMzdy.Legalios.Providers
         Int32 AllowanceChild3rd(IPeriod period);
         decimal FactorAdvances(IPeriod period);
         decimal FactorWithhold(IPeriod period);
-        decimal FactorSolitary(IPeriod period);
+        decimal FactorSolidary(IPeriod period);
         Int32 MinAmountOfTaxBonus(IPeriod period);
         Int32 MaxAmountOfTaxBonus(IPeriod period);
         Int32 MarginIncomeOfTaxBonus(IPeriod period);
         Int32 MarginIncomeOfRounding(IPeriod period);
         Int32 MarginIncomeOfWithhold(IPeriod period);
-        Int32 MarginIncomeOfSolitary(IPeriod period);
+        Int32 MarginIncomeOfSolidary(IPeriod period);
         Int32 MarginIncomeOfWthEmp(IPeriod period);
         Int32 MarginIncomeOfWthAgr(IPeriod period);
     }
