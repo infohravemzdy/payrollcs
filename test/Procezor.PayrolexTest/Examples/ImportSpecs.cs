@@ -1014,7 +1014,7 @@ namespace Procezor.PayrolexTest.Examples
             b.Append(ExportString(IMP_POM));
             b.Append(ExportString(IMP17_DATUMZAC));
             b.Append(ExportString(IMP17_DATUMKON));
-            b.Append(ExportString(CINNOSTSPOJ()));
+            b.Append(ExportString(IMP17_CINNOSTSPOJ));
             b.Append(ExportString(IMP17_PLATCEDANPR));
             b.Append(ExportString(IMP17_PLATCESPOJ));
             b.Append(ExportString(IMP17_PLATCEZPOJ));

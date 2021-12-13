@@ -29,11 +29,23 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalFullWeeks = HoursFullWeeks.Aggregate(0, (agr, x) => agr + x);
-            Int32 TotalRealWeeks = HoursRealWeeks.Aggregate(0, (agr, x) => agr + x);
-            Int32 TotalFullMonth = HoursFullMonth.Aggregate(0, (agr, x) => agr + x);
-            Int32 TotalRealMonth = HoursRealMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"{TotalFullWeeks}/{TotalRealWeeks} => {TotalFullMonth}/{TotalRealMonth}";
+            return $"{TotalFullWeeks()}/{TotalRealWeeks()} => {TotalFullMonth()}/{TotalRealMonth()}";
+        }
+        public Int32 TotalFullWeeks()
+        {
+            return HoursFullWeeks.Aggregate(0, (agr, x) => agr + x);
+        }
+        public Int32 TotalRealWeeks()
+        {
+            return HoursRealWeeks.Aggregate(0, (agr, x) => agr + x);
+        }
+        public Int32 TotalFullMonth()
+        {
+            return HoursFullMonth.Aggregate(0, (agr, x) => agr + x);
+        }
+        public Int32 TotalRealMonth()
+        {
+            return HoursRealMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 
@@ -55,9 +67,15 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalRealMonth = HoursRealMonth.Aggregate(0, (agr, x) => agr + x);
-            Int32 TotalTermMonth = HoursTermMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"{TermDayFrom} - {TermDayStop} => {TotalRealMonth}/{TotalTermMonth}";
+            return $"{TermDayFrom} - {TermDayStop} => {TotalRealMonth()}/{TotalTermMonth()}";
+        }
+        public Int32 TotalRealMonth()
+        {
+            return HoursRealMonth.Aggregate(0, (agr, x) => agr + x);
+        }
+        public Int32 TotalTermMonth()
+        {
+            return HoursTermMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 
@@ -76,8 +94,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalTermMonth = HoursTermMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"{TermDayFrom} - {TermDayStop} => {TotalTermMonth}";
+            return $"{TermDayFrom} - {TermDayStop} => {TotalTermMonth()}";
+        }
+        public Int32 TotalTermMonth()
+        {
+            return HoursTermMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 
@@ -96,8 +117,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalTermMonth = HoursTermMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"{TermDayFrom} - {TermDayStop} => {TotalTermMonth}";
+            return $"{TermDayFrom} - {TermDayStop} => {TotalTermMonth()}";
+        }
+        public Int32 TotalTermMonth()
+        {
+            return HoursTermMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 
@@ -112,8 +136,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            Int32 TotalTimeMonth = HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
-            return $"Total Work Schedule => {TotalTimeMonth}";
+            return $"Total Work Schedule => {TotalTimeMonth()}";
+        }
+        public Int32 TotalTimeMonth()
+        {
+            return HoursTimeMonth.Aggregate(0, (agr, x) => agr + x);
         }
     }
 

@@ -355,6 +355,14 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
+        public Int32 BenefitApplyResult()
+        {
+            if (BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
+            {
+                return 1;
+            }
+            return 0;
+        }
     }
 
     // TaxingAllowanceChild		TAXING_ALLOWANCE_CHILD
@@ -375,6 +383,38 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Disability: {this.BenefitDisab}, Order: {this.BenefitOrder}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
+        public Int32 BenefitApplyOrd(Int32 order, Int32 disab)
+        {
+            if (BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1 && BenefitOrder == order && BenefitDisab == disab)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public Int32 BenefitApplyOrder1()
+        {
+            return BenefitApplyOrd(1, 0);
+        }
+        public Int32 BenefitApplyOrder2()
+        {
+            return BenefitApplyOrd(2, 0);
+        }
+        public Int32 BenefitApplyOrder3()
+        {
+            return BenefitApplyOrd(3, 0);
+        }
+        public Int32 BenefitApplyDisab1()
+        {
+            return BenefitApplyOrd(1, 1);
+        }
+        public Int32 BenefitApplyDisab2()
+        {
+            return BenefitApplyOrd(2, 1);
+        }
+        public Int32 BenefitApplyDisab3()
+        {
+            return BenefitApplyOrd(3, 1);
+        }
     }
 
     // TaxingAllowanceDisab		TAXING_ALLOWANCE_DISAB
@@ -390,6 +430,30 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             return $"Benefit: {Enum.GetName<TaxDeclDisabOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
+        public Int32 BenefitApplyDisab1()
+        {
+            if (BenefitApply == TaxDeclDisabOption.DECL_TAX_DISAB1)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public Int32 BenefitApplyDisab2()
+        {
+            if (BenefitApply == TaxDeclDisabOption.DECL_TAX_DISAB2)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public Int32 BenefitApplyDisab3()
+        {
+            if (BenefitApply == TaxDeclDisabOption.DECL_TAX_DISAB3)
+            {
+                return 1;
+            }
+            return 0;
+        }
     }
 
     // TaxingAllowanceStudy		TAXING_ALLOWANCE_STUDY
@@ -404,6 +468,14 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public override string ResultMessage()
         {
             return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 BenefitApplyResult()
+        {
+            if (BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
+            {
+                return 1;
+            }
+            return 0;
         }
     }
 

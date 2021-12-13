@@ -223,7 +223,9 @@ namespace Procezor.PayrolexTest.Examples
             spec.Name = param.Name;
             spec.Number = param.Number;
             spec.Description = this.Description.ToArray();
-            spec.Contracts = ContractSpec.One(1, "",
+            Int16 conId = 1;
+            string conName = $"{spec.Number}-{conId}";
+            spec.Contracts = ContractSpec.One(conId, conName, param.contractType,
                 param.scheduleWeek,
                 nonAtten,
                 param.salaryBasis,
@@ -825,12 +827,13 @@ namespace Procezor.PayrolexTest.Examples
             }
             return imp;
         }
-        public static ContractSpec[] One(Int16 id, string name, Int32 sched, Int32 nonAtt, Int32 sal, Int32 agr, bool health, bool minum, bool social, bool heaemp, bool socemp, bool taxing)
+        public static ContractSpec[] One(Int16 id, string name, WorkContractTerms type, Int32 sched, Int32 nonAtt, Int32 sal, Int32 agr, bool health, bool minum, bool social, bool heaemp, bool socemp, bool taxing)
         {
             return new ContractSpec[] {
                 new ContractSpec() {
                     Id = id,
                     Name = name,
+                    Type = type,
                     Schedule = sched,
                     NonAttendance = nonAtt,
                     Salary = sal,
@@ -1645,7 +1648,7 @@ namespace Procezor.PayrolexTest.Examples
                 ImportData17 imp17 = new ImportData17()
                 {
                     IMP_OSC = this.Number,
-                    IMP_POM = $"{this.Number}-{con.Id}",
+                    IMP_POM = con.Name,
                     IMP17_CINNOSTSPOJ = con.NemPojCin(),
                     IMP17_DATUMZAC = $"1.1.{period.Year}",
                     IMP17_DATUMKON = "",
