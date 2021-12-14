@@ -296,17 +296,17 @@ namespace Procezor.PayrolexTest.Service
             Int32 TAXING_INCOME_SUBJECT = GetIntResultSelect<TaxingIncomeSubjectResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT, (x) => (x.ResultValue));//TAXING_INCOME_SUBJECT,	15000
             Int32 TAXING_INCOME_HEALTH_RAW = GetIntResultSelect<TaxingIncomeHealthResult>(results,
-                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultValue));//TAXING_INCOME_HEALTH_RAW,	X
+                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultBasis));//TAXING_INCOME_HEALTH_RAW,	X
             Int32 TAXING_INCOME_HEALTH_FIX = GetIntResultSelect<TaxingIncomeHealthResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultValue));//TAXING_INCOME_HEALTH_FIX,	X
             Int32 TAXING_INCOME_SOCIAL_RAW = GetIntResultSelect<TaxingIncomeSocialResult>(results,
-                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultValue));//TAXING_INCOME_SOCIAL_RAW,	X
+                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultBasis));//TAXING_INCOME_SOCIAL_RAW,	X
             Int32 TAXING_INCOME_SOCIAL_FIX = GetIntResultSelect<TaxingIncomeSocialResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultValue));//TAXING_INCOME_SOCIAL_FIX,	X
             Int32 TAXING_DECLARE_SIGNING = GetIntResultSelect<TaxingSigningResult>(results,
-                    PayrolexArticleConst.ARTICLE_TAXING_SIGNING, (x) => (x.ResultValue));// TAXING_SIGNING,	1
+                    PayrolexArticleConst.ARTICLE_TAXING_SIGNING, (x) => (x.DeclSignValue()));// TAXING_SIGNING,	1
             Int32 TAXING_DECLARE_NONSIGN = GetIntResultSelect<TaxingSigningResult>(results,
-                    PayrolexArticleConst.ARTICLE_TAXING_SIGNING, (x) => (x.ResultValue));// TAXING_SIGNING_NONE,	0
+                    PayrolexArticleConst.ARTICLE_TAXING_SIGNING, (x) => (x.NoneSignValue()));// TAXING_SIGNING_NONE,	0
             Int32 TAXING_ADVANCES_INCOME = GetIntResultSelect<TaxingAdvancesIncomeResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_INCOME, (x) => (x.ResultValue));// TAXING_ADVANCES_INCOME,	15000
             Int32 TAXING_ADVANCES_HEALTH = GetIntResultSelect<TaxingAdvancesHealthResult>(results,
@@ -314,7 +314,7 @@ namespace Procezor.PayrolexTest.Service
             Int32 TAXING_ADVANCES_SOCIAL = GetIntResultSelect<TaxingAdvancesSocialResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_SOCIAL, (x) => (x.ResultValue));// TAXING_ADVANCES_SOCIAL,	X
             Int32 TAXING_ADVANCES_BASIS_RAW = GetIntResultSelect<TaxingAdvancesBasisResult>(results,
-                    PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS, (x) => (x.ResultValue));// TAXING_ADVANCES_BASIS_RAW,	21100
+                    PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS, (x) => (x.ResultBasis));// TAXING_ADVANCES_BASIS_RAW,	21100
             Int32 TAXING_ADVANCES_BASIS_RND = GetIntResultSelect<TaxingAdvancesBasisResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS, (x) => (x.ResultValue));// TAXING_ADVANCES_BASIS_RND,	21100
             Int32 TAXING_SOLIDARY_BASIS = GetIntResultSelect<TaxingSolidaryBasisResult>(results,
@@ -360,7 +360,7 @@ namespace Procezor.PayrolexTest.Service
             Int32 TAXING_REBATE_CHILD = GetIntResultSelectSum<TaxingRebateChildResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_REBATE_CHILD, (x) => (x.ResultValue));// TAXING_REBATE_CHILD,	X
             Int32 TAXING_BONUS_CHILD_CAL = GetIntResultSelectSum<TaxingBonusChildResult>(results,
-                    PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD, (x) => (x.ResultValue));// TAXING_BONUS_CHILD_CAL,	X
+                    PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD, (x) => (x.ResultBasis));// TAXING_BONUS_CHILD_CAL,	X
             Int32 TAXING_BONUS_CHILD_PAY = GetIntResultSelectSum<TaxingBonusChildResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD, (x) => (x.ResultValue));// TAXING_BONUS_CHILD_PAY,	X
             Int32 TAXING_WITHHOLD_INCOME = GetIntResultSelectSum<TaxingWithholdIncomeResult>(results,
@@ -463,11 +463,12 @@ namespace Procezor.PayrolexTest.Service
                     PayrolexArticleConst.ARTICLE_HEALTH_DECLARE, (x) => (x.MandatorBase));//HEALTH_DECLARE_MIN,	minimum
                 Int32 HEALTH_DECLARE_FOR = 0;//HEALTH_DECLARE_FOR,	zahraniční
                 Int32 HEALTH_DECLARE_EHS = 0;//HEALTH_DECLARE_EHS,	eu
-                Int32 HEALTH_DECLARE_PAR = 0;//HEALTH_DECLARE_PAR,	účast
+                Int32 HEALTH_DECLARE_PAR = GetIntResultContractSelect<HealthIncomeResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_HEALTH_INCOME, (x) => (x.ParticeCode));//HEALTH_DECLARE_PAR,	účast
                 Int32 HEALTH_INCOME = GetIntResultContractSelect<HealthIncomeResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_HEALTH_INCOME, (x) => (x.ResultValue));//HEALTH_INCOME,	15000
-                Int32 HEALTH_BASE = GetIntResultContractSelect<HealthBaseResult>(results, con.Id,
-                    PayrolexArticleConst.ARTICLE_HEALTH_BASE, (x) => (x.ResultValue));//HEALTH_BASE,	15000
+                Int32 HEALTH_BASE = GetIntResultContractSelect<HealthPaymEmployeeResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYEE, (x) => (x.TotalBasic()));//HEALTH_BASE,	15000
                 Int32 HEALTH_BASE_ANNUALLY = 0;//,	extra
                 Int32 HEALTH_BASE_EMPLOYEE = GetIntResultContractSelect<HealthBaseEmployeeResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_HEALTH_BASE_EMPLOYEE, (x) => (x.ResultValue));//HEALTH_BASE_EMPLOYEE,	extra
@@ -487,11 +488,12 @@ namespace Procezor.PayrolexTest.Service
                 Int32 SOCIAL_DECLARE_KRZ = 0;//SOCIAL_DECLARE_KRZ,	Krátkodobé
                 Int32 SOCIAL_DECLARE_FOR = 0;//SOCIAL_DECLARE_FOR,	zahraniční
                 Int32 SOCIAL_DECLARE_EHS = 0;//SOCIAL_DECLARE_EHS,	eu
-                Int32 SOCIAL_DECLARE_PAR = 0;//SOCIAL_DECLARE_PAR,	účast
+                Int32 SOCIAL_DECLARE_PAR = GetIntResultContractSelect<SocialIncomeResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.ParticeCode));//SOCIAL_DECLARE_PAR,	účast
                 Int32 SOCIAL_INCOME = GetIntResultContractSelect<SocialIncomeResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.ResultValue));//SOCIAL_INCOME,	15000
-                Int32 SOCIAL_BASE  = GetIntResultContractSelect<SocialBaseResult>(results, con.Id,
-                    PayrolexArticleConst.ARTICLE_SOCIAL_BASE, (x) => (x.ResultValue));//SOCIAL_BASE,	15000
+                Int32 SOCIAL_BASE  = GetIntResultContractSelect<SocialPaymEmployeeResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYEE, (x) => (x.TotalBasic()));//SOCIAL_BASE,	15000
                 Int32 SOCIAL_BASE_ANNUALLY = 0;//SOCIAL_BASE_ANNUALLY,	extra
                 Int32 SOCIAL_BASE_EMPLOYEE = GetIntResultContractSelect<SocialBaseEmployeeResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_SOCIAL_BASE_EMPLOYEE, (x) => (x.ResultValue));//SOCIAL_BASE_EMPLOYEE,	extra
@@ -508,15 +510,16 @@ namespace Procezor.PayrolexTest.Service
                 Int32 TAXING_INCOME_SUBJECT = GetIntResultContractSelect<TaxingIncomeSubjectResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT, (x) => (x.ResultValue));//TAXING_INCOME_SUBJECT,	15000
                 Int32 TAXING_INCOME_HEALTH_RAW = GetIntResultContractSelect<TaxingIncomeHealthResult>(results, con.Id,
-                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultValue));//TAXING_INCOME_HEALTH_RAW,	X
+                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultBasis));//TAXING_INCOME_HEALTH_RAW,	X
                 Int32 TAXING_INCOME_SOCIAL_RAW = GetIntResultContractSelect<TaxingIncomeSocialResult>(results, con.Id,
-                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultValue));//TAXING_INCOME_SOCIAL_RAW,	X
+                    PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultBasis));//TAXING_INCOME_SOCIAL_RAW,	X
 
                 string[] resultLine = new string[]
                 {
                     example.Number,
                     con.Name,
                     period.Code.ToString(),
+                    con.TypeChar(),
                     POSITION_WORK_PLAN.ToString(),//POSITION_WORK_PLAN,	40
                     CONTRACT_TIME_PLAN.ToString(),//CONTRACT_TIME_PLAN,	184
                     CONTRACT_TIME_WORK.ToString(),//CONTRACT_TIME_WORK,	184

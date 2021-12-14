@@ -81,7 +81,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                         evalContractType = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
                         break;
                     case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        evalContractType = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
+                        evalContractType = WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK;
                         break;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         evalContractType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
@@ -125,15 +125,29 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
+            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-
-            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
-
-            return ter.Select((t) => (new SocialIncomeTarget(month, t.Contract, pos, var, article, this.Code, 0)));
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new SocialIncomeTarget(month, con, pos, var, article, this.Code, 0),
+            };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrSocial = GetSocialPropsResult(ruleset, target, period);
+            if (resPrSocial.IsFailure)
+            {
+                return BuildFailResults(resPrSocial.Error);
+            }
+            IPropsSocial socialRules = resPrSocial.Value;
+
+            Int32 marginIncomeEmp = socialRules.MarginIncomeEmp;
+            Int32 marginIncomeAgr = socialRules.MarginIncomeAgr;
+
             var resTarget = GetTypedTarget<SocialIncomeTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -141,17 +155,94 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             SocialIncomeTarget evalTarget = resTarget.Value;
 
-            var incomeList = results
+            var incomeContractList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-                .Where((v) => (v.Contract.Equals(evalTarget.Contract) && v.Spec.Sums.Contains(evalTarget.Article)))
-                .Select((tr) => (tr.ResultValue)).ToArray();
+                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE))
+                .Select((tr) => (tr as SocialDeclareResult)).ToArray();
 
-            decimal resValue = incomeList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item));
+            var incomeResultInit = Array.Empty<SocialIncomeResult>();
+            var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
+            {
+                var evalSubjectsType = x.ContractType;
 
-            ITermResult resultsValues = new SocialIncomeResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+                var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                if (contractResult == null)
+                {
+                    contractResult = new SocialIncomeResult(evalTarget, x.Contract, spec,
+                        evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                    agr = agr.Concat(new SocialIncomeResult[] { contractResult }).ToArray();
+                }
+                var incomeList = results
+                    .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                    .Where((v) => (v.Contract.Equals(x.Contract) && v.Spec.Sums.Contains(evalTarget.Article)))
+                    .Select((tr) => (tr.ResultValue)).ToArray();
 
-            return BuildOkResults(resultsValues);
+                decimal resValue = incomeList.Aggregate(decimal.Zero,
+                    (agr, item) => decimal.Add(agr, item));
+
+                contractResult.AddResultValue(RoundingInt.RoundToInt(resValue));
+                return agr;
+            });
+
+            var incomeOrdersList = incomeResultList.OrderBy((x) => new SocialIncomeComparator()).ToArray();
+
+            var resultOrdersInit = Array.Empty<SocialIncomeResult>();
+
+            var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
+                (agr, x) => {
+                    Int32 sumTermIncome = agr.Where((c) => (c.IncomeTerm().Equals(x.IncomeTerm())))
+                        .Aggregate(0, (sum, c) => (sum + c.ResultValue));
+
+                    Int16 particeCode = 0;
+                    if (x.IncomeTerm() == WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS)
+                    {
+                        particeCode = 1;
+                        if (marginIncomeEmp > 0)
+                        {
+                            particeCode = 0;
+                            if (sumTermIncome + x.ResultValue > marginIncomeEmp)
+                            {
+                                particeCode = 1;
+                            }
+                        }
+                    }
+                    if (x.IncomeTerm() == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK)
+                    {
+                        particeCode = 1;
+                        if (marginIncomeAgr > 0)
+                        {
+                            particeCode = 0;
+                            if (sumTermIncome + x.ResultBasis > marginIncomeAgr)
+                            {
+                                particeCode = 1;
+                            }
+                        }
+                    }
+
+                    x.SetParticeCode(particeCode);
+
+                    return agr.Concat(new SocialIncomeResult[] { x }).ToArray();
+                });
+
+            return BuildOkResults(resultOrdersList);
+        }
+        private class SocialIncomeComparator : IComparer<SocialIncomeResult>
+        {
+            public SocialIncomeComparator()
+            {
+            }
+
+            public int Compare(SocialIncomeResult x, SocialIncomeResult y)
+            {
+                WorkSocialTerms xIncomeTerm = x.IncomeTerm();
+                WorkSocialTerms yIncomeTerm = y.IncomeTerm();
+
+                if (xIncomeTerm.CompareTo(yIncomeTerm) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xIncomeTerm.CompareTo(yIncomeTerm);
+            }
         }
     }
 
@@ -458,6 +549,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 Int32 xIncomeScore = x.IncomeScore();
                 Int32 yIncomeScore = y.IncomeScore();
 
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
                 return xIncomeScore.CompareTo(yIncomeScore);
             }
         }
@@ -554,9 +649,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             valBaseGenerals = valBaseGenerals - genBaseOvercaps;
             valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
 
-            Int32 compoundBasis = valBaseEmployee + valBaseGenerals;
-
-            Int32 employeePayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorEmployee));
+            Int32 sumBaseEmployee = (valBaseEmployee + valBaseGenerals);
+            Int32 employeePayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(sumBaseEmployee, factorEmployee));
 
             ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, valBaseEmployee, valBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
 
@@ -655,21 +749,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployee);
-            valBaseEmployee = valBaseEmployee - empBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - empBaseOvercaps);
+            Int32 emrBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployer);
+            valBaseEmployer = valBaseEmployer - emrBaseOvercaps;
+            valBaseOvercaps = (valBaseOvercaps - emrBaseOvercaps);
 
             Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
             valBaseGenerals = valBaseGenerals - genBaseOvercaps;
             valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
 
-            Int32 emrBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployer);
-            valBaseEmployer = valBaseEmployer - emrBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - emrBaseOvercaps);
-
-            Int32 compoundBasis = valBaseEmployer + valBaseGenerals;
-
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorEmployer));
+            Int32 sumBaseEmployer = (valBaseEmployer + valBaseGenerals);
+            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(sumBaseEmployer, factorEmployer));
 
             ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, valBaseEmployer, valBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
 

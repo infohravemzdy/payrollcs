@@ -346,6 +346,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 Int32 xIncomeScore = x.IncomeScore();
                 Int32 yIncomeScore = y.IncomeScore();
 
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
                 return xIncomeScore.CompareTo(yIncomeScore);
             }
         }
@@ -474,6 +478,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 Int32 xIncomeScore = x.IncomeScore();
                 Int32 yIncomeScore = y.IncomeScore();
 
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
                 return xIncomeScore.CompareTo(yIncomeScore);
             }
         }
@@ -1016,7 +1024,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingSolidaryBasisConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_INCOME,
             });
 
             ResultDelegate = ConceptEval;
@@ -1051,8 +1059,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingSolidaryBasisTarget evalTarget = resTarget.Value;
 
-            var resBaseVal = GetContractResult<TaxingAdvancesBasisResult>(target, period, results,
-                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS));
+            var resBaseVal = GetContractResult<TaxingAdvancesIncomeResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_INCOME));
 
             if (resBaseVal.IsFailure)
             {
@@ -1061,9 +1069,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var evalBaseVal = resBaseVal.Value;
 
-            Int32 taxableSuper = evalBaseVal.ResultBasis;
+            Int32 taxableIncome = evalBaseVal.ResultValue;
 
-            Int32 solidaryBase = TaxSolidaryRoundedBase(taxingRules, taxableSuper);
+            Int32 solidaryBase = TaxSolidaryRoundedBase(taxingRules, taxableIncome);
 
             ITermResult resultsValues = new TaxingSolidaryBasisResult(target, spec, solidaryBase, 0, DESCRIPTION_EMPTY);
 
@@ -2162,7 +2170,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
 
             ITermResult resultsValues = new TaxingAllowanceStudyResult(target, spec, 
-                evalTarget.BenefitApply, 0, 0, DESCRIPTION_EMPTY);
+                evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -2484,13 +2492,15 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 incomeTaxs = RoundingInt.RoundToInt(incomeSum);
 
-            Int32 bonusValue = RoundingInt.RoundToInt(BonusAfterRebate(taxingRules, incomeTaxs, summarChild, rebateChild));
+            Int32 rawBonusValue = RoundingInt.RoundToInt(RawBonusAfterRebate(taxingRules, incomeTaxs, summarChild, rebateChild));
 
-            ITermResult resultsValues = new TaxingBonusChildResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 fixBonusValue = RoundingInt.RoundToInt(FixBonusAfterRebate(taxingRules, incomeTaxs, summarChild, rebateChild));
+
+            ITermResult resultsValues = new TaxingBonusChildResult(target, spec, fixBonusValue, rawBonusValue, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
-        private decimal BonusAfterRebate(IPropsTaxing taxingRules, Int32 taxingBasis, Int32 childAllow, Int32 childRebat)
+        private decimal RawBonusAfterRebate(IPropsTaxing taxingRules, Int32 taxingBasis, Int32 childAllow, Int32 childRebat)
         {
             Int32 marIncomeOfTaxBonus = taxingRules.MarginIncomeOfTaxBonus;
 
@@ -2500,7 +2510,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             {
                 bonusForChild = 0;
             }
-            return MaxMinBonus(taxingRules, taxingBasis, bonusForChild);
+            return bonusForChild;
+        }
+        private decimal FixBonusAfterRebate(IPropsTaxing taxingRules, Int32 taxingBasis, Int32 childAllow, Int32 childRebat)
+        {
+            return MaxMinBonus(taxingRules, taxingBasis, RawBonusAfterRebate(taxingRules, taxingBasis, childAllow, childRebat));
         }
         private decimal MaxMinBonus(IPropsTaxing taxingRules, Int32 taxingBasis, decimal taxChildBonus)
         {

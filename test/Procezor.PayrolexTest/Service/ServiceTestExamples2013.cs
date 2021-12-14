@@ -154,6 +154,7 @@ namespace Procezor.PayrolexTest.Service
                 "EMPLOYEEID",
                 "CONTRACTID",
                 "PERIOD",
+                "CONTRACT_TYPE",
                 "POSITION_WORK_PLAN",
                 "CONTRACT_TIME_PLAN",
                 "CONTRACT_TIME_WORK",
@@ -209,6 +210,9 @@ namespace Procezor.PayrolexTest.Service
         [Fact]
         public void ServiceExamples_CreateImport()
         {
+            System.Text.EncodingProvider ppp = System.Text.CodePagesEncodingProvider.Instance;
+            Encoding.RegisterProvider(ppp);
+
             TestPeriod.Code.Should().Be(201301);
 
             var prevPeriod = PrevYear(TestPeriod);
@@ -344,6 +348,142 @@ namespace Procezor.PayrolexTest.Service
             }
         }
 
+        [Fact]
+        public void ServiceExamples_PPomMzdaDanMaxBonusTest()
+        {
+            TestSpecParams test = new TestSpecParams(105, "PP-Mzda_DanPoj-MaxBonus", "105", 40, 0, pomGenItem, exDiteMaxBonus);
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_PPomMzdaDanMaxZdravPrevTest()
+        {
+            TestSpecParams test = new TestSpecParams(108, "PP-Mzda_DanPoj-MaxZdravPrev", "108", 40, 0, pomGenItem, exSalaryMaxZdrPrev(100));
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
         [Theory]
         [MemberData(nameof(TestData))]
         public void ServiceExamplesTest(TestSpecParams test)
@@ -383,12 +523,12 @@ namespace Procezor.PayrolexTest.Service
             var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
             restService.Count().Should().NotBe(0);
 
-            using (var testProtokol = OpenProtokolFile($"OKPRAC_TEST_2013_HRM_{TestPeriod.Year}.CSV"))
+            using (var testProtokol = OpenProtokolFile($"OKPRAC_TEST_2013_HRM_{TestPeriod.Code}.CSV"))
             {
                 var testResults = GetPracResultsLine(example, TestPeriod, restService);
                 testProtokol.WriteLine(testResults);
             }
-            using (var testProtokol = OpenProtokolFile($"OKPPOM_TEST_2013_HRM_{TestPeriod.Year}.CSV"))
+            using (var testProtokol = OpenProtokolFile($"OKPPOM_TEST_2013_HRM_{TestPeriod.Code}.CSV"))
             {
                 var testResults = GetPPomResultsLine(example, TestPeriod, restService);
                 foreach (var ppomResult in testResults)

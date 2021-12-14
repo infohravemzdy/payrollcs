@@ -30,12 +30,48 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // SocialIncome		SOCIAL_INCOME
     public class SocialIncomeResult : PayrolexTermResult
     {
-        public SocialIncomeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public WorkSocialTerms SubjectType { get; private set; }
+        public Int16 ParticeCode { get; private set; }
+        public SocialIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
+            WorkSocialTerms subjectType, Int16 particeCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            SubjectType = subjectType;
+            ParticeCode = particeCode;
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int16 SetParticeCode(Int16 particeCode)
+        {
+            ParticeCode = particeCode;
+            return ParticeCode;
+        }
+        public WorkSocialTerms IncomeTerm()
+        {
+            WorkSocialTerms resultKind = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
+            switch (SubjectType)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    resultKind = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    resultKind = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    resultKind = WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    resultKind = WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    resultKind = WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    resultKind = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
+                    break;
+            }
+            return resultKind;
         }
     }
 
@@ -112,6 +148,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
                     resultType = 0;
                     break;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    resultType = 0;
+                    break;
             }
             return resultType + resultBase;
         }
@@ -132,6 +171,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             return $"Employee: {this.EmployeeBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
+        public Int32 TotalBasic()
+        {
+            return (EmployeeBasis + GeneralsBasis);
+        }
     }
 
     // SocialPaymEmployer		SOCIAL_PAYM_EMPLOYER
@@ -149,6 +192,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             return $"Employer: {this.EmployerBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
+        public Int32 TotalBasic()
+        {
+            return (EmployerBasis + GeneralsBasis);
+        }
     }
-
 }

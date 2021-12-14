@@ -55,6 +55,39 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             return "NO";
         }
+        public Int32 DeclSignValue()
+        {
+            switch (DeclSignOpts)
+            {
+                case TaxDeclSignOption.DECL_TAX_DO_SIGNED:
+                    return 1;
+                case TaxDeclSignOption.DECL_TAX_NO_SIGNED:
+                    return 0;
+            }
+            return 0;
+        }
+        public string NoneSignText()
+        {
+            switch (NoneSignOpts)
+            {
+                case TaxNoneSignOption.NOSIGN_TAX_WITHHOLD:
+                    return "WTH";
+                case TaxNoneSignOption.NOSIGN_TAX_ADVANCES:
+                    return "ADV";
+            }
+            return "NO";
+        }
+        public Int32 NoneSignValue()
+        {
+            switch (NoneSignOpts)
+            {
+                case TaxNoneSignOption.NOSIGN_TAX_WITHHOLD:
+                    return 1;
+                case TaxNoneSignOption.NOSIGN_TAX_ADVANCES:
+                    return 0;
+            }
+            return 0;
+        }
         public TaxingSigningTarget ResultTarget()
         {
             return Target as TaxingSigningTarget;
@@ -180,6 +213,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     resultBase = 0;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    resultBase = 0;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
                     resultBase = 0;
                     break;
             }
@@ -393,27 +429,27 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public Int32 BenefitApplyOrder1()
         {
-            return BenefitApplyOrd(1, 0);
+            return BenefitApplyOrd(0, 0);
         }
         public Int32 BenefitApplyOrder2()
         {
-            return BenefitApplyOrd(2, 0);
+            return BenefitApplyOrd(1, 0);
         }
         public Int32 BenefitApplyOrder3()
         {
-            return BenefitApplyOrd(3, 0);
+            return BenefitApplyOrd(2, 0);
         }
         public Int32 BenefitApplyDisab1()
         {
-            return BenefitApplyOrd(1, 1);
+            return BenefitApplyOrd(0, 1);
         }
         public Int32 BenefitApplyDisab2()
         {
-            return BenefitApplyOrd(2, 1);
+            return BenefitApplyOrd(1, 1);
         }
         public Int32 BenefitApplyDisab3()
         {
-            return BenefitApplyOrd(3, 1);
+            return BenefitApplyOrd(2, 1);
         }
     }
 

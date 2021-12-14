@@ -58,6 +58,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Constants
         SOCIAL_TERM_SMALLS_EMPL = 2,
         SOCIAL_TERM_SHORTS_MEET = 3,
         SOCIAL_TERM_SHORTS_DENY = 4,
+        SOCIAL_TERM_AGREEM_TASK = 5,
     };
     public enum WorkScheduleType : UInt16
     {

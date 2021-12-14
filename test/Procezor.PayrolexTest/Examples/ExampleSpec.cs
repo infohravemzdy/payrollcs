@@ -681,7 +681,7 @@ namespace Procezor.PayrolexTest.Examples
                         Name = $"Poradi1{por1+1} Dite",
                         TaxBenefitChild = ex.taxChildNorm,
                         TaxBenefitDisab = ex.taxChildZtpp,
-                        TaxBenefitOrder = 1,
+                        TaxBenefitOrder = 0,
                     }).ToArray();
                 }
                 for (int por2 = 0; por2 < ex.taxChildPor2; por2++)
@@ -691,7 +691,7 @@ namespace Procezor.PayrolexTest.Examples
                         Name = $"Poradi2{por2+1} Dite",
                         TaxBenefitChild = ex.taxChildNorm,
                         TaxBenefitDisab = ex.taxChildZtpp,
-                        TaxBenefitOrder = 2,
+                        TaxBenefitOrder = 1,
                     }).ToArray();
                 }
                 for (int por3 = 0; por3 < ex.taxChildPor3; por3++)
@@ -701,7 +701,7 @@ namespace Procezor.PayrolexTest.Examples
                         Name = $"Poradi3{por3+1} Dite",
                         TaxBenefitChild = ex.taxChildNorm,
                         TaxBenefitDisab = ex.taxChildZtpp,
-                        TaxBenefitOrder = 3,
+                        TaxBenefitOrder = 2,
                     }).ToArray();
                 }
                 return childs;
@@ -849,6 +849,23 @@ namespace Procezor.PayrolexTest.Examples
         }
         public Int16 Id { get; set; }
         public string Name { get; set; }
+        public string TypeChar()
+        {
+            switch (Type)
+            {
+                case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                    return "1";
+                case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                    return "A";
+                case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                    return "T";
+                case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                    return "Q";
+                case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                    return "0";
+            }
+            return "0";
+        }
         public WorkContractTerms Type { get; set; }
         public Int32 Schedule { get; set; }
         public Int32 NonAttendance { get; set; }
@@ -1564,9 +1581,9 @@ namespace Procezor.PayrolexTest.Examples
             ContractSpec con = Contracts.FirstOrDefault();
             var detiNorm = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitChild ? 1 : 0)));
             var detiZtpp = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitDisab ? 1 : 0)));
-            var detiCis1 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 1 ? 1 : 0)));
-            var detiCis2 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 2 ? 1 : 0)));
-            var detiCis3 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 3 ? 1 : 0)));
+            var detiCis1 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 0 ? 1 : 0)));
+            var detiCis2 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 1 ? 1 : 0)));
+            var detiCis3 = TaxChildren.Aggregate(0, (agr, x) => (agr + (x.TaxBenefitOrder == 2 ? 1 : 0)));
             StringBuilder builder = new StringBuilder($"{this.Number};");
             builder.Append($"{this.Name};");
             builder.Append($"{con.Schedule};");
@@ -1616,7 +1633,7 @@ namespace Procezor.PayrolexTest.Examples
                 IMP01_PRIJ = $"X{this.Number}{names[1]}",
                 IMP01_JMENO = $"{names[0]}",
                 IMP01_RODPRIJ = $"{names[1]}{this.Number}",
-                IMP01_RODCIS = $"7707077{this.Number}",
+                IMP01_RODCIS = $"8808088{this.Number}",
                 IMP_ADRESA_OBEC = "Praha",
                 IMP_ADRESA_ULICE = "U Remízku",
                 IMP_ADRESA_OCIS = "123/12",
@@ -1641,8 +1658,19 @@ namespace Procezor.PayrolexTest.Examples
                 IMP08_INVALIDITA2 = boolToImp(this.TaxBenefitDisab2),
                 IMP08_INVALIDITA3 = boolToImp(this.TaxBenefitDisab3),
             };
-
             importResult = importResult.Concat(new string[] { imp01.Export(), imp02.Export(), imp05.Export(), imp08.Export() }).ToArray();
+            if (TaxBenefitStudy)
+            {
+                ImportData10 imp10 = new ImportData10()
+                {
+                    IMP_OSC = this.Number,
+                    IMP_ROK = period.Year.ToString(),
+                    IMP10_KONUPLATROK = period.Year.ToString(),
+                    IMP10_AKTUALNIOBD = boolToImp(this.TaxBenefitStudy),
+                };
+                importResult = importResult.Concat(new string[] { imp10.Export() }).ToArray();
+            }
+
             foreach (var con in Contracts)
             {
                 ImportData17 imp17 = new ImportData17()
@@ -1842,7 +1870,7 @@ namespace Procezor.PayrolexTest.Examples
                 var targetAlw = new TaxingAllowanceChildTarget(montCode, contractEmp, positionEmp, variantChld,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ALLOWANCE_CHILD),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_CHILD),
-                    TaxBenefit(child.TaxBenefitChild), boolToNumber(child.TaxBenefitDisab), child.TaxBenefitOrder);
+                    TaxBenefit(child.TaxBenefitChild || child.TaxBenefitDisab), boolToNumber(child.TaxBenefitDisab), child.TaxBenefitOrder);
                 targets = targets.Concat(new ITermTarget[] { targetAlw }).ToArray();
             }
 

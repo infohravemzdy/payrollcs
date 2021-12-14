@@ -33,15 +33,47 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // HealthIncome		HEALTH_INCOME
     public class HealthIncomeResult : PayrolexTermResult
     {
-        public HealthIncomeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public WorkHealthTerms SubjectType { get; private set; }
+        public Int16 ParticeCode { get; private set; }
+        public HealthIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
+            WorkHealthTerms subjectType, Int16 particeCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            SubjectType = subjectType;
+            ParticeCode = particeCode;
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Term: {Enum.GetName<WorkHealthTerms>(this.IncomeTerm())}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int16 SetParticeCode(Int16 particeCode)
+        {
+            ParticeCode = particeCode;
+            return ParticeCode;
+        }
+        public WorkHealthTerms IncomeTerm()
+        {
+            WorkHealthTerms resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+            switch (SubjectType)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
+                    resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
+                    resultKind = WorkHealthTerms.HEALTH_TERM_AGREEM_WORK;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
+                    resultKind = WorkHealthTerms.HEALTH_TERM_AGREEM_TASK;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
+                    resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
+                    resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+                    break;
+            }
+            return resultKind;
         }
     }
-
     // HealthBase		HEALTH_BASE
     public class HealthBaseResult : PayrolexTermResult
     {
@@ -61,7 +93,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // HealthBaseEmployee		HEALTH_BASE_EMPLOYEE
     public class HealthBaseEmployeeResult : PayrolexTermResult
     {
-        public HealthBaseEmployeeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public HealthBaseEmployeeResult(ITermTarget target, IArticleSpec spec, 
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
         }
         public override string ResultMessage()
@@ -138,7 +171,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public Int32 EmployeeBasis { get; private set; }
         public Int32 GeneralsBasis { get; private set; }
-        public HealthPaymEmployeeResult(ITermTarget target, IArticleSpec spec, 
+        public HealthPaymEmployeeResult(ITermTarget target, IArticleSpec spec,
             Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
             EmployeeBasis = employeeBasis;
@@ -147,6 +180,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public override string ResultMessage()
         {
             return $"Employee: {this.EmployeeBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 TotalBasic()
+        {
+            return (EmployeeBasis + GeneralsBasis);
         }
     }
 
@@ -165,6 +202,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             return $"Employer: {this.EmployerBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
+        public Int32 TotalBasic()
+        {
+            return (EmployerBasis + GeneralsBasis);
+        }
     }
-
 }

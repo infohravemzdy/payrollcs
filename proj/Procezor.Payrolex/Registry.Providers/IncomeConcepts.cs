@@ -194,9 +194,18 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal resNetto = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            decimal resValue = decimal.Subtract(decimal.Add(resGross, resNetto), 
+            Int32 evalBonusChild = 0;
+            var resBonusChild = GetResult<TaxingBonusChildResult>(target, period, results,
+                ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_BONUS_CHILD));
+
+            if (resBonusChild.IsSuccess)
+            {
+                evalBonusChild = resBonusChild.Value.ResultValue;
+            }
+
+            decimal resValue = decimal.Add(decimal.Subtract(decimal.Add(resGross, resNetto), 
                 decimal.Add(decimal.Add(paymentHealth, paymentSocial), 
-                decimal.Add(paymentAdvances, paymentWithhold)));
+                decimal.Add(paymentAdvances, paymentWithhold))), evalBonusChild);
 
             ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
@@ -271,6 +280,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var evalCostHealth = resCostHealth.Value;
             resValue = decimal.Add(resValue, evalCostHealth.ResultValue);
+
+            var resCostSocial = GetResult<SocialPaymEmployerResult>(target, period, results,
+               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYER));
+
+            if (resCostSocial.IsFailure)
+            {
+                return BuildFailResults(resCostSocial.Error);
+            }
+
+            var evalCostSocial = resCostSocial.Value;
+            resValue = decimal.Add(resValue, evalCostSocial.ResultValue);
 
             ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 

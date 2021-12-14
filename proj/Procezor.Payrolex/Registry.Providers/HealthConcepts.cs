@@ -125,15 +125,29 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
         {
+            var con = ContractCode.Zero;
             var pos = PositionCode.Zero;
-
-            var ter = conTerms.Where((t) => (targets.Any((x) => (x.Contract.Equals(t.Contract)))) == false).ToArray();
-
-            return ter.Select((t) => (new HealthIncomeTarget(month, t.Contract, pos, var, article, this.Code, 0)));
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new HealthIncomeTarget(month, con, pos, var, article, this.Code, 0),
+            };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrHealth = GetHealthPropsResult(ruleset, target, period);
+            if (resPrHealth.IsFailure)
+            {
+                return BuildFailResults(resPrHealth.Error);
+            }
+            IPropsHealth healthRules = resPrHealth.Value;
+
+            Int32 marginIncomeEmp = healthRules.MarginIncomeEmp;
+            Int32 marginIncomeAgr = healthRules.MarginIncomeAgr;
+
             var resTarget = GetTypedTarget<HealthIncomeTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -141,17 +155,95 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             HealthIncomeTarget evalTarget = resTarget.Value;
 
-            var incomeList = results
+            var incomeContractList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-                .Where((v) => (v.Contract.Equals(evalTarget.Contract) && v.Spec.Sums.Contains(evalTarget.Article)))
-                .Select((tr) => (tr.ResultValue)).ToArray();
+                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_HEALTH_DECLARE))
+                .Select((tr) => (tr as HealthDeclareResult)).ToArray();
 
-            decimal resValue = incomeList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item));
+            var incomeResultInit = Array.Empty<HealthIncomeResult>();
+            var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
+            {
+                var evalSubjectsType = x.ContractType;
 
-            ITermResult resultsValues = new HealthIncomeResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+                var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                if (contractResult == null)
+                {
+                    contractResult = new HealthIncomeResult(evalTarget, x.Contract, spec,
+                        evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                    agr = agr.Concat(new HealthIncomeResult[] { contractResult }).ToArray();
+                }
+                var incomeList = results
+                    .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                    .Where((v) => (v.Contract.Equals(x.Contract) && v.Spec.Sums.Contains(evalTarget.Article)))
+                    .Select((tr) => (tr.ResultValue)).ToArray();
 
-            return BuildOkResults(resultsValues);
+                decimal resValue = incomeList.Aggregate(decimal.Zero,
+                    (agr, item) => decimal.Add(agr, item));
+
+                contractResult.AddResultValue(RoundingInt.RoundToInt(resValue));
+                return agr;
+            });
+
+            var incomeOrdersList = incomeResultList.OrderBy((x) => new HealthIncomeComparator()).ToArray();
+
+            var resultOrdersInit = Array.Empty<HealthIncomeResult>();
+
+            var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
+                (agr, x) => {
+                    Int32 sumTermIncome = agr.Where((c) => (c.IncomeTerm().Equals(x.IncomeTerm())))
+                        .Aggregate(0, (sum, c) => (sum + c.ResultValue));
+
+                    Int16 particeCode = 0;
+                    if (x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS)
+                    {
+                        particeCode = 1;
+                        if (marginIncomeEmp > 0)
+                        {
+                            particeCode = 0;
+                            if (sumTermIncome + x.ResultValue > marginIncomeEmp)
+                            {
+                                particeCode = 1;
+                            }
+                        }
+                    }
+                    if (x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_AGREEM_WORK || 
+                        x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_AGREEM_TASK)
+                    {
+                        particeCode = 1;
+                        if (marginIncomeAgr > 0)
+                        {
+                            particeCode = 0;
+                            if (sumTermIncome + x.ResultBasis > marginIncomeAgr)
+                            {
+                                particeCode = 1;
+                            }
+                        }
+                    }
+
+                    x.SetParticeCode(particeCode);
+
+                    return agr.Concat(new HealthIncomeResult[] { x }).ToArray();
+                });
+
+            return BuildOkResults(resultOrdersList);
+        }
+        private class HealthIncomeComparator : IComparer<HealthIncomeResult>
+        {
+            public HealthIncomeComparator()
+            {
+            }
+
+            public int Compare(HealthIncomeResult x, HealthIncomeResult y)
+            {
+                WorkHealthTerms xIncomeTerm = x.IncomeTerm();
+                WorkHealthTerms yIncomeTerm = y.IncomeTerm();
+
+                if (xIncomeTerm.CompareTo(yIncomeTerm)==0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xIncomeTerm.CompareTo(yIncomeTerm);
+            }
         }
     }
 
@@ -246,6 +338,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE,
+                (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE,
             });
 
             ResultDelegate = ConceptEval;
@@ -269,9 +362,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             HealthBaseEmployeeTarget evalTarget = resTarget.Value;
 
-            Int32 resBasis = 0;
+            Int32 baseEmployee = 0;
 
-            ITermResult resultsValues = new HealthBaseEmployeeResult(target, spec, resBasis, 0, DESCRIPTION_EMPTY);
+            Int32 baseMandated = 0;
+
+            var resBaseMandated = GetContractResult<HealthBaseMandateResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE));
+
+            if (resBaseMandated.IsSuccess)
+            {
+                baseMandated = resBaseMandated.Value.ResultValue;
+            }
+
+            ITermResult resultsValues = new HealthBaseEmployeeResult(target, spec, baseMandated + baseEmployee, baseEmployee, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -320,9 +423,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             HealthBaseEmployerTarget evalTarget = resTarget.Value;
 
-            Int32 resBasis = 0;
+            Int32 baseEmployer = 0;
 
-            ITermResult resultsValues = new HealthBaseEmployerResult(target, spec, resBasis, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new HealthBaseEmployerResult(target, spec, baseEmployer, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -563,6 +666,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 Int32 xIncomeScore = x.IncomeScore();
                 Int32 yIncomeScore = y.IncomeScore();
 
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
                 return xIncomeScore.CompareTo(yIncomeScore);
             }
         }
@@ -588,7 +695,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_OVERCAP,
-                (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE,
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_EMPLOYEE,
             });
 
@@ -636,7 +742,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 valBaseGenerals = evalBaseVal.ResultValue;
 
             Int32 valBaseEmployee = 0;
-            Int32 valBaseMandated = 0;
             Int32 valBaseOvercaps = 0;
             var resBaseEmployee = GetContractResult<HealthBaseEmployeeResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_EMPLOYEE));
@@ -645,15 +750,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             {
                 valBaseEmployee = resBaseEmployee.Value.ResultValue;
             }
-            var resBaseMandated = GetContractResult<HealthBaseMandateResult>(target, period, results,
-                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE));
-
-            if (resBaseMandated.IsSuccess)
-            {
-                valBaseMandated = resBaseMandated.Value.ResultValue;
-            }
-            
-            valBaseEmployee = (valBaseEmployee + valBaseMandated);
             
             var resBaseOvercaps = GetContractResult<HealthBaseOvercapResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_OVERCAP));
@@ -701,7 +797,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_OVERCAP,
-                (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE,
+                (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_EMPLOYEE,
                 (Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_EMPLOYER,
             });
 
@@ -750,7 +846,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 valBaseEmployee = 0;
             Int32 valBaseEmployer = 0;
-            Int32 valBaseMandated = 0;
             Int32 valBaseOvercaps = 0;
             var resBaseEmployee = GetContractResult<HealthBaseEmployeeResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_EMPLOYEE));
@@ -766,15 +861,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             {
                 valBaseEmployer = resBaseEmployer.Value.ResultValue;
             }
-            var resBaseMandated = GetContractResult<HealthBaseMandateResult>(target, period, results,
-                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_MANDATE));
-
-            if (resBaseMandated.IsSuccess)
-            {
-                valBaseMandated = resBaseMandated.Value.ResultValue;
-            }
-
-            valBaseEmployee = (valBaseEmployee + valBaseMandated);
 
             var resBaseOvercaps = GetContractResult<HealthBaseOvercapResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE_OVERCAP));
