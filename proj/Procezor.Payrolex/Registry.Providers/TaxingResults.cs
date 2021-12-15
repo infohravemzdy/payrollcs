@@ -68,22 +68,36 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public string NoneSignText()
         {
-            switch (NoneSignOpts)
+            switch (DeclSignOpts)
             {
-                case TaxNoneSignOption.NOSIGN_TAX_WITHHOLD:
-                    return "WTH";
-                case TaxNoneSignOption.NOSIGN_TAX_ADVANCES:
-                    return "ADV";
+                case TaxDeclSignOption.DECL_TAX_DO_SIGNED:
+                    return "NO";
+                case TaxDeclSignOption.DECL_TAX_NO_SIGNED:
+                    switch (NoneSignOpts)
+                    {
+                        case TaxNoneSignOption.NOSIGN_TAX_WITHHOLD:
+                            return "WTH";
+                        case TaxNoneSignOption.NOSIGN_TAX_ADVANCES:
+                            return "ADV";
+                    }
+                    return "NO";
             }
             return "NO";
         }
         public Int32 NoneSignValue()
         {
-            switch (NoneSignOpts)
+            switch (DeclSignOpts)
             {
-                case TaxNoneSignOption.NOSIGN_TAX_WITHHOLD:
-                    return 1;
-                case TaxNoneSignOption.NOSIGN_TAX_ADVANCES:
+                case TaxDeclSignOption.DECL_TAX_DO_SIGNED:
+                    return 0;
+                case TaxDeclSignOption.DECL_TAX_NO_SIGNED:
+                    switch (NoneSignOpts)
+                    {
+                        case TaxNoneSignOption.NOSIGN_TAX_WITHHOLD:
+                            return 0;
+                        case TaxNoneSignOption.NOSIGN_TAX_ADVANCES:
+                            return 1;
+                    }
                     return 0;
             }
             return 0;
@@ -114,15 +128,21 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingIncomeHealthResult : PayrolexTermResult
     {
         public WorkTaxingTerms SubjectType { get; private set; }
+        public Int16 InterestCode { get; private set; }
         public WorkHealthTerms SubjectTerm { get; private set; }
+        public Int16 ParticeCode { get; private set; }
         public TaxingIncomeHealthResult(ITermTarget target, ContractCode con, IArticleSpec spec, 
-            WorkTaxingTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            WorkTaxingTerms subjectType, Int16 interestCode, WorkHealthTerms subjectTerm, Int16 particeCode, 
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             SubjectType = subjectType;
+            InterestCode = interestCode;
+            SubjectTerm = subjectTerm;
+            ParticeCode = particeCode;
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.SubjectTerm)}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {
@@ -169,15 +189,21 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingIncomeSocialResult : PayrolexTermResult
     {
         public WorkTaxingTerms SubjectType { get; private set; }
+        public Int16 InterestCode { get; private set; }
         public WorkSocialTerms SubjectTerm { get; private set; }
+        public Int16 ParticeCode { get; private set; }
         public TaxingIncomeSocialResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            WorkTaxingTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            WorkTaxingTerms subjectType, Int16 interestCode, WorkSocialTerms subjectTerm, Int16 particeCode,
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             SubjectType = subjectType;
+            InterestCode = interestCode;
+            SubjectTerm = subjectTerm;
+            ParticeCode = particeCode;
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.SubjectTerm)}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {

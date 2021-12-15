@@ -164,12 +164,14 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
             {
                 var evalSubjectsType = x.ContractType;
+                var evalInterestCode = x.InterestCode;
+                var evalMandatorBase = x.MandatorBase;
 
                 var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
                 if (contractResult == null)
                 {
                     contractResult = new HealthIncomeResult(evalTarget, x.Contract, spec,
-                        evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        evalInterestCode, evalSubjectsType, evalMandatorBase, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
                     agr = agr.Concat(new HealthIncomeResult[] { contractResult }).ToArray();
                 }
                 var incomeList = results
@@ -190,42 +192,71 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
-                    Int32 sumTermIncome = agr.Where((c) => (c.IncomeTerm().Equals(x.IncomeTerm())))
+                    Int32 sumTermIncome = incomeResultList.Where((c) => (c.InterestCode != 0 && c.IncomeTerm().Equals(x.IncomeTerm())))
                         .Aggregate(0, (sum, c) => (sum + c.ResultValue));
 
                     Int16 particeCode = 0;
-                    if (x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS)
+                    if (x.InterestCode != 0)
                     {
-                        particeCode = 1;
-                        if (marginIncomeEmp > 0)
+                        if (HealthParticeBasedOnIncome(period, x.IncomeTerm())==false)
                         {
-                            particeCode = 0;
-                            if (sumTermIncome + x.ResultValue > marginIncomeEmp)
+                            particeCode = 1;
+                        }
+                        else
+                        {
+                            if (x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_AGREEM_TASK)
                             {
                                 particeCode = 1;
+                                if (marginIncomeAgr > 0)
+                                {
+                                    particeCode = 0;
+                                    if (sumTermIncome >= marginIncomeAgr)
+                                    {
+                                        particeCode = 1;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                particeCode = 1;
+                                if (marginIncomeEmp > 0)
+                                {
+                                    particeCode = 0;
+                                    if (sumTermIncome >= marginIncomeEmp)
+                                    {
+                                        particeCode = 1;
+                                    }
+                                }
                             }
                         }
                     }
-                    if (x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_AGREEM_WORK || 
-                        x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_AGREEM_TASK)
-                    {
-                        particeCode = 1;
-                        if (marginIncomeAgr > 0)
-                        {
-                            particeCode = 0;
-                            if (sumTermIncome + x.ResultBasis > marginIncomeAgr)
-                            {
-                                particeCode = 1;
-                            }
-                        }
-                    }
-
                     x.SetParticeCode(particeCode);
 
                     return agr.Concat(new HealthIncomeResult[] { x }).ToArray();
                 });
 
             return BuildOkResults(resultOrdersList);
+        }
+        bool HealthParticeBasedOnIncome(IPeriod period, WorkHealthTerms term)
+        {
+            switch (term)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
+                    return false;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
+                    return (period.Year >= 2015 ? true : 
+                           (period.Year >= 2012 ? true : true));
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
+                    return (period.Year >= 2015 ? true : 
+                           (period.Year >= 2012 ? true : false));
+                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
+                    return (period.Year >= 2015 ? true : 
+                           (period.Year >= 2012 ? true : false));
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
+                    return (period.Year >= 2015 ? true : 
+                           (period.Year >= 2012 ? true : false));
+            }
+            return false;
         }
         private class HealthIncomeComparator : IComparer<HealthIncomeResult>
         {
@@ -308,7 +339,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 resGeneralBase = 0;
             if (evalDeclare.InterestCode != 0)
             {
-                resGeneralBase = evalIncomes.ResultValue;
+                if (evalIncomes.ParticeCode != 0)
+                {
+                    resGeneralBase = evalIncomes.ResultValue;
+                }
             }
 
             ITermResult resultsValues = new HealthBaseResult(target, spec, 
@@ -486,10 +520,12 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var resDeclare = GetContractResult<HealthDeclareResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_DECLARE));
+            var resIncomes = GetContractResult<HealthIncomeResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_INCOME));
             var resBaseVal = GetContractResult<HealthBaseResult>(target, period, results,
                 target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_BASE));
 
-            var resCompound = GetFailedOrOk(resDeclare.ErrOrOk(), resBaseVal.ErrOrOk());
+            var resCompound = GetFailedOrOk(resDeclare.ErrOrOk(), resIncomes.ErrOrOk(), resBaseVal.ErrOrOk());
             if (resCompound.IsFailure)
             {
                 return BuildFailResults(resCompound.Error);
@@ -497,6 +533,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var evalDeclare = resDeclare.Value;
             var evalBaseVal = resBaseVal.Value;
+            var evalIncomes = resIncomes.Value;
 
             var basisList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -517,14 +554,18 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 resMandateBase = 0;
             if (evalDeclare.InterestCode != 0)
             {
-                resGeneralBase = evalBaseVal.ResultValue;
-
-                if (evalDeclare.MandatorBase != 0)
+                if (evalIncomes.ParticeCode != 0)
                 {
-                    Int32 curManHealth = Math.Max(0, minMonthlyBasis - (resSumBasis - resGeneralBase + resSumMandt));
-                    Int32 sumManHealth = Math.Max(resGeneralBase, curManHealth);
-                    resMandateBase = Math.Max(0, sumManHealth - resGeneralBase);
+                    resGeneralBase = evalBaseVal.ResultValue;
+
+                    if (evalDeclare.MandatorBase != 0)
+                    {
+                        Int32 curManHealth = Math.Max(0, minMonthlyBasis - (resSumBasis - resGeneralBase + resSumMandt));
+                        Int32 sumManHealth = Math.Max(resGeneralBase, curManHealth);
+                        resMandateBase = Math.Max(0, sumManHealth - resGeneralBase);
+                    }
                 }
+
             }
 
             if (resMandateBase > 0)

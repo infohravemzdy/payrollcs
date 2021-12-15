@@ -20,6 +20,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Constants
         ARTICLE_CONTRACT_TIME_ABSC,
         ARTICLE_PAYMENT_SALARY,
         ARTICLE_PAYMENT_BONUS,
+        ARTICLE_PAYMENT_WORKED,
         ARTICLE_PAYMENT_BARTER,
         ARTICLE_ALLOWCE_HOFFICE,
         ARTICLE_HEALTH_DECLARE,

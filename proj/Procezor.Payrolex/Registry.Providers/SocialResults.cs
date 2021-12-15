@@ -30,17 +30,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // SocialIncome		SOCIAL_INCOME
     public class SocialIncomeResult : PayrolexTermResult
     {
+        public Int16 InterestCode { get; private set; }
         public WorkSocialTerms SubjectType { get; private set; }
         public Int16 ParticeCode { get; private set; }
         public SocialIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            WorkSocialTerms subjectType, Int16 particeCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int16 interestCode, WorkSocialTerms subjectType, Int16 particeCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
             SubjectType = subjectType;
             ParticeCode = particeCode;
         }
         public override string ResultMessage()
         {
-            return $"Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
         public Int16 SetParticeCode(Int16 particeCode)
         {

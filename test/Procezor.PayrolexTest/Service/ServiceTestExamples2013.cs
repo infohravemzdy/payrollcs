@@ -247,7 +247,7 @@ namespace Procezor.PayrolexTest.Service
         }
 
         [Fact]
-        public void ServiceExamples_PPomMzdaDanPojSlevyZakladTest()
+        public void ServiceExamples_101_PPomMzdaDanPojSlevyZakladTest()
         {
             TestSpecParams test = new TestSpecParams(101, "PP-Mzda_DanPoj-SlevyZaklad", "101", 40, 0, pomGenItem, exDefaults);
 #if __TEST_PRESCRIPTION__
@@ -349,7 +349,7 @@ namespace Procezor.PayrolexTest.Service
         }
 
         [Fact]
-        public void ServiceExamples_PPomMzdaDanMaxBonusTest()
+        public void ServiceExamples_105_PPomMzdaDanMaxBonusTest()
         {
             TestSpecParams test = new TestSpecParams(105, "PP-Mzda_DanPoj-MaxBonus", "105", 40, 0, pomGenItem, exDiteMaxBonus);
             TestPeriod.Code.Should().Be(201301);
@@ -417,9 +417,349 @@ namespace Procezor.PayrolexTest.Service
         }
 
         [Fact]
-        public void ServiceExamples_PPomMzdaDanMaxZdravPrevTest()
+        public void ServiceExamples_108_PPomMzdaDanMaxZdravPrevTest()
         {
             TestSpecParams test = new TestSpecParams(108, "PP-Mzda_DanPoj-MaxZdravPrev", "108", 40, 0, pomGenItem, exSalaryMaxZdrPrev(100));
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_201_PPomMzdaNepodPojPrevLoTest()
+        {
+            TestSpecParams test = new TestSpecParams(201, "PP-Mzda_NepodPoj-PrevLo", "201", 40, 0, pomGenItem, exSrazNepPrev0);
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_301_PPomMzdaDanPojDan099Test()
+        {
+            TestSpecParams test = new TestSpecParams(301, "PP-Mzda_DanPoj-Dan099", "301", 40, 0, pomGenItem, exNoMinAgreem(74));
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_501_PPomMzdaNeUcastZdravPrevTest()
+        {
+            TestSpecParams test = new TestSpecParams(501, "DPC-Mzda_NeUcastZdrav-Prev", "501", 40, 0, dpcGenItem, exSalaryUcastZdrPrev(-1));
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_502_PPomMzdaUcastZdravPrevTest()
+        {
+            TestSpecParams test = new TestSpecParams(502, "DPC-Mzda_UcastZdrav-Prev", "502", 40, 0, dpcGenItem, exSalaryUcastZdrPrev(0));
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
+                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
+
+            output.WriteLine(example.exampleString());
+
+            var targets = example.GetSpecTargets(TestPeriod);
+            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            {
+                var articleSymbol = target.ArticleDescr();
+                var conceptSymbol = target.ConceptDescr();
+                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+            }
+
+            var initService = _sut.InitWithPeriod(TestPeriod);
+            initService.Should().BeTrue();
+
+            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
+            restService.Count().Should().NotBe(0);
+
+            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+
+            output.WriteLine(testPracResults);
+
+            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+
+            foreach (var ppomResult in testPPomResults)
+            {
+                output.WriteLine(ppomResult);
+            }
+
+            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            {
+                if (result.IsSuccess)
+                {
+                    var resultValue = result.Value;
+                    var articleSymbol = resultValue.ArticleDescr();
+                    var conceptSymbol = resultValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                }
+                else if (result.IsFailure)
+                {
+                    var errorValue = result.Error;
+                    var articleSymbol = errorValue.ArticleDescr();
+                    var conceptSymbol = errorValue.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                }
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_601_PPomMzdaNeUcastNemocPrevTest()
+        {
+            TestSpecParams test = new TestSpecParams(601, "DPP-Mzda_NeUcastNemoc-Prev", "601", 40, 0, dppGenItem, exSalaryUcastNemPrev(-1));
             TestPeriod.Code.Should().Be(201301);
 
             var prevPeriod = PrevYear(TestPeriod);

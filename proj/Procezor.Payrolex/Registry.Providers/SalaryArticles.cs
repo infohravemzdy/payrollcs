@@ -58,6 +58,31 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
     }
 
+    // PaymentWorked		PAYMENT_WORKED
+    class PaymentWorkedArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)PayrolexArticleConst.ARTICLE_PAYMENT_WORKED;
+        public PaymentWorkedArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PaymentWorkedArtSpec(this.Code.Value);
+        }
+    }
+
+    class PaymentWorkedArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
+        public PaymentWorkedArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
+                    (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
+                });
+        }
+    }
+
     // PaymentBarter		PAYMENT_BARTER
     class PaymentBarterArtProv : ArticleSpecProvider
     {

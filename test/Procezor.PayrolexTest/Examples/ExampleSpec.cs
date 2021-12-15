@@ -1773,7 +1773,7 @@ namespace Procezor.PayrolexTest.Examples
                 var targetCon = new ContractWorkTermTarget(montCode, contractCon, positionEmp, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_CONTRACT_WORK_TERM),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_CONTRACT_WORK_TERM),
-                    WorkContractTerms.WORKTERM_EMPLOYMENT_1, dateTermFrom, dateTermStop);
+                    con.Type, dateTermFrom, dateTermStop);
                 var targetPos = new PositionWorkTermTarget(montCode, contractCon, positionCon, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM),
@@ -1787,7 +1787,7 @@ namespace Procezor.PayrolexTest.Examples
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_PAYMENT_BASIS),
                     RoundingInt.RoundToInt(con.Salary));
                 var targetAGR = new PaymentFixedTarget(montCode, contractCon, positionCon, variant1Con,
-                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_PAYMENT_BONUS),
+                    ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_PAYMENT_WORKED),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED),
                     RoundingInt.RoundToInt(con.Agreem));
                 var targetHth = new HealthDeclareTarget(montCode, contractCon, positionEmp, variant1Con,

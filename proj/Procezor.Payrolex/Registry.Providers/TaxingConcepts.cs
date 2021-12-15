@@ -299,14 +299,33 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
                 var evalSubjectsType = evalTaxDeclare.ContractType;
 
-                var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
-                if (contractResult == null)
+                var resHealthInc = GetContractResult<HealthIncomeResult>(target, period, results,
+                    x.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_INCOME));
+
+                if (resHealthInc.IsFailure)
                 {
-                    contractResult = new TaxingIncomeHealthResult(evalTarget, x.Contract, spec,
-                        evalSubjectsType, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
-                    agr = agr.Concat(new TaxingIncomeHealthResult[] { contractResult }).ToArray();
+                    return agr;
                 }
-                contractResult.AddResultBasis(x.ResultValue);
+
+                var evalHealthInc = resHealthInc.Value;
+
+                var evalInterestCode = evalHealthInc.InterestCode;
+                var evalSubjectsTerm = evalHealthInc.SubjectType;
+                var evalParticeCode = evalHealthInc.ParticeCode;
+
+
+                if (evalInterestCode != 0)
+                {
+                    var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                    if (contractResult == null)
+                    {
+                        contractResult = new TaxingIncomeHealthResult(evalTarget, x.Contract, spec,
+                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticeCode, 
+                            VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        agr = agr.Concat(new TaxingIncomeHealthResult[] { contractResult }).ToArray();
+                    }
+                    contractResult.AddResultBasis(x.ResultValue);
+                }
                 return agr;
             });
 
@@ -319,14 +338,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
-                    Int32 cutAnnualsBasis = x.ResultBasis;
-                    if (agr.Item1 > 0)
-                    {
-                        var ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
-                        cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
-                    }
+                    Int32 cutAnnualsBasis = 0;
+                    Int32 remAnnualsBasis = agr.Item2;
 
-                    Int32 remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+                    if (x.ParticeCode != 0)
+                    {
+                        cutAnnualsBasis = x.ResultBasis;
+                        if (agr.Item1 > 0)
+                        {
+                            var ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
+                            cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
+                        }
+                        remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+                    }
 
                     x.SetResultValue(cutAnnualsBasis);
                     return new Tuple<Int32, Int32, TaxingIncomeHealthResult[]>(
@@ -431,14 +455,32 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
                 var evalSubjectsType = evalTaxDeclare.ContractType;
 
-                var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
-                if (contractResult == null)
+                var resSocialInc = GetContractResult<SocialIncomeResult>(target, period, results,
+                    x.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_INCOME));
+
+                if (resSocialInc.IsFailure)
                 {
-                    contractResult = new TaxingIncomeSocialResult(evalTarget, x.Contract, spec,
-                        evalSubjectsType, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
-                    agr = agr.Concat(new TaxingIncomeSocialResult[] { contractResult }).ToArray();
+                    return agr;
                 }
-                contractResult.AddResultBasis(x.ResultValue);
+
+                var evalSocialInc = resSocialInc.Value;
+
+                var evalInterestCode = evalSocialInc.InterestCode;
+                var evalSubjectsTerm = evalSocialInc.SubjectType;
+                var evalParticeCode = evalSocialInc.ParticeCode;
+
+                if (evalInterestCode != 0)
+                {
+                    var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                    if (contractResult == null)
+                    {
+                        contractResult = new TaxingIncomeSocialResult(evalTarget, x.Contract, spec,
+                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticeCode, 
+                            VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        agr = agr.Concat(new TaxingIncomeSocialResult[] { contractResult }).ToArray();
+                    }
+                    contractResult.AddResultBasis(x.ResultValue);
+                }
                 return agr;
             });
 
@@ -451,18 +493,24 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
-                    Int32 cutAnnualsBasis = x.ResultBasis;
-                    if (agr.Item1 > 0)
-                    {
-                        var ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
-                        cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
-                    }
+                    Int32 cutAnnualsBasis = 0;
+                    Int32 remAnnualsBasis = agr.Item2;
 
-                    Int32 remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+                    if (x.ParticeCode != 0)
+                    {
+                        cutAnnualsBasis = x.ResultBasis;
+                        if (agr.Item1 > 0)
+                        {
+                            var ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
+                            cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
+                        }
+                        remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+                    }
 
                     x.SetResultValue(cutAnnualsBasis);
                     return new Tuple<Int32, Int32, TaxingIncomeSocialResult[]>(
                         agr.Item1, remAnnualsBasis, agr.Item3.Concat(new TaxingIncomeSocialResult[] { x }).ToArray());
+
                 });
 
             return BuildOkResults(resultOrdersList.Item3);
@@ -1162,7 +1210,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancePaym = TaxAdvancesRoundedPaym(taxingRules, advanceSuper, advanceBasis);
 
-            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceBasis, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -1571,7 +1619,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     if (withholdMarginIncome > 0 && incomeRes <= withholdMarginIncome)
                     {
-                        baseValue = incomeRes;
+                        baseValue = healthRes;
                     }
                 }
             }
@@ -1700,7 +1748,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     if (withholdMarginIncome > 0 && incomeRes <= withholdMarginIncome)
                     {
-                        baseValue = incomeRes;
+                        baseValue = socialRes;
                     }
                 }
             }
@@ -1810,7 +1858,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdBase = TaxWithholdRoundedBase(taxingRules, taxableSuper);
 
-            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -1889,18 +1937,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdBasis = evalBaseVal.ResultBasis;
 
-            ITermResult resultsValues = new TaxingWithholdTotalResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 withholdSuper = evalBaseVal.ResultValue;
+
+            Int32 withholdPaym = TaxWithholdRoundedPaym(taxingRules, withholdSuper, withholdBasis);
+
+            ITermResult resultsValues = new TaxingWithholdTotalResult(target, spec, withholdPaym, withholdSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
-        private Int32 TaxWithholdRoundedPaym(IPropsTaxing taxingRules, Int32 withholdBasis)
+        private Int32 TaxWithholdRoundedPaym(IPropsTaxing taxingRules, Int32 withholdSuper, Int32 withholdBasis)
         {
             decimal factorWithhold = OperationsDec.Divide(taxingRules.FactorWithhold, 100);
 
-            Int32 withholdTaxing = 0;
-            if (withholdTaxing != 0)
+            Int32 withholdTaxing = Math.Max(0, withholdSuper);
+            if (withholdTaxing > 0)
             {
-                withholdTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(withholdBasis, factorWithhold));
+                withholdTaxing = OperationsTaxing.IntTaxRoundDown(OperationsDec.Multiply(withholdSuper, factorWithhold));
             }
             return withholdTaxing;
         }

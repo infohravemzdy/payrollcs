@@ -456,7 +456,8 @@ namespace Procezor.PayrolexTest.Service
                     PayrolexArticleConst.ARTICLE_CONTRACT_TIME_ABSC, (x) => (x.TotalTimeMonth()));//CONTRACT_TIME_ABSC,	0
                 Int32 PAYMENT_SALARY = GetIntResultContractSelect<PaymentBasisResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_PAYMENT_SALARY, (x) => (x.ResultBasis));//PAYMENT_SALARY,	15000
-                Int32 PAYMENT_AGRFIX = 0;//PAYMENT_AGRFIX,	0
+                Int32 PAYMENT_WORKED = GetIntResultContractSelect<PaymentFixedResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_PAYMENT_WORKED, (x) => (x.ResultBasis));//PAYMENT_WORKED,	0
                 Int32 HEALTH_DECLARE_SUB = GetIntResultContractSelect<HealthDeclareResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_HEALTH_DECLARE, (x) => (x.InterestCode));//HEALTH_DECLARE_SUB,	subject
                 Int32 HEALTH_DECLARE_MIN = GetIntResultContractSelect<HealthDeclareResult>(results, con.Id,
@@ -525,7 +526,7 @@ namespace Procezor.PayrolexTest.Service
                     CONTRACT_TIME_WORK.ToString(),//CONTRACT_TIME_WORK,	184
                     CONTRACT_TIME_ABSC.ToString(),//CONTRACT_TIME_ABSC,	0
                     PAYMENT_SALARY.ToString(),//PAYMENT_SALARY,	15000
-                    PAYMENT_AGRFIX.ToString(),//PAYMENT_AGRFIX,	0
+                    PAYMENT_WORKED.ToString(),//PAYMENT_AGRFIX,	0
                     HEALTH_DECLARE_SUB.ToString(),//HEALTH_DECLARE_SUB,	subject
                     HEALTH_DECLARE_MIN.ToString(),//HEALTH_DECLARE_MIN,	minimum
                     HEALTH_DECLARE_FOR.ToString(),//HEALTH_DECLARE_FOR,	zahraniční

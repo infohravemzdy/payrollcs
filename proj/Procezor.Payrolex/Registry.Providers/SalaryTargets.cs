@@ -23,14 +23,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // PaymentFixed		PAYMENT_FIXED
     public class PaymentFixedTarget : PayrolexTermTarget
     {
-        public Int32 TargetVals { get; private set; }
-
         public PaymentFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 fixedBasis) :
+            base(monthCode, contract, position, variant, article, concept, fixedBasis, DESCRIPTION_EMPTY)
         {
-            TargetVals = targetVals;
         }
     }
 }

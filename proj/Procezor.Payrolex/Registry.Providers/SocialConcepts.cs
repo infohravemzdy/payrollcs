@@ -164,12 +164,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
             {
                 var evalSubjectsType = x.ContractType;
+                var evalInterestCode = x.InterestCode;
 
                 var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
                 if (contractResult == null)
                 {
                     contractResult = new SocialIncomeResult(evalTarget, x.Contract, spec,
-                        evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        evalInterestCode, evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
                     agr = agr.Concat(new SocialIncomeResult[] { contractResult }).ToArray();
                 }
                 var incomeList = results
@@ -190,31 +191,38 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
-                    Int32 sumTermIncome = agr.Where((c) => (c.IncomeTerm().Equals(x.IncomeTerm())))
+                    Int32 sumTermIncome = incomeResultList.Where((c) => (c.InterestCode!=0 && c.IncomeTerm().Equals(x.IncomeTerm())))
                         .Aggregate(0, (sum, c) => (sum + c.ResultValue));
 
                     Int16 particeCode = 0;
-                    if (x.IncomeTerm() == WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS)
+                    if (x.InterestCode != 0)
                     {
-                        particeCode = 1;
-                        if (marginIncomeEmp > 0)
+                        if (SocialParticeBasedOnIncome(period, x.IncomeTerm()) == false)
                         {
-                            particeCode = 0;
-                            if (sumTermIncome + x.ResultValue > marginIncomeEmp)
+                            particeCode = 1;
+                        }
+                        else if (x.IncomeTerm() == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK)
+                        {
+                            particeCode = 1;
+                            if (marginIncomeAgr > 0)
                             {
-                                particeCode = 1;
+                                particeCode = 0;
+                                if (sumTermIncome >= marginIncomeAgr)
+                                {
+                                    particeCode = 1;
+                                }
                             }
                         }
-                    }
-                    if (x.IncomeTerm() == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK)
-                    {
-                        particeCode = 1;
-                        if (marginIncomeAgr > 0)
+                        else
                         {
-                            particeCode = 0;
-                            if (sumTermIncome + x.ResultBasis > marginIncomeAgr)
+                            particeCode = 1;
+                            if (marginIncomeEmp > 0)
                             {
-                                particeCode = 1;
+                                particeCode = 0;
+                                if (sumTermIncome >= marginIncomeEmp)
+                                {
+                                    particeCode = 1;
+                                }
                             }
                         }
                     }
@@ -225,6 +233,25 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 });
 
             return BuildOkResults(resultOrdersList);
+        }
+        bool SocialParticeBasedOnIncome(IPeriod period, WorkSocialTerms term)
+        {
+            switch (term)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    return false;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    return period.Year >= 2012 ? true : false;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    return period.Year >= 2014 ? true : false;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    return period.Year >= 2014 ? true : false;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    return period.Year >= 2014 ? true : false;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    return period.Year >= 2014 ? true : false;
+            }
+            return false;
         }
         private class SocialIncomeComparator : IComparer<SocialIncomeResult>
         {
@@ -307,7 +334,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 resGeneralBase = 0;
             if (evalDeclare.InterestCode != 0)
             {
-                resGeneralBase = evalIncomes.ResultValue;
+                if (evalIncomes.ParticeCode != 0)
+                {
+                    resGeneralBase = evalIncomes.ResultValue;
+                }
             }
 
             ITermResult resultsValues = new SocialBaseResult(target, spec,

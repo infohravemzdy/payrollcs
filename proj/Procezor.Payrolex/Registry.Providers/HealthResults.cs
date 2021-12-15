@@ -33,17 +33,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // HealthIncome		HEALTH_INCOME
     public class HealthIncomeResult : PayrolexTermResult
     {
+        public Int16 InterestCode { get; private set; }
         public WorkHealthTerms SubjectType { get; private set; }
+        public Int16 MandatorBase { get; private set; }
         public Int16 ParticeCode { get; private set; }
         public HealthIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            WorkHealthTerms subjectType, Int16 particeCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particeCode, 
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
             SubjectType = subjectType;
+            MandatorBase = mandatorBase;
             ParticeCode = particeCode;
         }
         public override string ResultMessage()
         {
-            return $"Term: {Enum.GetName<WorkHealthTerms>(this.IncomeTerm())}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.IncomeTerm())}, Mandatory: {this.MandatorBase}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
         public Int16 SetParticeCode(Int16 particeCode)
         {
