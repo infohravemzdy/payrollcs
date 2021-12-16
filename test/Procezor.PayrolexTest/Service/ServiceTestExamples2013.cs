@@ -24,79 +24,78 @@ namespace Procezor.PayrolexTest.Service
     {
         private static IPeriod TestPeriod = new Period(2013,1);
 
-        private static readonly TestSpecParams[] _tests = new TestSpecParams[] {
-                new TestSpecParams(101, "PP-Mzda_DanPoj-SlevyZaklad",      "101", 40, 0, pomGenItem, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(102, "PP-Mzda_DanPoj-SlevyDite1",       "102", 40, 0, pomGenItem, exSalaryDiteZtp(15600, 1, 0, 0)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(103, "PP-Mzda_DanPoj-BonusDite1",       "103", 40, 0, pomGenItem, exDiteZtp(1,0,0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(104, "PP-Mzda_DanPoj-BonusDite2",       "104", 40, 0, pomGenItem, exDiteZtp(1,1,0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 2,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(105, "PP-Mzda_DanPoj-MaxBonus",         "105", 40, 0, pomGenItem, exDiteMaxBonus), //, CZK 10000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 7,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(106, "PP-Mzda_DanPoj-MinZdravPrev",     "106", 40, 0, pomGenItem, exSalaryMinZdrPrev(-200)), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(107, "PP-Mzda_DanPoj-MinZdravCurr",     "107", 40, 0, pomGenItem, exSalaryMinZdr(-200)), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(108, "PP-Mzda_DanPoj-MaxZdravPrev",     "108", 40, 0, pomGenItem, exSalaryMaxZdrPrev(100)), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(109, "PP-Mzda_DanPoj-MaxZdravCurr",     "109", 40, 0, pomGenItem, exSalaryMaxZdr(100)), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(110, "PP-Mzda_DanPoj-MaxSocialPrev",    "110", 40, 0, pomGenItem, exSalaryMaxSocPrev(100)), //, CZK 1206676  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(111, "PP-Mzda_DanPoj-MaxSocialCurr",    "111", 40, 0, pomGenItem, exSalaryMaxSoc(100)), //, CZK 1242532  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(112, "PP-Mzda_DanPoj-SolidarDanPrev",   "112", 40, 0, pomGenItem, exSalarySolTaxPrev(1000)), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(113, "PP-Mzda_DanPoj-SolidarDanCurr",   "113", 40, 0, pomGenItem, exSalarySolTax(1000)), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(114, "PP-Mzda_DanPoj-DuchSpor",         "114", 40, 0, pomGenItem, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(115, "PP-Mzda_DanPoj-SlevyInv1",        "115", 40, 0, pomGenItem, exSalaryInv(20000, yes, no, no)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  YES, NO, NO              ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(116, "PP-Mzda_DanPoj-SlevyInv2",        "116", 40, 0, pomGenItem, exTaxInval(no, yes, no)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(117, "PP-Mzda_DanPoj-SlevyInv3",        "117", 40, 0, pomGenItem, exTaxInval(no, no, yes)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(118, "PP-Mzda_DanPoj-SlevyStud",        "118", 40, 0, pomGenItem, exTaxStudy), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  YES                  ,  YES             ,  YES             , 
-                new TestSpecParams(119, "PP-Mzda_DanPoj-SlevyZakl015",     "119", 40, 0, pomGenItem, exDefaults), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(120, "PP-Mzda_DanPoj-SlevyZakl020",     "120", 40, 0, pomGenItem, exSalary(20000 )), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(121, "PP-Mzda_DanPoj-SlevyZakl025",     "121", 40, 0, pomGenItem, exSalary(25000 )), //, CZK 25000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(122, "PP-Mzda_DanPoj-SlevyZakl030",     "122", 40, 0, pomGenItem, exSalary(30000 )), //, CZK 30000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(123, "PP-Mzda_DanPoj-SlevyZakl035",     "123", 40, 0, pomGenItem, exSalary(35000 )), //, CZK 35000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(124, "PP-Mzda_DanPoj-SlevyZakl040",     "124", 40, 0, pomGenItem, exSalary(40000 )), //, CZK 40000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(125, "PP-Mzda_DanPoj-SlevyZakl045",     "125", 40, 0, pomGenItem, exSalary(45000 )), //, CZK 45000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(126, "PP-Mzda_DanPoj-SlevyZakl050",     "126", 40, 0, pomGenItem, exSalary(50000 )), //, CZK 50000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(127, "PP-Mzda_DanPoj-SlevyZakl055",     "127", 40, 0, pomGenItem, exSalary(55000 )), //, CZK 55000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(128, "PP-Mzda_DanPoj-SlevyZakl060",     "128", 40, 0, pomGenItem, exSalary(60000 )), //, CZK 60000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(129, "PP-Mzda_DanPoj-SlevyZakl065",     "129", 40, 0, pomGenItem, exSalary(65000 )), //, CZK 65000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(130, "PP-Mzda_DanPoj-SlevyZakl070",     "130", 40, 0, pomGenItem, exSalary(70000 )), //, CZK 70000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(131, "PP-Mzda_DanPoj-SlevyZakl075",     "131", 40, 0, pomGenItem, exSalary(75000 )), //, CZK 75000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(132, "PP-Mzda_DanPoj-SlevyZakl080",     "132", 40, 0, pomGenItem, exSalary(80000 )), //, CZK 80000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(133, "PP-Mzda_DanPoj-SlevyZakl085",     "133", 40, 0, pomGenItem, exSalary(85000 )), //, CZK 85000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(134, "PP-Mzda_DanPoj-SlevyZakl090",     "134", 40, 0, pomGenItem, exSalary(90000 )), //, CZK 90000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(135, "PP-Mzda_DanPoj-SlevyZakl095",     "135", 40, 0, pomGenItem, exSalary(95000 )), //, CZK 95000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(136, "PP-Mzda_DanPoj-SlevyZakl100",     "136", 40, 0, pomGenItem, exSalary(100000)), //, CZK 100000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(137, "PP-Mzda_DanPoj-SlevyZakl105",     "137", 40, 0, pomGenItem, exSalary(105000)), //, CZK 105000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(138, "PP-Mzda_DanPoj-SlevyZakl110",     "138", 40, 0, pomGenItem, exSalary(110000)), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+         private static readonly ExampleGenerator[] _genTests = new ExampleGenerator[] {
+            ExampleGenerator.Spec(101, "PP-Mzda_DanPoj-SlevyZaklad",      "101").WithContracts(ContractGenerator.SpecEmp(1, "101")),
+            ExampleGenerator.Spec(102, "PP-Mzda_DanPoj-SlevyDite1",       "102").WithContracts(ContractGenerator.SpecEmp(1, "102").WithSalary(ConValue(15600))).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(103, "PP-Mzda_DanPoj-BonusDite1",       "103").WithContracts(ContractGenerator.SpecEmp(1, "103")).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(104, "PP-Mzda_DanPoj-BonusDite2",       "104").WithContracts(ContractGenerator.SpecEmp(1, "104")).WithChild(ChildGenerator.SpecDisb(1, 1, 0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 2,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(105, "PP-Mzda_DanPoj-MaxBonus",         "105").WithContracts(ContractGenerator.SpecEmp(1, "105").WithSalary(MaxBonus())).WithChild(ChildGenerator.SpecDisb(1, 1, 5)), //, CZK 10000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 7,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(106, "PP-Mzda_DanPoj-MinZdravPrev",     "106").WithContracts(ContractGenerator.SpecEmp(1, "106").WithSalary(MinZdrPrev(-200))), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(107, "PP-Mzda_DanPoj-MinZdravCurr",     "107").WithContracts(ContractGenerator.SpecEmp(1, "107").WithSalary(MinZdr(-200))), //, CZK 7800     ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(108, "PP-Mzda_DanPoj-MaxZdravPrev",     "108").WithContracts(ContractGenerator.SpecEmp(1, "108").WithSalary(MaxZdrPrev(100))), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(109, "PP-Mzda_DanPoj-MaxZdravCurr",     "109").WithContracts(ContractGenerator.SpecEmp(1, "109").WithSalary(MaxZdr(100))), //, CZK 1809964  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(110, "PP-Mzda_DanPoj-MaxSocialPrev",    "110").WithContracts(ContractGenerator.SpecEmp(1, "110").WithSalary(MaxSocPrev(100))), //, CZK 1206676  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(111, "PP-Mzda_DanPoj-MaxSocialCurr",    "111").WithContracts(ContractGenerator.SpecEmp(1, "111").WithSalary(MaxSoc(100))), //, CZK 1242532  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(112, "PP-Mzda_DanPoj-SolidarDanPrev",   "112").WithContracts(ContractGenerator.SpecEmp(1, "112").WithSalary(SolTaxPrev(1000))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(113, "PP-Mzda_DanPoj-SolidarDanCurr",   "113").WithContracts(ContractGenerator.SpecEmp(1, "113").WithSalary(SolTax(1000))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(114, "PP-Mzda_DanPoj-DuchSpor",         "114").WithContracts(ContractGenerator.SpecEmp(1, "114")), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(115, "PP-Mzda_DanPoj-SlevyInv1",        "115").WithContracts(ContractGenerator.SpecEmp(1, "115").WithSalary(ConValue(20000))).WithBenDisab1(GenValue(1)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  YES, NO, NO              ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(116, "PP-Mzda_DanPoj-SlevyInv2",        "116").WithContracts(ContractGenerator.SpecEmp(1, "116")).WithBenDisab2(GenValue(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(117, "PP-Mzda_DanPoj-SlevyInv3",        "117").WithContracts(ContractGenerator.SpecEmp(1, "117")).WithBenDisab3(GenValue(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(118, "PP-Mzda_DanPoj-SlevyStud",        "118").WithContracts(ContractGenerator.SpecEmp(1, "118")).WithBenStudy(GenValue(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  YES                  ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(119, "PP-Mzda_DanPoj-SlevyZakl015",     "119").WithContracts(ContractGenerator.SpecEmp(1, "119")), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(120, "PP-Mzda_DanPoj-SlevyZakl020",     "120").WithContracts(ContractGenerator.SpecEmp(1, "120").WithSalary(ConValue(20000 ))), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(121, "PP-Mzda_DanPoj-SlevyZakl025",     "121").WithContracts(ContractGenerator.SpecEmp(1, "121").WithSalary(ConValue(25000 ))), //, CZK 25000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(122, "PP-Mzda_DanPoj-SlevyZakl030",     "122").WithContracts(ContractGenerator.SpecEmp(1, "122").WithSalary(ConValue(30000 ))), //, CZK 30000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(123, "PP-Mzda_DanPoj-SlevyZakl035",     "123").WithContracts(ContractGenerator.SpecEmp(1, "123").WithSalary(ConValue(35000 ))), //, CZK 35000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(124, "PP-Mzda_DanPoj-SlevyZakl040",     "124").WithContracts(ContractGenerator.SpecEmp(1, "124").WithSalary(ConValue(40000 ))), //, CZK 40000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(125, "PP-Mzda_DanPoj-SlevyZakl045",     "125").WithContracts(ContractGenerator.SpecEmp(1, "125").WithSalary(ConValue(45000 ))), //, CZK 45000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(126, "PP-Mzda_DanPoj-SlevyZakl050",     "126").WithContracts(ContractGenerator.SpecEmp(1, "126").WithSalary(ConValue(50000 ))), //, CZK 50000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(127, "PP-Mzda_DanPoj-SlevyZakl055",     "127").WithContracts(ContractGenerator.SpecEmp(1, "127").WithSalary(ConValue(55000 ))), //, CZK 55000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(128, "PP-Mzda_DanPoj-SlevyZakl060",     "128").WithContracts(ContractGenerator.SpecEmp(1, "128").WithSalary(ConValue(60000 ))), //, CZK 60000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(129, "PP-Mzda_DanPoj-SlevyZakl065",     "129").WithContracts(ContractGenerator.SpecEmp(1, "129").WithSalary(ConValue(65000 ))), //, CZK 65000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(130, "PP-Mzda_DanPoj-SlevyZakl070",     "130").WithContracts(ContractGenerator.SpecEmp(1, "130").WithSalary(ConValue(70000 ))), //, CZK 70000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(131, "PP-Mzda_DanPoj-SlevyZakl075",     "131").WithContracts(ContractGenerator.SpecEmp(1, "131").WithSalary(ConValue(75000 ))), //, CZK 75000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(132, "PP-Mzda_DanPoj-SlevyZakl080",     "132").WithContracts(ContractGenerator.SpecEmp(1, "132").WithSalary(ConValue(80000 ))), //, CZK 80000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(133, "PP-Mzda_DanPoj-SlevyZakl085",     "133").WithContracts(ContractGenerator.SpecEmp(1, "133").WithSalary(ConValue(85000 ))), //, CZK 85000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(134, "PP-Mzda_DanPoj-SlevyZakl090",     "134").WithContracts(ContractGenerator.SpecEmp(1, "134").WithSalary(ConValue(90000 ))), //, CZK 90000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(135, "PP-Mzda_DanPoj-SlevyZakl095",     "135").WithContracts(ContractGenerator.SpecEmp(1, "135").WithSalary(ConValue(95000 ))), //, CZK 95000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(136, "PP-Mzda_DanPoj-SlevyZakl100",     "136").WithContracts(ContractGenerator.SpecEmp(1, "136").WithSalary(ConValue(100000))), //, CZK 100000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(137, "PP-Mzda_DanPoj-SlevyZakl105",     "137").WithContracts(ContractGenerator.SpecEmp(1, "137").WithSalary(ConValue(105000))), //, CZK 105000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(138, "PP-Mzda_DanPoj-SlevyZakl110",     "138").WithContracts(ContractGenerator.SpecEmp(1, "138").WithSalary(ConValue(110000))), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                new TestSpecParams(201, "PP-Mzda_NepodPoj-PrevLo",         "201", 40, 0, pomGenItem, exSrazNepPrev0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(202, "PP-Mzda_NepodPoj-PrevHi",         "202", 40, 0, pomGenItem, exSrazNepPrev1), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(203, "PP-Mzda_NepodPoj-CurrLo",         "203", 40, 0, pomGenItem, exSrazNep0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(204, "PP-Mzda_NepodPoj-CurrHi",         "204", 40, 0, pomGenItem, exSrazNep1), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(201, "PP-Mzda_NepodPoj-PrevLo",         "201").WithContracts(ContractGenerator.SpecEmp(1, "201").WithSalary(SrazNepPrev(0))).WithTaxDecl(GenValue(0)), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(202, "PP-Mzda_NepodPoj-PrevHi",         "202").WithContracts(ContractGenerator.SpecEmp(1, "202").WithSalary(SrazNepPrev(1))).WithTaxDecl(GenValue(0)), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(203, "PP-Mzda_NepodPoj-CurrLo",         "203").WithContracts(ContractGenerator.SpecEmp(1, "203").WithSalary(SrazNep(0))).WithTaxDecl(GenValue(0)), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(204, "PP-Mzda_NepodPoj-CurrHi",         "204").WithContracts(ContractGenerator.SpecEmp(1, "204").WithSalary(SrazNep(1))).WithTaxDecl(GenValue(0)), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                new TestSpecParams(301, "PP-Mzda_DanPoj-Dan099",           "301", 40, 0, pomGenItem, exNoMinAgreem(74)), //, CZK 74       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(302, "PP-Mzda_DanPoj-Dan100",           "302", 40, 0, pomGenItem, exNoMinSalary(75)), //, CZK 75       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(303, "PP-Mzda_DanPoj-Dan101",           "303", 40, 0, pomGenItem, exNoMinSalary(100)), //, CZK 100      ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(301, "PP-Mzda_DanPoj-Dan099",           "301").WithContracts(ContractGenerator.SpecEmp(1, "301").WithSalary(ConValue(0)).WithAgreem(ConValue(74)).WithHealthMinim(ConValue(0))), //, CZK 74       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(302, "PP-Mzda_DanPoj-Dan100",           "302").WithContracts(ContractGenerator.SpecEmp(1, "302").WithSalary(ConValue(75)).WithHealthMinim(ConValue(0))), //, CZK 75       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(303, "PP-Mzda_DanPoj-Dan101",           "303").WithContracts(ContractGenerator.SpecEmp(1, "303").WithSalary(ConValue(100)).WithHealthMinim(ConValue(0))), //, CZK 100      ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                new TestSpecParams(401, "PP-Mzda_DanPoj-Neodpr064",        "401", 40,  46, pomGenItem, exSalary(20000)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(402, "PP-Mzda_DanPoj-Neodpr184",        "402", 40, 184, pomGenItem, exNoMinSalary(20000)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(401, "PP-Mzda_DanPoj-Neodpr064",        "401").WithContracts(ContractGenerator.SpecEmp(1, "401").WithSalary(ConValue(20000)).WithAbsence(ConValue(46))), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(402, "PP-Mzda_DanPoj-Neodpr184",        "402").WithContracts(ContractGenerator.SpecEmp(1, "402").WithSalary(ConValue(20000)).WithHealthMinim(ConValue(0)).WithAbsence(ConValue(184))), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                new TestSpecParams(501, "DPC-Mzda_NeUcastZdrav-Prev",      "501", 40, 0, dpcGenItem, exSalaryUcastZdrPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(502, "DPC-Mzda_UcastZdrav-Prev",        "502", 40, 0, dpcGenItem, exSalaryUcastZdrPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(503, "DPC-Mzda_NeUcastNemoc-Prev",      "503", 40, 0, dpcGenItem, exSalaryUcastNemPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(504, "DPC-Mzda_UcastNemoc-Prev",        "504", 40, 0, dpcGenItem, exSalaryUcastNemPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(505, "DPP-Mzda_NeUcastZdrav-Prev",      "505", 40, 0, dpcGenItem, exSalaryUcastZdrEmpPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(506, "DPP-Mzda_UcastZdrav-Prev",        "506", 40, 0, dpcGenItem, exSalaryUcastZdrEmpPrev(0)),  //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(507, "DPC-Mzda_NeUcastZdrav-Curr",      "507", 40, 0, dpcGenItem, exSalaryUcastZdr(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(508, "DPC-Mzda_UcastZdrav-Curr",        "508", 40, 0, dpcGenItem, exSalaryUcastZdr(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(509, "DPC-Mzda_NeUcastNemoc-Curr",      "509", 40, 0, dpcGenItem, exSalaryUcastNem(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(510, "DPC-Mzda_UcastNemoc-Curr",        "510", 40, 0, dpcGenItem, exSalaryUcastNem(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(511, "DPP-Mzda_NeUcastZdrav-Curr",      "511", 40, 0, dppGenItem, exSalaryUcastZdrEmp(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(512, "DPP-Mzda_UcastZdrav-Curr",        "512", 40, 0, dppGenItem, exSalaryUcastZdrEmp(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(501, "DPC-Mzda_NeUcastZdrav-Prev",      "501").WithContracts(ContractGenerator.SpecDpc(1, "501").WithSalary(ConValue(0)).WithAgreem(UcastZdrPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(502, "DPC-Mzda_UcastZdrav-Prev",        "502").WithContracts(ContractGenerator.SpecDpc(1, "502").WithSalary(ConValue(0)).WithAgreem(UcastZdrPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(503, "DPC-Mzda_NeUcastNemoc-Prev",      "503").WithContracts(ContractGenerator.SpecDpc(1, "503").WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(504, "DPC-Mzda_UcastNemoc-Prev",        "504").WithContracts(ContractGenerator.SpecDpc(1, "504").WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(505, "DPP-Mzda_NeUcastZdrav-Prev",      "505").WithContracts(ContractGenerator.SpecDpc(1, "505").WithSalary(ConValue(0)).WithAgreem(UcastZdrEmpPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(506, "DPP-Mzda_UcastZdrav-Prev",        "506").WithContracts(ContractGenerator.SpecDpc(1, "506").WithSalary(ConValue(0)).WithAgreem(UcastZdrEmpPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(507, "DPC-Mzda_NeUcastZdrav-Curr",      "507").WithContracts(ContractGenerator.SpecDpc(1, "507").WithSalary(ConValue(0)).WithAgreem(UcastZdr(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(508, "DPC-Mzda_UcastZdrav-Curr",        "508").WithContracts(ContractGenerator.SpecDpc(1, "508").WithSalary(ConValue(0)).WithAgreem(UcastZdr(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(509, "DPC-Mzda_NeUcastNemoc-Curr",      "509").WithContracts(ContractGenerator.SpecDpc(1, "509").WithSalary(ConValue(0)).WithAgreem(UcastNem(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(510, "DPC-Mzda_UcastNemoc-Curr",        "510").WithContracts(ContractGenerator.SpecDpc(1, "510").WithSalary(ConValue(0)).WithAgreem(UcastNem(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(511, "DPP-Mzda_NeUcastZdrav-Curr",      "511").WithContracts(ContractGenerator.SpecDpp(1, "511").WithSalary(ConValue(0)).WithAgreem(UcastZdrEmp(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(512, "DPP-Mzda_UcastZdrav-Curr",        "512").WithContracts(ContractGenerator.SpecDpp(1, "512").WithSalary(ConValue(0)).WithAgreem(UcastZdrEmp(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-                new TestSpecParams(601, "DPP-Mzda_NeUcastNemoc-Prev",      "601", 40, 0, dppGenItem, exSalaryUcastNemPrev(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(602, "DPP-Mzda_UcastNemoc-Prev",        "602", 40, 0, dppGenItem, exSalaryUcastNemPrev(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(603, "DPP-Mzda_NeUcastNemoc-Curr",      "603", 40, 0, dppGenItem, exSalaryUcastNem(-1)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-                new TestSpecParams(604, "DPP-Mzda_UcastNemoc-Curr",        "604", 40, 0, dppGenItem, exSalaryUcastNem(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(601, "DPP-Mzda_NeUcastNemoc-Prev",      "601").WithContracts(ContractGenerator.SpecDpp(1, "601").WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(602, "DPP-Mzda_UcastNemoc-Prev",        "602").WithContracts(ContractGenerator.SpecDpp(1, "602").WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(603, "DPP-Mzda_NeUcastNemoc-Curr",      "603").WithContracts(ContractGenerator.SpecDpp(1, "603").WithSalary(ConValue(0)).WithAgreem(UcastNem(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(604, "DPP-Mzda_UcastNemoc-Curr",        "604").WithContracts(ContractGenerator.SpecDpp(1, "604").WithSalary(ConValue(0)).WithAgreem(UcastNem(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
         };
-
-        public static IEnumerable<object[]> TestData => GetTestDecData(_tests);
-        public static IEnumerable<object[]> GetTestDecData(TestSpecParams[] tests) {
+        public static IEnumerable<object[]> GenTestData => GetGenTestDecData(_genTests);
+        public static IEnumerable<object[]> GetGenTestDecData(ExampleGenerator[] tests) {
             System.Text.EncodingProvider ppp = System.Text.CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(ppp);
 
@@ -204,52 +203,12 @@ namespace Procezor.PayrolexTest.Service
             }
             return tests.Select((tt) => (new object[] { tt })); 
         }
+        
         public ServiceTestExamples2013(ITestOutputHelper output) : base(output)
         {
         }
-        [Fact]
-        public void ServiceExamples_CreateImport()
+        private void ServiceExampleTest(ExampleGenerator example)
         {
-            System.Text.EncodingProvider ppp = System.Text.CodePagesEncodingProvider.Instance;
-            Encoding.RegisterProvider(ppp);
-
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            using (var testProtokol = CreateProtokolFile($"OKmzdyImport_{TestPeriod.Year}.txt"))
-            {
-                ExportPropsStart(testProtokol);
-
-                foreach (var test in _tests)
-                {
-                    var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                        test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-                    foreach (var impLine in example.importString(TestPeriod))
-                    {
-                        testProtokol.WriteLine(impLine);
-                    }
-                }
-                ExportPropsEnd(testProtokol);
-            }
-        }
-
-        [Fact]
-        public void ServiceExamples_101_PPomMzdaDanPojSlevyZakladTest()
-        {
-            TestSpecParams test = new TestSpecParams(101, "PP-Mzda_DanPoj-SlevyZaklad", "101", 40, 0, pomGenItem, exDefaults);
 #if __TEST_PRESCRIPTION__
             //name                             |101-PP-Mzda-DanPoj-SlevyZaklad
             //period                           |01 2013
@@ -299,12 +258,7 @@ namespace Procezor.PayrolexTest.Service
 
             var prevRuleset = prevLegalResult.Value;
 
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
+            var targets = example.BuildSpecTargets(TestPeriod, testRuleset, prevRuleset);
             foreach (var (target, index) in targets.Select((item, index) => (item, index)))
             {
                 var articleSymbol = target.ArticleDescr();
@@ -318,11 +272,11 @@ namespace Procezor.PayrolexTest.Service
             var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
             restService.Count().Should().NotBe(0);
 
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
+            var testPracResults = GetExamplePracResultsLine(example, TestPeriod, restService);
 
             output.WriteLine(testPracResults);
 
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
+            var testPPomResults = GetExamplePPomResultsLine(example, TestPeriod, restService);
 
             foreach (var ppomResult in testPPomResults)
             {
@@ -346,487 +300,131 @@ namespace Procezor.PayrolexTest.Service
                     output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                 }
             }
+        }
+
+        [Fact]
+        public void ServiceExamples_CreateImport()
+        {
+            System.Text.EncodingProvider ppp = System.Text.CodePagesEncodingProvider.Instance;
+            Encoding.RegisterProvider(ppp);
+
+            TestPeriod.Code.Should().Be(201301);
+
+            var prevPeriod = PrevYear(TestPeriod);
+            prevPeriod.Code.Should().Be(201201);
+
+            var testLegalResult = _leg.GetBundle(TestPeriod);
+            testLegalResult.IsSuccess.Should().Be(true);
+
+            var testRuleset = testLegalResult.Value;
+
+            var prevLegalResult = _leg.GetBundle(prevPeriod);
+            prevLegalResult.IsSuccess.Should().Be(true);
+
+            var prevRuleset = prevLegalResult.Value;
+
+            using (var testProtokol = CreateProtokolFile($"OKmzdyImport_{TestPeriod.Year}.txt"))
+            {
+                ExportPropsStart(testProtokol);
+
+                foreach (var example in _genTests)
+                {
+                    foreach (var impLine in example.BuildImportString(TestPeriod, testRuleset, prevRuleset))
+                    {
+                        testProtokol.WriteLine(impLine);
+                    }
+                }
+                ExportPropsEnd(testProtokol);
+            }
+        }
+
+        [Fact]
+        public void ServiceExamples_101_PPomMzdaDanPojSlevyZakladTest()
+        {
+            ExampleGenerator example = ExampleGenerator.Spec(101, "PP-Mzda_DanPoj-SlevyZaklad", "101")
+                .WithContracts(ContractGenerator.SpecEmp(1, "101"));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_105_PPomMzdaDanMaxBonusTest()
         {
-            TestSpecParams test = new TestSpecParams(105, "PP-Mzda_DanPoj-MaxBonus", "105", 40, 0, pomGenItem, exDiteMaxBonus);
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(105, "PP-Mzda_DanPoj-MaxBonus", "105")
+                .WithContracts(ContractGenerator.SpecEmp(1, "105")
+                    .WithSalary(MaxBonus()))
+                .WithChild(ChildGenerator.SpecDisb(1, 1, 5));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_108_PPomMzdaDanMaxZdravPrevTest()
         {
-            TestSpecParams test = new TestSpecParams(108, "PP-Mzda_DanPoj-MaxZdravPrev", "108", 40, 0, pomGenItem, exSalaryMaxZdrPrev(100));
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(108, "PP-Mzda_DanPoj-MaxZdravPrev", "108")
+                .WithContracts(ContractGenerator.SpecEmp(1, "108")
+                    .WithSalary(MaxZdrPrev(100)));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_201_PPomMzdaNepodPojPrevLoTest()
         {
-            TestSpecParams test = new TestSpecParams(201, "PP-Mzda_NepodPoj-PrevLo", "201", 40, 0, pomGenItem, exSrazNepPrev0);
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(201, "PP-Mzda_NepodPoj-PrevLo", "201")
+                .WithContracts(ContractGenerator.SpecEmp(1, "201")
+                    .WithSalary(SrazNepPrev(0)))
+                .WithTaxDecl(GenValue(0));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_301_PPomMzdaDanPojDan099Test()
         {
-            TestSpecParams test = new TestSpecParams(301, "PP-Mzda_DanPoj-Dan099", "301", 40, 0, pomGenItem, exNoMinAgreem(74));
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(301, "PP-Mzda_DanPoj-Dan099", "301")
+                .WithContracts(ContractGenerator.SpecEmp(1, "301")
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(ConValue(74))
+                    .WithHealthMinim(ConValue(0)));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_501_PPomMzdaNeUcastZdravPrevTest()
         {
-            TestSpecParams test = new TestSpecParams(501, "DPC-Mzda_NeUcastZdrav-Prev", "501", 40, 0, dpcGenItem, exSalaryUcastZdrPrev(-1));
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(501, "DPC-Mzda_NeUcastZdrav-Prev", "501")
+                .WithContracts(ContractGenerator.SpecDpc(1, "501")
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastZdrPrev(-1))
+                    .WithHealthMinim(ConValue(0)))
+                .WithTaxDecl(GenValue(0));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_502_PPomMzdaUcastZdravPrevTest()
         {
-            TestSpecParams test = new TestSpecParams(502, "DPC-Mzda_UcastZdrav-Prev", "502", 40, 0, dpcGenItem, exSalaryUcastZdrPrev(0));
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(502, "DPC-Mzda_UcastZdrav-Prev", "502")
+                .WithContracts(ContractGenerator.SpecDpc(1, "502")
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastZdrPrev(0))
+                    .WithHealthMinim(ConValue(0)))
+                .WithTaxDecl(GenValue(0));
+            ServiceExampleTest(example);
         }
 
         [Fact]
         public void ServiceExamples_601_PPomMzdaNeUcastNemocPrevTest()
         {
-            TestSpecParams test = new TestSpecParams(601, "DPP-Mzda_NeUcastNemoc-Prev", "601", 40, 0, dppGenItem, exSalaryUcastNemPrev(-1));
-            TestPeriod.Code.Should().Be(201301);
-
-            var prevPeriod = PrevYear(TestPeriod);
-            prevPeriod.Code.Should().Be(201201);
-
-            var testLegalResult = _leg.GetBundle(TestPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
-            {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
-
-            var initService = _sut.InitWithPeriod(TestPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(TestPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            var testPracResults = GetPracResultsLine(example, TestPeriod, restService);
-
-            output.WriteLine(testPracResults);
-
-            var testPPomResults = GetPPomResultsLine(example, TestPeriod, restService);
-
-            foreach (var ppomResult in testPPomResults)
-            {
-                output.WriteLine(ppomResult);
-            }
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
-            {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
-            }
+            ExampleGenerator example = ExampleGenerator.Spec(601, "DPP-Mzda_NeUcastNemoc-Prev", "601")
+                .WithContracts(ContractGenerator.SpecDpp(1, "601")
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastNemPrev(-1))
+                    .WithHealthMinim(ConValue(0)))
+                .WithTaxDecl(GenValue(0));
+            ServiceExampleTest(example);
         }
 
         [Theory]
-        [MemberData(nameof(TestData))]
-        public void ServiceExamplesTest(TestSpecParams test)
+        [MemberData(nameof(GenTestData))]
+        public void ServiceExamplesTest(ExampleGenerator example)
         {
             TestPeriod.Code.Should().Be(201301);
 
@@ -843,12 +441,7 @@ namespace Procezor.PayrolexTest.Service
 
             var prevRuleset = prevLegalResult.Value;
 
-            var example = test.gen.CreateExample(TestPeriod, testRuleset, prevRuleset, 
-                test.id, test.name, test.number, test.schedWeek, test.nonAtten, test.exp);
-
-            output.WriteLine(example.exampleString());
-
-            var targets = example.GetSpecTargets(TestPeriod);
+            var targets = example.BuildSpecTargets(TestPeriod, testRuleset, prevRuleset);
 
             foreach (var (target, index) in targets.Select((item, index) => (item, index)))
             {
@@ -865,12 +458,12 @@ namespace Procezor.PayrolexTest.Service
 
             using (var testProtokol = OpenProtokolFile($"OKPRAC_TEST_2013_HRM_{TestPeriod.Code}.CSV"))
             {
-                var testResults = GetPracResultsLine(example, TestPeriod, restService);
+                var testResults = GetExamplePracResultsLine(example, TestPeriod, restService);
                 testProtokol.WriteLine(testResults);
             }
             using (var testProtokol = OpenProtokolFile($"OKPPOM_TEST_2013_HRM_{TestPeriod.Code}.CSV"))
             {
-                var testResults = GetPPomResultsLine(example, TestPeriod, restService);
+                var testResults = GetExamplePPomResultsLine(example, TestPeriod, restService);
                 foreach (var ppomResult in testResults)
                 {
                     testProtokol.WriteLine(ppomResult);

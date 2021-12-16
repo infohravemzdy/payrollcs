@@ -117,7 +117,6 @@ namespace Procezor.PayrolexTest.Service
         protected readonly IServiceProcezor _sut;
         protected readonly IServiceLegalios _leg;
 
-
         protected ITermResult GetResultArticle<T>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode)
             where T : class, ITermResult
         {
@@ -291,7 +290,8 @@ namespace Procezor.PayrolexTest.Service
             }
             return resultSumValue;
         }
-        protected string GetPracResultsLine(ExampleSpec example, IPeriod period, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
+#region __GENERATOR_FUNC__
+        protected string GetExamplePracResultsLine(ExampleGenerator example, IPeriod period, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
         {
             Int32 TAXING_INCOME_SUBJECT = GetIntResultSelect<TaxingIncomeSubjectResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT, (x) => (x.ResultValue));//TAXING_INCOME_SUBJECT,	15000
@@ -440,11 +440,11 @@ namespace Procezor.PayrolexTest.Service
             return resultOutput;
         }
 
-        protected string[] GetPPomResultsLine(ExampleSpec example, IPeriod period, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
+        protected string[] GetExamplePPomResultsLine(ExampleGenerator example, IPeriod period, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
         {
            List<string> resultOutput = new List<string>();
 
-            foreach (var con in example.Contracts)
+            foreach (var con in example.ContractList)
             {              
                 Int32 POSITION_WORK_PLAN = GetIntResultContractSelect<PositionWorkPlanResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN, (x) => (x.TotalRealWeeks())); //POSITION_WORK_PLAN,	40
@@ -518,9 +518,9 @@ namespace Procezor.PayrolexTest.Service
                 string[] resultLine = new string[]
                 {
                     example.Number,
-                    con.Name,
+                    con.Number,
                     period.Code.ToString(),
-                    con.TypeChar(),
+                    con.TermChar(),
                     POSITION_WORK_PLAN.ToString(),//POSITION_WORK_PLAN,	40
                     CONTRACT_TIME_PLAN.ToString(),//CONTRACT_TIME_PLAN,	184
                     CONTRACT_TIME_WORK.ToString(),//CONTRACT_TIME_WORK,	184
@@ -566,351 +566,216 @@ namespace Procezor.PayrolexTest.Service
             return resultOutput.ToArray();
         }
 
-#region __GENERATOR_FUNC__
-        static protected readonly bool yes = true;
-        static protected readonly bool no = false;
-        //Employment with Tax Advance, Withholding tax, no Minimum Health, Absence hours
-        protected static SpecGeneratorItem pomGenItem = new SpecGeneratorItem()
+        protected static Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> GenValue(Int32 val)
         {
-            contractType = WorkContractTerms.WORKTERM_EMPLOYMENT_1,
-            scheduleWeek = SpecGeneratorItem.DefScheduleWeek,
-            salaryBasis = SpecGeneratorItem.DefSalaryBasis,
-            agreemBasis = SpecGeneratorItem.DefAgreemBasis,
-            socialPayer = SpecGeneratorItem.DefSocialPayer,
-            healthPayer = SpecGeneratorItem.DefHealthPayer,
-            healthMinim = SpecGeneratorItem.DefHealthMinim,
-            socialEmper = SpecGeneratorItem.DefSocialEmper,
-            healthEmper = SpecGeneratorItem.DefHealthEmper,
-            penzisPayer = SpecGeneratorItem.DefPenzisPayer,
-            taxingPayer = SpecGeneratorItem.DefTaxingPayer,
-            taxDeclarat = SpecGeneratorItem.DefTaxDeclarat,
-            taxBenPayer = SpecGeneratorItem.DefTaxBenPayer,
-            taxBenDis01 = SpecGeneratorItem.DefTaxBenDis01,
-            taxBenDis02 = SpecGeneratorItem.DefTaxBenDis02,
-            taxBenDis03 = SpecGeneratorItem.DefTaxBenDis03,
-            taxBebStudy = SpecGeneratorItem.DefTaxBebStudy,
-            taxChildren = SpecGeneratorItem.DefTaxChildren,
-        };
-        //Employment - short-term contract with agreement to perform work
-        protected static SpecGeneratorItem dpcGenItem = new SpecGeneratorItem()
+            return (ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (val);
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ConValue(Int32 val)
         {
-            contractType = WorkContractTerms.WORKTERM_CONTRACTER_A,
-            scheduleWeek = SpecGeneratorItem.DefScheduleWeek,
-            salaryBasis = SpecGeneratorItem.DefSalaryBasis,
-            agreemBasis = SpecGeneratorItem.DefAgreemBasis,
-            socialPayer = SpecGeneratorItem.DefSocialPayer,
-            healthPayer = SpecGeneratorItem.DefHealthPayer,
-            healthMinim = SpecGeneratorItem.DefHealthMinim,
-            socialEmper = SpecGeneratorItem.DefSocialEmper,
-            healthEmper = SpecGeneratorItem.DefHealthEmper,
-            penzisPayer = SpecGeneratorItem.DefPenzisPayer,
-            taxingPayer = SpecGeneratorItem.DefTaxingPayer,
-            taxDeclarat = SpecGeneratorItem.DefTaxDeclarat,
-            taxBenPayer = SpecGeneratorItem.DefTaxBenPayer,
-            taxBenDis01 = SpecGeneratorItem.DefTaxBenDis01,
-            taxBenDis02 = SpecGeneratorItem.DefTaxBenDis02,
-            taxBenDis03 = SpecGeneratorItem.DefTaxBenDis03,
-            taxBebStudy = SpecGeneratorItem.DefTaxBebStudy,
-            taxChildren = SpecGeneratorItem.DefTaxChildren,
-        };
-        //Employment - short-term contract with agreement to complete a job
-        protected static SpecGeneratorItem dppGenItem = new SpecGeneratorItem()
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (val);
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxBonus()
         {
-            contractType = WorkContractTerms.WORKTERM_CONTRACTER_T,
-            scheduleWeek = SpecGeneratorItem.DefScheduleWeek,
-            salaryBasis = SpecGeneratorItem.DefSalaryBasis,
-            agreemBasis = SpecGeneratorItem.DefAgreemBasis,
-            socialPayer = SpecGeneratorItem.DefSocialPayer,
-            healthPayer = SpecGeneratorItem.DefHealthPayer,
-            healthMinim = SpecGeneratorItem.DefHealthMinim,
-            socialEmper = SpecGeneratorItem.DefSocialEmper,
-            healthEmper = SpecGeneratorItem.DefHealthEmper,
-            penzisPayer = SpecGeneratorItem.DefPenzisPayer,
-            taxingPayer = SpecGeneratorItem.DefTaxingPayer,
-            taxDeclarat = SpecGeneratorItem.DefTaxDeclarat,
-            taxBenPayer = SpecGeneratorItem.DefTaxBenPayer,
-            taxBenDis01 = SpecGeneratorItem.DefTaxBenDis01,
-            taxBenDis02 = SpecGeneratorItem.DefTaxBenDis02,
-            taxBenDis03 = SpecGeneratorItem.DefTaxBenDis03,
-            taxBebStudy = SpecGeneratorItem.DefTaxBebStudy,
-            taxChildren = SpecGeneratorItem.DefTaxChildren,
-        };
-
-        protected static ExampleParam exDefaults = new ExampleParam();
-        protected static ExampleParam exSrazNep0 = new ExampleParam()
-        {
-            srazDan = true,
-            srazDanLimit = 0,
-        };
-        protected static ExampleParam exSrazNep1 = new ExampleParam()
-        {
-            srazDan = true,
-            srazDanLimit = 1,
-        };
-        protected static ExampleParam exSrazNepPrev0 = new ExampleParam()
-        {
-            srazDanPrev = true,
-            srazDanLimit = 0,
-        };
-        protected static ExampleParam exSrazNepPrev1 = new ExampleParam()
-        {
-            srazDanPrev = true,
-            srazDanLimit = 1,
-        };
-        protected static ExampleParam exSalary(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryGen = true,
-                salaryGenKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return ruleset.SalaryProps.MinMonthlyWage + 2000;
             };
         }
-        protected static ExampleParam exAgreem(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MinZdrPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                agreemGen = true,
-                agreemGenKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return prevset.HealthProps.MinMonthlyBasis + val;
             };
         }
-        protected static ExampleParam exNoMinSalary(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MinZdr(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryGen = true,
-                salaryGenKc = kc,
-                conMinZdr = true,
-                conMinZdrBen = false,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return ruleset.HealthProps.MinMonthlyBasis + val;
             };
         }
-        protected static ExampleParam exNoMinAgreem(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxZdrPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                agreemGen = true,
-                agreemGenKc = kc,
-                conMinZdr = true,
-                conMinZdrBen = false,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                if (prevset.HealthProps.MaxAnnualsBasis > 0)
+                {
+                    return prevset.HealthProps.MaxAnnualsBasis + val;
+                }
+                return ruleset.HealthProps.MaxAnnualsBasis + val;
             };
         }
-        protected static ExampleParam exSalaryDite(Int32 kc, Int32 ditePoc1, Int32 ditePoc2, Int32 ditePoc3)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxZdr(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryGen = true,
-                salaryGenKc = kc,
-                taxChild = true,
-                taxChildPor1 = ditePoc1,
-                taxChildPor2 = ditePoc2,
-                taxChildPor3 = ditePoc3,
-                taxChildNorm = true,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                if (ruleset.HealthProps.MaxAnnualsBasis > 0)
+                {
+                    return ruleset.HealthProps.MaxAnnualsBasis + val;
+                }
+                return prevset.HealthProps.MaxAnnualsBasis + val;
             };
         }
-        protected static ExampleParam exDite(Int32 ditePoc1, Int32 ditePoc2, Int32 ditePoc3)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxSocPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                taxChild = true,
-                taxChildPor1 = ditePoc1,
-                taxChildPor2 = ditePoc2,
-                taxChildPor3 = ditePoc3,
-                taxChildNorm = true,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                if (prevset.SocialProps.MaxAnnualsBasis > 0)
+                {
+                    return prevset.SocialProps.MaxAnnualsBasis + val;
+                }
+                return ruleset.SocialProps.MaxAnnualsBasis + val;
             };
         }
-        protected static ExampleParam exDiteZtp(Int32 ditePoc1, Int32 ditePoc2, Int32 ditePoc3)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxSoc(Int32 val)
         {
-            return new ExampleParam()
-            {
-                taxChild = true,
-                taxChildPor1 = ditePoc1,
-                taxChildPor2 = ditePoc2,
-                taxChildPor3 = ditePoc3,
-                taxChildZtpp = true,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                if (ruleset.SocialProps.MaxAnnualsBasis > 0)
+                {
+                    return ruleset.SocialProps.MaxAnnualsBasis + val;
+                }
+                return prevset.SocialProps.MaxAnnualsBasis + val;
             };
         }
-        protected static ExampleParam exSalaryDiteZtp(Int32 kc, Int32 ditePoc1, Int32 ditePoc2, Int32 ditePoc3)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SolTaxPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryGen = true,
-                salaryGenKc = kc,
-                taxChild = true,
-                taxChildPor1 = ditePoc1,
-                taxChildPor2 = ditePoc2,
-                taxChildPor3 = ditePoc3,
-                taxChildZtpp = true,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                if (prevset.TaxingProps.MarginIncomeOfSolidary > 0)
+                {
+                    return prevset.TaxingProps.MarginIncomeOfSolidary + val;
+                }
+                return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
             };
         }
-        protected static ExampleParam exDiteMaxBonus = new ExampleParam()
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SolTax(Int32 val)
         {
-            salaryMaxBon = true,
-            taxChild = true,
-            taxChildPor1 = 1,
-            taxChildPor2 = 1,
-            taxChildPor3 = 5,
-            taxChildZtpp = true,
-        };
-        protected static ExampleParam exSalaryMinZdr(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryMinZdr = true,
-                salaryMinZdrKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                if (ruleset.TaxingProps.MarginIncomeOfSolidary > 0)
+                {
+                    return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
+                }
+                return prevset.TaxingProps.MarginIncomeOfSolidary + val;
             };
         }
-        protected static ExampleParam exSalaryMinZdrPrev(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryMinZdrPrev = true,
-                salaryMinZdrKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return prevset.TaxingProps.MarginIncomeOfWithhold + val;
             };
         }
-        protected static ExampleParam exSalaryMaxZdr(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNep(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryMaxZdr = true,
-                salaryMaxZdrKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return ruleset.TaxingProps.MarginIncomeOfWithhold + val;
             };
         }
-        protected static ExampleParam exSalaryMaxZdrPrev(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryMaxZdrPrev = true,
-                salaryMaxZdrKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return prevset.HealthProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return prevset.HealthProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return prevset.HealthProps.MarginIncomeAgr + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return prevset.HealthProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                        return prevset.HealthProps.MarginIncomeEmp + val;
+                }
+                return 0;
             };
         }
-        protected static ExampleParam exSalaryMaxSoc(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdr(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryMaxSoc = true,
-                salaryMaxSocKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return ruleset.HealthProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return ruleset.HealthProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return ruleset.HealthProps.MarginIncomeAgr + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return ruleset.HealthProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                        return ruleset.HealthProps.MarginIncomeEmp + val;
+                }
+                return 0;
             };
         }
-        protected static ExampleParam exSalaryMaxSocPrev(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNemPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryMaxSocPrev = true,
-                salaryMaxSocKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return prevset.SocialProps.MarginIncomeAgr + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
             };
         }
-        protected static ExampleParam exSalarySolTax(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNem(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salarySolTax = true,
-                salarySolTaxKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return ruleset.SocialProps.MarginIncomeAgr + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
             };
         }
-        protected static ExampleParam exSalarySolTaxPrev(Int32 kc)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmpPrev(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salarySolTaxPrev = true,
-                salarySolTaxKc = kc,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                        return prevset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
             };
         }
-        protected static ExampleParam exSalaryInv(Int32 kc, bool inv1, bool inv2, bool inv3)
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmp(Int32 val)
         {
-            return new ExampleParam()
-            {
-                salaryGen = true,
-                salaryGenKc = kc,
-                taxDisab = true,
-                taxDisabBen1 = inv1,
-                taxDisabBen2 = inv2,
-                taxDisabBen3 = inv3,
-            };
-        }
-        protected static ExampleParam exTaxInval(bool inv1, bool inv2, bool inv3)
-        {
-            return new ExampleParam()
-            {
-                taxDisab = true,
-                taxDisabBen1 = inv1,
-                taxDisabBen2 = inv2,
-                taxDisabBen3 = inv3,
-            };
-        }
-        protected static ExampleParam exTaxStudy = new ExampleParam()
-        {
-            taxStudy = true,
-            taxStudyBen = true,
-        };
-        protected static ExampleParam exSalaryUcastNem(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryNemUcast = true,
-                salaryNemUcastKc = kc,
-                podepTax = true,
-                podepTaxVal = false,
-                conMinZdr = true,
-                conMinZdrBen = false,
-            };
-        }
-        protected static ExampleParam exSalaryUcastNemPrev(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryNemUcastPrev = true,
-                salaryNemUcastKc = kc,
-                podepTax = true,
-                podepTaxVal = false,
-                conMinZdr = true,
-                conMinZdrBen = false,
-            };
-        }
-        protected static ExampleParam exSalaryUcastZdr(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryZdrUcast = true,
-                salaryZdrUcastKc = kc,
-                podepTax = true,
-                podepTaxVal = false,
-                conMinZdr = true,
-                conMinZdrBen = false,
-            };
-        }
-        protected static ExampleParam exSalaryUcastZdrPrev(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryZdrUcastPrev = true,
-                salaryZdrUcastKc = kc,
-                podepTax = true,
-                podepTaxVal = false,
-                conMinZdr = true,
-                conMinZdrBen = false,
-            };
-        }
-        protected static ExampleParam exSalaryUcastZdrEmp(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryZdrUcastEmp = true,
-                salaryZdrUcastKc = kc,
-                podepTax = true,
-                podepTaxVal = false,
-                conMinZdr = true,
-                conMinZdrBen = false,
-            };
-        }
-        protected static ExampleParam exSalaryUcastZdrEmpPrev(Int32 kc)
-        {
-            return new ExampleParam()
-            {
-                salaryZdrUcastEmpPrev = true,
-                salaryZdrUcastKc = kc,
-                podepTax = true,
-                podepTaxVal = false,
-                conMinZdr = true,
-                conMinZdrBen = false,
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
+                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
             };
         }
 #endregion
