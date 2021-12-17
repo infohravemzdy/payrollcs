@@ -21,7 +21,6 @@ using System.IO;
 
 namespace Procezor.PayrolexTest.Service
 {
-    public record TestSpecParams(Int32 id, string name, string number, Int32 schedWeek, Int32 nonAtten, SpecGeneratorItem gen, ExampleParam exp);
     public class ServiceTestExampleTemplate
     {
 #if __MACOS__
@@ -518,7 +517,7 @@ namespace Procezor.PayrolexTest.Service
                 string[] resultLine = new string[]
                 {
                     example.Number,
-                    con.Number,
+                    con.Number(example.Number),
                     period.Code.ToString(),
                     con.TermChar(),
                     POSITION_WORK_PLAN.ToString(),//POSITION_WORK_PLAN,	40

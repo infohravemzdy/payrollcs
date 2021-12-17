@@ -187,7 +187,7 @@ namespace Procezor.PayrolexTest.Examples
                 ImportData17 imp17 = new ImportData17()
                 {
                     IMP_OSC = this.Number,
-                    IMP_POM = con.Number,
+                    IMP_POM = con.Number(this.Number),
                     IMP17_CINNOSTSPOJ = con.NemPojCin(),
                     IMP17_DATUMZAC = $"1.1.{period.Year}",
                     IMP17_DATUMKON = "",
@@ -200,7 +200,7 @@ namespace Procezor.PayrolexTest.Examples
                 ImportData18 imp18 = new ImportData18()
                 {
                     IMP_OSC = this.Number,
-                    IMP_POM = con.Number,
+                    IMP_POM = con.Number(this.Number),
                     IMP18_ZPODMEN = "0",
                     IMP18_DRUHUVAZ = "0",
                     IMP18_PLNUVAZ = $"{weekValue}",
@@ -213,7 +213,7 @@ namespace Procezor.PayrolexTest.Examples
                     imp19 = new ImportData19()
                     {
                         IMP_OSC = this.Number,
-                        IMP_POM = con.Number,
+                        IMP_POM = con.Number(this.Number),
                         IMP19_KODMZDA = "1000",
                         IMP19_SAZBAKC = $"{salaryValue}00",
                         IMP19_TRVALE = "A-1",
@@ -225,7 +225,7 @@ namespace Procezor.PayrolexTest.Examples
                     imp19 = new ImportData19()
                     {
                         IMP_OSC = this.Number,
-                        IMP_POM = con.Number,
+                        IMP_POM = con.Number(this.Number),
                         IMP19_KODMZDA = "1809",
                         IMP19_SAZBAKC = $"{agreemValue}00",
                         IMP19_TRVALE = "A-1",
@@ -326,7 +326,7 @@ namespace Procezor.PayrolexTest.Examples
                 var targetPos = new PositionWorkTermTarget(montCode, contractCon, positionCon, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_TERM),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM),
-                    con.Number, dateTermFrom, dateTermStop);
+                    con.Number(this.Number), dateTermFrom, dateTermStop);
                 var targetPWP = new PositionWorkPlanTarget(montCode, contractCon, positionCon, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_POSITION_WORK_PLAN),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_PLAN),
@@ -482,7 +482,10 @@ namespace Procezor.PayrolexTest.Examples
     public class ContractGenerator
     {
         public int Id { get; }
-        public string Number { get; }
+        public string Number(string number)
+        {
+            return $"{number}-{Id}";
+        }
         public WorkContractTerms Term { get; set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> WeekFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> AbsenceFunc { get; private set; }
@@ -501,10 +504,9 @@ namespace Procezor.PayrolexTest.Examples
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> PenzisPayerFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> TaxingPayerFunc { get; private set; }
 
-        public ContractGenerator(int id, string number, WorkContractTerms term)
+        public ContractGenerator(int id, WorkContractTerms term)
         {
             Id = id;
-            Number = $"{number}-{Id}";
             Term = term;
             WeekFunc = DefaultWeekFunc;
             AbsenceFunc = DefaultAbsenceFunc;
@@ -710,21 +712,21 @@ namespace Procezor.PayrolexTest.Examples
             return 1;
         }
 
-        public static ContractGenerator SpecEmp(Int32 id, string number)
+        public static ContractGenerator SpecEmp(Int32 id)
         {
-            return new ContractGenerator(id, number, WorkContractTerms.WORKTERM_EMPLOYMENT_1);
+            return new ContractGenerator(id, WorkContractTerms.WORKTERM_EMPLOYMENT_1);
         }
-        public static ContractGenerator SpecDpc(Int32 id, string number)
+        public static ContractGenerator SpecDpc(Int32 id)
         {
-            return new ContractGenerator(id, number, WorkContractTerms.WORKTERM_CONTRACTER_A);
+            return new ContractGenerator(id, WorkContractTerms.WORKTERM_CONTRACTER_A);
         }
-        public static ContractGenerator SpecDpp(Int32 id, string number)
+        public static ContractGenerator SpecDpp(Int32 id)
         {
-            return new ContractGenerator(id, number, WorkContractTerms.WORKTERM_CONTRACTER_T);
+            return new ContractGenerator(id, WorkContractTerms.WORKTERM_CONTRACTER_T);
         }
-        public static ContractGenerator SpecStat(Int32 id, string number)
+        public static ContractGenerator SpecStat(Int32 id)
         {
-            return new ContractGenerator(id, number, WorkContractTerms.WORKTERM_PARTNER_STAT);
+            return new ContractGenerator(id, WorkContractTerms.WORKTERM_PARTNER_STAT);
         }
         public ContractGenerator WithWeek(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
@@ -781,6 +783,23 @@ namespace Procezor.PayrolexTest.Examples
             TaxingPayerFunc = func;
             return this;
         }
+    }
+    public class ChildData
+    {
+        public ChildData()
+        {
+            Id = 0;
+            Name = "";
+            TaxBenefitChild = false;
+            TaxBenefitDisab = false;
+            TaxBenefitOrder = 0;
+        }
+
+        public Int16 Id { get; set; }
+        public string Name { get; set; }
+        public bool TaxBenefitChild { get; set; }
+        public bool TaxBenefitDisab { get; set; }
+        public Int16 TaxBenefitOrder { get; set; }
     }
     public class ChildGenerator
     {
@@ -876,7 +895,7 @@ namespace Procezor.PayrolexTest.Examples
             return this;
         }
 
-        public ChildSpec[] Build(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        public ChildData[] Build(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             Int32 taxChildPor1 = Norm1Func(period, ruleset, prevset);
             Int32 taxChildPor2 = Norm2Func(period, ruleset, prevset);
@@ -886,10 +905,10 @@ namespace Procezor.PayrolexTest.Examples
             Int32 disChildPor2 = Disb2Func(period, ruleset, prevset);
             Int32 disChildPor3 = Disb3Func(period, ruleset, prevset);
 
-            ChildSpec[] children = Array.Empty<ChildSpec>();
+            ChildData[] children = Array.Empty<ChildData>();
             for (int por1 = 0; por1 < taxChildPor1; por1++)
             {
-                children = children.Append(new ChildSpec
+                children = children.Append(new ChildData
                 {
                     Id = ((Int16)(por1 + 1 + 10)),
                     Name = $"Poradi1{por1 + 1} Dite",
@@ -900,7 +919,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             for (int por2 = 0; por2 < taxChildPor2; por2++)
             {
-                children = children.Append(new ChildSpec
+                children = children.Append(new ChildData
                 {
                     Id = ((Int16)(por2 + 1 + 20)),
                     Name = $"Poradi2{por2 + 1} Dite",
@@ -911,7 +930,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             for (int por3 = 0; por3 < taxChildPor3; por3++)
             {
-                children = children.Append(new ChildSpec
+                children = children.Append(new ChildData
                 {
                     Id = ((Int16)(por3 + 1 + 30)),
                     Name = $"Poradi3{por3 + 1} Dite",
@@ -922,7 +941,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             for (int por1 = 0; por1 < disChildPor1; por1++)
             {
-                children = children.Append(new ChildSpec
+                children = children.Append(new ChildData
                 {
                     Id = ((Int16)(por1 + 1 + 40)),
                     Name = $"ZtpPoradi1{por1 + 1} Dite",
@@ -933,7 +952,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             for (int por2 = 0; por2 < disChildPor2; por2++)
             {
-                children = children.Append(new ChildSpec
+                children = children.Append(new ChildData
                 {
                     Id = ((Int16)(por2 + 1 + 50)),
                     Name = $"ZtpPoradi2{por2 + 1} Dite",
@@ -944,7 +963,7 @@ namespace Procezor.PayrolexTest.Examples
             }
             for (int por3 = 0; por3 < disChildPor3; por3++)
             {
-                children = children.Append(new ChildSpec
+                children = children.Append(new ChildData
                 {
                     Id = ((Int16)(por3 + 1 + 60)),
                     Name = $"ZtpPoradi3{por3 + 1} Dite",
