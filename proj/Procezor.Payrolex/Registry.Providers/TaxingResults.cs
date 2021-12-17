@@ -183,6 +183,28 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             return resultType + resultBase;
         }
+        private class IncomeTermComparator : IComparer<TaxingIncomeHealthResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(TaxingIncomeHealthResult x, TaxingIncomeHealthResult y)
+            {
+                Int32 xIncomeScore = x.IncomeScore();
+                Int32 yIncomeScore = y.IncomeScore();
+
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xIncomeScore.CompareTo(yIncomeScore);
+            }
+        }
+        public static IComparer<TaxingIncomeHealthResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
+        }
     }
 
     // TaxingIncomeSocial		TAXING_INCOME_SOCIAL
@@ -246,6 +268,28 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
             }
             return resultType + resultBase;
+        }
+        private class IncomeTermComparator : IComparer<TaxingIncomeSocialResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(TaxingIncomeSocialResult x, TaxingIncomeSocialResult y)
+            {
+                Int32 xIncomeScore = x.IncomeScore();
+                Int32 yIncomeScore = y.IncomeScore();
+
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xIncomeScore.CompareTo(yIncomeScore);
+            }
+        }
+        public static IComparer<TaxingIncomeSocialResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
         }
     }
 

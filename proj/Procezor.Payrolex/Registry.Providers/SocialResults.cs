@@ -75,6 +75,55 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             return resultKind;
         }
+        public Int32 TermScore()
+        {
+            Int32 resultBase = 0;
+            switch (SubjectType)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    resultBase = 9000;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    resultBase = 5000;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    resultBase = 4000;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    resultBase = 0;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    resultBase = 0;
+                    break;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    resultBase = 0;
+                    break;
+            }
+            Int32 resultScore = resultBase;
+            return resultScore;
+        }
+        private class IncomeTermComparator : IComparer<SocialIncomeResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(SocialIncomeResult x, SocialIncomeResult y)
+            {
+                Int32 xScore = x.TermScore();
+                Int32 yScore = y.TermScore();
+
+                if (xScore.CompareTo(yScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xScore.CompareTo(yScore);
+            }
+        }
+        public static IComparer<SocialIncomeResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
+        }
     }
 
     // SocialBase		SOCIAL_BASE
@@ -155,6 +204,28 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
             }
             return resultType + resultBase;
+        }
+        private class IncomeTermComparator : IComparer<SocialBaseOvercapResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(SocialBaseOvercapResult x, SocialBaseOvercapResult y)
+            {
+                Int32 xIncomeScore = x.IncomeScore();
+                Int32 yIncomeScore = y.IncomeScore();
+
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xIncomeScore.CompareTo(yIncomeScore);
+            }
+        }
+        public static IComparer<SocialBaseOvercapResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
         }
     }
 

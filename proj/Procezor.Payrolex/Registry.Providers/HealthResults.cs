@@ -78,6 +78,52 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             return resultKind;
         }
+        public Int32 TermScore()
+        {
+            Int32 resultBase = 0;
+            switch (SubjectType)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
+                    resultBase = 9000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
+                    resultBase = 5000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
+                    resultBase = 4000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
+                    resultBase = 0;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
+                    resultBase = 0;
+                    break;
+            }
+            Int32 resultScore = resultBase;
+            return resultScore;
+        }
+        private class IncomeTermComparator : IComparer<HealthIncomeResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(HealthIncomeResult x, HealthIncomeResult y)
+            {
+                Int32 xScore = x.TermScore();
+                Int32 yScore = y.TermScore();
+
+                if (xScore.CompareTo(yScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xScore.CompareTo(yScore);
+            }
+        }
+        public static IComparer<HealthIncomeResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
+        }
     }
     // HealthBase		HEALTH_BASE
     public class HealthBaseResult : PayrolexTermResult
@@ -168,6 +214,28 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
             }
             return resultType + resultBase;
+        }
+        private class IncomeTermComparator : IComparer<HealthBaseOvercapResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(HealthBaseOvercapResult x, HealthBaseOvercapResult y)
+            {
+                Int32 xIncomeScore = x.IncomeScore();
+                Int32 yIncomeScore = y.IncomeScore();
+
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    return x.Contract.CompareTo(y.Contract);
+                }
+                return xIncomeScore.CompareTo(yIncomeScore);
+            }
+        }
+        public static IComparer<HealthBaseOvercapResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
         }
     }
 

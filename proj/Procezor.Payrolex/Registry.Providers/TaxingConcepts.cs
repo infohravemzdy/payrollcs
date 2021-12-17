@@ -329,7 +329,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => new TaxingIncomeHealthComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), TaxingIncomeHealthResult.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
             Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
@@ -358,24 +358,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 });
 
             return BuildOkResults(resultOrdersList.Item3);
-        }
-        private class TaxingIncomeHealthComparator : IComparer<TaxingIncomeHealthResult>
-        {
-            public TaxingIncomeHealthComparator()
-            {
-            }
-
-            public int Compare(TaxingIncomeHealthResult x, TaxingIncomeHealthResult y)
-            {
-                Int32 xIncomeScore = x.IncomeScore();
-                Int32 yIncomeScore = y.IncomeScore();
-
-                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
-                {
-                    return x.Contract.CompareTo(y.Contract);
-                }
-                return xIncomeScore.CompareTo(yIncomeScore);
-            }
         }
     }
 
@@ -484,7 +466,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => new TaxingIncomeSocialComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), TaxingIncomeSocialResult.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
             Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
@@ -514,24 +496,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 });
 
             return BuildOkResults(resultOrdersList.Item3);
-        }
-        private class TaxingIncomeSocialComparator : IComparer<TaxingIncomeSocialResult>
-        {
-            public TaxingIncomeSocialComparator()
-            {
-            }
-
-            public int Compare(TaxingIncomeSocialResult x, TaxingIncomeSocialResult y)
-            {
-                Int32 xIncomeScore = x.IncomeScore();
-                Int32 yIncomeScore = y.IncomeScore();
-
-                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
-                {
-                    return x.Contract.CompareTo(y.Contract);
-                }
-                return xIncomeScore.CompareTo(yIncomeScore);
-            }
         }
     }
 

@@ -186,7 +186,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => new HealthIncomeComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), HealthIncomeResult.ResultComparator()).ToArray();
 
             var resultOrdersInit = Array.Empty<HealthIncomeResult>();
 
@@ -257,24 +257,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                            (period.Year >= 2012 ? true : false));
             }
             return false;
-        }
-        private class HealthIncomeComparator : IComparer<HealthIncomeResult>
-        {
-            public HealthIncomeComparator()
-            {
-            }
-
-            public int Compare(HealthIncomeResult x, HealthIncomeResult y)
-            {
-                WorkHealthTerms xIncomeTerm = x.IncomeTerm();
-                WorkHealthTerms yIncomeTerm = y.IncomeTerm();
-
-                if (xIncomeTerm.CompareTo(yIncomeTerm)==0)
-                {
-                    return x.Contract.CompareTo(y.Contract);
-                }
-                return xIncomeTerm.CompareTo(yIncomeTerm);
-            }
         }
     }
 
@@ -665,7 +647,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => new HealthBaseOvercapComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), HealthBaseOvercapResult.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
             Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
@@ -695,24 +677,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 });
 
             return BuildOkResults(resultOrdersList.Item3);
-        }
-        private class HealthBaseOvercapComparator : IComparer<HealthBaseOvercapResult>
-        {
-            public HealthBaseOvercapComparator()
-            {
-            }
-
-            public int Compare(HealthBaseOvercapResult x, HealthBaseOvercapResult y)
-            {
-                Int32 xIncomeScore = x.IncomeScore();
-                Int32 yIncomeScore = y.IncomeScore();
-
-                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
-                {
-                    return x.Contract.CompareTo(y.Contract);
-                }
-                return xIncomeScore.CompareTo(yIncomeScore);
-            }
         }
     }
 

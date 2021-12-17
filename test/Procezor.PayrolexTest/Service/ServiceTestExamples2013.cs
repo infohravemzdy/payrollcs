@@ -22,7 +22,7 @@ namespace Procezor.PayrolexTest.Service
 {
     public class ServiceTestExamples2013 : ServiceTestExampleTemplate
     {
-        private static IPeriod TestPeriod = new Period(2013,1);
+         private static IPeriod TestPeriod = new Period(2013,1);
 
          private static readonly ExampleGenerator[] _genTests = new ExampleGenerator[] {
             ExampleGenerator.Spec(101, "PP-Mzda_DanPoj-SlevyZaklad",      "101").WithContracts(ContractGenerator.SpecEmp(1)),
@@ -93,6 +93,57 @@ namespace Procezor.PayrolexTest.Service
             ExampleGenerator.Spec(602, "DPP-Mzda_UcastNemoc-Prev",        "602").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(603, "DPP-Mzda_NeUcastNemoc-Curr",      "603").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNem(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(604, "DPP-Mzda_UcastNemoc-Curr",        "604").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNem(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+
+            ExampleGenerator.Spec(701, "MPOM-PPOM-Mzda_NeUcastNemoc",     "701").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(UcastNem(-1))
+                    .WithHealthMinim(ConValue(0))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0)), 
+            ExampleGenerator.Spec(702, "MDPC-PPOM-Mzda_NeUcastNemoc",     "702").WithContracts(
+                ContractGenerator.SpecDpc(1)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastNem(-1))
+                    .WithHealthMinim(ConValue(0))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0)), 
+            ExampleGenerator.Spec(702, "XDPP-PPOM-Mzda_NeUcastNemoc",     "703").WithContracts(
+                ContractGenerator.SpecDpp(1)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastNem(-1))
+                    .WithHealthMinim(ConValue(0)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0)), 
+            ExampleGenerator.Spec(711, "MPOM-PPOM-Mzda_UcastNemoc",     "711").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(UcastNem(0))
+                    .WithHealthMinim(ConValue(0))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0)), 
+            ExampleGenerator.Spec(712, "MDPC-PPOM-Mzda_UcastNemoc",     "712").WithContracts(
+                ContractGenerator.SpecDpc(1)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastNem(0))
+                    .WithHealthMinim(ConValue(0))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0)), 
+            ExampleGenerator.Spec(713, "XDPP-PPOM-Mzda_UcastNemoc",     "713").WithContracts(
+                ContractGenerator.SpecDpp(1)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(UcastNem(0))
+                    .WithHealthMinim(ConValue(0)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0)), 
         };
         public static IEnumerable<object[]> GenTestData => GetGenTestDecData(_genTests);
         public static IEnumerable<object[]> GetGenTestDecData(ExampleGenerator[] tests) {

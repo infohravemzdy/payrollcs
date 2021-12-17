@@ -185,7 +185,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => new SocialIncomeComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), SocialIncomeResult.ResultComparator()).ToArray();
 
             var resultOrdersInit = Array.Empty<SocialIncomeResult>();
 
@@ -252,24 +252,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     return period.Year >= 2014 ? true : false;
             }
             return false;
-        }
-        private class SocialIncomeComparator : IComparer<SocialIncomeResult>
-        {
-            public SocialIncomeComparator()
-            {
-            }
-
-            public int Compare(SocialIncomeResult x, SocialIncomeResult y)
-            {
-                WorkSocialTerms xIncomeTerm = x.IncomeTerm();
-                WorkSocialTerms yIncomeTerm = y.IncomeTerm();
-
-                if (xIncomeTerm.CompareTo(yIncomeTerm) == 0)
-                {
-                    return x.Contract.CompareTo(y.Contract);
-                }
-                return xIncomeTerm.CompareTo(yIncomeTerm);
-            }
         }
     }
 
@@ -537,7 +519,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => new SocialBaseOvercapComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), SocialBaseOvercapResult.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
             Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
@@ -567,24 +549,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 });
 
             return BuildOkResults(resultOrdersList.Item3);
-        }
-        private class SocialBaseOvercapComparator : IComparer<SocialBaseOvercapResult>
-        {
-            public SocialBaseOvercapComparator()
-            {
-            }
-
-            public int Compare(SocialBaseOvercapResult x, SocialBaseOvercapResult y)
-            {
-                Int32 xIncomeScore = x.IncomeScore();
-                Int32 yIncomeScore = y.IncomeScore();
-
-                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
-                {
-                    return x.Contract.CompareTo(y.Contract);
-                }
-                return xIncomeScore.CompareTo(yIncomeScore);
-            }
         }
     }
 

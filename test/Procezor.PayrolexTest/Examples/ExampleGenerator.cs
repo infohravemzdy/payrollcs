@@ -493,13 +493,13 @@ namespace Procezor.PayrolexTest.Examples
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> AgreemFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthPayerFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthMinimFunc { get; private set; }
-        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthZahFunc { get; private set; }
-        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthZahEhsFunc { get; private set; }
+        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthForeignFunc { get; private set; }
+        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthForeignEhsFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> HealthEmperFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialPayerFunc { get; private set; }
-        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialMalRozFunc { get; private set; }
-        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialZahFunc { get; private set; }
-        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialZahEhsFunc { get; private set; }
+        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialLoIncomeFunc { get; private set; }
+        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialForeignFunc { get; private set; }
+        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialForeignEhsFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SocialEmperFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> PenzisPayerFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> TaxingPayerFunc { get; private set; }
@@ -514,13 +514,13 @@ namespace Procezor.PayrolexTest.Examples
             AgreemFunc = DefaultAgreemFunc;
             HealthPayerFunc = DefaultHealthPayerFunc;
             HealthMinimFunc = DefaultHealthMinimFunc;
-            HealthZahFunc = DefaultHealthZahFunc;
-            HealthZahEhsFunc = DefaultHealthZahEhsFunc;
+            HealthForeignFunc = DefaultHealthForeignFunc;
+            HealthForeignEhsFunc = DefaultHealthForeignEhsFunc;
             HealthEmperFunc = DefaultHealthEmperFunc;
             SocialPayerFunc = DefaultSocialPayerFunc;
-            SocialMalRozFunc = DefaultSocialMalRozFunc;
-            SocialZahFunc = DefaultSocialZahFunc;
-            SocialZahEhsFunc = DefaultSocialZahEhsFunc;
+            SocialLoIncomeFunc = DefaultSocialLoIncomeFunc;
+            SocialForeignFunc = DefaultSocialForeignFunc;
+            SocialForeignEhsFunc = DefaultSocialForeignEhsFunc;
             SocialEmperFunc = DefaultSocialEmperFunc;
             PenzisPayerFunc = DefaultPenzisPayerFunc;
             TaxingPayerFunc = DefaultTaxingPayerFunc;
@@ -571,18 +571,18 @@ namespace Procezor.PayrolexTest.Examples
             string imp = "0";
             if (SocialPayerFunc(gen, period, ruleset, prevset)==1)
             {
-                if (SocialMalRozFunc(gen, period, ruleset, prevset)==1)
+                if (SocialLoIncomeFunc(gen, period, ruleset, prevset)==1)
                 {
                     //const int ZAMESTNANI09_ZAMESTPP = 0;
                     //const int ZAMESTNANI09_MALEROZS = 1;
                     //const int ZAMESTNANI09_KRATKE01 = 2;
                     //const int ZAMESTNANI09_KRATKE00 = 3;
                     //const int ZAMESTNANI09_KRATKE02 = 4;
-                    if (SocialZahFunc(gen, period, ruleset, prevset)==1)
+                    if (SocialForeignFunc(gen, period, ruleset, prevset)==1)
                     {
                         imp = "12";
                     }
-                    else if (SocialZahEhsFunc(gen, period, ruleset, prevset)==1)
+                    else if (SocialForeignEhsFunc(gen, period, ruleset, prevset)==1)
                     {
                         imp = "19";
                     }
@@ -593,11 +593,11 @@ namespace Procezor.PayrolexTest.Examples
                 }
                 else
                 {
-                    if (SocialZahFunc(gen, period, ruleset, prevset)==1)
+                    if (SocialForeignFunc(gen, period, ruleset, prevset)==1)
                     {
                         imp = "2";
                     }
-                    else if (SocialZahEhsFunc(gen, period, ruleset, prevset)==1)
+                    else if (SocialForeignEhsFunc(gen, period, ruleset, prevset)==1)
                     {
                         imp = "9";
                     }
@@ -614,12 +614,12 @@ namespace Procezor.PayrolexTest.Examples
             string imp = "0";
             if (HealthPayerFunc(gen, period, ruleset, prevset)==1)
             {
-                if (HealthZahFunc(gen, period, ruleset, prevset)==1)
+                if (HealthForeignFunc(gen, period, ruleset, prevset)==1)
                 {
                     imp = "2";
                 }
                 else
-                if (HealthZahEhsFunc(gen, period, ruleset, prevset)==1)
+                if (HealthForeignEhsFunc(gen, period, ruleset, prevset)==1)
                 {
                     imp = "9";
                 }
@@ -675,11 +675,11 @@ namespace Procezor.PayrolexTest.Examples
             }
             return 0;
         }
-        private Int32 DefaultHealthZahFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultHealthForeignFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 0;
         }
-        private Int32 DefaultHealthZahEhsFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultHealthForeignEhsFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 0;
         }
@@ -687,15 +687,15 @@ namespace Procezor.PayrolexTest.Examples
         {
             return 1;
         }
-        private Int32 DefaultSocialMalRozFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultSocialLoIncomeFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 0;
         }
-        private Int32 DefaultSocialZahFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultSocialForeignFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 0;
         }
-        private Int32 DefaultSocialZahEhsFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultSocialForeignEhsFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 0;
         }
@@ -768,14 +768,19 @@ namespace Procezor.PayrolexTest.Examples
             SocialPayerFunc = func;
             return this;
         }
-        public ContractGenerator WithPenzisPayer(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        public ContractGenerator WithSocialLoIncome(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
-            PenzisPayerFunc = func;
+            SocialLoIncomeFunc = func;
             return this;
         }
         public ContractGenerator WithSocialEmper(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             SocialEmperFunc = func;
+            return this;
+        }
+        public ContractGenerator WithPenzisPayer(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            PenzisPayerFunc = func;
             return this;
         }
         public ContractGenerator WithTaxingPayer(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
