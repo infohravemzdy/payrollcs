@@ -473,6 +473,21 @@ namespace Procezor.PayrolexTest.Service
             ServiceExampleTest(example);
         }
 
+        [Fact]
+        public void ServiceExamples_701_PPomMzdaNeUcastNemocTest()
+        {
+            ExampleGenerator example = ExampleGenerator.Spec(701, "MPOM-PPOM-Mzda_NeUcastNemoc", "701").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(UcastNem(-1))
+                    .WithHealthMinim(ConValue(0))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(ConValue(2500)))
+             .WithTaxDecl(GenValue(0));
+
+            ServiceExampleTest(example);
+        }
+
         [Theory]
         [MemberData(nameof(GenTestData))]
         public void ServiceExamplesTest(ExampleGenerator example)

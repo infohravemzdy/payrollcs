@@ -331,10 +331,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32[] zerMonth = OperationsPeriod.EmptyMonthSchedule();
 
+            ContractCode posContract = evalTarget.Contract;
             Int32 posArticle = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_PLAN;
             var positionList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-                .Where((v) => (v.Article.Value == posArticle))
+                .Where((v) => (v.Article.Value == posArticle && v.Contract.Equals(posContract)))
                 .Select((tr) => (tr as PositionTimePlanResult))
                 .Where((pr) => (pr!=null)).ToArray();
 
@@ -394,10 +395,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32[] zerMonth = OperationsPeriod.EmptyMonthSchedule();
 
+            ContractCode posContract = evalTarget.Contract;
             Int32 posArticle = (Int32)PayrolexArticleConst.ARTICLE_POSITION_TIME_WORK;
             var positionList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-                .Where((v) => (v.Article.Value == posArticle))
+                .Where((v) => (v.Article.Value == posArticle && v.Contract.Equals(posContract)))
                 .Select((tr) => (tr as PositionTimeWorkResult))
                 .Where((pr) => (pr != null)).ToArray();
 
