@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Errors;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
@@ -78,15 +79,12 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                         evalContractType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
                         break;
                     case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        evalContractType = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
+                        evalContractType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
                         break;
                     case WorkContractTerms.WORKTERM_CONTRACTER_T:
                         evalContractType = WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK;
                         break;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        evalContractType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
-                        break;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
                         evalContractType = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
                         break;
                 }
@@ -193,65 +191,23 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 (agr, x) => {
                     Int32 sumTermIncome = incomeResultList.Where((c) => (c.InterestCode!=0 && c.IncomeTerm().Equals(x.IncomeTerm())))
                         .Aggregate(0, (sum, c) => (sum + c.ResultValue));
+                    Int32 conTermIncome = x.ResultValue;
 
-                    Int16 particeCode = 0;
+                    Int16 particyCode = 0;
                     if (x.InterestCode != 0)
                     {
-                        if (SocialParticeBasedOnIncome(period, x.IncomeTerm()) == false)
+                        if (socialRules.HasParticy(x.IncomeTerm(), sumTermIncome, conTermIncome))
                         {
-                            particeCode = 1;
-                        }
-                        else if (x.IncomeTerm() == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK)
-                        {
-                            particeCode = 1;
-                            if (marginIncomeAgr > 0)
-                            {
-                                particeCode = 0;
-                                if (sumTermIncome >= marginIncomeAgr)
-                                {
-                                    particeCode = 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            particeCode = 1;
-                            if (marginIncomeEmp > 0)
-                            {
-                                particeCode = 0;
-                                if (sumTermIncome >= marginIncomeEmp)
-                                {
-                                    particeCode = 1;
-                                }
-                            }
+                            particyCode = 1;
                         }
                     }
 
-                    x.SetParticeCode(particeCode);
+                    x.SetParticyCode(particyCode);
 
                     return agr.Concat(new SocialIncomeResult[] { x }).ToArray();
                 });
 
             return BuildOkResults(resultOrdersList);
-        }
-        bool SocialParticeBasedOnIncome(IPeriod period, WorkSocialTerms term)
-        {
-            switch (term)
-            {
-                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
-                    return false;
-                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
-                    return period.Year >= 2012 ? true : false;
-                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
-                    return period.Year >= 2014 ? true : false;
-                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
-                    return period.Year >= 2014 ? true : false;
-                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
-                    return period.Year >= 2014 ? true : false;
-                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
-                    return period.Year >= 2014 ? true : false;
-            }
-            return false;
         }
     }
 
@@ -316,7 +272,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 resGeneralBase = 0;
             if (evalDeclare.InterestCode != 0)
             {
-                if (evalIncomes.ParticeCode != 0)
+                if (evalIncomes.ParticyCode != 0)
                 {
                     resGeneralBase = evalIncomes.ResultValue;
                 }
@@ -635,18 +591,18 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployee);
-            valBaseEmployee = valBaseEmployee - empBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - empBaseOvercaps);
+            Int32 maxBaseEmployee = Math.Max(0, valBaseEmployee - valBaseOvercaps);
+            Int32 empBaseOvercaps = Math.Max(0, (valBaseEmployee - maxBaseEmployee));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - empBaseOvercaps);
 
-            Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
-            valBaseGenerals = valBaseGenerals - genBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
+            Int32 maxBaseGenerals = Math.Max(0, valBaseGenerals - valBaseOvercaps);
+            Int32 genBaseOvercaps = Math.Max(0, (valBaseGenerals - maxBaseGenerals));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
 
-            Int32 sumBaseEmployee = (valBaseEmployee + valBaseGenerals);
+            Int32 sumBaseEmployee = (maxBaseEmployee + maxBaseGenerals);
             Int32 employeePayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(sumBaseEmployee, factorEmployee));
 
-            ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, valBaseEmployee, valBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, maxBaseEmployee, maxBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -743,18 +699,18 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 emrBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployer);
-            valBaseEmployer = valBaseEmployer - emrBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - emrBaseOvercaps);
+            Int32 maxBaseEmployer = Math.Max(0, valBaseEmployer - valBaseOvercaps);
+            Int32 emrBaseOvercaps = Math.Max(0, (valBaseEmployer - maxBaseEmployer));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - emrBaseOvercaps);
 
-            Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
-            valBaseGenerals = valBaseGenerals - genBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
+            Int32 maxBaseGenerals = Math.Max(0, valBaseGenerals - valBaseOvercaps);
+            Int32 genBaseOvercaps = Math.Max(0, (valBaseGenerals - maxBaseGenerals));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
 
-            Int32 sumBaseEmployer = (valBaseEmployer + valBaseGenerals);
+            Int32 sumBaseEmployer = (maxBaseEmployer + maxBaseGenerals);
             Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(sumBaseEmployer, factorEmployer));
 
-            ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, valBaseEmployer, valBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, maxBaseEmployer, maxBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

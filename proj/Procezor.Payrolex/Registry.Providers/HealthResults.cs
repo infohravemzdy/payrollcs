@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Service.Types;
 
@@ -36,24 +37,24 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 InterestCode { get; private set; }
         public WorkHealthTerms SubjectType { get; private set; }
         public Int16 MandatorBase { get; private set; }
-        public Int16 ParticeCode { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public HealthIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particeCode, 
+            Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
             Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
             MandatorBase = mandatorBase;
-            ParticeCode = particeCode;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
-            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.IncomeTerm())}, Mandatory: {this.MandatorBase}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.IncomeTerm())}, Mandatory: {this.MandatorBase}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
-        public Int16 SetParticeCode(Int16 particeCode)
+        public Int16 SetParticyCode(Int16 particyCode)
         {
-            ParticeCode = particeCode;
-            return ParticeCode;
+            ParticyCode = particyCode;
+            return ParticyCode;
         }
         public WorkHealthTerms IncomeTerm()
         {
@@ -68,9 +69,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
                     resultKind = WorkHealthTerms.HEALTH_TERM_AGREEM_TASK;
-                    break;
-                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
-                    resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
                     resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
@@ -91,9 +89,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
                     resultBase = 4000;
-                    break;
-                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
-                    resultBase = 0;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
                     resultBase = 0;
@@ -205,9 +200,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
                     resultBase = 4000;
-                    break;
-                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
-                    resultBase = 0;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
                     resultBase = 0;

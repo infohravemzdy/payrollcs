@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Errors;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
@@ -84,9 +85,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                         evalContractType = WorkHealthTerms.HEALTH_TERM_AGREEM_TASK;
                         break;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        evalContractType = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
-                        break;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
                         evalContractType = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
                         break;
                 }
@@ -194,69 +192,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 (agr, x) => {
                     Int32 sumTermIncome = incomeResultList.Where((c) => (c.InterestCode != 0 && c.IncomeTerm().Equals(x.IncomeTerm())))
                         .Aggregate(0, (sum, c) => (sum + c.ResultValue));
+                    Int32 conTermIncome = x.ResultValue;
 
-                    Int16 particeCode = 0;
+                    Int16 particyCode = 0;
                     if (x.InterestCode != 0)
                     {
-                        if (HealthParticeBasedOnIncome(period, x.IncomeTerm())==false)
+                        if (healthRules.HasParticy(x.IncomeTerm(), sumTermIncome, conTermIncome))
                         {
-                            particeCode = 1;
-                        }
-                        else
-                        {
-                            if (x.IncomeTerm()==WorkHealthTerms.HEALTH_TERM_AGREEM_TASK)
-                            {
-                                particeCode = 1;
-                                if (marginIncomeAgr > 0)
-                                {
-                                    particeCode = 0;
-                                    if (sumTermIncome >= marginIncomeAgr)
-                                    {
-                                        particeCode = 1;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                particeCode = 1;
-                                if (marginIncomeEmp > 0)
-                                {
-                                    particeCode = 0;
-                                    if (sumTermIncome >= marginIncomeEmp)
-                                    {
-                                        particeCode = 1;
-                                    }
-                                }
-                            }
+                            particyCode = 1;
                         }
                     }
-                    x.SetParticeCode(particeCode);
+                    x.SetParticyCode(particyCode);
 
                     return agr.Concat(new HealthIncomeResult[] { x }).ToArray();
                 });
 
             return BuildOkResults(resultOrdersList);
-        }
-        bool HealthParticeBasedOnIncome(IPeriod period, WorkHealthTerms term)
-        {
-            switch (term)
-            {
-                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
-                    return false;
-                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
-                    return (period.Year >= 2015 ? true : 
-                           (period.Year >= 2012 ? true : true));
-                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
-                    return (period.Year >= 2015 ? true : 
-                           (period.Year >= 2012 ? true : false));
-                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
-                    return (period.Year >= 2015 ? true : 
-                           (period.Year >= 2012 ? true : false));
-                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
-                    return (period.Year >= 2015 ? true : 
-                           (period.Year >= 2012 ? true : false));
-            }
-            return false;
         }
     }
 
@@ -321,7 +272,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 resGeneralBase = 0;
             if (evalDeclare.InterestCode != 0)
             {
-                if (evalIncomes.ParticeCode != 0)
+                if (evalIncomes.ParticyCode != 0)
                 {
                     resGeneralBase = evalIncomes.ResultValue;
                 }
@@ -536,7 +487,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 resMandateBase = 0;
             if (evalDeclare.InterestCode != 0)
             {
-                if (evalIncomes.ParticeCode != 0)
+                if (evalIncomes.ParticyCode != 0)
                 {
                     resGeneralBase = evalBaseVal.ResultValue;
 
@@ -764,19 +715,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployee);
-            valBaseEmployee = valBaseEmployee - empBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - empBaseOvercaps);
+            Int32 maxBaseEmployee = Math.Max(0, valBaseEmployee - valBaseOvercaps);
+            Int32 empBaseOvercaps = Math.Max(0, (valBaseEmployee - maxBaseEmployee));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - empBaseOvercaps);
 
-            Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
-            valBaseGenerals = valBaseGenerals - genBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
+            Int32 maxBaseGenerals = Math.Max(0, valBaseGenerals - valBaseOvercaps);
+            Int32 genBaseOvercaps = Math.Max(0, (valBaseGenerals - maxBaseGenerals));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
 
             Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(
-                OperationsDec.Multiply(valBaseEmployee, factorCompound)
-                + OperationsDec.MultiplyAndDivide(valBaseGenerals, factorCompound, factorEmployee));
+                OperationsDec.Multiply(maxBaseEmployee, factorCompound)
+                + OperationsDec.MultiplyAndDivide(maxBaseGenerals, factorCompound, factorEmployee));
 
-            ITermResult resultsValues = new HealthPaymEmployeeResult(target, spec, valBaseEmployee, valBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new HealthPaymEmployeeResult(target, spec, maxBaseEmployee, maxBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -875,26 +826,26 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 empBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployee);
-            valBaseEmployee = valBaseEmployee - empBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - empBaseOvercaps);
+            Int32 maxBaseEmployee = Math.Max(0, valBaseEmployee - valBaseOvercaps);
+            Int32 empBaseOvercaps = Math.Max(0, (valBaseEmployee - maxBaseEmployee));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - empBaseOvercaps);
 
-            Int32 genBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseGenerals);
-            valBaseGenerals = valBaseGenerals - genBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - genBaseOvercaps);
+            Int32 maxBaseGenerals = Math.Max(0, valBaseGenerals - valBaseOvercaps);
+            Int32 genBaseOvercaps = Math.Max(0, (valBaseGenerals - maxBaseGenerals));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
 
-            Int32 emrBaseOvercaps = Math.Max(0, valBaseOvercaps - valBaseEmployer);
-            valBaseEmployer = valBaseEmployer - emrBaseOvercaps;
-            valBaseOvercaps = (valBaseOvercaps - emrBaseOvercaps);
+            Int32 maxBaseEmployer = Math.Max(0, valBaseEmployer - valBaseOvercaps);
+            Int32 emrBaseOvercaps = Math.Max(0, (valBaseEmployer - maxBaseEmployer));
+            valBaseOvercaps = Math.Max(0, valBaseOvercaps - emrBaseOvercaps);
 
-            Int32 compoundBasis = valBaseEmployer + valBaseEmployee + valBaseGenerals;
+            Int32 compoundBasis = maxBaseEmployer + maxBaseEmployee + maxBaseGenerals;
 
             Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorCompound));
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(valBaseEmployee, factorCompound)
-                + OperationsDec.MultiplyAndDivide(valBaseGenerals, factorCompound, factorEmployee));
+            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(maxBaseEmployee, factorCompound)
+                + OperationsDec.MultiplyAndDivide(maxBaseGenerals, factorCompound, factorEmployee));
             Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
 
-            ITermResult resultsValues = new HealthPaymEmployerResult(target, spec, valBaseEmployer, valBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new HealthPaymEmployerResult(target, spec, maxBaseEmployer, maxBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

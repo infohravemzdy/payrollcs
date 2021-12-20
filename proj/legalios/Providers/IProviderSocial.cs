@@ -1,5 +1,6 @@
 ﻿using System;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Providers
 {

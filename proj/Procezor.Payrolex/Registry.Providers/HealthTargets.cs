@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {

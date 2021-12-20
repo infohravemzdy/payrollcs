@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Errors;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;

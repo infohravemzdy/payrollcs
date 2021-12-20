@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Procezor.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Service.Types;
 
@@ -32,22 +33,60 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public Int16 InterestCode { get; private set; }
         public WorkSocialTerms SubjectType { get; private set; }
-        public Int16 ParticeCode { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public SocialIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            Int16 interestCode, WorkSocialTerms subjectType, Int16 particeCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
-            ParticeCode = particeCode;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
-            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
-        public Int16 SetParticeCode(Int16 particeCode)
+        public Int16 SetParticyCode(Int16 particyCode)
         {
-            ParticeCode = particeCode;
-            return ParticeCode;
+            ParticyCode = particyCode;
+            return ParticyCode;
+        }
+        public Int16 HasSubjectTermZMR()
+        {
+            switch (SubjectType)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    return 1;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    return 0;
+            }
+            return 0;
+        }
+        public Int16 HasSubjectTermZKR()
+        {
+            switch (SubjectType)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    return 1;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    return 1;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    return 0;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    return 0;
+            }
+            return 0;
         }
         public WorkSocialTerms IncomeTerm()
         {

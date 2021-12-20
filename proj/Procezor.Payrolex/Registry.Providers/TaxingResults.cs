@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Service.Types;
@@ -130,19 +131,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public WorkTaxingTerms SubjectType { get; private set; }
         public Int16 InterestCode { get; private set; }
         public WorkHealthTerms SubjectTerm { get; private set; }
-        public Int16 ParticeCode { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public TaxingIncomeHealthResult(ITermTarget target, ContractCode con, IArticleSpec spec, 
-            WorkTaxingTerms subjectType, Int16 interestCode, WorkHealthTerms subjectTerm, Int16 particeCode, 
+            WorkTaxingTerms subjectType, Int16 interestCode, WorkHealthTerms subjectTerm, Int16 particyCode, 
             Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             SubjectType = subjectType;
             InterestCode = interestCode;
             SubjectTerm = subjectTerm;
-            ParticeCode = particeCode;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.SubjectTerm)}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.SubjectTerm)}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {
@@ -173,9 +174,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
                     resultBase = 4000;
-                    break;
-                case WorkHealthTerms.HEALTH_TERM_NONE_EMPLOY:
-                    resultBase = 0;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
                     resultBase = 0;
@@ -213,19 +211,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public WorkTaxingTerms SubjectType { get; private set; }
         public Int16 InterestCode { get; private set; }
         public WorkSocialTerms SubjectTerm { get; private set; }
-        public Int16 ParticeCode { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public TaxingIncomeSocialResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            WorkTaxingTerms subjectType, Int16 interestCode, WorkSocialTerms subjectTerm, Int16 particeCode,
+            WorkTaxingTerms subjectType, Int16 interestCode, WorkSocialTerms subjectTerm, Int16 particyCode,
             Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             SubjectType = subjectType;
             InterestCode = interestCode;
             SubjectTerm = subjectTerm;
-            ParticeCode = particeCode;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.SubjectTerm)}, Partice: {this.ParticeCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.SubjectTerm)}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {

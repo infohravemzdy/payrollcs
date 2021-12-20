@@ -20,11 +20,11 @@ using HraveMzdy.Procezor.Payrolex.Registry.Providers;
 
 namespace Procezor.PayrolexTest.Service
 {
-    public class ServiceTestExamples2013 : ServiceTestExampleTemplate
+    public class ServiceTestExamples2011 : ServiceTestExampleTemplate
     {
-         private static IPeriod TestPeriod = new Period(2013,1);
-        private static Int32 TestPeriodCode = 201301;
-        private static Int32 PrevPeriodCode = 201201;
+         private static IPeriod TestPeriod = new Period(2011,1);
+        private static Int32 TestPeriodCode = 201101;
+        private static Int32 PrevPeriodCode = 201101;
 
         private static readonly ExampleGenerator[] _genTests = new ExampleGenerator[] {
             ExampleGenerator.Spec(101, "PP-Mzda_DanPoj-SlevyZaklad",      "101").WithContracts(ContractGenerator.SpecEmp(1)),
@@ -334,14 +334,14 @@ namespace Procezor.PayrolexTest.Service
             return tests.Select((tt) => (new object[] { tt })); 
         }
         
-        public ServiceTestExamples2013(ITestOutputHelper output) : base(output)
+        public ServiceTestExamples2011(ITestOutputHelper output) : base(output)
         {
         }
         private void ServiceExampleTest(ExampleGenerator example)
         {
 #if __TEST_PRESCRIPTION__
             //name                             |101-PP-Mzda-DanPoj-SlevyZaklad
-            //period                           |01 2013
+            //period                           |01 2011
             //schedule                         |40
             //absence                          |0
             //salary                           |CZK 15000

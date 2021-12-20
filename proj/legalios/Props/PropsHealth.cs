@@ -44,5 +44,69 @@ namespace HraveMzdy.Legalios.Props
         public decimal FactorEmployee { get; set; }
         public Int32 MarginIncomeEmp { get; set; }
         public Int32 MarginIncomeAgr { get; set; }
+        public bool HasParticy(WorkHealthTerms term, Int32 incomeTerm, Int32 incomeSpec)
+        {
+            bool particySpec = true;
+            if (HasIncomeBasedAgreementsParticy(term) && MarginIncomeAgr > 0)
+            {
+                particySpec = false;
+                if (HasIncomeCumulatedParticy(term))
+                {
+                    if (incomeTerm >= MarginIncomeAgr)
+                    {
+                        particySpec = true;
+                    }
+                }
+                else
+                {
+                    if (incomeSpec >= MarginIncomeAgr)
+                    {
+                        particySpec = true;
+                    }
+                }
+            }
+            else if (HasIncomeBasedEmploymentParticy(term) && MarginIncomeEmp > 0)
+            {
+                particySpec = false;
+                if (HasIncomeCumulatedParticy(term))
+                {
+                    if (incomeTerm >= MarginIncomeEmp)
+                    {
+                        particySpec = true;
+                    }
+                }
+                else
+                {
+                    if (incomeSpec >= MarginIncomeEmp)
+                    {
+                        particySpec = true;
+                    }
+                }
+            }
+            return particySpec;
+        }
+        public bool HasIncomeBasedEmploymentParticy(WorkHealthTerms term)
+        {
+            return (term == WorkHealthTerms.HEALTH_TERM_AGREEM_WORK);
+        }
+        public bool HasIncomeBasedAgreementsParticy(WorkHealthTerms term)
+        {
+            return (term == WorkHealthTerms.HEALTH_TERM_AGREEM_TASK);
+        }
+        public bool HasIncomeCumulatedParticy(WorkHealthTerms term)
+        {
+            switch (term)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
+                    return false;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
+                    return false;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
+                    return false;
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
+                    return false;
+            }
+            return false;
+        }
     }
 }

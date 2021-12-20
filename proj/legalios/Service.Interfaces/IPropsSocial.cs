@@ -1,5 +1,6 @@
 ﻿using System;
 using HraveMzdy.Legalios.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Service.Interfaces
 {
@@ -13,5 +14,9 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         decimal FactorEmployeeReduce { get; }
         Int32 MarginIncomeEmp { get; }
         Int32 MarginIncomeAgr { get; }
+        bool HasParticy(WorkSocialTerms term, Int32 incomeTerm, Int32 incomeSpec);
+        bool HasIncomeBasedEmploymentParticy(WorkSocialTerms term);
+        bool HasIncomeBasedAgreementsParticy(WorkSocialTerms term);
+        bool HasIncomeCumulatedParticy(WorkSocialTerms term);
     }
 }

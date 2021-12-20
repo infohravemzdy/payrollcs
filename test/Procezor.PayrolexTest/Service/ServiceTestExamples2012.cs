@@ -20,13 +20,13 @@ using HraveMzdy.Procezor.Payrolex.Registry.Providers;
 
 namespace Procezor.PayrolexTest.Service
 {
-    public class ServiceTestExamples2013 : ServiceTestExampleTemplate
+    public class ServiceTestExamples2012 : ServiceTestExampleTemplate
     {
-         private static IPeriod TestPeriod = new Period(2013,1);
-        private static Int32 TestPeriodCode = 201301;
-        private static Int32 PrevPeriodCode = 201201;
+         private static IPeriod TestPeriod = new Period(2012,1);
+         private static Int32 TestPeriodCode = 201201;
+         private static Int32 PrevPeriodCode = 201101;
 
-        private static readonly ExampleGenerator[] _genTests = new ExampleGenerator[] {
+         private static readonly ExampleGenerator[] _genTests = new ExampleGenerator[] {
             ExampleGenerator.Spec(101, "PP-Mzda_DanPoj-SlevyZaklad",      "101").WithContracts(ContractGenerator.SpecEmp(1)),
             ExampleGenerator.Spec(102, "PP-Mzda_DanPoj-SlevyDite1",       "102").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(15600))).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(103, "PP-Mzda_DanPoj-BonusDite1",       "103").WithContracts(ContractGenerator.SpecEmp(1)).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
@@ -334,14 +334,14 @@ namespace Procezor.PayrolexTest.Service
             return tests.Select((tt) => (new object[] { tt })); 
         }
         
-        public ServiceTestExamples2013(ITestOutputHelper output) : base(output)
+        public ServiceTestExamples2012(ITestOutputHelper output) : base(output)
         {
         }
         private void ServiceExampleTest(ExampleGenerator example)
         {
 #if __TEST_PRESCRIPTION__
             //name                             |101-PP-Mzda-DanPoj-SlevyZaklad
-            //period                           |01 2013
+            //period                           |01 2012
             //schedule                         |40
             //absence                          |0
             //salary                           |CZK 15000
@@ -487,11 +487,11 @@ namespace Procezor.PayrolexTest.Service
         }
 
         [Fact]
-        public void ServiceExamples_108_PPomMzdaDanMaxZdravPrevTest()
+        public void ServiceExamples_109_PPomMzdaDanMaxZdravCurrTest()
         {
-            ExampleGenerator example = ExampleGenerator.Spec(108, "PP-Mzda_DanPoj-MaxZdravPrev", "108")
+            ExampleGenerator example = ExampleGenerator.Spec(109, "PP-Mzda_DanPoj-MaxZdravCurr", "109")
                 .WithContracts(ContractGenerator.SpecEmp(1)
-                    .WithSalary(MaxZdrPrev(100)));
+                    .WithSalary(MaxZdr(100)));
             ServiceExampleTest(example);
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Payrolex.Registry.Providers;
 using HraveMzdy.Procezor.Service.Interfaces;
@@ -348,10 +349,16 @@ namespace Procezor.PayrolexTest.Examples
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_HEALTH_DECLARE),
                     (Int16)healthPayer, WorkHealthTerms.HEALTH_TERM_BY_CONTRACT, (Int16)healthMinim);
                 Int32 socialPayer = con.SocialPayerFunc(con, period, ruleset, prevset);
+                Int32 socialLoInc = con.SocialLoIncomeFunc(con, period, ruleset, prevset);
+                WorkSocialTerms socialTerms = WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT;
+                if (socialLoInc == 1)
+                {
+                    socialTerms = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
+                }
                 var targetSoc = new SocialDeclareTarget(montCode, contractCon, positionEmp, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE),
                     ConceptCode.Get((Int32)PayrolexConceptConst.CONCEPT_SOCIAL_DECLARE),
-                    (Int16)socialPayer, WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT);
+                    (Int16)socialPayer, socialTerms);
                 Int32 taxingPayer = con.TaxingPayerFunc(con, period, ruleset, prevset);
                 var targetTax = new TaxingDeclareTarget(montCode, contractCon, positionEmp, variant1Con,
                     ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_DECLARE),
@@ -538,8 +545,6 @@ namespace Procezor.PayrolexTest.Examples
                     return "T";
                 case WorkContractTerms.WORKTERM_PARTNER_STAT:
                     return "Q";
-                case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                    return "0";
             }
             return "0";
         }
@@ -559,9 +564,6 @@ namespace Procezor.PayrolexTest.Examples
                     break;
                 case WorkContractTerms.WORKTERM_PARTNER_STAT:
                     imp = "26";
-                    break;
-                case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                    imp = "40";
                     break;
             }
             return imp;

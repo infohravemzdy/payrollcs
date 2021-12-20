@@ -42,7 +42,7 @@ namespace Procezor.PayrolexTest.Service
         }
         public static IPeriod PrevYear(IPeriod period)
         {
-            return new Period(period.Year - 1, period.Month);
+            return new Period(Math.Max(2011, period.Year - 1), period.Month);
         }
         public static IBundleProps CurrYearBundle(IServiceLegalios legSvc, IPeriod period)
         {
@@ -292,15 +292,15 @@ namespace Procezor.PayrolexTest.Service
 #region __GENERATOR_FUNC__
         protected string GetExamplePracResultsLine(ExampleGenerator example, IPeriod period, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
         {
-            Int32 TAXING_INCOME_SUBJECT = GetIntResultSelect<TaxingIncomeSubjectResult>(results,
+            Int32 TAXING_INCOME_SUBJECT = GetIntResultSelectSum<TaxingIncomeSubjectResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT, (x) => (x.ResultValue));//TAXING_INCOME_SUBJECT,	15000
-            Int32 TAXING_INCOME_HEALTH_RAW = GetIntResultSelect<TaxingIncomeHealthResult>(results,
+            Int32 TAXING_INCOME_HEALTH_RAW = GetIntResultSelectSum<TaxingIncomeHealthResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultBasis));//TAXING_INCOME_HEALTH_RAW,	X
-            Int32 TAXING_INCOME_HEALTH_FIX = GetIntResultSelect<TaxingIncomeHealthResult>(results,
+            Int32 TAXING_INCOME_HEALTH_FIX = GetIntResultSelectSum<TaxingIncomeHealthResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH, (x) => (x.ResultValue));//TAXING_INCOME_HEALTH_FIX,	X
-            Int32 TAXING_INCOME_SOCIAL_RAW = GetIntResultSelect<TaxingIncomeSocialResult>(results,
+            Int32 TAXING_INCOME_SOCIAL_RAW = GetIntResultSelectSum<TaxingIncomeSocialResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultBasis));//TAXING_INCOME_SOCIAL_RAW,	X
-            Int32 TAXING_INCOME_SOCIAL_FIX = GetIntResultSelect<TaxingIncomeSocialResult>(results,
+            Int32 TAXING_INCOME_SOCIAL_FIX = GetIntResultSelectSum<TaxingIncomeSocialResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL, (x) => (x.ResultValue));//TAXING_INCOME_SOCIAL_FIX,	X
             Int32 TAXING_DECLARE_SIGNING = GetIntResultSelect<TaxingSigningResult>(results,
                     PayrolexArticleConst.ARTICLE_TAXING_SIGNING, (x) => (x.DeclSignValue()));// TAXING_SIGNING,	1
@@ -464,7 +464,7 @@ namespace Procezor.PayrolexTest.Service
                 Int32 HEALTH_DECLARE_FOR = 0;//HEALTH_DECLARE_FOR,	zahraniční
                 Int32 HEALTH_DECLARE_EHS = 0;//HEALTH_DECLARE_EHS,	eu
                 Int32 HEALTH_DECLARE_PAR = GetIntResultContractSelect<HealthIncomeResult>(results, con.Id,
-                    PayrolexArticleConst.ARTICLE_HEALTH_INCOME, (x) => (x.ParticeCode));//HEALTH_DECLARE_PAR,	účast
+                    PayrolexArticleConst.ARTICLE_HEALTH_INCOME, (x) => (x.ParticyCode));//HEALTH_DECLARE_PAR,	účast
                 Int32 HEALTH_INCOME = GetIntResultContractSelect<HealthIncomeResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_HEALTH_INCOME, (x) => (x.ResultValue));//HEALTH_INCOME,	15000
                 Int32 HEALTH_BASE = GetIntResultContractSelect<HealthPaymEmployeeResult>(results, con.Id,
@@ -484,12 +484,14 @@ namespace Procezor.PayrolexTest.Service
                     PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER, (x) => (x.ResultValue));//HEALTH_PAYM_EMPLOYER,	X
                 Int32 SOCIAL_DECLARE_SUB = GetIntResultContractSelect<SocialDeclareResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE, (x) => (x.InterestCode));//SOCIAL_DECLARE_SUB,	1
-                Int32 SOCIAL_DECLARE_ZMR = 0;//SOCIAL_DECLARE_ZMR,	Malý rozsah
-                Int32 SOCIAL_DECLARE_KRZ = 0;//SOCIAL_DECLARE_KRZ,	Krátkodobé
+                Int32 SOCIAL_DECLARE_ZMR = GetIntResultContractSelect<SocialIncomeResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.HasSubjectTermZMR()));//SOCIAL_DECLARE_ZMR,	Malý rozsah
+                Int32 SOCIAL_DECLARE_KRZ = GetIntResultContractSelect<SocialIncomeResult>(results, con.Id,
+                    PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.HasSubjectTermZKR()));//SOCIAL_DECLARE_KRZ,	Krátkodobé
                 Int32 SOCIAL_DECLARE_FOR = 0;//SOCIAL_DECLARE_FOR,	zahraniční
                 Int32 SOCIAL_DECLARE_EHS = 0;//SOCIAL_DECLARE_EHS,	eu
                 Int32 SOCIAL_DECLARE_PAR = GetIntResultContractSelect<SocialIncomeResult>(results, con.Id,
-                    PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.ParticeCode));//SOCIAL_DECLARE_PAR,	účast
+                    PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.ParticyCode));//SOCIAL_DECLARE_PAR,	účast
                 Int32 SOCIAL_INCOME = GetIntResultContractSelect<SocialIncomeResult>(results, con.Id,
                     PayrolexArticleConst.ARTICLE_SOCIAL_INCOME, (x) => (x.ResultValue));//SOCIAL_INCOME,	15000
                 Int32 SOCIAL_BASE  = GetIntResultContractSelect<SocialPaymEmployeeResult>(results, con.Id,
@@ -585,10 +587,22 @@ namespace Procezor.PayrolexTest.Service
                 return prevset.HealthProps.MinMonthlyBasis + val;
             };
         }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MinZdrDiv2Prev(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return prevset.HealthProps.MinMonthlyBasis/2 + val;
+            };
+        }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MinZdr(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
                 return ruleset.HealthProps.MinMonthlyBasis + val;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MinZdrDiv2(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return ruleset.HealthProps.MinMonthlyBasis/2 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxZdrPrev(Int32 val)
@@ -657,10 +671,22 @@ namespace Procezor.PayrolexTest.Service
                 return prevset.TaxingProps.MarginIncomeOfWithhold + val;
             };
         }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepDiv2Prev(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return prevset.TaxingProps.MarginIncomeOfWithhold/2 + val;
+            };
+        }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNep(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
                 return ruleset.TaxingProps.MarginIncomeOfWithhold + val;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepDiv2(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                return ruleset.TaxingProps.MarginIncomeOfWithhold/2 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrPrev(Int32 val)
@@ -676,8 +702,23 @@ namespace Procezor.PayrolexTest.Service
                         return prevset.HealthProps.MarginIncomeAgr + val;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         return prevset.HealthProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        return prevset.HealthProps.MarginIncomeEmp + val;
+                }
+                return 0;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrDiv2Prev(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return prevset.HealthProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return prevset.HealthProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return prevset.HealthProps.MarginIncomeAgr/2 + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return prevset.HealthProps.MarginIncomeEmp/2 + val;
                 }
                 return 0;
             };
@@ -695,8 +736,23 @@ namespace Procezor.PayrolexTest.Service
                         return ruleset.HealthProps.MarginIncomeAgr + val;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         return ruleset.HealthProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        return ruleset.HealthProps.MarginIncomeEmp + val;
+                }
+                return 0;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrDiv2(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return ruleset.HealthProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return ruleset.HealthProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return ruleset.HealthProps.MarginIncomeAgr/2 + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return ruleset.HealthProps.MarginIncomeEmp/2 + val;
                 }
                 return 0;
             };
@@ -714,8 +770,23 @@ namespace Procezor.PayrolexTest.Service
                         return prevset.SocialProps.MarginIncomeAgr + val;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNemDiv2Prev(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return prevset.SocialProps.MarginIncomeAgr/2 + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
                 }
                 return 0;
             };
@@ -733,8 +804,23 @@ namespace Procezor.PayrolexTest.Service
                         return ruleset.SocialProps.MarginIncomeAgr + val;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNemDiv2(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return ruleset.SocialProps.MarginIncomeAgr/2 + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
                 }
                 return 0;
             };
@@ -752,8 +838,23 @@ namespace Procezor.PayrolexTest.Service
                         return prevset.SocialProps.MarginIncomeEmp + val;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmpDiv2Prev(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
                 }
                 return 0;
             };
@@ -771,8 +872,23 @@ namespace Procezor.PayrolexTest.Service
                         return ruleset.SocialProps.MarginIncomeEmp + val;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                }
+                return 0;
+            };
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmpDiv2(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
+                switch (gen.Term)
+                {
+                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
                 }
                 return 0;
             };

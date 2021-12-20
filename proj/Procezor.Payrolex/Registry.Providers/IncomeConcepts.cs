@@ -270,27 +270,25 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            var resCostHealth = GetResult<HealthPaymEmployerResult>(target, period, results,
-               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER));
+            var costHealthList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER))
+                .Select((tr) => (tr.ResultValue)).ToArray();
 
-            if (resCostHealth.IsFailure)
-            {
-                return BuildFailResults(resCostHealth.Error);
-            }
+            decimal costHealthValue = costHealthList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
 
-            var evalCostHealth = resCostHealth.Value;
-            resValue = decimal.Add(resValue, evalCostHealth.ResultValue);
+            resValue = decimal.Add(resValue, costHealthValue);
 
-            var resCostSocial = GetResult<SocialPaymEmployerResult>(target, period, results,
-               ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYER));
+            var costSocialList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYER))
+                .Select((tr) => (tr.ResultValue)).ToArray();
 
-            if (resCostSocial.IsFailure)
-            {
-                return BuildFailResults(resCostSocial.Error);
-            }
+            decimal costSocialValue = costSocialList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
 
-            var evalCostSocial = resCostSocial.Value;
-            resValue = decimal.Add(resValue, evalCostSocial.ResultValue);
+            resValue = decimal.Add(resValue, costSocialValue);
 
             ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 

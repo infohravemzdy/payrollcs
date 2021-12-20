@@ -44,6 +44,73 @@ namespace HraveMzdy.Legalios.Props
         public decimal FactorEmployeeReduce { get; set; }
         public Int32 MarginIncomeEmp { get; set; }
         public Int32 MarginIncomeAgr { get; set; }
-
+        public bool HasParticy(WorkSocialTerms term, Int32 incomeTerm, Int32 incomeSpec)
+        {
+            bool particySpec = true;
+            if (HasIncomeBasedAgreementsParticy(term) && MarginIncomeAgr > 0)
+            {
+                particySpec = false;
+                if (HasIncomeCumulatedParticy(term))
+                {
+                    if (incomeTerm >= MarginIncomeAgr)
+                    {
+                        particySpec = true;
+                    }
+                }
+                else
+                {
+                    if (incomeSpec >= MarginIncomeAgr)
+                    {
+                        particySpec = true;
+                    }
+                }
+            }
+            else if (HasIncomeBasedEmploymentParticy(term) && MarginIncomeEmp > 0)
+            {
+                particySpec = false;
+                if (HasIncomeCumulatedParticy(term))
+                {
+                    if (incomeTerm >= MarginIncomeEmp)
+                    {
+                        particySpec = true;
+                    }
+                }
+                else
+                {
+                    if (incomeSpec >= MarginIncomeEmp)
+                    {
+                        particySpec = true;
+                    }
+                }
+            }
+            return particySpec;
+        }
+        public bool HasIncomeBasedEmploymentParticy(WorkSocialTerms term)
+        {
+            return (term == WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL);
+        }
+        public bool HasIncomeBasedAgreementsParticy(WorkSocialTerms term)
+        {
+            return (term == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK);
+        }
+        public bool HasIncomeCumulatedParticy(WorkSocialTerms term)
+        {
+            switch (term)
+            {
+                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                    return false;
+                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                    return false;
+                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                    return false;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
+                    return false;
+                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
+                    return false;
+                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                    return false;
+            }
+            return false;
+        }
     }
 }

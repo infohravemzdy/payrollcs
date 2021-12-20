@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HraveMzdy.Legalios.Service.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Errors;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
@@ -86,9 +87,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                         break;
                     case WorkContractTerms.WORKTERM_PARTNER_STAT:
                         evalContractType = WorkTaxingTerms.TAXING_TERM_STATUT_PART;
-                        break;
-                    case WorkContractTerms.WORKTERM_UNKNOWN_TYPE:
-                        evalContractType = WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS;
                         break;
                 }
             }
@@ -311,7 +309,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
                 var evalInterestCode = evalHealthInc.InterestCode;
                 var evalSubjectsTerm = evalHealthInc.SubjectType;
-                var evalParticeCode = evalHealthInc.ParticeCode;
+                var evalParticyCode = evalHealthInc.ParticyCode;
 
 
                 if (evalInterestCode != 0)
@@ -320,7 +318,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     if (contractResult == null)
                     {
                         contractResult = new TaxingIncomeHealthResult(evalTarget, x.Contract, spec,
-                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticeCode, 
+                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, 
                             VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
                         agr = agr.Concat(new TaxingIncomeHealthResult[] { contractResult }).ToArray();
                     }
@@ -341,7 +339,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     Int32 cutAnnualsBasis = 0;
                     Int32 remAnnualsBasis = agr.Item2;
 
-                    if (x.ParticeCode != 0)
+                    if (x.ParticyCode != 0)
                     {
                         cutAnnualsBasis = x.ResultBasis;
                         if (agr.Item1 > 0)
@@ -449,7 +447,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
                 var evalInterestCode = evalSocialInc.InterestCode;
                 var evalSubjectsTerm = evalSocialInc.SubjectType;
-                var evalParticeCode = evalSocialInc.ParticeCode;
+                var evalParticyCode = evalSocialInc.ParticyCode;
 
                 if (evalInterestCode != 0)
                 {
@@ -457,7 +455,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     if (contractResult == null)
                     {
                         contractResult = new TaxingIncomeSocialResult(evalTarget, x.Contract, spec,
-                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticeCode, 
+                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, 
                             VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
                         agr = agr.Concat(new TaxingIncomeSocialResult[] { contractResult }).ToArray();
                     }
@@ -478,7 +476,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     Int32 cutAnnualsBasis = 0;
                     Int32 remAnnualsBasis = agr.Item2;
 
-                    if (x.ParticeCode != 0)
+                    if (x.ParticyCode != 0)
                     {
                         cutAnnualsBasis = x.ResultBasis;
                         if (agr.Item1 > 0)
