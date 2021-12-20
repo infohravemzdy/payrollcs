@@ -4,13 +4,13 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsSocial : PropsBase, IPropsSocial
+    public class PropsSocial2011 : PropsBase, IPropsSocial
     {
         public static IPropsSocial Empty()
         {
             return new PropsSocial(VERSION_ZERO);
         }
-        public PropsSocial(Int16 version) : base(version)
+        public PropsSocial2011(Int16 version) : base(version)
         {
             this.MaxAnnualsBasis = 0;
             this.FactorEmployer = 0m;
@@ -21,7 +21,7 @@ namespace HraveMzdy.Legalios.Props
             this.MarginIncomeEmp = 0;
             this.MarginIncomeAgr = 0;
         }
-        public PropsSocial(VersionId version,
+        public PropsSocial2011(VersionId version,
             Int32 maxAnnualsBasis,
             decimal factorEmployer, decimal factorEmployerHigher,
             decimal factorEmployee, decimal factorEmployeeGarant, decimal factorEmployeeReduce,
@@ -99,7 +99,7 @@ namespace HraveMzdy.Legalios.Props
         }
         private bool HasIncomeBasedAgreementsParticy(WorkSocialTerms term)
         {
-            return (term == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK);
+            return false;
         }
         private bool HasIncomeCumulatedParticy(WorkSocialTerms term)
         {

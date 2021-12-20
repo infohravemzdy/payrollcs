@@ -4,47 +4,47 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsSocial : PropsBase, IPropsSocial
+    public class PropsHealth2011 : PropsBase, IPropsHealth
     {
-        public static IPropsSocial Empty()
+        public static IPropsHealth Empty()
         {
-            return new PropsSocial(VERSION_ZERO);
+            return new PropsHealth(VERSION_ZERO);
         }
-        public PropsSocial(Int16 version) : base(version)
+        public PropsHealth2011(Int16 version) : base(version)
         {
+            this.MinMonthlyBasis = 0;
             this.MaxAnnualsBasis = 0;
-            this.FactorEmployer = 0m;
-            this.FactorEmployerHigher = 0m;
+            this.LimMonthlyState = 0;
+            this.LimMonthlyDis50 = 0;
+            this.FactorCompound = 0m;
             this.FactorEmployee = 0m;
-            this.FactorEmployeeGarant = 0m;
-            this.FactorEmployeeReduce = 0m;
             this.MarginIncomeEmp = 0;
             this.MarginIncomeAgr = 0;
         }
-        public PropsSocial(VersionId version,
-            Int32 maxAnnualsBasis,
-            decimal factorEmployer, decimal factorEmployerHigher,
-            decimal factorEmployee, decimal factorEmployeeGarant, decimal factorEmployeeReduce,
+        public PropsHealth2011(VersionId version,
+            Int32 minMonthlyBasis, Int32 maxAnnualsBasis,
+            Int32 limMonthlyState, Int32 limMonthlyDis50,
+            decimal factorCompound, decimal factorEmployee,
             Int32 marginIncomeEmp, Int32 marginIncomeAgr) : base(version)
         {
+            this.MinMonthlyBasis = minMonthlyBasis;
             this.MaxAnnualsBasis = maxAnnualsBasis;
-            this.FactorEmployer = factorEmployer;
-            this.FactorEmployerHigher = factorEmployerHigher;
+            this.LimMonthlyState = limMonthlyState;
+            this.LimMonthlyDis50 = limMonthlyDis50;
+            this.FactorCompound = factorCompound;
             this.FactorEmployee = factorEmployee;
-            this.FactorEmployeeGarant = factorEmployeeGarant;
-            this.FactorEmployeeReduce = factorEmployeeReduce;
             this.MarginIncomeEmp = marginIncomeEmp;
             this.MarginIncomeAgr = marginIncomeAgr;
         }
+        public Int32 MinMonthlyBasis { get; set; }
         public Int32 MaxAnnualsBasis { get; set; }
-        public decimal FactorEmployer { get; set; }
-        public decimal FactorEmployerHigher { get; set; }
+        public Int32 LimMonthlyState { get; set; }
+        public Int32 LimMonthlyDis50 { get; set; }
+        public decimal FactorCompound { get; set; }
         public decimal FactorEmployee { get; set; }
-        public decimal FactorEmployeeGarant { get; set; }
-        public decimal FactorEmployeeReduce { get; set; }
         public Int32 MarginIncomeEmp { get; set; }
         public Int32 MarginIncomeAgr { get; set; }
-        public bool HasParticy(WorkSocialTerms term, Int32 incomeTerm, Int32 incomeSpec)
+        public bool HasParticy(WorkHealthTerms term, Int32 incomeTerm, Int32 incomeSpec)
         {
             bool particySpec = true;
             if (HasTermExemptionParticy(term))
@@ -89,33 +89,29 @@ namespace HraveMzdy.Legalios.Props
             }
             return particySpec;
         }
-        private bool HasTermExemptionParticy(WorkSocialTerms term)
+        private bool HasTermExemptionParticy(WorkHealthTerms term)
         {
             return false;
         }
-        private bool HasIncomeBasedEmploymentParticy(WorkSocialTerms term)
+        private bool HasIncomeBasedEmploymentParticy(WorkHealthTerms term)
         {
-            return (term == WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL);
+            return (term == WorkHealthTerms.HEALTH_TERM_AGREEM_WORK);
         }
-        private bool HasIncomeBasedAgreementsParticy(WorkSocialTerms term)
+        private bool HasIncomeBasedAgreementsParticy(WorkHealthTerms term)
         {
-            return (term == WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK);
+            return false;
         }
-        private bool HasIncomeCumulatedParticy(WorkSocialTerms term)
+        private bool HasIncomeCumulatedParticy(WorkHealthTerms term)
         {
             switch (term)
             {
-                case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
                     return false;
-                case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
                     return false;
-                case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
                     return false;
-                case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
-                    return false;
-                case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
-                    return false;
-                case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
                     return false;
             }
             return false;

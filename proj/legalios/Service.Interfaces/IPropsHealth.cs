@@ -15,8 +15,5 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 MarginIncomeEmp { get; }
         Int32 MarginIncomeAgr { get; }
         bool HasParticy(WorkHealthTerms term, Int32 incomeTerm, Int32 incomeSpec);
-        bool HasIncomeBasedEmploymentParticy(WorkHealthTerms term);
-        bool HasIncomeBasedAgreementsParticy(WorkHealthTerms term);
-        bool HasIncomeCumulatedParticy(WorkHealthTerms term);
     }
 }

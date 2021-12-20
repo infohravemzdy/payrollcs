@@ -47,7 +47,11 @@ namespace HraveMzdy.Legalios.Props
         public bool HasParticy(WorkHealthTerms term, Int32 incomeTerm, Int32 incomeSpec)
         {
             bool particySpec = true;
-            if (HasIncomeBasedAgreementsParticy(term) && MarginIncomeAgr > 0)
+            if (HasTermExemptionParticy(term))
+            {
+                particySpec = false;
+            }
+            else if (HasIncomeBasedAgreementsParticy(term) && MarginIncomeAgr > 0)
             {
                 particySpec = false;
                 if (HasIncomeCumulatedParticy(term))
@@ -85,15 +89,19 @@ namespace HraveMzdy.Legalios.Props
             }
             return particySpec;
         }
-        public bool HasIncomeBasedEmploymentParticy(WorkHealthTerms term)
+        private bool HasTermExemptionParticy(WorkHealthTerms term)
+        {
+            return false;
+        }
+        private bool HasIncomeBasedEmploymentParticy(WorkHealthTerms term)
         {
             return (term == WorkHealthTerms.HEALTH_TERM_AGREEM_WORK);
         }
-        public bool HasIncomeBasedAgreementsParticy(WorkHealthTerms term)
+        private bool HasIncomeBasedAgreementsParticy(WorkHealthTerms term)
         {
             return (term == WorkHealthTerms.HEALTH_TERM_AGREEM_TASK);
         }
-        public bool HasIncomeCumulatedParticy(WorkHealthTerms term)
+        private bool HasIncomeCumulatedParticy(WorkHealthTerms term)
         {
             switch (term)
             {
