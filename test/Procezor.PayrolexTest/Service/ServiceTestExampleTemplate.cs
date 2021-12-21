@@ -1175,6 +1175,92 @@ namespace Procezor.PayrolexTest.Service
             return resultOutput.ToArray();
         }
 
+        private static Int32 HealthParticyIncome(WorkContractTerms contractTerm, IBundleProps ruleset)
+        {
+            int marginIncome = 0;
+            switch (contractTerm)
+            {
+                case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                    marginIncome = ruleset.HealthProps.MarginIncomeEmp;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                    marginIncome = ruleset.HealthProps.MarginIncomeEmp;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                    marginIncome = ruleset.HealthProps.MarginIncomeAgr;
+                    break;
+                case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                    marginIncome = ruleset.HealthProps.MarginIncomeEmp;
+                    break;
+            }
+            return marginIncome;
+        }
+        private static Int32 SocialParticyIncome(WorkContractTerms contractTerm, IBundleProps ruleset)
+        {
+            int marginIncome = 0;
+            switch (contractTerm)
+            {
+                case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                    marginIncome = ruleset.SocialProps.MarginIncomeEmp;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                    marginIncome = ruleset.SocialProps.MarginIncomeEmp;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                    marginIncome = ruleset.SocialProps.MarginIncomeAgr;
+                    break;
+                case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                    marginIncome = ruleset.SocialProps.MarginIncomeEmp;
+                    break;
+            }
+            return marginIncome;
+        }
+        private static Int32 HealthDefaultIncome(WorkContractTerms contractTerm)
+        {
+            int marginIncome = 0;
+            switch (contractTerm)
+            {
+                case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                    marginIncome = 2000;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                    marginIncome = 2000;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                    marginIncome = 2000;
+                    break;
+                case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                    marginIncome = 2000;
+                    break;
+                default:
+                    marginIncome = 2000;
+                    break;
+            }
+            return marginIncome;
+        }
+        private static Int32 SocialDefaultIncome(WorkContractTerms contractTerm)
+        {
+            int marginIncome = 0;
+            switch (contractTerm)
+            {
+                case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
+                    marginIncome = 2000;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_A:
+                    marginIncome = 2000;
+                    break;
+                case WorkContractTerms.WORKTERM_CONTRACTER_T:
+                    marginIncome = 2000;
+                    break;
+                case WorkContractTerms.WORKTERM_PARTNER_STAT:
+                    marginIncome = 2000;
+                    break;
+                default:
+                    marginIncome = 2000;
+                    break;
+            }
+            return marginIncome;
+        }
         protected static Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> GenValue(Int32 val)
         {
             return (ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (val);
@@ -1216,313 +1302,288 @@ namespace Procezor.PayrolexTest.Service
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxZdrPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                if (prevset.HealthProps.MaxAnnualsBasis > 0)
+                Int32 marginIncome = prevset.HealthProps.MaxAnnualsBasis;
+                if (marginIncome == 0)
                 {
-                    return prevset.HealthProps.MaxAnnualsBasis + val;
+                    marginIncome = 2000000;
                 }
-                else if (ruleset.HealthProps.MaxAnnualsBasis > 0)
-                {
-                    return ruleset.HealthProps.MaxAnnualsBasis + val;
-                }
-                return 2000000 + val;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxZdr(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                if (ruleset.HealthProps.MaxAnnualsBasis > 0)
+                Int32 marginIncome = ruleset.HealthProps.MaxAnnualsBasis;
+                if (marginIncome == 0)
                 {
-                    return ruleset.HealthProps.MaxAnnualsBasis + val;
+                    marginIncome = prevset.HealthProps.MaxAnnualsBasis; 
                 }
-                else if (prevset.HealthProps.MaxAnnualsBasis > 0)
+                if (marginIncome == 0)
                 {
-                    return prevset.HealthProps.MaxAnnualsBasis + val;
+                    marginIncome = 2000000;
                 }
-                return 2000000 + val;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxSocPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                if (prevset.SocialProps.MaxAnnualsBasis > 0)
+                Int32 marginIncome = prevset.SocialProps.MaxAnnualsBasis;
+                if (marginIncome == 0)
                 {
-                    return prevset.SocialProps.MaxAnnualsBasis + val;
+                    marginIncome = 2000000;
                 }
-                else if (ruleset.SocialProps.MaxAnnualsBasis > 0)
-                {
-                    return ruleset.SocialProps.MaxAnnualsBasis + val;
-                }
-                return 2000000 + val;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxSoc(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                if (ruleset.SocialProps.MaxAnnualsBasis > 0)
+                Int32 marginIncome = ruleset.SocialProps.MaxAnnualsBasis;
+                if (marginIncome == 0)
                 {
-                    return ruleset.SocialProps.MaxAnnualsBasis + val;
+                    marginIncome = prevset.SocialProps.MaxAnnualsBasis;
                 }
-                else if (prevset.SocialProps.MaxAnnualsBasis > 0)
+                if (marginIncome == 0)
                 {
-                    return prevset.SocialProps.MaxAnnualsBasis + val;
+                    marginIncome = 2000000;
                 }
-                return 2000000 + val;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SolTaxPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                if (prevset.TaxingProps.MarginIncomeOfSolidary > 0)
+                Int32 marginIncome = prevset.TaxingProps.MarginIncomeOfSolidary;
+                if (marginIncome == 0)
                 {
-                    return prevset.TaxingProps.MarginIncomeOfSolidary + val;
+                    marginIncome = 150000;
                 }
-                else if (ruleset.TaxingProps.MarginIncomeOfSolidary > 0)
-                {
-                    return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
-                }
-                return 150000 + val;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SolTax(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                if (ruleset.TaxingProps.MarginIncomeOfSolidary > 0)
+                Int32 marginIncome = ruleset.TaxingProps.MarginIncomeOfSolidary;
+                if (marginIncome == 0)
                 {
-                    return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
+                    marginIncome = prevset.TaxingProps.MarginIncomeOfSolidary;
                 }
-                if (prevset.TaxingProps.MarginIncomeOfSolidary > 0)
+                if (marginIncome == 0)
                 {
-                    return prevset.TaxingProps.MarginIncomeOfSolidary + val;
+                    marginIncome = 150000;
                 }
-                return 150000 + val;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                return prevset.TaxingProps.MarginIncomeOfWithhold + val;
+                Int32 marginIncome = prevset.TaxingProps.MarginIncomeOfWithhold;
+                if (marginIncome == 0)
+                {
+                    marginIncome = 5000;
+                }
+                return (marginIncome + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepDiv2Prev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                return prevset.TaxingProps.MarginIncomeOfWithhold/2 + val;
+                Int32 marginIncome = prevset.TaxingProps.MarginIncomeOfWithhold;
+                if (marginIncome == 0)
+                {
+                    marginIncome = 5000;
+                }
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNep(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                return ruleset.TaxingProps.MarginIncomeOfWithhold + val;
+                Int32 marginIncome = ruleset.TaxingProps.MarginIncomeOfWithhold;
+                if (marginIncome == 0)
+                {
+                    marginIncome = prevset.TaxingProps.MarginIncomeOfWithhold;
+                }
+                if (marginIncome == 0)
+                {
+                    marginIncome = 5000;
+                }
+                return (marginIncome + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepDiv2(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                return ruleset.TaxingProps.MarginIncomeOfWithhold/2 + val;
+                Int32 marginIncome = ruleset.TaxingProps.MarginIncomeOfWithhold;
+                if (marginIncome == 0)
+                {
+                    marginIncome = prevset.TaxingProps.MarginIncomeOfWithhold;
+                }
+                if (marginIncome == 0)
+                {
+                    marginIncome = 5000;
+                }
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, prevset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return prevset.HealthProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return prevset.HealthProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return prevset.HealthProps.MarginIncomeAgr + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return prevset.HealthProps.MarginIncomeEmp + val;
+                    marginIncome = HealthDefaultIncome(gen.Term);
                 }
-                return 0;
+                return (marginIncome + val);
             };
         }
+
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrDiv2Prev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, prevset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return prevset.HealthProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return prevset.HealthProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return prevset.HealthProps.MarginIncomeAgr/2 + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return prevset.HealthProps.MarginIncomeEmp/2 + val;
+                    marginIncome = HealthDefaultIncome(gen.Term);
                 }
-                return 0;
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdr(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, ruleset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return ruleset.HealthProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return ruleset.HealthProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return ruleset.HealthProps.MarginIncomeAgr + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return ruleset.HealthProps.MarginIncomeEmp + val;
+                    marginIncome = HealthParticyIncome(gen.Term, prevset);
                 }
-                return 0;
+                if (marginIncome == 0)
+                {
+                    marginIncome = HealthDefaultIncome(gen.Term);
+                }
+                return (marginIncome + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrDiv2(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, ruleset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return ruleset.HealthProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return ruleset.HealthProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return ruleset.HealthProps.MarginIncomeAgr/2 + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return ruleset.HealthProps.MarginIncomeEmp/2 + val;
+                    marginIncome = HealthParticyIncome(gen.Term, prevset);
                 }
-                return 0;
+                if (marginIncome == 0)
+                {
+                    marginIncome = HealthDefaultIncome(gen.Term);
+                }
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNemPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = SocialParticyIncome(gen.Term, prevset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return prevset.SocialProps.MarginIncomeAgr + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    marginIncome = SocialDefaultIncome(gen.Term);
                 }
-                return 0;
+                return marginIncome + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNemDiv2Prev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = SocialParticyIncome(gen.Term, prevset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return prevset.SocialProps.MarginIncomeAgr/2 + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    marginIncome = SocialDefaultIncome(gen.Term);
                 }
-                return 0;
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNem(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = SocialParticyIncome(gen.Term, ruleset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return ruleset.SocialProps.MarginIncomeAgr + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    marginIncome = SocialParticyIncome(gen.Term, prevset);
                 }
-                return 0;
+                if (marginIncome == 0)
+                {
+                    marginIncome = SocialDefaultIncome(gen.Term);
+                }
+                return (marginIncome + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastNemDiv2(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = SocialParticyIncome(gen.Term, ruleset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return ruleset.SocialProps.MarginIncomeAgr/2 + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    marginIncome = SocialParticyIncome(gen.Term, prevset);
                 }
-                return 0;
+                if (marginIncome == 0)
+                {
+                    marginIncome = SocialDefaultIncome(gen.Term);
+                }
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmpPrev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, prevset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return prevset.SocialProps.MarginIncomeEmp + val;
+                    marginIncome = HealthDefaultIncome(gen.Term);
                 }
-                return 0;
+                return (marginIncome + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmpDiv2Prev(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, prevset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return prevset.SocialProps.MarginIncomeEmp/2 + val;
+                    marginIncome = HealthDefaultIncome(gen.Term);
                 }
-                return 0;
+                return (marginIncome / 2 + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmp(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, ruleset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return ruleset.SocialProps.MarginIncomeEmp + val;
+                    marginIncome = HealthParticyIncome(gen.Term, prevset);
                 }
-                return 0;
+                if (marginIncome == 0)
+                {
+                    marginIncome = HealthDefaultIncome(gen.Term);
+                }
+                return (marginIncome + val);
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> UcastZdrEmpDiv2(Int32 val)
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => {
-                switch (gen.Term)
+                Int32 marginIncome = HealthParticyIncome(gen.Term, ruleset);
+                if (marginIncome == 0)
                 {
-                    case WorkContractTerms.WORKTERM_EMPLOYMENT_1:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_A:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_CONTRACTER_T:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
-                    case WorkContractTerms.WORKTERM_PARTNER_STAT:
-                        return ruleset.SocialProps.MarginIncomeEmp/2 + val;
+                    marginIncome = HealthParticyIncome(gen.Term, prevset);
                 }
-                return 0;
+                if (marginIncome == 0)
+                {
+                    marginIncome = HealthDefaultIncome(gen.Term);
+                }
+                return (marginIncome / 2 + val);
             };
         }
 #endregion
