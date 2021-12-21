@@ -40,6 +40,21 @@ namespace HraveMzdy.Legalios.Props
         public decimal FactorEmployeeReduce { get; set; }
         public Int32 MarginIncomeEmp { get; set; }
         public Int32 MarginIncomeAgr { get; set; }
+        public bool ValueEquals(IPropsSocial other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return (this.MaxAnnualsBasis == other.MaxAnnualsBasis &&
+                    this.FactorEmployer == other.FactorEmployer &&
+                    this.FactorEmployerHigher == other.FactorEmployerHigher &&
+                    this.FactorEmployee == other.FactorEmployee &&
+                    this.FactorEmployeeGarant == other.FactorEmployeeGarant &&
+                    this.FactorEmployeeReduce == other.FactorEmployeeReduce &&
+                    this.MarginIncomeEmp == other.MarginIncomeEmp &&
+                    this.MarginIncomeAgr == other.MarginIncomeAgr);
+        }
         public bool HasParticy(WorkSocialTerms term, Int32 incomeTerm, Int32 incomeSpec)
         {
             bool particySpec = true;

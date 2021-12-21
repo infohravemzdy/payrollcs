@@ -26,5 +26,6 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 MarginIncomeOfTaxRate2 { get; }
         Int32 MarginIncomeOfWthEmp { get; }
         Int32 MarginIncomeOfWthAgr { get; }
+        bool ValueEquals(IPropsTaxing other);
     }
 }

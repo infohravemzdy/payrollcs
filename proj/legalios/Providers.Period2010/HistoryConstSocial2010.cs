@@ -10,9 +10,9 @@ namespace HraveMzdy.Legalios.Providers.Period2010
     //
     // FACTOR_EMPLOYEE              Sazba sociálního pojištění - zaměstnance
     //
-    // FACTOR_EMPLOYEE_REDUCE       Snížení sazby sociálního pojištění - zaměstnance - s důchodovým spořením
-    //
     // FACTOR_EMPLOYEE_GARANT       Sazba důchodového spoření - zaměstnance - s důchodovým spořením
+    //
+    // FACTOR_EMPLOYEE_REDUCE       Snížení sazby sociálního pojištění - zaměstnance - s důchodovým spořením
     //
     // MARGIN_INCOME_EMP            hranice příjmu pro vznik účasti na pojištění pro zaměstnace v pracovním poměru
     //

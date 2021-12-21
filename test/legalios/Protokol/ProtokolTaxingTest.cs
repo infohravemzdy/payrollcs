@@ -289,7 +289,7 @@ namespace LegaliosTest.Protokol
         [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfTaxRate2(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_18_MarginIncomeOfSolidary
+            // 04_Taxing_18_MarginIncomeOfTaxRate2
             using (var testProtokol = CreateProtokolFile("04_Taxing_19_MarginIncomeOfTaxRate2.txt"))
             {
                 ExportPropsStart(testProtokol);

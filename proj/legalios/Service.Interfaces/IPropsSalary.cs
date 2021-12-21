@@ -9,5 +9,6 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 WorkingShiftTime { get; }
         Int32 MinMonthlyWage { get; }
         Int32 MinHourlyWage { get; }
+        bool ValueEquals(IPropsSalary other);
     }
 }

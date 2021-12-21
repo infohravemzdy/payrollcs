@@ -14,6 +14,7 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         decimal FactorEmployee { get; }
         Int32 MarginIncomeEmp { get; }
         Int32 MarginIncomeAgr { get; }
+        bool ValueEquals(IPropsHealth other);
         bool HasParticy(WorkHealthTerms term, Int32 incomeTerm, Int32 incomeSpec);
     }
 }

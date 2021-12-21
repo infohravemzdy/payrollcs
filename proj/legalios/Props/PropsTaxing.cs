@@ -91,5 +91,33 @@ namespace HraveMzdy.Legalios.Props
         public Int32 MarginIncomeOfWthEmp { get; set; }
         public Int32 MarginIncomeOfWthAgr { get; set; }
 
+        public bool ValueEquals(IPropsTaxing other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return (this.AllowancePayer == other.AllowancePayer &&
+                    this.AllowanceDisab1st == other.AllowanceDisab1st &&
+                    this.AllowanceDisab2nd == other.AllowanceDisab2nd &&
+                    this.AllowanceDisab3rd == other.AllowanceDisab3rd &&
+                    this.AllowanceStudy == other.AllowanceStudy &&
+                    this.AllowanceChild1st == other.AllowanceChild1st &&
+                    this.AllowanceChild2nd == other.AllowanceChild2nd &&
+                    this.AllowanceChild3rd == other.AllowanceChild3rd &&
+                    this.FactorAdvances == other.FactorAdvances &&
+                    this.FactorWithhold == other.FactorWithhold &&
+                    this.FactorSolidary == other.FactorSolidary &&
+                    this.FactorTaxRate2 == other.FactorTaxRate2 &&
+                    this.MinAmountOfTaxBonus == other.MinAmountOfTaxBonus &&
+                    this.MaxAmountOfTaxBonus == other.MaxAmountOfTaxBonus &&
+                    this.MarginIncomeOfTaxBonus == other.MarginIncomeOfTaxBonus &&
+                    this.MarginIncomeOfRounding == other.MarginIncomeOfRounding &&
+                    this.MarginIncomeOfWithhold == other.MarginIncomeOfWithhold &&
+                    this.MarginIncomeOfSolidary == other.MarginIncomeOfSolidary &&
+                    this.MarginIncomeOfTaxRate2 == other.MarginIncomeOfTaxRate2 &&
+                    this.MarginIncomeOfWthEmp == other.MarginIncomeOfWthEmp &&
+                    this.MarginIncomeOfWthAgr == other.MarginIncomeOfWthAgr);
+        }
     }
 }

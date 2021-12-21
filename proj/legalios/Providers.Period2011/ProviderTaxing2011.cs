@@ -1,8 +1,9 @@
 ﻿using System;
 using HraveMzdy.Legalios.Props;
+using HraveMzdy.Legalios.Providers.Period2011;
 using HraveMzdy.Legalios.Service.Interfaces;
 
-namespace HraveMzdy.Legalios.Providers.Period2011
+namespace HraveMzdy.Legalios.Providers
 {
     class ProviderTaxing2011 : ProviderBase, IProviderTaxing
     {

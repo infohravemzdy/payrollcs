@@ -1220,7 +1220,11 @@ namespace Procezor.PayrolexTest.Service
                 {
                     return prevset.HealthProps.MaxAnnualsBasis + val;
                 }
-                return ruleset.HealthProps.MaxAnnualsBasis + val;
+                else if (ruleset.HealthProps.MaxAnnualsBasis > 0)
+                {
+                    return ruleset.HealthProps.MaxAnnualsBasis + val;
+                }
+                return 2000000 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxZdr(Int32 val)
@@ -1230,7 +1234,11 @@ namespace Procezor.PayrolexTest.Service
                 {
                     return ruleset.HealthProps.MaxAnnualsBasis + val;
                 }
-                return prevset.HealthProps.MaxAnnualsBasis + val;
+                else if (prevset.HealthProps.MaxAnnualsBasis > 0)
+                {
+                    return prevset.HealthProps.MaxAnnualsBasis + val;
+                }
+                return 2000000 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxSocPrev(Int32 val)
@@ -1240,7 +1248,11 @@ namespace Procezor.PayrolexTest.Service
                 {
                     return prevset.SocialProps.MaxAnnualsBasis + val;
                 }
-                return ruleset.SocialProps.MaxAnnualsBasis + val;
+                else if (ruleset.SocialProps.MaxAnnualsBasis > 0)
+                {
+                    return ruleset.SocialProps.MaxAnnualsBasis + val;
+                }
+                return 2000000 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MaxSoc(Int32 val)
@@ -1250,7 +1262,11 @@ namespace Procezor.PayrolexTest.Service
                 {
                     return ruleset.SocialProps.MaxAnnualsBasis + val;
                 }
-                return prevset.SocialProps.MaxAnnualsBasis + val;
+                else if (prevset.SocialProps.MaxAnnualsBasis > 0)
+                {
+                    return prevset.SocialProps.MaxAnnualsBasis + val;
+                }
+                return 2000000 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SolTaxPrev(Int32 val)
@@ -1260,7 +1276,11 @@ namespace Procezor.PayrolexTest.Service
                 {
                     return prevset.TaxingProps.MarginIncomeOfSolidary + val;
                 }
-                return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
+                else if (ruleset.TaxingProps.MarginIncomeOfSolidary > 0)
+                {
+                    return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
+                }
+                return 150000 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SolTax(Int32 val)
@@ -1270,7 +1290,11 @@ namespace Procezor.PayrolexTest.Service
                 {
                     return ruleset.TaxingProps.MarginIncomeOfSolidary + val;
                 }
-                return prevset.TaxingProps.MarginIncomeOfSolidary + val;
+                if (prevset.TaxingProps.MarginIncomeOfSolidary > 0)
+                {
+                    return prevset.TaxingProps.MarginIncomeOfSolidary + val;
+                }
+                return 150000 + val;
             };
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> SrazNepPrev(Int32 val)
