@@ -17,6 +17,20 @@ namespace LegaliosTest.Service
         private readonly IServiceLegalios _sut;
 
         private static readonly TestIntScenario[] _tests = new TestIntScenario[] {
+            new TestIntScenario("2010", new TestIntParams[] {
+                new TestIntParams( "2010-1", 2010, 1, 2010, 1, 1707048 ),
+                new TestIntParams( "2010-2", 2010, 2, 2010, 2, 1707048 ),
+                new TestIntParams( "2010-3", 2010, 3, 2010, 3, 1707048 ),
+                new TestIntParams( "2010-4", 2010, 4, 2010, 4, 1707048 ),
+                new TestIntParams( "2010-5", 2010, 5, 2010, 5, 1707048 ),
+                new TestIntParams( "2010-6", 2010, 6, 2010, 6, 1707048 ),
+                new TestIntParams( "2010-7", 2010, 7, 2010, 7, 1707048 ),
+                new TestIntParams( "2010-8", 2010, 8, 2010, 8, 1707048 ),
+                new TestIntParams( "2010-9", 2010, 9, 2010, 9, 1707048 ),
+                new TestIntParams( "2010-10", 2010, 10, 2010, 10, 1707048 ),
+                new TestIntParams( "2010-11", 2010, 11, 2010, 11, 1707048 ),
+                new TestIntParams( "2010-12", 2010, 12, 2010, 12, 1707048 ),
+            }),
             new TestIntScenario("2011", new TestIntParams[] {
                 new TestIntParams( "2011-1", 2011, 1, 2011, 1, 1781280 ),
                 new TestIntParams( "2011-2", 2011, 2, 2011, 2, 1781280 ),

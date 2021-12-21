@@ -8,7 +8,7 @@ namespace HraveMzdy.Legalios.Factories
 {
     class BundleBuilder : IBundleBuilder
     {
-        private Int16 MIN_VERSION = 2011;
+        private Int16 MIN_VERSION = 2010;
         private IProviderFactory<IProviderSalary, IPropsSalary> SalaryFactory { get; }
         private IProviderFactory<IProviderHealth, IPropsHealth> HealthFactory { get; }
         private IProviderFactory<IProviderSocial, IPropsSocial> SocialFactory { get; }

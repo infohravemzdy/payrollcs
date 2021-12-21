@@ -23,12 +23,14 @@ namespace HraveMzdy.Legalios.Props
             this.FactorAdvances = 0m;
             this.FactorWithhold = 0m;
             this.FactorSolidary = 0m;
+            this.FactorTaxRate2 = 0m;
             this.MinAmountOfTaxBonus = 0;
             this.MaxAmountOfTaxBonus = 0;
             this.MarginIncomeOfTaxBonus = 0;
             this.MarginIncomeOfRounding = 0;
             this.MarginIncomeOfWithhold = 0;
             this.MarginIncomeOfSolidary = 0;
+            this.MarginIncomeOfTaxRate2 = 0;
             this.MarginIncomeOfWthEmp = 0;
             this.MarginIncomeOfWthAgr = 0;
         }
@@ -37,9 +39,11 @@ namespace HraveMzdy.Legalios.Props
             Int32 allowanceDisab1st, Int32 allowanceDisab2nd, Int32 allowanceDisab3rd,
             Int32 allowanceStudy,
             Int32 allowanceChild1st, Int32 allowanceChild2nd, Int32 allowanceChild3rd,
-            decimal factorAdvances, decimal factorWithhold, decimal factorSolidary,
+            decimal factorAdvances, decimal factorWithhold, 
+            decimal factorSolidary, decimal factorTaxRate2,
             Int32 minAmountOfTaxBonus, Int32 maxAmountOfTaxBonus, Int32 marginIncomeOfTaxBonus,
-            Int32 marginIncomeOfRounding, Int32 marginIncomeOfWithhold, Int32 marginIncomeOfSolidary,
+            Int32 marginIncomeOfRounding, Int32 marginIncomeOfWithhold, 
+            Int32 marginIncomeOfSolidary, Int32 marginIncomeOfTaxRate2,
             Int32 marginIncomeOfWthEmp, Int32 marginIncomeOfWthAgr) : base(version)
         {
             this.AllowancePayer = allowancePayer;
@@ -53,12 +57,14 @@ namespace HraveMzdy.Legalios.Props
             this.FactorAdvances = factorAdvances;
             this.FactorWithhold = factorWithhold;
             this.FactorSolidary = factorSolidary;
+            this.FactorTaxRate2 = factorTaxRate2;
             this.MinAmountOfTaxBonus = minAmountOfTaxBonus;
             this.MaxAmountOfTaxBonus = maxAmountOfTaxBonus;
             this.MarginIncomeOfTaxBonus = marginIncomeOfTaxBonus;
             this.MarginIncomeOfRounding = marginIncomeOfRounding;
             this.MarginIncomeOfWithhold = marginIncomeOfWithhold;
             this.MarginIncomeOfSolidary = marginIncomeOfSolidary;
+            this.MarginIncomeOfTaxRate2 = marginIncomeOfTaxRate2;
             this.MarginIncomeOfWthEmp = marginIncomeOfWthEmp;
             this.MarginIncomeOfWthAgr = marginIncomeOfWthAgr;
         }
@@ -74,12 +80,14 @@ namespace HraveMzdy.Legalios.Props
         public decimal FactorAdvances { get; set; }
         public decimal FactorWithhold { get; set; }
         public decimal FactorSolidary { get; set; }
+        public decimal FactorTaxRate2 { get; set; }
         public Int32 MinAmountOfTaxBonus { get; set; }
         public Int32 MaxAmountOfTaxBonus { get; set; }
         public Int32 MarginIncomeOfTaxBonus { get; set; }
         public Int32 MarginIncomeOfRounding { get; set; }
         public Int32 MarginIncomeOfWithhold { get; set; }
         public Int32 MarginIncomeOfSolidary { get; set; }
+        public Int32 MarginIncomeOfTaxRate2 { get; set; }
         public Int32 MarginIncomeOfWthEmp { get; set; }
         public Int32 MarginIncomeOfWthAgr { get; set; }
 

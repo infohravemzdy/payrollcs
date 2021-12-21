@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HraveMzdy.Legalios.Providers.Period2010;
+using System;
 
 namespace HraveMzdy.Legalios.Providers.Period2011
 {
@@ -23,11 +24,11 @@ namespace HraveMzdy.Legalios.Providers.Period2011
 
         public const Int32 MIN_MONTHLY_BASIS = HistoryConstSalary2011.MIN_MONTHLY_WAGE;
         public const Int32 MAX_ANNUALS_BASIS = 1781280;
-        public const Int32 LIM_MONTHLY_STATE = 0;
-        public const Int32 LIM_MONTHLY_DIS50 = 5355;
-        public const decimal FACTOR_COMPOUND = 13.5m;
-        public const decimal FACTOR_EMPLOYEE = 3m;
-        public const Int32 MARGIN_INCOME_EMP = 2000;
-        public const Int32 MARGIN_INCOME_AGR = MARGIN_INCOME_EMP;
+        public const Int32 LIM_MONTHLY_STATE = HistoryConstHealth2010.LIM_MONTHLY_STATE;
+        public const Int32 LIM_MONTHLY_DIS50 = HistoryConstHealth2010.LIM_MONTHLY_DIS50;
+        public const decimal FACTOR_COMPOUND = HistoryConstHealth2010.FACTOR_COMPOUND;
+        public const decimal FACTOR_EMPLOYEE = HistoryConstHealth2010.FACTOR_EMPLOYEE;
+        public const Int32 MARGIN_INCOME_EMP = HistoryConstHealth2010.MARGIN_INCOME_EMP;
+        public const Int32 MARGIN_INCOME_AGR = HistoryConstHealth2010.MARGIN_INCOME_AGR;
     }
 }

@@ -17,7 +17,7 @@ namespace LegaliosTest.Protokol
 
 #if __PROTOKOL_TEST_FILE__
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_WorkingShiftWeek(Int16 testMinYear, Int16 testMaxYear)
         {
             // 02_Salary_01_WorkingShiftWeek
@@ -32,7 +32,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_WorkingShiftTime(Int16 testMinYear, Int16 testMaxYear)
         {
             // 02_Salary_02_WorkingShiftTime
@@ -47,7 +47,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MinMonthlyWage(Int16 testMinYear, Int16 testMaxYear)
         {
             // 02_Salary_03_MinMonthlyWage
@@ -62,7 +62,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MinHourlyWage(Int16 testMinYear, Int16 testMaxYear)
         {
             // 02_Salary_04_MinHourlyWage

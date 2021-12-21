@@ -24,12 +24,14 @@ namespace HraveMzdy.Legalios.Providers.Period2011
                 FactorAdvances(period),
                 FactorWithhold(period),
                 FactorSolidary(period),
+                FactorTaxRate2(period),
                 MinAmountOfTaxBonus(period),
                 MaxAmountOfTaxBonus(period),
                 MarginIncomeOfTaxBonus(period),
                 MarginIncomeOfRounding(period),
                 MarginIncomeOfWithhold(period),
                 MarginIncomeOfSolidary(period),
+                MarginIncomeOfTaxRate2(period),
                 MarginIncomeOfWthEmp(period),
                 MarginIncomeOfWthAgr(period));
         }
@@ -78,6 +80,10 @@ namespace HraveMzdy.Legalios.Providers.Period2011
         {
             return HistoryConstTaxing2011.FACTOR_SOLIDARY;
         }
+        public decimal FactorTaxRate2(IPeriod period)
+        {
+            return HistoryConstTaxing2011.FACTOR_TAXRATE2;
+        }
         public Int32 MinAmountOfTaxBonus(IPeriod period)
         {
             return HistoryConstTaxing2011.MIN_AMOUNT_OF_TAXBONUS;
@@ -101,6 +107,10 @@ namespace HraveMzdy.Legalios.Providers.Period2011
         public Int32 MarginIncomeOfSolidary(IPeriod period)
         {
             return HistoryConstTaxing2011.MARGIN_INCOME_OF_SOLIDARY;
+        }
+        public Int32 MarginIncomeOfTaxRate2(IPeriod period)
+        {
+            return HistoryConstTaxing2011.MARGIN_INCOME_OF_TAXRATE2;
         }
         public Int32 MarginIncomeOfWthEmp(IPeriod period)
         {

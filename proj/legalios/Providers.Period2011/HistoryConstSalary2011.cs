@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HraveMzdy.Legalios.Providers.Period2010;
+using System;
 
 namespace HraveMzdy.Legalios.Providers.Period2011
 {
@@ -13,9 +14,9 @@ namespace HraveMzdy.Legalios.Providers.Period2011
     {
         public const Int16 VERSION_CODE = 2011;
 
-        public const Int32 WORKING_SHIFT_WEEK = 5;
-        public const Int32 WORKING_SHIFT_TIME = 8;
-        public const Int32 MIN_MONTHLY_WAGE = 8000;
-        public const Int32 MIN_HOURLY_WAGE = 4810;
+        public const Int32 WORKING_SHIFT_WEEK = HistoryConstSalary2010.WORKING_SHIFT_WEEK;
+        public const Int32 WORKING_SHIFT_TIME = HistoryConstSalary2010.WORKING_SHIFT_TIME;
+        public const Int32 MIN_MONTHLY_WAGE = HistoryConstSalary2010.MIN_MONTHLY_WAGE;
+        public const Int32 MIN_HOURLY_WAGE = HistoryConstSalary2010.MIN_HOURLY_WAGE;
     }
 }

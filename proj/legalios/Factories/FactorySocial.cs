@@ -12,7 +12,7 @@ namespace HraveMzdy.Legalios.Factories
     {
         private readonly IProviderSocial defaultProvider = new ProviderSocial2021();
 
-        private readonly IPropsSocial emptyPeriodProps = PropsSocial2011.Empty();
+        private readonly IPropsSocial emptyPeriodProps = PropsSocial2010.Empty();
 
         protected override IProviderSocial DefaultProvider => defaultProvider;
         protected override IPropsSocial EmptyPeriodProps => emptyPeriodProps;

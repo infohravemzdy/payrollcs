@@ -17,7 +17,7 @@ namespace LegaliosTest.Protokol
 
 #if __PROTOKOL_TEST_FILE__
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MaxAnnualsBasis(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_01_MaxAnnualsBasis
@@ -32,7 +32,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorEmployer(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_02_FactorEmployer
@@ -47,7 +47,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorEmployerHigher(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_03_FactorEmployerHigher
@@ -62,7 +62,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorEmployee(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_04_FactorEmployee
@@ -77,7 +77,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorEmployeeGarant(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_05_FactorEmployeeGarant
@@ -92,7 +92,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorEmployeeReduce(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_06_FactorEmployeeReduce
@@ -107,7 +107,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeEmp(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_07_MarginIncomeEmp
@@ -122,7 +122,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeAgr(Int16 testMinYear, Int16 testMaxYear)
         {
             // 03_Social_08_MarginIncomeAgr

@@ -28,7 +28,7 @@ namespace HraveMzdy.Legalios.Service.Types
             return new BundleProps(period,
                 PropsSalary.Empty(),
                 PropsHealth.Empty(),
-                PropsSocial2011.Empty(),
+                PropsSocial2010.Empty(),
                 PropsTaxing.Empty());
         }
     }

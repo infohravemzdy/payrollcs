@@ -42,7 +42,7 @@ namespace Procezor.PayrolexTest.Service
         }
         public static IPeriod PrevYear(IPeriod period)
         {
-            return new Period(Math.Max(2011, period.Year - 1), period.Month);
+            return new Period(Math.Max(2010, period.Year - 1), period.Month);
         }
         public static IBundleProps CurrYearBundle(IServiceLegalios legSvc, IPeriod period)
         {
@@ -517,33 +517,40 @@ namespace Procezor.PayrolexTest.Service
             System.Text.EncodingProvider ppp = System.Text.CodePagesEncodingProvider.Instance;
             Encoding.RegisterProvider(ppp);
 
-            testPeriod.Code.Should().Be(testPeriodCode);
-
-            var prevPeriod = PrevYear(testPeriod);
-            prevPeriod.Code.Should().Be(prevPeriodCode);
-
-            var testLegalResult = _leg.GetBundle(testPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            using (var testProtokol = CreateProtokolFile($"OKmzdyImport_{testPeriod.Year}.txt"))
+            try
             {
-                ExportPropsStart(testProtokol);
+                testPeriod.Code.Should().Be(testPeriodCode);
 
-                foreach (var example in tests)
+                var prevPeriod = PrevYear(testPeriod);
+                prevPeriod.Code.Should().Be(prevPeriodCode);
+
+                var testLegalResult = _leg.GetBundle(testPeriod);
+                testLegalResult.IsSuccess.Should().Be(true);
+
+                var testRuleset = testLegalResult.Value;
+
+                var prevLegalResult = _leg.GetBundle(prevPeriod);
+                prevLegalResult.IsSuccess.Should().Be(true);
+
+                var prevRuleset = prevLegalResult.Value;
+
+                using (var testProtokol = CreateProtokolFile($"OKmzdyImport_{testPeriod.Year}.txt"))
                 {
-                    foreach (var impLine in example.BuildImportString(testPeriod, testRuleset, prevRuleset))
+                    ExportPropsStart(testProtokol);
+
+                    foreach (var example in tests)
                     {
-                        testProtokol.WriteLine(impLine);
+                        foreach (var impLine in example.BuildImportString(testPeriod, testRuleset, prevRuleset))
+                        {
+                            testProtokol.WriteLine(impLine);
+                        }
                     }
+                    ExportPropsEnd(testProtokol);
                 }
-                ExportPropsEnd(testProtokol);
+            }
+            catch (Xunit.Sdk.XunitException e)
+            {
+                throw e;
             }
         }
 
@@ -584,54 +591,60 @@ namespace Procezor.PayrolexTest.Service
             //netto income                     |CZK 12405
 #endif
             output.WriteLine($"Test: {example.Name}, Number: {example.Number}");
-
-            testPeriod.Code.Should().Be(testPeriodCode);
-
-            var prevPeriod = PrevYear(testPeriod);
-            prevPeriod.Code.Should().Be(prevPeriodCode);
-
-            var testLegalResult = _leg.GetBundle(testPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var targets = example.BuildSpecTargets(testPeriod, testRuleset, prevRuleset);
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            try
             {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                testPeriod.Code.Should().Be(testPeriodCode);
+
+                var prevPeriod = PrevYear(testPeriod);
+                prevPeriod.Code.Should().Be(prevPeriodCode);
+
+                var testLegalResult = _leg.GetBundle(testPeriod);
+                testLegalResult.IsSuccess.Should().Be(true);
+
+                var testRuleset = testLegalResult.Value;
+
+                var prevLegalResult = _leg.GetBundle(prevPeriod);
+                prevLegalResult.IsSuccess.Should().Be(true);
+
+                var prevRuleset = prevLegalResult.Value;
+
+                var targets = example.BuildSpecTargets(testPeriod, testRuleset, prevRuleset);
+                foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+                {
+                    var articleSymbol = target.ArticleDescr();
+                    var conceptSymbol = target.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                }
+
+                var initService = _sut.InitWithPeriod(testPeriod);
+                initService.Should().BeTrue();
+
+                var restService = _sut.GetResults(testPeriod, testRuleset, targets);
+                restService.Count().Should().NotBe(0);
+
+                output.WriteLine($"Result Test: {example.Name}, Number: {example.Number}");
+
+                foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+                {
+                    if (result.IsSuccess)
+                    {
+                        var resultValue = result.Value;
+                        var articleSymbol = resultValue.ArticleDescr();
+                        var conceptSymbol = resultValue.ConceptDescr();
+                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                    }
+                    else if (result.IsFailure)
+                    {
+                        var errorValue = result.Error;
+                        var articleSymbol = errorValue.ArticleDescr();
+                        var conceptSymbol = errorValue.ConceptDescr();
+                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                    }
+                }
             }
-
-            var initService = _sut.InitWithPeriod(testPeriod);
-            initService.Should().BeTrue();
-
-            var restService = _sut.GetResults(testPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
-
-            output.WriteLine($"Result Test: {example.Name}, Number: {example.Number}");
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            catch (Xunit.Sdk.XunitException e)
             {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
+                throw e;
             }
         }
 
@@ -639,68 +652,75 @@ namespace Procezor.PayrolexTest.Service
         {
             output.WriteLine($"Test: {example.Name}, Number: {example.Number}");
 
-            testPeriod.Code.Should().Be(testPeriodCode);
-
-            var prevPeriod = PrevYear(testPeriod);
-            prevPeriod.Code.Should().Be(prevPeriodCode);
-
-            var testLegalResult = _leg.GetBundle(testPeriod);
-            testLegalResult.IsSuccess.Should().Be(true);
-
-            var testRuleset = testLegalResult.Value;
-
-            var prevLegalResult = _leg.GetBundle(prevPeriod);
-            prevLegalResult.IsSuccess.Should().Be(true);
-
-            var prevRuleset = prevLegalResult.Value;
-
-            var targets = example.BuildSpecTargets(testPeriod, testRuleset, prevRuleset);
-
-            foreach (var (target, index) in targets.Select((item, index) => (item, index)))
+            try
             {
-                var articleSymbol = target.ArticleDescr();
-                var conceptSymbol = target.ConceptDescr();
-                output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
-            }
+                testPeriod.Code.Should().Be(testPeriodCode);
 
-            var initService = _sut.InitWithPeriod(testPeriod);
-            initService.Should().BeTrue();
+                var prevPeriod = PrevYear(testPeriod);
+                prevPeriod.Code.Should().Be(prevPeriodCode);
 
-            var restService = _sut.GetResults(testPeriod, testRuleset, targets);
-            restService.Count().Should().NotBe(0);
+                var testLegalResult = _leg.GetBundle(testPeriod);
+                testLegalResult.IsSuccess.Should().Be(true);
 
-            using (var testProtokol = OpenProtokolFile($"OKPRAC_TEST_{testPeriod.Year}_HRM_{testPeriod.Code}.CSV"))
-            {
-                var testResults = GetExamplePracResultsLine(example, testPeriod, restService);
-                testProtokol.WriteLine(testResults);
-            }
-            using (var testProtokol = OpenProtokolFile($"OKPPOM_TEST_{testPeriod.Year}_HRM_{testPeriod.Code}.CSV"))
-            {
-                var testResults = GetExamplePPomResultsLine(example, testPeriod, restService);
-                foreach (var ppomResult in testResults)
+                var testRuleset = testLegalResult.Value;
+
+                var prevLegalResult = _leg.GetBundle(prevPeriod);
+                prevLegalResult.IsSuccess.Should().Be(true);
+
+                var prevRuleset = prevLegalResult.Value;
+
+                var targets = example.BuildSpecTargets(testPeriod, testRuleset, prevRuleset);
+
+                foreach (var (target, index) in targets.Select((item, index) => (item, index)))
                 {
-                    testProtokol.WriteLine(ppomResult);
+                    var articleSymbol = target.ArticleDescr();
+                    var conceptSymbol = target.ConceptDescr();
+                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                }
+
+                var initService = _sut.InitWithPeriod(testPeriod);
+                initService.Should().BeTrue();
+
+                var restService = _sut.GetResults(testPeriod, testRuleset, targets);
+                restService.Count().Should().NotBe(0);
+
+                using (var testProtokol = OpenProtokolFile($"OKPRAC_TEST_{testPeriod.Year}_HRM_{testPeriod.Code}.CSV"))
+                {
+                    var testResults = GetExamplePracResultsLine(example, testPeriod, restService);
+                    testProtokol.WriteLine(testResults);
+                }
+                using (var testProtokol = OpenProtokolFile($"OKPPOM_TEST_{testPeriod.Year}_HRM_{testPeriod.Code}.CSV"))
+                {
+                    var testResults = GetExamplePPomResultsLine(example, testPeriod, restService);
+                    foreach (var ppomResult in testResults)
+                    {
+                        testProtokol.WriteLine(ppomResult);
+                    }
+                }
+
+                output.WriteLine($"Result Test: {example.Name}, Number: {example.Number}");
+
+                foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+                {
+                    if (result.IsSuccess)
+                    {
+                        var resultValue = result.Value;
+                        var articleSymbol = resultValue.ArticleDescr();
+                        var conceptSymbol = resultValue.ConceptDescr();
+                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                    }
+                    else if (result.IsFailure)
+                    {
+                        var errorValue = result.Error;
+                        var articleSymbol = errorValue.ArticleDescr();
+                        var conceptSymbol = errorValue.ConceptDescr();
+                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                    }
                 }
             }
-
-            output.WriteLine($"Result Test: {example.Name}, Number: {example.Number}");
-
-            foreach (var (result, index) in restService.Select((item, index) => (item, index)))
+            catch (Xunit.Sdk.XunitException e)
             {
-                if (result.IsSuccess)
-                {
-                    var resultValue = result.Value;
-                    var articleSymbol = resultValue.ArticleDescr();
-                    var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
-                }
-                else if (result.IsFailure)
-                {
-                    var errorValue = result.Error;
-                    var articleSymbol = errorValue.ArticleDescr();
-                    var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
-                }
+                throw e;
             }
         }
 

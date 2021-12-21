@@ -24,7 +24,7 @@ namespace Procezor.PayrolexTest.Service
     {
         private static IPeriod TestPeriod = new Period(2011,1);
         private static Int32 TestPeriodCode = 201101;
-        private static Int32 PrevPeriodCode = 201101;
+        private static Int32 PrevPeriodCode = 201001;
         public static IEnumerable<object[]> GenTestData => GetGenTestDecData(_genTests, TestPeriod, TestPeriodCode, PrevPeriodCode);
 
         public ServiceTestExamples2011(ITestOutputHelper output) : base(output)

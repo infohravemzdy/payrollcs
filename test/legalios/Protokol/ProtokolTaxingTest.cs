@@ -16,7 +16,7 @@ namespace LegaliosTest.Protokol
 
 #if __PROTOKOL_TEST_FILE__
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowancePayer(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_01_AllowancePayer
@@ -31,7 +31,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceDisab1st(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_02_AllowanceDisab1st
@@ -46,7 +46,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceDisab2nd(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_03_AllowanceDisab2nd
@@ -61,7 +61,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceDisab3rd(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_04_AllowanceDisab3rd
@@ -76,7 +76,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceStudy(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_05_AllowanceStudy
@@ -91,7 +91,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceChild1st(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_06_AllowanceChild1st
@@ -106,7 +106,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceChild2nd(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_07_AllowanceChild2nd
@@ -121,7 +121,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_AllowanceChild3rd(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_08_AllowanceChild3rd
@@ -136,7 +136,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorAdvances(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_09_FactorAdvances
@@ -151,7 +151,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorWithhold(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_10_FactorWithhold
@@ -166,7 +166,7 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_FactorSolidary(Int16 testMinYear, Int16 testMaxYear)
         {
             // 04_Taxing_11_FactorSolidary
@@ -181,11 +181,26 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
+        public void GetProps_ShouldExport_FactorTaxRate2(Int16 testMinYear, Int16 testMaxYear)
+        {
+            // 04_Taxing_12_FactorTaxRate2
+            using (var testProtokol = CreateProtokolFile("04_Taxing_12_FactorTaxRate2.txt"))
+            {
+                ExportPropsStart(testProtokol);
+
+                for (Int16 testYear = testMinYear; testYear <= testMaxYear; testYear++)
+                {
+                    ExportPropsLine(testProtokol, testYear, _sut, ((prop) => (prop.FactorTaxRate2)));
+                }
+            }
+        }
+        [Theory]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MinAmountOfTaxBonus(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_12_MinAmountOfTaxBonus
-            using (var testProtokol = CreateProtokolFile("04_Taxing_12_MinAmountOfTaxBonus.txt"))
+            // 04_Taxing_13_MinAmountOfTaxBonus
+            using (var testProtokol = CreateProtokolFile("04_Taxing_13_MinAmountOfTaxBonus.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -196,11 +211,11 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MaxAmountOfTaxBonus(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_13_MaxAmountOfTaxBonus
-            using (var testProtokol = CreateProtokolFile("04_Taxing_13_MaxAmountOfTaxBonus.txt"))
+            // 04_Taxing_14_MaxAmountOfTaxBonus
+            using (var testProtokol = CreateProtokolFile("04_Taxing_14_MaxAmountOfTaxBonus.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -211,11 +226,11 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfTaxBonus(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_14_MarginIncomeOfTaxBonus
-            using (var testProtokol = CreateProtokolFile("04_Taxing_14_MarginIncomeOfTaxBonus.txt"))
+            // 04_Taxing_15_MarginIncomeOfTaxBonus
+            using (var testProtokol = CreateProtokolFile("04_Taxing_15_MarginIncomeOfTaxBonus.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -226,11 +241,11 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfRounding(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_15_MarginIncomeOfRounding
-            using (var testProtokol = CreateProtokolFile("04_Taxing_15_MarginIncomeOfRounding.txt"))
+            // 04_Taxing_16_MarginIncomeOfRounding
+            using (var testProtokol = CreateProtokolFile("04_Taxing_16_MarginIncomeOfRounding.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -241,11 +256,11 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfWithhold(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_16_MarginIncomeOfWithhold
-            using (var testProtokol = CreateProtokolFile("04_Taxing_16_MarginIncomeOfWithhold.txt"))
+            // 04_Taxing_17_MarginIncomeOfWithhold
+            using (var testProtokol = CreateProtokolFile("04_Taxing_17_MarginIncomeOfWithhold.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -256,11 +271,11 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfSolidary(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_17_MarginIncomeOfSolidary
-            using (var testProtokol = CreateProtokolFile("04_Taxing_17_MarginIncomeOfSolidary.txt"))
+            // 04_Taxing_18_MarginIncomeOfSolidary
+            using (var testProtokol = CreateProtokolFile("04_Taxing_18_MarginIncomeOfSolidary.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -271,11 +286,26 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
+        public void GetProps_ShouldExport_MarginIncomeOfTaxRate2(Int16 testMinYear, Int16 testMaxYear)
+        {
+            // 04_Taxing_18_MarginIncomeOfSolidary
+            using (var testProtokol = CreateProtokolFile("04_Taxing_19_MarginIncomeOfTaxRate2.txt"))
+            {
+                ExportPropsStart(testProtokol);
+
+                for (Int16 testYear = testMinYear; testYear <= testMaxYear; testYear++)
+                {
+                    ExportPropsLine(testProtokol, testYear, _sut, ((prop) => (prop.MarginIncomeOfTaxRate2)));
+                }
+            }
+        }
+        [Theory]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfWthEmp(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_18_MarginIncomeOfWthEmp
-            using (var testProtokol = CreateProtokolFile("04_Taxing_18_MarginIncomeOfWthEmp.txt"))
+            // 04_Taxing_20_MarginIncomeOfWthEmp
+            using (var testProtokol = CreateProtokolFile("04_Taxing_20_MarginIncomeOfWthEmp.txt"))
             {
                 ExportPropsStart(testProtokol);
 
@@ -286,11 +316,11 @@ namespace LegaliosTest.Protokol
             }
         }
         [Theory]
-        [InlineData(2011, 2022)]
+        [InlineData(2010, 2022)]
         public void GetProps_ShouldExport_MarginIncomeOfWthAgr(Int16 testMinYear, Int16 testMaxYear)
         {
-            // 04_Taxing_19_MarginIncomeOfWthAgr
-            using (var testProtokol = CreateProtokolFile("04_Taxing_19_MarginIncomeOfWthAgr.txt"))
+            // 04_Taxing_21_MarginIncomeOfWthAgr
+            using (var testProtokol = CreateProtokolFile("04_Taxing_21_MarginIncomeOfWthAgr.txt"))
             {
                 ExportPropsStart(testProtokol);
 

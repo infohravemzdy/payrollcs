@@ -25,6 +25,8 @@ namespace HraveMzdy.Legalios.Providers.Period2019
     //
     // FACTOR_SOLIDARY                  Sazba daně na solidární zvýšení
     //
+    // FACTOR_TAXRATE2                  Sazba daně pro druhé pásmo daně
+    //
     // MIN_AMOUNT_OF_TAXBONUS           Minimální částka pro daňový bonus
     //
     // MAX_AMOUNT_OF_TAXBONUS           Maximální částka pro daňový bonus
@@ -36,6 +38,8 @@ namespace HraveMzdy.Legalios.Providers.Period2019
     // MARGIN_INCOME_OF_WITHHOLD        Maximální výše příjmu pro srážkový příjem
     //
     // MARGIN_INCOME_OF_SOLIDARY        Minimální výše příjmu pro solidární zvýšení daně
+    //
+    // MARGIN_INCOME_OF_TAXRATE2        Minimální výše příjmu pro druhé pásmo daně
     //
     // MARGIN_INCOME_OF_WHT_AGR         hranice příjmu pro srážkovou daň pro zaměstnace v pracovním poměru (nepodepsal prohlášení)
     //
@@ -60,12 +64,14 @@ namespace HraveMzdy.Legalios.Providers.Period2019
         public const decimal FACTOR_ADVANCES = HistoryConstTaxing2018.FACTOR_ADVANCES;
         public const decimal FACTOR_WITHHOLD = HistoryConstTaxing2018.FACTOR_WITHHOLD;
         public const decimal FACTOR_SOLIDARY = HistoryConstTaxing2018.FACTOR_SOLIDARY;
+        public const decimal FACTOR_TAXRATE2 = HistoryConstTaxing2018.FACTOR_TAXRATE2;
         public const Int32 MIN_AMOUNT_OF_TAXBONUS = HistoryConstTaxing2018.MIN_AMOUNT_OF_TAXBONUS;
         public const Int32 MAX_AMOUNT_OF_TAXBONUS = HistoryConstTaxing2018.MAX_AMOUNT_OF_TAXBONUS;
         public const Int32 MARGIN_INCOME_OF_TAXBONUS = (HistoryConstSalary2019.MIN_MONTHLY_WAGE / 2);
         public const Int32 MARGIN_INCOME_OF_ROUNDING = HistoryConstTaxing2018.MARGIN_INCOME_OF_ROUNDING;
         public const Int32 MARGIN_INCOME_OF_WITHHOLD = HistoryConstTaxing2018.MARGIN_INCOME_OF_WITHHOLD;
         public const Int32 MARGIN_INCOME_OF_SOLIDARY = (4 * 32699);
+        public const Int32 MARGIN_INCOME_OF_TAXRATE2 = HistoryConstTaxing2018.MARGIN_INCOME_OF_TAXRATE2;
         public const Int32 MARGIN_INCOME_OF_WHT_EMP = HistoryConstTaxing2018.MARGIN_INCOME_OF_WHT_EMP;
         public const Int32 MARGIN_INCOME_OF_WHT_AGR = HistoryConstTaxing2018.MARGIN_INCOME_OF_WHT_AGR;
     }

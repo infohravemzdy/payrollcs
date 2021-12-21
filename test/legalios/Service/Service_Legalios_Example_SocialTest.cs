@@ -8,12 +8,19 @@ namespace LegaliosTest.Service
     {
         protected void ShoulBeValidBundle(ResultMonad.Result<IBundleProps, IHistoryResultError> testResult, short resultYear, short resultMonth)
         {
-            testResult.IsSuccess.Should().BeTrue();
-            testResult.Value.Should().NotBeNull();
-            testResult.Value.Should().BeAssignableTo<IBundleProps>();
-            testResult.Value.PeriodProps.Year.Should().Be(resultYear);
-            testResult.Value.PeriodProps.Month.Should().Be(resultMonth);
-            testResult.Value.SocialProps.Should().NotBeNull();
+            try
+            {
+                testResult.IsSuccess.Should().BeTrue();
+                testResult.Value.Should().NotBeNull();
+                testResult.Value.Should().BeAssignableTo<IBundleProps>();
+                testResult.Value.PeriodProps.Year.Should().Be(resultYear);
+                testResult.Value.PeriodProps.Month.Should().Be(resultMonth);
+                testResult.Value.SocialProps.Should().NotBeNull();
+            }
+            catch (Xunit.Sdk.XunitException e)
+            {
+                throw e;
+            }
         }
     }
 }
