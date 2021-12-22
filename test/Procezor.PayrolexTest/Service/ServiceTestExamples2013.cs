@@ -108,6 +108,38 @@ namespace Procezor.PayrolexTest.Service
             ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
         }
 
+        [Fact]
+        public void ServiceExamples_751_Mpom2_PPomMzdaMinZdravTest()
+        {
+            ExampleGenerator example = Example_751_Mpom2_PPomMzdaMinZdrav();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+
+        [Fact]
+        public void ServiceExamples_753_XDpp2_PPomMzdaMinZdravTest()
+        {
+            ExampleGenerator example = Example_753_XDpp2_PPomMzdaMinZdrav();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+
+        [Fact]
+        public void ServiceExamples_763_XDpp2_PPomMzdaMaxZdravTest()
+        {
+            ExampleGenerator example = Example_763_XDpp2_PPomMzdaMaxZdrav();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+
+        [Fact]
+        public void ServiceExamples_773_XDpp2_PPomMzdaMaxSocialTest()
+        {
+            ExampleGenerator example = Example_773_XDpp2_PPomMzdaMaxSocial();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+
         [Theory]
         [MemberData(nameof(GenTestData))]
         public void ServiceExamplesTest(ExampleGenerator example)

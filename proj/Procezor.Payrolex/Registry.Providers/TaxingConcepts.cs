@@ -337,20 +337,21 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
                     Int32 cutAnnualsBasis = 0;
+                    Int32 rawAnnualsBasis = x.ResultBasis;
                     Int32 remAnnualsBasis = agr.Item2;
 
                     if (x.ParticyCode != 0)
                     {
-                        cutAnnualsBasis = x.ResultBasis;
+                        cutAnnualsBasis = rawAnnualsBasis;
                         if (agr.Item1 > 0)
                         {
-                            var ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
-                            cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
+                            var ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
+                            cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
                         }
                         remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
                     }
 
-                    x.SetResultValue(cutAnnualsBasis);
+                    x.SetResultValue(Math.Max(0, cutAnnualsBasis));
                     return new Tuple<Int32, Int32, TaxingIncomeHealthResult[]>(
                         agr.Item1, remAnnualsBasis, agr.Item3.Concat(new TaxingIncomeHealthResult[] { x }).ToArray());
                 });
@@ -474,20 +475,21 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
                     Int32 cutAnnualsBasis = 0;
+                    Int32 rawAnnualsBasis = x.ResultBasis;
                     Int32 remAnnualsBasis = agr.Item2;
 
                     if (x.ParticyCode != 0)
                     {
-                        cutAnnualsBasis = x.ResultBasis;
+                        cutAnnualsBasis = rawAnnualsBasis;
                         if (agr.Item1 > 0)
                         {
-                            var ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
-                            cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
+                            var ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
+                            cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
                         }
                         remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
                     }
 
-                    x.SetResultValue(cutAnnualsBasis);
+                    x.SetResultValue(Math.Max(0, cutAnnualsBasis));
                     return new Tuple<Int32, Int32, TaxingIncomeSocialResult[]>(
                         agr.Item1, remAnnualsBasis, agr.Item3.Concat(new TaxingIncomeSocialResult[] { x }).ToArray());
 
@@ -962,7 +964,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundingInt.RoundToInt(Math.Max(0, incomeSum));
 
             var healthList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -974,7 +976,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthSum = healthList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthRes = RoundingInt.RoundToInt(healthSum);
+            Int32 healthRes = RoundingInt.RoundToInt(Math.Max(0, healthSum));
 
             var socialList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -986,9 +988,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialSum = socialList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+            Int32 socialRes = RoundingInt.RoundToInt(Math.Max(0, socialSum));
 
-            Int32 taxableSuper = incomeRes + healthRes + socialRes;
+            Int32 taxableSuper = Math.Max(0, incomeRes + healthRes + socialRes);
 
             Int32 advancesBase = TaxAdvancesRoundedBase(taxingRules, taxableSuper);
 

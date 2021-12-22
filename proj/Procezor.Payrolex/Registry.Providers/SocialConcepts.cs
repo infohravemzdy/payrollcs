@@ -279,6 +279,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
 
             ITermResult resultsValues = new SocialBaseResult(target, spec,
+                evalIncomes.InterestCode, evalIncomes.SubjectType, evalIncomes.ParticyCode, 
                 evalTarget.AnnuityBase, resGeneralBase, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
@@ -447,28 +448,21 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeContractList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_BASE))
-                .Select((tr) => (tr.Contract, tr.ResultValue)).ToArray();
+                .Select((tr) => (tr as SocialBaseResult)).ToArray();
 
             var incomeResultInit = Array.Empty<SocialBaseOvercapResult>();
             var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
             {
-                var resSocialDeclare = GetContractResult<SocialDeclareResult>(target, period, results,
-                    x.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_SOCIAL_DECLARE));
-
-                if (resSocialDeclare.IsFailure)
-                {
-                    return agr;
-                }
-
-                var evalSocialDeclare = resSocialDeclare.Value;
-
-                var evalSubjectsType = evalSocialDeclare.ContractType;
+                var evalInterestCode = x.InterestCode;
+                var evalSubjectType = x.SubjectType;
+                var evalParticyCode = x.ParticyCode;
 
                 var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
                 if (contractResult == null)
                 {
                     contractResult = new SocialBaseOvercapResult(evalTarget, x.Contract, spec,
-                        evalSubjectsType, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        evalInterestCode, evalSubjectType, evalParticyCode, 
+                        VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
                     agr = agr.Concat(new SocialBaseOvercapResult[] { contractResult }).ToArray();
                 }
                 contractResult.AddResultBasis(x.ResultValue);
@@ -485,23 +479,24 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
                 (agr, x) => {
                     Int32 ovrAnnualsBasis = 0;
+                    Int32 rawAnnualsBasis = x.ResultBasis;
                     Int32 cutAnnualsBasis = x.ResultBasis;
                     if (agr.Item1 > 0)
                     {
-                        ovrAnnualsBasis = Math.Max(0, x.ResultBasis - agr.Item2);
-                        cutAnnualsBasis = (x.ResultBasis - ovrAnnualsBasis);
+                        ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
+                        cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
                     }
+
+                    Int32 remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
 
                     if (ovrAnnualsBasis > 0)
                     {
-                        Int32 remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
-
                         x.SetResultValue(ovrAnnualsBasis);
 
                         return new Tuple<Int32, Int32, SocialBaseOvercapResult[]>(
                             agr.Item1, remAnnualsBasis, agr.Item3.Concat(new SocialBaseOvercapResult[] { x }).ToArray());
                     }
-                    return new Tuple<Int32, Int32, SocialBaseOvercapResult[]>(agr.Item1, agr.Item2, agr.Item3);
+                    return new Tuple<Int32, Int32, SocialBaseOvercapResult[]>(agr.Item1, remAnnualsBasis, agr.Item3);
                 });
 
             return BuildOkResults(resultOrdersList.Item3);

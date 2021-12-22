@@ -58,44 +58,58 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public WorkHealthTerms IncomeTerm()
         {
-            WorkHealthTerms resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+            WorkHealthTerms resultTerm = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
             switch (SubjectType)
             {
                 case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
-                    resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+                    resultTerm = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
-                    resultKind = WorkHealthTerms.HEALTH_TERM_AGREEM_WORK;
+                    resultTerm = WorkHealthTerms.HEALTH_TERM_AGREEM_WORK;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
-                    resultKind = WorkHealthTerms.HEALTH_TERM_AGREEM_TASK;
+                    resultTerm = WorkHealthTerms.HEALTH_TERM_AGREEM_TASK;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
-                    resultKind = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
+                    resultTerm = WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS;
                     break;
             }
-            return resultKind;
+            return resultTerm;
         }
         public Int32 TermScore()
         {
-            Int32 resultBase = 0;
+            Int32 resultType = 0;
             switch (SubjectType)
             {
                 case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
-                    resultBase = 9000;
+                    resultType = 9000;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
-                    resultBase = 5000;
+                    resultType = 5000;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
-                    resultBase = 4000;
+                    resultType = 4000;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
-                    resultBase = 0;
+                    resultType = 0;
                     break;
             }
-            Int32 resultScore = resultBase;
-            return resultScore;
+            Int32 mandatorRes = 0;
+            if (MandatorBase == 1)
+            {
+                mandatorRes = 100;
+            }
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + mandatorRes + interestRes + particyRes;
         }
         private class IncomeTermComparator : IComparer<HealthIncomeResult>
         {
@@ -112,7 +126,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     return x.Contract.CompareTo(y.Contract);
                 }
-                return xScore.CompareTo(yScore);
+                return yScore.CompareTo(xScore);
             }
         }
         public static IComparer<HealthIncomeResult> ResultComparator()
@@ -123,11 +137,20 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // HealthBase		HEALTH_BASE
     public class HealthBaseResult : PayrolexTermResult
     {
+        public Int16 InterestCode { get; private set; }
+        public WorkHealthTerms SubjectType { get; private set; }
+        public Int16 MandatorBase { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public Int32 AnnuityBase { get; private set; }
 
-        public HealthBaseResult(ITermTarget target, IArticleSpec spec, 
+        public HealthBaseResult(ITermTarget target, IArticleSpec spec,
+            Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
             Int32 annuityBase, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
+            SubjectType = subjectType;
+            MandatorBase = mandatorBase;
+            ParticyCode = particyCode;
             AnnuityBase = annuityBase;
         }
         public override string ResultMessage()
@@ -164,23 +187,101 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // HealthBaseMandate		HEALTH_BASE_MANDATE
     public class HealthBaseMandateResult : PayrolexTermResult
     {
-        public HealthBaseMandateResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public Int16 InterestCode { get; private set; }
+        public WorkHealthTerms SubjectType { get; private set; }
+        public Int16 MandatorBase { get; private set; }
+        public Int16 ParticyCode { get; private set; }
+        public HealthBaseMandateResult(ITermTarget target, ContractCode con, IArticleSpec spec,
+            Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
+            SubjectType = subjectType;
+            MandatorBase = mandatorBase;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
             return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 IncomeScore()
+        {
+            Int32 resultType = 0;
+            switch (SubjectType)
+            {
+                case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
+                    resultType = 9000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
+                    resultType = 5000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
+                    resultType = 4000;
+                    break;
+                case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
+                    resultType = 0;
+                    break;
+            }
+            Int32 mandatorRes = 0;
+            if (MandatorBase == 1)
+            {
+                mandatorRes = 100;
+            }
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + mandatorRes + interestRes + particyRes;
+        }
+        private class IncomeTermComparator : IComparer<HealthBaseMandateResult>
+        {
+            public IncomeTermComparator()
+            {
+            }
+
+            public int Compare(HealthBaseMandateResult x, HealthBaseMandateResult y)
+            {
+                Int32 xIncomeScore = x.IncomeScore();
+                Int32 yIncomeScore = y.IncomeScore();
+
+                if (xIncomeScore.CompareTo(yIncomeScore) == 0)
+                {
+                    if (x.ResultBasis.CompareTo(y.ResultBasis)==0)
+                    {
+                        return x.Contract.CompareTo(y.Contract);
+                    }
+                    return y.ResultBasis.CompareTo(x.ResultBasis);
+                }
+                return yIncomeScore.CompareTo(xIncomeScore);
+            }
+        }
+        public static IComparer<HealthBaseMandateResult> ResultComparator()
+        {
+            return new IncomeTermComparator();
         }
     }
 
     // HealthBaseOvercap		HEALTH_BASE_OVERCAP
     public class HealthBaseOvercapResult : PayrolexTermResult
     {
+        public Int16 InterestCode { get; private set; }
         public WorkHealthTerms SubjectType { get; private set; }
+        public Int16 MandatorBase { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public HealthBaseOvercapResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            WorkHealthTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
             SubjectType = subjectType;
+            MandatorBase = mandatorBase;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
@@ -188,24 +289,38 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public Int32 IncomeScore()
         {
-            Int32 resultBase = 0;
             Int32 resultType = 0;
             switch (SubjectType)
             {
                 case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
-                    resultBase = 9000;
+                    resultType = 9000;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
-                    resultBase = 5000;
+                    resultType = 5000;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
-                    resultBase = 4000;
+                    resultType = 4000;
                     break;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
-                    resultBase = 0;
+                    resultType = 0;
                     break;
             }
-            return resultType + resultBase;
+            Int32 mandatorRes = 0;
+            if (MandatorBase == 1)
+            {
+                mandatorRes = 100;
+            }
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + mandatorRes + interestRes + particyRes;
         }
         private class IncomeTermComparator : IComparer<HealthBaseOvercapResult>
         {
@@ -222,7 +337,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     return x.Contract.CompareTo(y.Contract);
                 }
-                return xIncomeScore.CompareTo(yIncomeScore);
+                return yIncomeScore.CompareTo(xIncomeScore);
             }
         }
         public static IComparer<HealthBaseOvercapResult> ResultComparator()

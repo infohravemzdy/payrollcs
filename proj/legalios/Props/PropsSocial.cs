@@ -44,7 +44,7 @@ namespace HraveMzdy.Legalios.Props
                 case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
                     return false;
                 case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
-                    return false;
+                    return true;
                 case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
                     return false;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:

@@ -35,7 +35,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public WorkSocialTerms SubjectType { get; private set; }
         public Int16 ParticyCode { get; private set; }
         public SocialIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, 
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -90,56 +91,65 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public WorkSocialTerms IncomeTerm()
         {
-            WorkSocialTerms resultKind = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
+            WorkSocialTerms resultTerm = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
             switch (SubjectType)
             {
                 case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
-                    resultKind = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
+                    resultTerm = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
-                    resultKind = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
+                    resultTerm = WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
-                    resultKind = WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET;
+                    resultTerm = WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
-                    resultKind = WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY;
+                    resultTerm = WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
-                    resultKind = WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK;
+                    resultTerm = WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
-                    resultKind = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
+                    resultTerm = WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS;
                     break;
             }
-            return resultKind;
+            return resultTerm;
         }
         public Int32 TermScore()
         {
-            Int32 resultBase = 0;
+            Int32 resultType = 0;
             switch (SubjectType)
             {
                 case WorkSocialTerms.SOCIAL_TERM_EMPLOYMENTS:
-                    resultBase = 9000;
+                    resultType = 9000;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
-                    resultBase = 5000;
+                    resultType = 5000;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
-                    resultBase = 4000;
+                    resultType = 4000;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
-                    resultBase = 0;
+                    resultType = 0;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_BY_CONTRACT:
-                    resultBase = 0;
+                    resultType = 0;
                     break;
                 case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
-                    resultBase = 0;
+                    resultType = 0;
                     break;
             }
-            Int32 resultScore = resultBase;
-            return resultScore;
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + interestRes + particyRes;
         }
         private class IncomeTermComparator : IComparer<SocialIncomeResult>
         {
@@ -156,7 +166,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     return x.Contract.CompareTo(y.Contract);
                 }
-                return xScore.CompareTo(yScore);
+                return yScore.CompareTo(xScore);
             }
         }
         public static IComparer<SocialIncomeResult> ResultComparator()
@@ -168,10 +178,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // SocialBase		SOCIAL_BASE
     public class SocialBaseResult : PayrolexTermResult
     {
+        public Int16 InterestCode { get; private set; }
+        public WorkSocialTerms SubjectType { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public Int32 AnnuityBase { get; private set; }
         public SocialBaseResult(ITermTarget target, IArticleSpec spec,
+            Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, 
             Int32 annuityBase, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
+            SubjectType = subjectType;
+            ParticyCode = particyCode;
             AnnuityBase = annuityBase;
         }
         public override string ResultMessage()
@@ -207,11 +224,16 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // SocialBaseOvercap		SOCIAL_BASE_OVERCAP
     public class SocialBaseOvercapResult : PayrolexTermResult
     {
+        public Int16 InterestCode { get; private set; }
         public WorkSocialTerms SubjectType { get; private set; }
+        public Int16 ParticyCode { get; private set; }
         public SocialBaseOvercapResult(ITermTarget target, ContractCode con, IArticleSpec spec,
-            WorkSocialTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, 
+            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
         {
+            InterestCode = interestCode;
             SubjectType = subjectType;
+            ParticyCode = particyCode;
         }
         public override string ResultMessage()
         {
@@ -219,7 +241,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public Int32 IncomeScore()
         {
-            Int32 resultBase = 0;
             Int32 resultType = 0;
             switch (SubjectType)
             {
@@ -242,7 +263,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     resultType = 0;
                     break;
             }
-            return resultType + resultBase;
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + interestRes + particyRes;
         }
         private class IncomeTermComparator : IComparer<SocialBaseOvercapResult>
         {
@@ -259,7 +290,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     return x.Contract.CompareTo(y.Contract);
                 }
-                return xIncomeScore.CompareTo(yIncomeScore);
+                return yIncomeScore.CompareTo(xIncomeScore);
             }
         }
         public static IComparer<SocialBaseOvercapResult> ResultComparator()

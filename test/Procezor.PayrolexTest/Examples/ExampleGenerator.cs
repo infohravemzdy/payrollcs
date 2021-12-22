@@ -65,6 +65,7 @@ namespace Procezor.PayrolexTest.Examples
         public Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> BenDisab2Func { get; private set; }
         public Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> BenDisab3Func { get; private set; }
         public Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> BenStudyFunc { get; private set; }
+        public bool ExportToOKmzdy { get; private set; }
 
         public static ExampleGenerator Spec(Int32 id, string name, string number)
         {
@@ -73,7 +74,7 @@ namespace Procezor.PayrolexTest.Examples
 
         public ExampleGenerator WithContracts(params ContractGenerator[] contracts)
         {
-            ContractList = contracts;
+            ContractList = contracts.Select((x) => { x.Example = this; return x; }).ToArray();
             return this;
         }
         public ExampleGenerator WithChild(ChildGenerator children)
@@ -135,6 +136,8 @@ namespace Procezor.PayrolexTest.Examples
 
         public string[] BuildImportString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
+            this.ExportToOKmzdy = true;
+
             string[] importResult = Array.Empty<string>();
 
             string[] names = this.Name.Split('_');
@@ -190,7 +193,7 @@ namespace Procezor.PayrolexTest.Examples
                     IMP_OSC = this.Number,
                     IMP_POM = con.Number(this.Number),
                     IMP17_CINNOSTSPOJ = con.NemPojCin(),
-                    IMP17_DATUMZAC = $"1.1.{period.Year}",
+                    IMP17_DATUMZAC = $"1.1.{period.Year-1}",
                     IMP17_DATUMKON = "",
                     IMP17_PLATCEDANPR = OptionToImp(con.TaxingPayerFunc(con, period, ruleset, prevset)),
                     IMP17_PLATCESPOJ = con.NemPojImp(con, period, ruleset, prevset),
@@ -313,7 +316,7 @@ namespace Procezor.PayrolexTest.Examples
                 Int16 CONTRACT_CODE = (Int16)con.Id;
                 Int16 POSITION_CODE = 1;
 
-                DateTime? dateTermFrom = new DateTime(period.Year, 1, 1);
+                DateTime? dateTermFrom = new DateTime(period.Year-1, 1, 1);
                 DateTime? dateTermStop = null;
 
                 var contractCon = ContractCode.Get(CONTRACT_CODE);
@@ -488,6 +491,7 @@ namespace Procezor.PayrolexTest.Examples
 
     public class ContractGenerator
     {
+        public ExampleGenerator Example { get; set; }
         public int Id { get; }
         public string Number(string number)
         {

@@ -179,7 +179,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     resultBase = 0;
                     break;
             }
-            return resultType + resultBase;
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + resultBase + interestRes + particyRes;
         }
         private class IncomeTermComparator : IComparer<TaxingIncomeHealthResult>
         {
@@ -196,7 +206,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     return x.Contract.CompareTo(y.Contract);
                 }
-                return xIncomeScore.CompareTo(yIncomeScore);
+                return yIncomeScore.CompareTo(xIncomeScore);
             }
         }
         public static IComparer<TaxingIncomeHealthResult> ResultComparator()
@@ -265,7 +275,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     resultBase = 0;
                     break;
             }
-            return resultType + resultBase;
+            Int32 interestRes = 0;
+            if (InterestCode == 1)
+            {
+                interestRes = 10000;
+            }
+            Int32 particyRes = 0;
+            if (ParticyCode == 1)
+            {
+                particyRes = 100000;
+            }
+            return resultType + resultBase + interestRes + particyRes;
         }
         private class IncomeTermComparator : IComparer<TaxingIncomeSocialResult>
         {
@@ -282,7 +302,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     return x.Contract.CompareTo(y.Contract);
                 }
-                return xIncomeScore.CompareTo(yIncomeScore);
+                return yIncomeScore.CompareTo(xIncomeScore);
             }
         }
         public static IComparer<TaxingIncomeSocialResult> ResultComparator()
