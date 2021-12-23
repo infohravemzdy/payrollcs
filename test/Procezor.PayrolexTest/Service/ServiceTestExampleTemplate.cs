@@ -324,11 +324,11 @@ namespace Procezor.PayrolexTest.Service
             ExampleGenerator.Spec(751, "MPOM2-PPOM-Mzda_MinZdrav",     "751").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIfVal(IsGenImport(),0,1))
+                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIfVal(IsGenImport(),0,1))
+                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
@@ -337,12 +337,12 @@ namespace Procezor.PayrolexTest.Service
                 ContractGenerator.SpecDpc(1)
                     .WithSalary(ConValue(0))
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIfVal(IsGenImport(),0,1))
+                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecDpc(2)
                     .WithSalary(ConValue(0))
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIfVal(IsGenImport(),0,1))
+                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
@@ -350,11 +350,11 @@ namespace Procezor.PayrolexTest.Service
             ExampleGenerator.Spec(753, "XDPP2-PPOM-Mzda_MinZdrav",     "753").WithContracts(
                 ContractGenerator.SpecDpp(1)
                     .WithSalary(ConValue(0))
-                    .WithHealthMinim(IIfVal(IsGenImport(),0,1))
+                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
                     .WithSalary(ConValue(0))
-                    .WithHealthMinim(IIfVal(IsGenImport(),0,1))
+                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))

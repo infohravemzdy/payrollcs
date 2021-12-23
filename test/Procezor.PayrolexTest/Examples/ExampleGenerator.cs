@@ -148,7 +148,7 @@ namespace Procezor.PayrolexTest.Examples
                 IMP01_PRIJ = $"X{this.Number}{names[1]}",
                 IMP01_JMENO = $"{names[0]}",
                 IMP01_RODPRIJ = $"{names[1]}{this.Number}",
-                IMP01_RODCIS = $"8808088{this.Number}",
+                IMP01_RODCIS = $"{(period.Year-24)%100}08088{this.Number}",
                 IMP_ADRESA_OBEC = "Praha",
                 IMP_ADRESA_ULICE = "U Remízku",
                 IMP_ADRESA_OCIS = "123/12",
