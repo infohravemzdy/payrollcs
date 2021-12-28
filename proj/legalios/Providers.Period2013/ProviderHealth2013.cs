@@ -13,7 +13,7 @@ namespace HraveMzdy.Legalios.Providers
 
         public IPropsHealth GetProps(IPeriod period)
         {
-            return new PropsHealth(Version,
+            return new PropsHealth2012(Version,
                 MinMonthlyBasis(period),
                 MaxAnnualsBasis(period),
                 LimMonthlyState(period),

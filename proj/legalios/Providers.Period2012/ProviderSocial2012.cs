@@ -13,7 +13,7 @@ namespace HraveMzdy.Legalios.Providers
 
         public IPropsSocial GetProps(IPeriod period)
         {
-            return new PropsSocial(Version,
+            return new PropsSocial2012(Version,
                 MaxAnnualsBasis(period),
                 FactorEmployer(period),
                 FactorEmployerHigher(period),

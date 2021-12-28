@@ -4,16 +4,12 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsSocial : PropsSocialBase, IPropsSocial
+    public class PropsSocial2012 : PropsSocial, IPropsSocial
     {
-        public static IPropsSocial Empty()
-        {
-            return new PropsSocial(VERSION_ZERO);
-        }
-        public PropsSocial(Int16 version) : base(version)
+        public PropsSocial2012(Int16 version) : base(version)
         {
         }
-        public PropsSocial(VersionId version,
+        public PropsSocial2012(VersionId version,
             Int32 maxAnnualsBasis,
             decimal factorEmployer, decimal factorEmployerHigher,
             decimal factorEmployee, decimal factorEmployeeGarant, decimal factorEmployeeReduce,
@@ -46,7 +42,7 @@ namespace HraveMzdy.Legalios.Props
                 case WorkSocialTerms.SOCIAL_TERM_AGREEM_TASK:
                     return true;
                 case WorkSocialTerms.SOCIAL_TERM_SMALLS_EMPL:
-                    return true;
+                    return false;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_MEET:
                     return false;
                 case WorkSocialTerms.SOCIAL_TERM_SHORTS_DENY:
