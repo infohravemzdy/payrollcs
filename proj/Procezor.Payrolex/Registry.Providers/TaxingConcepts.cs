@@ -509,22 +509,92 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            //*****************************************************************************
-            // Tax income for advance from Year 2008 to Year 2013
-            //*****************************************************************************
-            // - withhold tax (non-signed declaration) and income is less than X CZK
-            //*****************************************************************************
-            // Tax income for advance from Year 2014 to Year 2017
-            //*****************************************************************************
-            // - withhold tax (non-signed declaration) and income
-            // -- income from DPP is less than X CZK
-            // -- income from low-income employment is less than X CZK
-            // -- income from statutory employment and non-resident is always withhold tax
+            if (period.Year >= 2014)
+            {
+                return new TaxingAdvancesIncomeConSpec(this.Code.Value);
+            }
+            return new TaxingAdvancesIncomeCon2010Spec(this.Code.Value);
+        }
+    }
 
-            return new TaxingAdvancesIncomeConSpec(this.Code.Value);
-            // if (period.Year < 2014)
-            // if (period.Year > 2013 && period.Year < 2018)
-            // else
+    class TaxingAdvancesIncomeCon2010Spec : PayrolexConceptSpec
+    {
+        public TaxingAdvancesIncomeCon2010Spec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingAdvancesIncomeTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingAdvancesIncomeTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAdvancesIncomeTarget evalTarget = resTarget.Value;
+
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+            var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value==(Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+
+            Int32 resValue = 0;
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT, 
+                evalDeclSignOpts, evalNoneSignOpts, incomeRes)==false)
+            {
+                resValue = incomeRes;
+            }
+            ITermResult resultsValues = new TaxingAdvancesIncomeResult(target, spec,
+                resValue, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -564,8 +634,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 withholdMarginIncome = taxingRules.MarginIncomeOfWithhold;
-
             var resTarget = GetTypedTarget<TaxingAdvancesIncomeTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -586,36 +654,68 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
             var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
 
-            var incomeList = results
+            var incomeDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                .Where((v) => (v.Article.Value==(Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
                .Select((x) => (x as TaxingIncomeSubjectResult))
-               .Where((v) => (v is not null))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
                .Select((r) => (r.ResultValue)).ToArray();
 
-            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+            var incomeLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value==(Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value==(Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value==(Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeDppsSum = incomeDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeLowsSum = incomeLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeStatSum = incomeStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
 
             Int32 resValue = 0;
-            if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK, 
+                evalDeclSignOpts, evalNoneSignOpts, incomeDppsRes)==false)
             {
-                resValue = incomeRes;
+                resValue += incomeDppsRes;
             }
-            else if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_NO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS, 
+                evalDeclSignOpts, evalNoneSignOpts, incomeLowsRes)==false)
             {
-                if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_ADVANCES)
-                {
-                    resValue = incomeRes;
-                }
-                else if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_WITHHOLD)
-                {
-                    if (withholdMarginIncome == 0 || incomeRes > withholdMarginIncome)
-                    {
-                        resValue = incomeRes;
-                    }
-                }
+                resValue += incomeLowsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_STATUT_PART, 
+                evalDeclSignOpts, evalNoneSignOpts, incomeStatRes)==false)
+            {
+                resValue += incomeStatRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT, 
+                evalDeclSignOpts, evalNoneSignOpts, incomeRestRes)==false)
+            {
+                resValue += incomeRestRes;
             }
             ITermResult resultsValues = new TaxingAdvancesIncomeResult(target, spec,
                 resValue, 0, DESCRIPTION_EMPTY);
@@ -634,13 +734,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvancesHealthConSpec(this.Code.Value);
+            if (period.Year >= 2014)
+            {
+                return new TaxingAdvancesHealthConSpec(this.Code.Value);
+            }
+            return new TaxingAdvancesHealthCon2010Spec(this.Code.Value);
         }
     }
 
-    class TaxingAdvancesHealthConSpec : PayrolexConceptSpec
+    class TaxingAdvancesHealthCon2010Spec : PayrolexConceptSpec
     {
-        public TaxingAdvancesHealthConSpec(Int32 code) : base(code)
+        public TaxingAdvancesHealthCon2010Spec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
@@ -673,8 +777,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrTaxing.Error);
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
-
-            Int32 withholdMarginIncome = taxingRules.MarginIncomeOfWithhold;
 
             var resPrHealth = GetHealthPropsResult(ruleset, target, period);
             if (resPrHealth.IsFailure)
@@ -731,23 +833,193 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 healthRes = RoundingInt.RoundToInt(healthSum);
 
             Int32 baseValue = 0;
-            if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRes) == false)
             {
                 baseValue = healthRes;
             }
-            else if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_NO_SIGNED)
+
+            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
+            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
+            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+
+            ITermResult resultsValues = new TaxingAdvancesHealthResult(target, spec,
+                employerPayment, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    class TaxingAdvancesHealthConSpec : PayrolexConceptSpec
+    {
+        public TaxingAdvancesHealthConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
             {
-                if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_ADVANCES)
-                {
-                    baseValue = healthRes;
-                }
-                else if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_WITHHOLD)
-                {
-                    if (withholdMarginIncome == 0 || incomeRes > withholdMarginIncome)
-                    {
-                        baseValue = healthRes;
-                    }
-                }
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingAdvancesHealthTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resPrHealth = GetHealthPropsResult(ruleset, target, period);
+            if (resPrHealth.IsFailure)
+            {
+                return BuildFailResults(resPrHealth.Error);
+            }
+            IPropsHealth healthRules = resPrHealth.Value;
+
+            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
+            decimal factorEmployee = healthRules.FactorEmployee;
+
+            var resTarget = GetTypedTarget<TaxingAdvancesHealthTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAdvancesHealthTarget evalTarget = resTarget.Value;
+
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+            var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
+
+            var incomeDppsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeDppsSum = incomeDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeLowsSum = incomeLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeStatSum = incomeStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+
+            var healthDppsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var healthLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var healthStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var healthRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal healthDppsSum = healthDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal healthLowsSum = healthLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal healthStatSum = healthStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal healthRestSum = healthRestList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 healthDppsRes = RoundingInt.RoundToInt(healthDppsSum);
+            Int32 healthLowsRes = RoundingInt.RoundToInt(healthLowsSum);
+            Int32 healthStatRes = RoundingInt.RoundToInt(healthStatSum);
+            Int32 healthRestRes = RoundingInt.RoundToInt(healthRestSum);
+
+            Int32 baseValue = 0;
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
+                evalDeclSignOpts, evalNoneSignOpts, incomeDppsRes) == false)
+            {
+                baseValue += healthDppsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS,
+                evalDeclSignOpts, evalNoneSignOpts, incomeLowsRes) == false)
+            {
+                baseValue += healthLowsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_STATUT_PART,
+                evalDeclSignOpts, evalNoneSignOpts, incomeStatRes) == false)
+            {
+                baseValue += healthStatRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRestRes) == false)
+            {
+                baseValue += healthRestRes;
             }
 
             Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
@@ -771,7 +1043,116 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvancesSocialConSpec(this.Code.Value);
+            if (period.Year >= 2014)
+            {
+                return new TaxingAdvancesSocialConSpec(this.Code.Value);
+            }
+            return new TaxingAdvancesSocialCon2010Spec(this.Code.Value);
+        }
+    }
+
+    class TaxingAdvancesSocialCon2010Spec : PayrolexConceptSpec
+    {
+        public TaxingAdvancesSocialCon2010Spec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingAdvancesSocialTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSocial = GetSocialPropsResult(ruleset, target, period);
+            if (resPrSocial.IsFailure)
+            {
+                return BuildFailResults(resPrSocial.Error);
+            }
+            IPropsSocial socialRules = resPrSocial.Value;
+
+            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
+
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingAdvancesSocialTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAdvancesSocialTarget evalTarget = resTarget.Value;
+
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+            var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+
+            var socialList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialSum = socialList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+
+            Int32 baseValue = 0;
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRes) == false)
+            {
+                baseValue = socialRes;
+            }
+
+            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
+
+            ITermResult resultsValues = new TaxingAdvancesSocialResult(target, spec,
+                employerPayment, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -820,8 +1201,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 withholdMarginIncome = taxingRules.MarginIncomeOfWithhold;
-
             var resTarget = GetTypedTarget<TaxingAdvancesSocialTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -842,48 +1221,110 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
             var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
 
-            var incomeList = results
+            var incomeDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
                .Select((x) => (x as TaxingIncomeSubjectResult))
-               .Where((v) => (v is not null))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
                .Select((r) => (r.ResultValue)).ToArray();
 
-            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+            var incomeLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeDppsSum = incomeDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeLowsSum = incomeLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeStatSum = incomeStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
 
-            var socialList = results
+            var socialDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
                .Select((x) => (x as TaxingIncomeSocialResult))
-               .Where((v) => (v is not null))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
                .Select((r) => (r.ResultValue)).ToArray();
 
-            decimal socialSum = socialList.Aggregate(decimal.Zero,
+            var socialLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var socialStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var socialRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialDppsSum = socialDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal socialLowsSum = socialLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal socialStatSum = socialStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal socialRestSum = socialRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+            Int32 socialDppsRes = RoundingInt.RoundToInt(socialDppsSum);
+            Int32 socialLowsRes = RoundingInt.RoundToInt(socialLowsSum);
+            Int32 socialStatRes = RoundingInt.RoundToInt(socialStatSum);
+            Int32 socialRestRes = RoundingInt.RoundToInt(socialRestSum);
 
             Int32 baseValue = 0;
-            if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
+                evalDeclSignOpts, evalNoneSignOpts, incomeDppsRes) == false)
             {
-                baseValue = socialRes;
+                baseValue += socialDppsRes;
             }
-            else if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_NO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS,
+                evalDeclSignOpts, evalNoneSignOpts, incomeLowsRes) == false)
             {
-                if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_ADVANCES)
-                {
-                    baseValue = socialRes;
-                }
-                else if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_WITHHOLD)
-                {
-                    if (withholdMarginIncome == 0 || incomeRes > withholdMarginIncome)
-                    {
-                        baseValue = socialRes;
-                    }
-                }
+                baseValue += socialLowsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_STATUT_PART,
+                evalDeclSignOpts, evalNoneSignOpts, incomeStatRes) == false)
+            {
+                baseValue += socialStatRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRestRes) == false)
+            {
+                baseValue += socialRestRes;
             }
 
             Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
@@ -944,8 +1385,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrTaxing.Error);
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
-
-            Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
 
             var resTarget = GetTypedTarget<TaxingAdvancesBasisTarget>(target, period);
             if (resTarget.IsFailure)
@@ -1378,7 +1817,93 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingWithholdIncomeConSpec(this.Code.Value);
+            if (period.Year >= 2014)
+            {
+                return new TaxingWithholdIncomeConSpec(this.Code.Value);
+            }
+            return new TaxingWithholdIncomeCon2010Spec(this.Code.Value);
+        }
+    }
+
+    class TaxingWithholdIncomeCon2010Spec : PayrolexConceptSpec
+    {
+        public TaxingWithholdIncomeCon2010Spec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingWithholdIncomeTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingWithholdIncomeTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingWithholdIncomeTarget evalTarget = resTarget.Value;
+
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+            var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+
+            Int32 resValue = 0;
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRes))
+            {
+                resValue = incomeRes;
+            }
+
+            ITermResult resultsValues = new TaxingWithholdIncomeResult(target, spec,
+                resValue, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -1418,8 +1943,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 withholdMarginIncome = taxingRules.MarginIncomeOfWithhold;
-
             var resTarget = GetTypedTarget<TaxingWithholdIncomeTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1440,29 +1963,70 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
             var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
 
-            var incomeList = results
+            var incomeDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
                .Select((x) => (x as TaxingIncomeSubjectResult))
-               .Where((v) => (v is not null))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
                .Select((r) => (r.ResultValue)).ToArray();
 
-            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+            var incomeLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeDppsSum = incomeDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeLowsSum = incomeLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeStatSum = incomeStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
 
             Int32 resValue = 0;
-            if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_NO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
+                evalDeclSignOpts, evalNoneSignOpts, incomeDppsRes))
             {
-                if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_WITHHOLD)
-                {
-                    if (withholdMarginIncome > 0 && incomeRes <= withholdMarginIncome)
-                    {
-                        resValue = incomeRes;
-                    }
-                }
+                resValue += incomeDppsRes;
             }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS,
+                evalDeclSignOpts, evalNoneSignOpts, incomeLowsRes))
+            {
+                resValue += incomeLowsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_STATUT_PART,
+                evalDeclSignOpts, evalNoneSignOpts, incomeStatRes))
+            {
+                resValue += incomeStatRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRestRes))
+            {
+                resValue += incomeRestRes;
+            }
+
             ITermResult resultsValues = new TaxingWithholdIncomeResult(target, spec,
                 resValue, 0, DESCRIPTION_EMPTY);
 
@@ -1480,13 +2044,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingWithholdHealthConSpec(this.Code.Value);
+            if (period.Year >= 2014)
+            {
+                return new TaxingWithholdHealthConSpec(this.Code.Value);
+            }
+            return new TaxingWithholdHealthCon2010Spec(this.Code.Value);
         }
     }
 
-    class TaxingWithholdHealthConSpec : PayrolexConceptSpec
+    class TaxingWithholdHealthCon2010Spec : PayrolexConceptSpec
     {
-        public TaxingWithholdHealthConSpec(Int32 code) : base(code)
+        public TaxingWithholdHealthCon2010Spec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
@@ -1519,8 +2087,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrTaxing.Error);
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
-
-            Int32 withholdMarginIncome = taxingRules.MarginIncomeOfWithhold;
 
             var resPrHealth = GetHealthPropsResult(ruleset, target, period);
             if (resPrHealth.IsFailure)
@@ -1577,16 +2143,196 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 healthRes = RoundingInt.RoundToInt(healthSum);
 
             Int32 baseValue = 0;
-            if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_NO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRes))
             {
-                if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_WITHHOLD)
-                {
-                    if (withholdMarginIncome > 0 && incomeRes <= withholdMarginIncome)
-                    {
-                        baseValue = healthRes;
-                    }
-                }
+                baseValue = healthRes;
             }
+
+            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
+            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
+            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+
+            ITermResult resultsValues = new TaxingWithholdHealthResult(target, spec,
+                employerPayment, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+
+    }
+
+    class TaxingWithholdHealthConSpec : PayrolexConceptSpec
+    {
+        public TaxingWithholdHealthConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingWithholdHealthTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resPrHealth = GetHealthPropsResult(ruleset, target, period);
+            if (resPrHealth.IsFailure)
+            {
+                return BuildFailResults(resPrHealth.Error);
+            }
+            IPropsHealth healthRules = resPrHealth.Value;
+
+            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
+            decimal factorEmployee = healthRules.FactorEmployee;
+
+            var resTarget = GetTypedTarget<TaxingWithholdHealthTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingWithholdHealthTarget evalTarget = resTarget.Value;
+
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+            var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
+
+            var incomeDppsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeDppsSum = incomeDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeLowsSum = incomeLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeStatSum = incomeStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+
+            var healthDppsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var healthLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var healthStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var healthRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH))
+               .Select((x) => (x as TaxingIncomeHealthResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal healthDppsSum = healthDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal healthLowsSum = healthLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal healthStatSum = healthStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal healthRestSum = healthRestList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 healthDppsRes = RoundingInt.RoundToInt(healthDppsSum);
+            Int32 healthLowsRes = RoundingInt.RoundToInt(healthLowsSum);
+            Int32 healthStatRes = RoundingInt.RoundToInt(healthStatSum);
+            Int32 healthRestRes = RoundingInt.RoundToInt(healthRestSum);
+
+            Int32 baseValue = 0;
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
+                evalDeclSignOpts, evalNoneSignOpts, incomeDppsRes))
+            {
+                baseValue += healthDppsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS,
+                evalDeclSignOpts, evalNoneSignOpts, incomeLowsRes))
+            {
+                baseValue += healthLowsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_STATUT_PART,
+                evalDeclSignOpts, evalNoneSignOpts, incomeStatRes))
+            {
+                baseValue += healthStatRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRestRes))
+            {
+                baseValue += healthRestRes;
+            }
+
 
             Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
             Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
@@ -1610,7 +2356,116 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingWithholdSocialConSpec(this.Code.Value);
+            if (period.Year >= 2014)
+            {
+                return new TaxingWithholdSocialConSpec(this.Code.Value);
+            }
+            return new TaxingWithholdSocialCon2010Spec(this.Code.Value);
+        }
+    }
+
+    class TaxingWithholdSocialCon2010Spec : PayrolexConceptSpec
+    {
+        public TaxingWithholdSocialCon2010Spec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingWithholdSocialTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSocial = GetSocialPropsResult(ruleset, target, period);
+            if (resPrSocial.IsFailure)
+            {
+                return BuildFailResults(resPrSocial.Error);
+            }
+            IPropsSocial socialRules = resPrSocial.Value;
+
+            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
+
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingWithholdSocialTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingWithholdSocialTarget evalTarget = resTarget.Value;
+
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+            var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+
+            var socialList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialSum = socialList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+
+            Int32 baseValue = 0;
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRes))
+            {
+                baseValue = socialRes;
+            }
+
+            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
+
+            ITermResult resultsValues = new TaxingWithholdSocialResult(target, spec, 
+                employerPayment, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -1659,8 +2514,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 withholdMarginIncome = taxingRules.MarginIncomeOfWithhold;
-
             var resTarget = GetTypedTarget<TaxingWithholdSocialTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -1681,40 +2534,110 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
             var evalNoneSignOpts = evalTaxSigning.NoneSignOpts;
 
-            var incomeList = results
+            var incomeDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
                .Select((x) => (x as TaxingIncomeSubjectResult))
-               .Where((v) => (v is not null))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
                .Select((r) => (r.ResultValue)).ToArray();
 
-            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+            var incomeLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var incomeRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT))
+               .Select((x) => (x as TaxingIncomeSubjectResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeDppsSum = incomeDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeLowsSum = incomeLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeStatSum = incomeStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
 
-            var socialList = results
+            var socialDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
                .Select((x) => (x as TaxingIncomeSocialResult))
-               .Where((v) => (v is not null))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK))
                .Select((r) => (r.ResultValue)).ToArray();
 
-            decimal socialSum = socialList.Aggregate(decimal.Zero,
+            var socialLowsList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var socialStatList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_STATUT_PART))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            var socialRestList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL))
+               .Select((x) => (x as TaxingIncomeSocialResult))
+               .Where((v) => (v is not null && v.SubjectType == WorkTaxingTerms.TAXING_TERM_BY_CONTRACT))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialDppsSum = socialDppsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal socialLowsSum = socialLowsList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal socialStatSum = socialStatList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+            decimal socialRestSum = socialRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+            Int32 socialDppsRes = RoundingInt.RoundToInt(socialDppsSum);
+            Int32 socialLowsRes = RoundingInt.RoundToInt(socialLowsSum);
+            Int32 socialStatRes = RoundingInt.RoundToInt(socialStatSum);
+            Int32 socialRestRes = RoundingInt.RoundToInt(socialRestSum);
 
             Int32 baseValue = 0;
-            if (evalDeclSignOpts == TaxDeclSignOption.DECL_TAX_NO_SIGNED)
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
+                evalDeclSignOpts, evalNoneSignOpts, incomeDppsRes))
             {
-                if (evalNoneSignOpts == TaxNoneSignOption.NOSIGN_TAX_WITHHOLD)
-                {
-                    if (withholdMarginIncome > 0 && incomeRes <= withholdMarginIncome)
-                    {
-                        baseValue = socialRes;
-                    }
-                }
+                baseValue += socialDppsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS,
+                evalDeclSignOpts, evalNoneSignOpts, incomeLowsRes))
+            {
+                baseValue += socialLowsRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_STATUT_PART,
+                evalDeclSignOpts, evalNoneSignOpts, incomeStatRes))
+            {
+                baseValue += socialStatRes;
+            }
+            if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
+                evalDeclSignOpts, evalNoneSignOpts, incomeRestRes))
+            {
+                baseValue += socialRestRes;
             }
 
             Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));

@@ -4,16 +4,16 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsTaxing : PropsTaxingBase, IPropsTaxing
+    public class PropsTaxing2014 : PropsTaxingBase, IPropsTaxing
     {
         public static IPropsTaxing Empty()
         {
-            return new PropsTaxing(VERSION_ZERO);
+            return new PropsTaxing2014(VERSION_ZERO);
         }
-        public PropsTaxing(Int16 version) : base(version)
+        public PropsTaxing2014(Int16 version) : base(version)
         {
         }
-        public PropsTaxing(VersionId version,
+        public PropsTaxing2014(VersionId version,
             Int32 allowancePayer,
             Int32 allowanceDisab1st, Int32 allowanceDisab2nd, Int32 allowanceDisab3rd,
             Int32 allowanceStudy,
@@ -45,9 +45,8 @@ namespace HraveMzdy.Legalios.Props
             // Tax income for advance from Year 2014 to Year 2017
             //*****************************************************************************
             // - withhold tax (non-signed declaration) and income
-            // if (period.Year >= 2018)
+            // if (period.Year >= 2014 && period.Year =< 2017)
             // -- income from DPP is less than X CZK
-            // -- income from low-income employment is less than X CZK
             // -- income from statutory employment and non-resident is always withhold tax
 
             bool withholdIncome = false;
@@ -62,16 +61,6 @@ namespace HraveMzdy.Legalios.Props
             if (termOpt == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK)
             {
                 if (MarginIncomeOfWthAgr == 0 || incomeSum <= MarginIncomeOfWthAgr)
-                {
-                    if (incomeSum > 0)
-                    {
-                        withholdIncome = true;
-                    }
-                }
-            }
-            else if (termOpt == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS)
-            {
-                if (MarginIncomeOfWthEmp == 0 || incomeSum <= MarginIncomeOfWthEmp)
                 {
                     if (incomeSum > 0)
                     {

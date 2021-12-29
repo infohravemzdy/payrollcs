@@ -199,6 +199,7 @@ namespace Procezor.PayrolexTest.Examples
                     IMP17_PLATCESPOJ = con.NemPojImp(con, period, ruleset, prevset),
                     IMP17_PLATCEZPOJ = con.ZdrPojImp(con, period, ruleset, prevset),
                     IMP17_MIN_ZP = con.ZdrPojMin(con, period, ruleset, prevset),
+                    //IMP17_PRIORITC = con.ZdrPojMin(con, period, ruleset, prevset),
                 };
                 Int32 weekValue = con.WeekFunc(con, period, ruleset, prevset) * 60;
                 ImportData18 imp18 = new ImportData18()

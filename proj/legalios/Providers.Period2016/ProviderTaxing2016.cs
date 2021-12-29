@@ -13,7 +13,7 @@ namespace HraveMzdy.Legalios.Providers
 
         public IPropsTaxing GetProps(IPeriod period)
         {
-            return new PropsTaxing(Version,
+            return new PropsTaxing2014(Version,
                 AllowancePayer(period),
                 AllowanceDisab1st(period),
                 AllowanceDisab2nd(period),

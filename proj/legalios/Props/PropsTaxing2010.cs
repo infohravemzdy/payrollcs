@@ -4,16 +4,16 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsTaxing : PropsTaxingBase, IPropsTaxing
+    public class PropsTaxing2010 : PropsTaxingBase, IPropsTaxing
     {
         public static IPropsTaxing Empty()
         {
-            return new PropsTaxing(VERSION_ZERO);
+            return new PropsTaxing2010(VERSION_ZERO);
         }
-        public PropsTaxing(Int16 version) : base(version)
+        public PropsTaxing2010(Int16 version) : base(version)
         {
         }
-        public PropsTaxing(VersionId version,
+        public PropsTaxing2010(VersionId version,
             Int32 allowancePayer,
             Int32 allowanceDisab1st, Int32 allowanceDisab2nd, Int32 allowanceDisab3rd,
             Int32 allowanceStudy,
@@ -42,14 +42,10 @@ namespace HraveMzdy.Legalios.Props
         public override bool HasWithholdIncome(WorkTaxingTerms termOpt, TaxDeclSignOption signOpt, TaxNoneSignOption noneOpt, int incomeSum)
         {
             //*****************************************************************************
-            // Tax income for advance from Year 2014 to Year 2017
+            // Tax income for advance from Year 2008 to Year 2013
             //*****************************************************************************
-            // - withhold tax (non-signed declaration) and income
-            // if (period.Year >= 2018)
-            // -- income from DPP is less than X CZK
-            // -- income from low-income employment is less than X CZK
-            // -- income from statutory employment and non-resident is always withhold tax
-
+            // - withhold tax (non-signed declaration) and income is less than X CZK
+            //*****************************************************************************
             bool withholdIncome = false;
             if (signOpt != TaxDeclSignOption.DECL_TAX_NO_SIGNED)
             {
@@ -59,27 +55,7 @@ namespace HraveMzdy.Legalios.Props
             {
                 return withholdIncome;
             }
-            if (termOpt == WorkTaxingTerms.TAXING_TERM_AGREEM_TASK)
-            {
-                if (MarginIncomeOfWthAgr == 0 || incomeSum <= MarginIncomeOfWthAgr)
-                {
-                    if (incomeSum > 0)
-                    {
-                        withholdIncome = true;
-                    }
-                }
-            }
-            else if (termOpt == WorkTaxingTerms.TAXING_TERM_EMPLOYMENTS)
-            {
-                if (MarginIncomeOfWthEmp == 0 || incomeSum <= MarginIncomeOfWthEmp)
-                {
-                    if (incomeSum > 0)
-                    {
-                        withholdIncome = true;
-                    }
-                }
-            }
-            else if (termOpt == WorkTaxingTerms.TAXING_TERM_STATUT_PART)
+            if (MarginIncomeOfWithhold == 0 || incomeSum <= MarginIncomeOfWithhold)
             {
                 if (incomeSum > 0)
                 {

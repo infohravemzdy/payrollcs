@@ -1,5 +1,6 @@
 ﻿using System;
 using HraveMzdy.Legalios.Interfaces;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Service.Interfaces
 {
@@ -27,5 +28,7 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 MarginIncomeOfWthEmp { get; }
         Int32 MarginIncomeOfWthAgr { get; }
         bool ValueEquals(IPropsTaxing other);
+        bool HasWithholdIncome(WorkTaxingTerms termOpt, 
+            TaxDeclSignOption signOpt, TaxNoneSignOption noneOpt, Int32 incomeSum);
     }
 }
