@@ -697,7 +697,7 @@ namespace Procezor.PayrolexTest.Service
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
                     .WithSocialLoIncome(ConValue(1)),
-                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2014), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
              .WithTaxDecl(GenValue(0));
         }
