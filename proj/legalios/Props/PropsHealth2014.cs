@@ -4,16 +4,16 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsHealth : PropsHealthBase, IPropsHealth
+    public class PropsHealth2014 : PropsHealthBase, IPropsHealth
     {
         public static IPropsHealth Empty()
         {
-            return new PropsHealth(VERSION_ZERO);
+            return new PropsHealth2014(VERSION_ZERO);
         }
-        public PropsHealth(Int16 version) : base(version)
+        public PropsHealth2014(Int16 version) : base(version)
         {
         }
-        public PropsHealth(VersionId version,
+        public PropsHealth2014(VersionId version,
             Int32 minMonthlyBasis, Int32 maxAnnualsBasis,
             Int32 limMonthlyState, Int32 limMonthlyDis50,
             decimal factorCompound, decimal factorEmployee,
@@ -45,9 +45,9 @@ namespace HraveMzdy.Legalios.Props
                 case WorkHealthTerms.HEALTH_TERM_EMPLOYMENTS:
                     return false;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_WORK:
-                    return true;
+                    return false;
                 case WorkHealthTerms.HEALTH_TERM_AGREEM_TASK:
-                    return true;
+                    return false;
                 case WorkHealthTerms.HEALTH_TERM_BY_CONTRACT:
                     return false;
             }
