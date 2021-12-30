@@ -57,10 +57,7 @@ namespace HraveMzdy.Legalios.Props
             }
             if (MarginIncomeOfWithhold == 0 || incomeSum <= MarginIncomeOfWithhold)
             {
-                if (incomeSum > 0)
-                {
-                    withholdIncome = true;
-                }
+                withholdIncome = true;
             }
             return withholdIncome;
         }

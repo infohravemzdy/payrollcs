@@ -968,7 +968,7 @@ namespace Procezor.PayrolexTest.Examples
         public string IMP17_DOPROPLAC;
         public string IMP17_MIN_ZP;
         public string IMP17_DATVYPOV;
-        public string IMP17_PRIORITC;
+        public Int32 IMP17_PRIORITC;
 
 
         public ImportData17()
@@ -1007,7 +1007,7 @@ namespace Procezor.PayrolexTest.Examples
             IMP17_DOPROPLAC = "#";
             IMP17_MIN_ZP = "#";
             IMP17_DATVYPOV = "#";
-            IMP17_PRIORITC = "#";
+            IMP17_PRIORITC = 0;
         }
         public override string Export()
         {
@@ -1046,7 +1046,7 @@ namespace Procezor.PayrolexTest.Examples
             b.Append(ExportString(IMP17_DOPROPLAC));
             b.Append(ExportString(IMP17_MIN_ZP));
             b.Append(ExportString(IMP17_DATVYPOV));
-            b.Append(ExportString(IMP17_PRIORITC));
+            b.Append(ExportString(PriorityCislo()));
 
             return b.ToString();
         }
@@ -1091,12 +1091,20 @@ namespace Procezor.PayrolexTest.Examples
             ExportField(writer, IMP17_DOPROPLAC);
             ExportField(writer, IMP17_MIN_ZP);
             ExportField(writer, IMP17_DATVYPOV);
-            ExportField(writer, IMP17_PRIORITC);
+            ExportField(writer, PriorityCislo());
 
             writer.WriteLine();
 
         }
-
+        public string PriorityCislo()
+        {
+            string strReturn = "#";
+            if (IMP17_PRIORITC != 0)
+            {
+                strReturn = $"{IMP17_PRIORITC}";
+            }
+            return strReturn;
+        }
         public string CINNOSTSPOJ()
         {
             string strReturn = "1";

@@ -324,49 +324,43 @@ namespace Procezor.PayrolexTest.Service
             ExampleGenerator.Spec(751, "MPOM2-PPOM-Mzda_MinZdrav",     "751").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
-                ContractGenerator.SpecEmp(3)
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2014), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
              .WithTaxDecl(GenValue(0)),
             ExampleGenerator.Spec(752, "MDPC2-PPOM-Mzda_MinZdrav",     "752").WithContracts(
                 ContractGenerator.SpecDpc(1)
                     .WithSalary(ConValue(0))
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecDpc(2)
                     .WithSalary(ConValue(0))
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithSocialLoIncome(ConValue(1)),
-                ContractGenerator.SpecEmp(3)
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
              .WithTaxDecl(GenValue(0)),
             ExampleGenerator.Spec(753, "XDPP2-PPOM-Mzda_MinZdrav",     "753").WithContracts(
                 ContractGenerator.SpecDpp(1)
                     .WithSalary(ConValue(0))
-                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
                     .WithSalary(ConValue(0))
-                    .WithHealthMinim(IIf(YearLE(2013), IIfVal(IsGenImport(),0,1), ConValue(0)))
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
-                ContractGenerator.SpecEmp(3)
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
              .WithTaxDecl(GenValue(0)),
             ExampleGenerator.Spec(761, "MPOM2-PPOM-Mzda_MaxZdrav",     "761").WithContracts(
-                ContractGenerator.SpecEmp(1)
+                ContractGenerator.SpecEmp(1).WithPriority(IIf(YearBW(2014,2014), ConValue(1), ConValue(0)))
                     .WithSalary(Div(UcastNem(1), 2, 1))
                     .WithSocialLoIncome(ConValue(1)),
-                ContractGenerator.SpecEmp(2)
+                ContractGenerator.SpecEmp(2).WithPriority(IIf(YearBW(2014,2014), ConValue(2), ConValue(0)))
                     .WithSalary(Div(UcastNem(1), 2, 1))
                     .WithSocialLoIncome(ConValue(1)),
-                ContractGenerator.SpecEmp(3)
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearBW(2014,2014), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)))
              .WithTaxDecl(GenValue(0)),
             ExampleGenerator.Spec(762, "MDPC2-PPOM-Mzda_MaxZdrav",     "762").WithContracts(
@@ -391,14 +385,46 @@ namespace Procezor.PayrolexTest.Service
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)))
              .WithTaxDecl(GenValue(0)),
-            ExampleGenerator.Spec(771, "MPOM2-PPOM-Mzda_MaxSocial",     "771").WithContracts(
+            ExampleGenerator.Spec(765, "MPOM2-PPOM-Mzda_MaxZdrav",     "765").WithContracts(
                 ContractGenerator.SpecEmp(1)
-                    .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecEmp(3)
+                    .WithSalary(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)))
+             .WithTaxDecl(GenValue(0)),
+            ExampleGenerator.Spec(766, "MDPC2-PPOM-Mzda_MaxZdrav",     "766").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)),
+                ContractGenerator.SpecDpc(2)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecDpc(3)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)))
+             .WithTaxDecl(GenValue(0)),
+            ExampleGenerator.Spec(767, "XDPP2-PPOM-Mzda_MaxZdrav",     "767").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)),
+                ContractGenerator.SpecDpp(2)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1)),
+                ContractGenerator.SpecDpp(3)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1)))
+             .WithTaxDecl(GenValue(0)),
+            ExampleGenerator.Spec(771, "MPOM2-PPOM-Mzda_MaxSocial",     "771").WithContracts(
+                ContractGenerator.SpecEmp(1).WithPriority(IIf(YearBW(2014,2014), ConValue(2), ConValue(0)))
+                    .WithSalary(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(2).WithPriority(IIf(YearBW(2014,2014), ConValue(1), ConValue(0)))
+                    .WithSalary(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearBW(2014,2014), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)))
              .WithTaxDecl(GenValue(0)),
             ExampleGenerator.Spec(772, "MDPC2-PPOM-Mzda_MaxSocial",     "772").WithContracts(
@@ -422,6 +448,38 @@ namespace Procezor.PayrolexTest.Service
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)))
+             .WithTaxDecl(GenValue(0)),
+            ExampleGenerator.Spec(775, "MPOM2-PPOM-Mzda_MaxSocial",     "775").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)),
+                ContractGenerator.SpecEmp(2)
+                    .WithSalary(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecEmp(3)
+                    .WithSalary(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)))
+             .WithTaxDecl(GenValue(0)),
+            ExampleGenerator.Spec(776, "MDPC2-PPOM-Mzda_MaxSocial",     "776").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)),
+                ContractGenerator.SpecDpc(2)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)),
+                ContractGenerator.SpecDpc(3)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1))
+                    .WithSocialLoIncome(ConValue(1)))
+             .WithTaxDecl(GenValue(0)),
+            ExampleGenerator.Spec(777, "XDPP2-PPOM-Mzda_MaxSocial",     "777").WithContracts(
+                ContractGenerator.SpecEmp(1)
+                    .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)),
+                ContractGenerator.SpecDpp(2)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1)),
+                ContractGenerator.SpecDpp(3)
+                    .WithSalary(ConValue(0))
+                    .WithAgreem(Div(UcastNem(1), 2, 1)))
              .WithTaxDecl(GenValue(0)),
         };
 
@@ -563,6 +621,14 @@ namespace Procezor.PayrolexTest.Service
                     .WithSalary(MaxZdr(100)));
         }
 
+        public ExampleGenerator Example_153_PPomMzdaNepodPojZaporPlat()
+        {
+            return ExampleGenerator.Spec(153, "PP-Mzda_NepodPoj-ZaporPlat", "153")
+                .WithContracts(ContractGenerator.SpecEmp(1)
+                    .WithSalary(ConValue(-10000)))
+                .WithTaxDecl(GenValue(0));
+        }
+
         public ExampleGenerator Example_201_PPomMzdaNepodPojPrevLo()
         {
             return ExampleGenerator.Spec(201, "PP-Mzda_NepodPoj-PrevLo", "201")
@@ -627,13 +693,11 @@ namespace Procezor.PayrolexTest.Service
             return ExampleGenerator.Spec(751, "MPOM2-PPOM-Mzda_MinZdrav", "751").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIfVal(IsGenImport(), 0, 1))
                     .WithSocialLoIncome(ConValue(1)),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithHealthMinim(IIfVal(IsGenImport(), 0, 1))
                     .WithSocialLoIncome(ConValue(1)),
-                ContractGenerator.SpecEmp(3)
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
              .WithTaxDecl(GenValue(0));
         }
@@ -643,13 +707,11 @@ namespace Procezor.PayrolexTest.Service
             return ExampleGenerator.Spec(753, "XDPP2-PPOM-Mzda_MinZdrav", "753").WithContracts(
                 ContractGenerator.SpecDpp(1)
                     .WithSalary(ConValue(0))
-                    .WithHealthMinim(IIfVal(IsGenImport(), 0, 1))
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
                     .WithSalary(ConValue(0))
-                    .WithHealthMinim(IIfVal(IsGenImport(), 0, 1))
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
-                ContractGenerator.SpecEmp(3)
+                ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
              .WithTaxDecl(GenValue(0));
         }
@@ -1442,6 +1504,14 @@ namespace Procezor.PayrolexTest.Service
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, bool> IsGenImport()
         {
             return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (gen.Example.ExportToOKmzdy);
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, bool> YearBW(Int32 valB, Int32 valE)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (period.Year >= valB && period.Year <= valE);
+        }
+        protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, bool> YearEQ(Int32 val)
+        {
+            return (ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (period.Year == val);
         }
         protected static Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, bool> YearLE(Int32 val)
         {

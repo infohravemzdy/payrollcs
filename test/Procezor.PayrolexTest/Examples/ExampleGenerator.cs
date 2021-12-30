@@ -199,7 +199,7 @@ namespace Procezor.PayrolexTest.Examples
                     IMP17_PLATCESPOJ = con.NemPojImp(con, period, ruleset, prevset),
                     IMP17_PLATCEZPOJ = con.ZdrPojImp(con, period, ruleset, prevset),
                     IMP17_MIN_ZP = con.ZdrPojMin(con, period, ruleset, prevset),
-                    //IMP17_PRIORITC = con.ZdrPojMin(con, period, ruleset, prevset),
+                    IMP17_PRIORITC = con.EmpPriorityFunc(con, period, ruleset, prevset),
                 };
                 Int32 weekValue = con.WeekFunc(con, period, ruleset, prevset) * 60;
                 ImportData18 imp18 = new ImportData18()
@@ -499,6 +499,7 @@ namespace Procezor.PayrolexTest.Examples
             return $"{number}-{Id}";
         }
         public WorkContractTerms Term { get; set; }
+        public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> EmpPriorityFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> WeekFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> AbsenceFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> SalaryFunc { get; private set; }
@@ -520,6 +521,7 @@ namespace Procezor.PayrolexTest.Examples
         {
             Id = id;
             Term = term;
+            EmpPriorityFunc = DefaultEmpPriorityFunc;
             WeekFunc = DefaultWeekFunc;
             AbsenceFunc = DefaultAbsenceFunc;
             SalaryFunc = DefaultSalaryFunc;
@@ -650,6 +652,10 @@ namespace Procezor.PayrolexTest.Examples
             return imp;
         }
 
+        private Int32 DefaultEmpPriorityFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return 0;
+        }
         private Int32 DefaultWeekFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 40;
@@ -734,6 +740,11 @@ namespace Procezor.PayrolexTest.Examples
         public static ContractGenerator SpecStat(Int32 id)
         {
             return new ContractGenerator(id, WorkContractTerms.WORKTERM_PARTNER_STAT);
+        }
+        public ContractGenerator WithPriority(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            EmpPriorityFunc = func;
+            return this;
         }
         public ContractGenerator WithWeek(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
