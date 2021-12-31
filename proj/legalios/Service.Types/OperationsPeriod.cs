@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
+namespace HraveMzdy.Legalios.Service.Types
 {
     public static class OperationsPeriod
     {
@@ -222,7 +222,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
             }).ToArray();
             return result;
         }
-        private static Int32 PLusHoursFromCalendar(Byte dayTermFrom, Byte dayTermStop, Byte dayIndex, Int32 partSeconds, Int32 workSeconds)
+        private static Int32 PlusHoursFromCalendar(Byte dayTermFrom, Byte dayTermStop, Byte dayIndex, Int32 partSeconds, Int32 workSeconds)
         {
             Byte dayOrdinal = (Byte)(dayIndex + 1);
 
@@ -253,36 +253,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
                 workingDay = 0;
             }
             return workingDay;
-        }
-        public static Decimal SalaryAmountScheduleWork(Decimal amountMonthly,
-            Int32 fullWeekHour, Int32 workWeekHours,
-            Int32 fulltimeHour, Int32 workingsHours)
-        {
-            decimal coeffSalary = OperationsDec.Divide(workWeekHours, fullWeekHour); // 1.0m;
-
-            decimal salaryValue = MonthlyAmountWithWorkingHours(amountMonthly, coeffSalary, fulltimeHour, workingsHours);
-
-            return salaryValue;
-        }
-        public static Decimal SalaryAmountFixedValue(Decimal amountFixed)
-        {
-            decimal paymentValue = RoundingPay.PaymentFromFixedAmount(amountFixed);
-
-            return RoundingDec.RoundUp(paymentValue);
-        }
-        public static decimal FactorizeAmount(decimal amount, decimal factor)
-        {
-            decimal result = OperationsDec.Multiply(amount, factor);
-
-            return result;
-        }
-        public static decimal MonthlyAmountWithWorkingHours(decimal amountMonthly, decimal scheduleFactor, int scheduledHours, int workingsHours)
-        {
-            decimal amountFactor = FactorizeAmount(amountMonthly, scheduleFactor);
-
-            decimal paymentValue = RoundingPay.PaymentFromAmount(amountFactor, scheduledHours, workingsHours);
-
-            return RoundingDec.RoundUp(paymentValue);
         }
     }
 }

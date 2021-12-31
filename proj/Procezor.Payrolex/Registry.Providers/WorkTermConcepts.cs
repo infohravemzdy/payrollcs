@@ -8,7 +8,6 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using MaybeMonad;
 using ResultMonad;
 

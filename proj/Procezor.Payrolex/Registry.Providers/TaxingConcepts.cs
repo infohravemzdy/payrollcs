@@ -10,7 +10,6 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using MaybeMonad;
 using ResultMonad;
 
@@ -212,7 +211,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             ITermResult resultsValues = new TaxingIncomeSubjectResult(target, spec,
                 evalSubjectsType, incomeRes, 0, DESCRIPTION_EMPTY);
@@ -267,8 +266,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrHealth.Error);
             }
             IPropsHealth healthRules = resPrHealth.Value;
-
-            Int32 maxAnnualsBasis = healthRules.MaxAnnualsBasis;
 
             var resTarget = GetTypedTarget<TaxingIncomeHealthTarget>(target, period);
             if (resTarget.IsFailure)
@@ -330,31 +327,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeOrdersList = incomeResultList.OrderBy((x) => (x), TaxingIncomeHealthResult.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
-            Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
-            var resultOrdersInit = new Tuple<Int32, Int32, TaxingIncomeHealthResult[]>(
-                maxAnnualsBasis, perAnnualsBasis, Array.Empty<TaxingIncomeHealthResult>());
 
-            var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
-                (agr, x) => {
-                    Int32 cutAnnualsBasis = 0;
-                    Int32 rawAnnualsBasis = x.ResultBasis;
-                    Int32 remAnnualsBasis = agr.Item2;
-
-                    if (x.ParticyCode != 0)
-                    {
-                        cutAnnualsBasis = rawAnnualsBasis;
-                        if (agr.Item1 > 0)
-                        {
-                            var ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
-                            cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
-                        }
-                        remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
-                    }
-
-                    x.SetResultValue(Math.Max(0, cutAnnualsBasis));
-                    return new Tuple<Int32, Int32, TaxingIncomeHealthResult[]>(
-                        agr.Item1, remAnnualsBasis, agr.Item3.Concat(new TaxingIncomeHealthResult[] { x }).ToArray());
-                });
+            var resultOrdersList = healthRules.AnnualsBasisCut<TaxingIncomeHealthResult>(incomeOrdersList, perAnnuityBasis);
 
             return BuildOkResults(resultOrdersList.Item3);
         }
@@ -406,8 +380,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrSocial.Error);
             }
             IPropsSocial socialRules = resPrSocial.Value;
-
-            Int32 maxAnnualsBasis = socialRules.MaxAnnualsBasis;
 
             var resTarget = GetTypedTarget<TaxingIncomeSocialTarget>(target, period);
             if (resTarget.IsFailure)
@@ -468,32 +440,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeOrdersList = incomeResultList.OrderBy((x) => (x), TaxingIncomeSocialResult.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
-            Int32 perAnnualsBasis = Math.Max(0, maxAnnualsBasis - perAnnuityBasis);
-            var resultOrdersInit = new Tuple<Int32, Int32, TaxingIncomeSocialResult[]>(
-               maxAnnualsBasis, perAnnualsBasis, Array.Empty<TaxingIncomeSocialResult>());
 
-            var resultOrdersList = incomeOrdersList.Aggregate(resultOrdersInit,
-                (agr, x) => {
-                    Int32 cutAnnualsBasis = 0;
-                    Int32 rawAnnualsBasis = x.ResultBasis;
-                    Int32 remAnnualsBasis = agr.Item2;
-
-                    if (x.ParticyCode != 0)
-                    {
-                        cutAnnualsBasis = rawAnnualsBasis;
-                        if (agr.Item1 > 0)
-                        {
-                            var ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
-                            cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
-                        }
-                        remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
-                    }
-
-                    x.SetResultValue(Math.Max(0, cutAnnualsBasis));
-                    return new Tuple<Int32, Int32, TaxingIncomeSocialResult[]>(
-                        agr.Item1, remAnnualsBasis, agr.Item3.Concat(new TaxingIncomeSocialResult[] { x }).ToArray());
-
-                });
+            var resultOrdersList = socialRules.AnnualsBasisCut<TaxingIncomeSocialResult>(incomeOrdersList, perAnnuityBasis);
 
             return BuildOkResults(resultOrdersList.Item3);
         }
@@ -583,7 +531,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             Int32 resValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT, 
@@ -691,10 +639,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
-            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
-            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
-            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+            Int32 incomeDppsRes = RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundToInt(incomeRestSum);
 
             Int32 resValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK, 
@@ -785,9 +733,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsHealth healthRules = resPrHealth.Value;
 
-            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
-            decimal factorEmployee = healthRules.FactorEmployee;
-
             var resTarget = GetTypedTarget<TaxingAdvancesHealthTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -818,7 +763,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             var healthList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -830,7 +775,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthSum = healthList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthRes = RoundingInt.RoundToInt(healthSum);
+            Int32 healthRes = RoundToInt(healthSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
@@ -839,9 +784,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue = healthRes;
             }
 
-            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
-            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+            Int32 compoundPayment = healthRules.RoundedCompoundPaym(baseValue);
+            Int32 employeePayment = healthRules.RoundedEmployeePaym(baseValue);
+            Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesHealthResult(target, spec,
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -892,9 +837,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrHealth.Error);
             }
             IPropsHealth healthRules = resPrHealth.Value;
-
-            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
-            decimal factorEmployee = healthRules.FactorEmployee;
 
             var resTarget = GetTypedTarget<TaxingAdvancesHealthTarget>(target, period);
             if (resTarget.IsFailure)
@@ -953,10 +895,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
-            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
-            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
-            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+            Int32 incomeDppsRes = RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundToInt(incomeRestSum);
 
             var healthDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -995,10 +937,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthRestSum = healthRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthDppsRes = RoundingInt.RoundToInt(healthDppsSum);
-            Int32 healthLowsRes = RoundingInt.RoundToInt(healthLowsSum);
-            Int32 healthStatRes = RoundingInt.RoundToInt(healthStatSum);
-            Int32 healthRestRes = RoundingInt.RoundToInt(healthRestSum);
+            Int32 healthDppsRes = RoundToInt(healthDppsSum);
+            Int32 healthLowsRes = RoundToInt(healthLowsSum);
+            Int32 healthStatRes = RoundToInt(healthStatSum);
+            Int32 healthRestRes = RoundToInt(healthRestSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
@@ -1022,9 +964,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue += healthRestRes;
             }
 
-            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
-            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+            Int32 compoundPayment = healthRules.RoundedCompoundPaym(baseValue);
+            Int32 employeePayment = healthRules.RoundedEmployeePaym(baseValue);
+            Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesHealthResult(target, spec,
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -1087,8 +1029,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsSocial socialRules = resPrSocial.Value;
 
-            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
-
             var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
             if (resPrTaxing.IsFailure)
             {
@@ -1126,7 +1066,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             var socialList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1138,7 +1078,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialSum = socialList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+            Int32 socialRes = RoundToInt(socialSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
@@ -1147,7 +1087,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue = socialRes;
             }
 
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
+            Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesSocialResult(target, spec,
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -1191,8 +1131,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrSocial.Error);
             }
             IPropsSocial socialRules = resPrSocial.Value;
-
-            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
 
             var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
             if (resPrTaxing.IsFailure)
@@ -1258,10 +1196,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
-            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
-            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
-            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+            Int32 incomeDppsRes = RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundToInt(incomeRestSum);
 
             var socialDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1300,10 +1238,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialRestSum = socialRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialDppsRes = RoundingInt.RoundToInt(socialDppsSum);
-            Int32 socialLowsRes = RoundingInt.RoundToInt(socialLowsSum);
-            Int32 socialStatRes = RoundingInt.RoundToInt(socialStatSum);
-            Int32 socialRestRes = RoundingInt.RoundToInt(socialRestSum);
+            Int32 socialDppsRes = RoundToInt(socialDppsSum);
+            Int32 socialLowsRes = RoundToInt(socialLowsSum);
+            Int32 socialStatRes = RoundToInt(socialStatSum);
+            Int32 socialRestRes = RoundToInt(socialRestSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
@@ -1327,7 +1265,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue += socialRestRes;
             }
 
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
+            Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesSocialResult(target, spec,
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -1346,13 +1284,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvancesBasisConSpec(this.Code.Value);
+            if (period.Year >= 2021)
+            {
+                return new TaxingAdvancesBasisConSpec(this.Code.Value);
+            }
+            return new TaxingAdvancesBasisCon2010Spec(this.Code.Value);
         }
     }
 
-    class TaxingAdvancesBasisConSpec : PayrolexConceptSpec
+    class TaxingAdvancesBasisCon2010Spec : PayrolexConceptSpec
     {
-        public TaxingAdvancesBasisConSpec(Int32 code) : base(code)
+        public TaxingAdvancesBasisCon2010Spec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_DECLARE,
@@ -1403,7 +1345,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(Math.Max(0, incomeSum));
+            Int32 incomeRes = RoundToInt(Math.Max(0, incomeSum));
 
             var healthList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1415,7 +1357,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthSum = healthList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthRes = RoundingInt.RoundToInt(Math.Max(0, healthSum));
+            Int32 healthRes = RoundToInt(Math.Max(0, healthSum));
 
             var socialList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1427,32 +1369,102 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialSum = socialList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(Math.Max(0, socialSum));
+            Int32 socialRes = RoundToInt(Math.Max(0, socialSum));
 
-            Int32 taxableSuper = Math.Max(0, incomeRes + healthRes + socialRes);
+            Int32 taxableSuper = taxingRules.TaxableIncomeSupers(incomeRes, healthRes, socialRes);
 
-            Int32 advancesBase = TaxAdvancesRoundedBase(taxingRules, taxableSuper);
+            Int32 advancesBase = taxingRules.RoundedBaseAdvances(incomeRes, healthRes, socialRes);
 
             ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
+    }
 
-        private Int32 TaxAdvancesRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
+    class TaxingAdvancesBasisConSpec : PayrolexConceptSpec
+    {
+        public TaxingAdvancesBasisConSpec(Int32 code) : base(code)
         {
-            Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_DECLARE,
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_INCOME,
+            });
 
-            Int32 advanceBase = 0;
-            Int32 amountForCalc = Math.Max(0, taxableSuper);
-            if (amountForCalc <= marginIncomeOfRounding)
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
             {
-                advanceBase = OperationsTaxing.IntTaxRoundUp(amountForCalc);
+                return Array.Empty<ITermTarget>();
             }
-            else
+            return new ITermTarget[] {
+                new TaxingAdvancesBasisTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
             {
-                advanceBase = OperationsTaxing.IntTaxRoundNearUp(amountForCalc, 100);
+                return BuildFailResults(resPrTaxing.Error);
             }
-            return advanceBase;
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingAdvancesBasisTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAdvancesBasisTarget evalTarget = resTarget.Value;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_INCOME))
+               .Select((x) => (x as TaxingAdvancesIncomeResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeRes = RoundToInt(Math.Max(0, incomeSum));
+
+            var healthList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_HEALTH))
+               .Select((x) => (x as TaxingAdvancesHealthResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal healthSum = healthList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 healthRes = RoundToInt(Math.Max(0, healthSum));
+
+            var socialList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_SOCIAL))
+               .Select((x) => (x as TaxingAdvancesSocialResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialSum = socialList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 socialRes = RoundToInt(Math.Max(0, socialSum));
+
+            Int32 taxableSuper = taxingRules.TaxableIncomeSupers(incomeRes, healthRes, socialRes);
+
+            Int32 advancesBase = taxingRules.RoundedBaseAdvances(incomeRes, healthRes, socialRes);
+
+            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableSuper, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -1522,24 +1534,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 taxableIncome = evalBaseVal.ResultValue;
 
-            Int32 solidaryBase = TaxSolidaryRoundedBase(taxingRules, taxableIncome);
+            Int32 solidaryBase = taxingRules.RoundedBaseSolidary(taxableIncome);
 
             ITermResult resultsValues = new TaxingSolidaryBasisResult(target, spec, solidaryBase, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
-        }
-        private Int32 TaxSolidaryRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
-        {
-            Int32 marginIncomeOfSolidary = taxingRules.MarginIncomeOfSolidary;
-            Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
-
-            Int32 solidaryBase = 0;
-            Int32 taxableIncome = Math.Max(0, taxableSuper);
-            if (marginIncomeOfSolidary != 0)
-            {
-                solidaryBase = Math.Max(0, taxableIncome - marginIncomeOfSolidary);
-            }
-            return solidaryBase;
         }
     }
 
@@ -1607,32 +1606,15 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             var evalBaseVal = resBaseVal.Value;
 
+            Int32 advanceBasis = evalBaseVal.ResultBasis;
+
             Int32 advanceSuper = evalBaseVal.ResultValue;
 
-            Int32 advanceBasis = evalBaseVal.ResultValue;
-
-            Int32 advancePaym = TaxAdvancesRoundedPaym(taxingRules, advanceSuper, advanceBasis);
+            Int32 advancePaym = taxingRules.RoundedAdvancesPaym(advanceSuper, advanceBasis);
 
             ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
-        }
-        private Int32 TaxAdvancesRoundedPaym(IPropsTaxing taxingRules, Int32 taxableIncome, Int32 taxableBasis)
-        {
-            Int32 marginIncomeOfRounding = taxingRules.MarginIncomeOfRounding;
-            decimal factorAdvances = OperationsDec.Divide(taxingRules.FactorAdvances, 100);
-
-            Int32 advanceTaxing = 0;
-            if (taxableBasis <= marginIncomeOfRounding)
-            {
-                advanceTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(taxableBasis, factorAdvances));
-            }
-            else
-            {
-                advanceTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(taxableBasis, factorAdvances));
-            }
-
-            return advanceTaxing;
         }
     }
 
@@ -1702,7 +1684,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 solidaryBasis = evalBaseVal.ResultValue;
 
-            Int32 solidaryPaym = TaxSolidaryRoundedPaym(taxingRules, solidaryBasis);
+            Int32 solidaryPaym = taxingRules.RoundedSolidaryPaym(solidaryBasis);
 
             if (solidaryPaym != 0)
             {
@@ -1711,19 +1693,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildOkResults(resultsValues);
             }
             return BuildEmptyResults();
-        }
-        private Int32 TaxSolidaryRoundedPaym(IPropsTaxing taxingRules, Int32 solidaryBasis)
-        {
-            Int32 marginIncomeOfSolidary = taxingRules.MarginIncomeOfSolidary;
-            decimal factorSolidary = OperationsDec.Divide(taxingRules.FactorSolidary, 100);
-
-            Int32 solidaryTaxing = 0;
-            if (marginIncomeOfSolidary != 0)
-            {
-                solidaryTaxing = OperationsTaxing.IntTaxRoundUp(OperationsDec.Multiply(solidaryBasis, factorSolidary));
-            }
-
-            return solidaryTaxing;
         }
     }
 
@@ -1785,7 +1754,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal advancesSum = advancesList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 advancesTaxing = RoundingInt.RoundToInt(advancesSum);
+            Int32 advancesTaxing = RoundToInt(advancesSum);
 
             var solidaryList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1797,7 +1766,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal solidarySum = solidaryList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 solidaryTaxing = RoundingInt.RoundToInt(solidarySum);
+            Int32 solidaryTaxing = RoundToInt(solidarySum);
 
             Int32 advancesTotals = (advancesTaxing + solidaryTaxing);
 
@@ -1891,7 +1860,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             Int32 resValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
@@ -2000,10 +1969,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
-            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
-            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
-            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+            Int32 incomeDppsRes = RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundToInt(incomeRestSum);
 
             Int32 resValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
@@ -2095,9 +2064,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsHealth healthRules = resPrHealth.Value;
 
-            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
-            decimal factorEmployee = healthRules.FactorEmployee;
-
             var resTarget = GetTypedTarget<TaxingWithholdHealthTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -2128,7 +2094,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             var healthList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -2140,7 +2106,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthSum = healthList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthRes = RoundingInt.RoundToInt(healthSum);
+            Int32 healthRes = RoundToInt(healthSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
@@ -2149,9 +2115,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue = healthRes;
             }
 
-            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
-            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+            Int32 compoundPayment = healthRules.RoundedCompoundPaym(baseValue);
+            Int32 employeePayment = healthRules.RoundedEmployeePaym(baseValue);
+            Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdHealthResult(target, spec,
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -2203,9 +2169,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrHealth.Error);
             }
             IPropsHealth healthRules = resPrHealth.Value;
-
-            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
-            decimal factorEmployee = healthRules.FactorEmployee;
 
             var resTarget = GetTypedTarget<TaxingWithholdHealthTarget>(target, period);
             if (resTarget.IsFailure)
@@ -2264,10 +2227,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
-            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
-            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
-            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+            Int32 incomeDppsRes = RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundToInt(incomeRestSum);
 
             var healthDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -2306,10 +2269,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthRestSum = healthRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthDppsRes = RoundingInt.RoundToInt(healthDppsSum);
-            Int32 healthLowsRes = RoundingInt.RoundToInt(healthLowsSum);
-            Int32 healthStatRes = RoundingInt.RoundToInt(healthStatSum);
-            Int32 healthRestRes = RoundingInt.RoundToInt(healthRestSum);
+            Int32 healthDppsRes = RoundToInt(healthDppsSum);
+            Int32 healthLowsRes = RoundToInt(healthLowsSum);
+            Int32 healthStatRes = RoundToInt(healthStatSum);
+            Int32 healthRestRes = RoundToInt(healthRestSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
@@ -2333,10 +2296,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue += healthRestRes;
             }
 
-
-            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorCompound));
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(baseValue, factorCompound, factorEmployee));
-            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+            Int32 compoundPayment = healthRules.RoundedCompoundPaym(baseValue);
+            Int32 employeePayment = healthRules.RoundedEmployeePaym(baseValue);
+            Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdHealthResult(target, spec,
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -2400,8 +2362,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsSocial socialRules = resPrSocial.Value;
 
-            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
-
             var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
             if (resPrTaxing.IsFailure)
             {
@@ -2439,7 +2399,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             var socialList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -2451,7 +2411,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialSum = socialList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+            Int32 socialRes = RoundToInt(socialSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_BY_CONTRACT,
@@ -2460,7 +2420,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue = socialRes;
             }
 
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
+            Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdSocialResult(target, spec, 
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -2504,8 +2464,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrSocial.Error);
             }
             IPropsSocial socialRules = resPrSocial.Value;
-
-            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
 
             var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
             if (resPrTaxing.IsFailure)
@@ -2571,10 +2529,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeRestSum = incomeRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeDppsRes = RoundingInt.RoundToInt(incomeDppsSum);
-            Int32 incomeLowsRes = RoundingInt.RoundToInt(incomeLowsSum);
-            Int32 incomeStatRes = RoundingInt.RoundToInt(incomeStatSum);
-            Int32 incomeRestRes = RoundingInt.RoundToInt(incomeRestSum);
+            Int32 incomeDppsRes = RoundToInt(incomeDppsSum);
+            Int32 incomeLowsRes = RoundToInt(incomeLowsSum);
+            Int32 incomeStatRes = RoundToInt(incomeStatSum);
+            Int32 incomeRestRes = RoundToInt(incomeRestSum);
 
             var socialDppsList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -2613,10 +2571,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialRestSum = socialRestList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialDppsRes = RoundingInt.RoundToInt(socialDppsSum);
-            Int32 socialLowsRes = RoundingInt.RoundToInt(socialLowsSum);
-            Int32 socialStatRes = RoundingInt.RoundToInt(socialStatSum);
-            Int32 socialRestRes = RoundingInt.RoundToInt(socialRestSum);
+            Int32 socialDppsRes = RoundToInt(socialDppsSum);
+            Int32 socialLowsRes = RoundToInt(socialLowsSum);
+            Int32 socialStatRes = RoundToInt(socialStatSum);
+            Int32 socialRestRes = RoundToInt(socialRestSum);
 
             Int32 baseValue = 0;
             if (taxingRules.HasWithholdIncome(WorkTaxingTerms.TAXING_TERM_AGREEM_TASK,
@@ -2640,7 +2598,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 baseValue += socialRestRes;
             }
 
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(baseValue, factorEmployer));
+            Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdSocialResult(target, spec, 
                 employerPayment, 0, DESCRIPTION_EMPTY);
@@ -2659,13 +2617,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingWithholdBasisConSpec(this.Code.Value);
+            if (period.Year >= 2021)
+            {
+                return new TaxingWithholdBasisConSpec(this.Code.Value);
+            }
+            return new TaxingWithholdBasisCon2010Spec(this.Code.Value);
         }
     }
 
-    class TaxingWithholdBasisConSpec : PayrolexConceptSpec
+    class TaxingWithholdBasisCon2010Spec : PayrolexConceptSpec
     {
-        public TaxingWithholdBasisConSpec(Int32 code) : base(code)
+        public TaxingWithholdBasisCon2010Spec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_INCOME,
@@ -2715,7 +2677,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 incomeRes = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeRes = RoundToInt(incomeSum);
 
             var healthList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -2727,7 +2689,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthSum = healthList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 healthRes = RoundingInt.RoundToInt(healthSum);
+            Int32 healthRes = RoundToInt(healthSum);
 
             var socialList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -2739,22 +2701,101 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialSum = socialList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 socialRes = RoundingInt.RoundToInt(socialSum);
+            Int32 socialRes = RoundToInt(socialSum);
 
             Int32 taxableSuper = incomeRes + healthRes + socialRes;
 
-            Int32 withholdBase = TaxWithholdRoundedBase(taxingRules, taxableSuper);
+            Int32 withholdBase = taxingRules.RoundedBaseWithhold(taxableSuper);
 
             ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
-        private Int32 TaxWithholdRoundedBase(IPropsTaxing taxingRules, Int32 taxableSuper)
-        {
-            Int32 amountForCalc = Math.Max(0, taxableSuper);
-            Int32 withholdBase = OperationsTaxing.IntTaxRoundDown(amountForCalc);
+    }
 
-            return withholdBase;
+    class TaxingWithholdBasisConSpec : PayrolexConceptSpec
+    {
+        public TaxingWithholdBasisConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_INCOME,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingWithholdBasisTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingWithholdBasisTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingWithholdBasisTarget evalTarget = resTarget.Value;
+
+            var incomeList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_INCOME))
+               .Select((x) => (x as TaxingWithholdIncomeResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal incomeSum = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 incomeRes = RoundToInt(incomeSum);
+
+            var healthList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_HEALTH))
+               .Select((x) => (x as TaxingWithholdHealthResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal healthSum = healthList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 healthRes = RoundToInt(healthSum);
+
+            var socialList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_SOCIAL))
+               .Select((x) => (x as TaxingWithholdSocialResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal socialSum = socialList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 socialRes = RoundToInt(socialSum);
+
+            Int32 taxableSuper = incomeRes + healthRes + socialRes;
+
+            Int32 withholdBase = taxingRules.RoundedBaseWithhold(taxableSuper);
+
+            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableSuper, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -2826,22 +2867,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdSuper = evalBaseVal.ResultValue;
 
-            Int32 withholdPaym = TaxWithholdRoundedPaym(taxingRules, withholdSuper, withholdBasis);
+            Int32 withholdPaym = taxingRules.RoundedWithholdPaym(withholdSuper, withholdBasis);
 
             ITermResult resultsValues = new TaxingWithholdTotalResult(target, spec, withholdPaym, withholdSuper, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
-        }
-        private Int32 TaxWithholdRoundedPaym(IPropsTaxing taxingRules, Int32 withholdSuper, Int32 withholdBasis)
-        {
-            decimal factorWithhold = OperationsDec.Divide(taxingRules.FactorWithhold, 100);
-
-            Int32 withholdTaxing = Math.Max(0, withholdSuper);
-            if (withholdTaxing > 0)
-            {
-                withholdTaxing = OperationsTaxing.IntTaxRoundDown(OperationsDec.Multiply(withholdSuper, factorWithhold));
-            }
-            return withholdTaxing;
         }
     }
     // TaxingAllowancePayer			TAXING_ALLOWANCE_PAYER
@@ -2890,11 +2920,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowancePayerTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = 0;
-            if (evalTarget.BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
-            {
-                benefitValue = allowancePayer;
-            }
+            Int32 benefitValue = taxingRules.BenefitAllowancePayer(evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowancePayerResult(target, spec,
                 evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
@@ -2940,10 +2966,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 allowanceChild1 = taxingRules.AllowanceChild1st;
-            Int32 allowanceChild2 = taxingRules.AllowanceChild2nd;
-            Int32 allowanceChild3 = taxingRules.AllowanceChild3rd;
-
             var resTarget = GetTypedTarget<TaxingAllowanceChildTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -2951,34 +2973,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceChildTarget evalTarget = resTarget.Value;
 
-            Int32 benefitUnits = 0;
-            switch (evalTarget.BenefitOrder)
-            {
-                case 0:
-                    benefitUnits = allowanceChild1;
-                    break;
-                case 1:
-                    benefitUnits = allowanceChild1;
-                    break;
-                case 2:
-                    benefitUnits = allowanceChild2;
-                    break;
-                case 3:
-                    benefitUnits = allowanceChild3;
-                    break;
-            }
-            Int32 benefitValue = 0;
-            if (evalTarget.BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
-            {
-                if (evalTarget.BenefitDisab == 1)
-                {
-                    benefitValue = benefitUnits * 2;
-                }
-                else
-                {
-                    benefitValue = benefitUnits;
-                }
-            }
+            Int32 benefitValue = taxingRules.BenefitAllowanceChild(
+                evalTarget.BenefitApply, evalTarget.BenefitOrder, evalTarget.BenefitDisab);
 
             ITermResult resultsValues = new TaxingAllowanceChildResult(target, spec,
                 evalTarget.BenefitApply, evalTarget.BenefitDisab, evalTarget.BenefitOrder, benefitValue, 0, DESCRIPTION_EMPTY);
@@ -3024,10 +3020,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 allowanceDisab1 = taxingRules.AllowanceDisab1st;
-            Int32 allowanceDisab2 = taxingRules.AllowanceDisab2nd;
-            Int32 allowanceDisab3 = taxingRules.AllowanceDisab3rd;
-
             var resTarget = GetTypedTarget<TaxingAllowanceDisabTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -3035,19 +3027,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceDisabTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = 0;
-            switch (evalTarget.BenefitApply)
-            {
-                case TaxDeclDisabOption.DECL_TAX_DISAB1:
-                    benefitValue = allowanceDisab1;
-                    break;
-                case TaxDeclDisabOption.DECL_TAX_DISAB2:
-                    benefitValue = allowanceDisab2;
-                    break;
-                case TaxDeclDisabOption.DECL_TAX_DISAB3:
-                    benefitValue = allowanceDisab3;
-                    break;
-            }
+            Int32 benefitValue = taxingRules.BenefitAllowanceDisab(evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowanceDisabResult(target, spec,
                 evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
@@ -3093,8 +3073,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsTaxing taxingRules = resPrTaxing.Value;
 
-            Int32 allowanceStudy = taxingRules.AllowanceStudy;
-
             var resTarget = GetTypedTarget<TaxingAllowanceStudyTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -3102,11 +3080,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceStudyTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = 0;
-            if (evalTarget.BenefitApply == TaxDeclBenfOption.DECL_TAX_BENEF1)
-            {
-                benefitValue = allowanceStudy;
-            }
+            Int32 benefitValue = taxingRules.BenefitAllowanceStudy(evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowanceStudyResult(target, spec, 
                 evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
@@ -3205,9 +3179,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal rebateStudySum = rebateStudyList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 allowancePayer = RoundingInt.RoundToInt(rebatePayerSum);
-            Int32 allowanceDisab = RoundingInt.RoundToInt(rebateDisabSum);
-            Int32 allowanceStudy = RoundingInt.RoundToInt(rebateStudySum);
+            Int32 allowancePayer = RoundToInt(rebatePayerSum);
+            Int32 allowanceDisab = RoundToInt(rebateDisabSum);
+            Int32 allowanceStudy = RoundToInt(rebateStudySum);
 
             Int32 advancesTotal = evalAdvancesTotal.ResultValue;
 
@@ -3223,7 +3197,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal taxRebatValue = decimal.Subtract(taxingAllow,
                 Math.Max(0m, decimal.Subtract(taxingAllow, taxAfterRebat)));
 
-            return RoundingInt.RoundToInt(taxRebatValue);
+            return RoundToInt(taxRebatValue);
         }
     }
 
@@ -3306,7 +3280,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal rebateChildSum = rebateChildList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 allowanceChild = RoundingInt.RoundToInt(rebateChildSum);
+            Int32 allowanceChild = RoundToInt(rebateChildSum);
 
             Int32 rebPayerTotal = evalRebPayerTotal.ResultValue;
 
@@ -3324,7 +3298,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal taxRebatValue = decimal.Subtract(taxingAllow,
                 Math.Max(0m, decimal.Subtract(taxingAllow, taxAfterRebat)));
 
-            return RoundingInt.RoundToInt(taxRebatValue);
+            return RoundToInt(taxRebatValue);
         }
     }
 
@@ -3429,49 +3403,15 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 rebateChild = evalRebChildTotal.ResultValue;
             Int32 summarChild = evalRebChildTotal.ResultBasis;
 
-            Int32 incomeTaxs = RoundingInt.RoundToInt(incomeSum);
+            Int32 incomeTaxs = RoundToInt(incomeSum);
 
-            Int32 rawBonusValue = RoundingInt.RoundToInt(RawBonusAfterRebate(taxingRules, incomeTaxs, summarChild, rebateChild));
+            Int32 rawBonusValue = taxingRules.BonusChildRaw(incomeTaxs, summarChild, rebateChild);
 
-            Int32 fixBonusValue = RoundingInt.RoundToInt(FixBonusAfterRebate(taxingRules, incomeTaxs, summarChild, rebateChild));
+            Int32 fixBonusValue = taxingRules.BonusChildFix(incomeTaxs, summarChild, rebateChild);
 
             ITermResult resultsValues = new TaxingBonusChildResult(target, spec, fixBonusValue, rawBonusValue, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
-        }
-        private decimal RawBonusAfterRebate(IPropsTaxing taxingRules, Int32 taxingBasis, Int32 childAllow, Int32 childRebat)
-        {
-            Int32 marIncomeOfTaxBonus = taxingRules.MarginIncomeOfTaxBonus;
-
-            decimal bonusForChild = decimal.Negate(Math.Min(0, childRebat - childAllow));
-
-            if (taxingBasis < marIncomeOfTaxBonus)
-            {
-                bonusForChild = 0;
-            }
-            return bonusForChild;
-        }
-        private decimal FixBonusAfterRebate(IPropsTaxing taxingRules, Int32 taxingBasis, Int32 childAllow, Int32 childRebat)
-        {
-            return MaxMinBonus(taxingRules, taxingBasis, RawBonusAfterRebate(taxingRules, taxingBasis, childAllow, childRebat));
-        }
-        private decimal MaxMinBonus(IPropsTaxing taxingRules, Int32 taxingBasis, decimal taxChildBonus)
-        {
-            Int32 minAmountOfTaxBonus = taxingRules.MinAmountOfTaxBonus;
-            Int32 maxAmountOfTaxBonus = taxingRules.MaxAmountOfTaxBonus;
-
-            if (taxChildBonus < minAmountOfTaxBonus)
-            {
-                return 0m;
-            }
-            else if (taxChildBonus > maxAmountOfTaxBonus)
-            {
-                return maxAmountOfTaxBonus;
-            }
-            else
-            {
-                return taxChildBonus;
-            }
         }
     }
     // TaxingPaymAdvances			TAXING_PAYM_ADVANCES
@@ -3543,7 +3483,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal rebatePayerSum = rebatePayerList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 rebatePayer = RoundingInt.RoundToInt(rebatePayerSum);
+            Int32 rebatePayer = RoundToInt(rebatePayerSum);
 
             var rebateChildList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -3555,7 +3495,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal rebateChildSum = rebateChildList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 rebateChild = RoundingInt.RoundToInt(rebateChildSum);
+            Int32 rebateChild = RoundToInt(rebateChildSum);
 
             Int32 advancesPayment = (evalAdvancesTotal.ResultValue - rebatePayer - rebateChild);
 

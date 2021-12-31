@@ -7,7 +7,6 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using MaybeMonad;
 using ResultMonad;
 
@@ -66,7 +65,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            ITermResult resultsValues = new IncomeGrossResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new IncomeGrossResult(target, spec, RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -148,7 +147,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal healthSum = healthList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 paymentHealth  = RoundingInt.RoundToInt(healthSum);
+            Int32 paymentHealth  = RoundToInt(healthSum);
 
             var socialList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -160,7 +159,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal socialSum = socialList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 paymentSocial = RoundingInt.RoundToInt(socialSum);
+            Int32 paymentSocial = RoundToInt(socialSum);
 
             var advancesList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -172,7 +171,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal advancesSum = advancesList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 paymentAdvances = RoundingInt.RoundToInt(advancesSum);
+            Int32 paymentAdvances = RoundToInt(advancesSum);
 
             var withholdList = results
                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -184,7 +183,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             decimal withholdSum = withholdList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            Int32 paymentWithhold = RoundingInt.RoundToInt(withholdSum);
+            Int32 paymentWithhold = RoundToInt(withholdSum);
 
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -207,7 +206,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 decimal.Add(decimal.Add(paymentHealth, paymentSocial), 
                 decimal.Add(paymentAdvances, paymentWithhold))), evalBonusChild);
 
-            ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -290,7 +289,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             resValue = decimal.Add(resValue, costSocialValue);
 
-            ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundingInt.RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

@@ -7,9 +7,9 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using MaybeMonad;
 using ResultMonad;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
@@ -47,6 +47,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
             var resTarget = GetTypedTarget<PaymentBasisTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -80,11 +87,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 hoursLiable = OperationsPeriod.TotalMonthHours(evalTimePlan.HoursRealMonth);
             Int32 hoursWorked = OperationsPeriod.TotalMonthHours(evalTimeWork.HoursTermMonth);
 
-            Decimal resValue = OperationsPeriod.SalaryAmountScheduleWork(evalTarget.TargetBasis, 
+            Decimal resValue = salaryRules.SalaryAmountScheduleWork(evalTarget.TargetBasis, 
                 shiftLiable, shiftWorked,
                 hoursLiable, hoursWorked);
             ITermResult resultsValues = new PaymentBasisResult(target, spec,
-                RoundingInt.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
+                salaryRules.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -122,6 +129,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
             var resTarget = GetTypedTarget<PaymentFixedTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -129,10 +143,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             PaymentFixedTarget evalTarget = resTarget.Value;
 
-            Decimal resValue = OperationsPeriod.SalaryAmountFixedValue(evalTarget.TargetBasis);
+            Decimal resValue = salaryRules.SalaryAmountFixedValue(evalTarget.TargetBasis);
 
             ITermResult resultsValues = new PaymentFixedResult(target, spec,
-                RoundingInt.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
+                salaryRules.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

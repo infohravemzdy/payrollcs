@@ -42,5 +42,59 @@ namespace HraveMzdy.Legalios.Props
                     this.MinMonthlyWage == other.MinMonthlyWage &&
                     this.MinHourlyWage == other.MinHourlyWage);
         }
+
+        public Int32 TotalHoursForPayment(Int32 scheduledHours, Int32 workingsHours)
+        {
+            Int32 totalsHours = Math.Max(0, workingsHours);
+
+            Int32 resultHours = Math.Min(scheduledHours, totalsHours);
+
+            return resultHours;
+        }
+        public decimal PaymentFromAmount(decimal amountMonthly, Int32 scheduledHours, Int32 workingsHours)
+        {
+            Int32 totalHours = TotalHoursForPayment(scheduledHours, workingsHours);
+
+            decimal payment = OperationsDec.MultiplyAndDivide(totalHours, amountMonthly, scheduledHours);
+
+            return payment;
+        }
+        public decimal PaymentFromFixedAmount(decimal amountFixed)
+        {
+            decimal payment = amountFixed;
+
+            return payment;
+        }
+        public decimal MonthlyAmountWithWorkingHours(decimal amountMonthly, decimal scheduleFactor, int scheduledHours, int workingsHours)
+        {
+            decimal amountFactor = FactorizeAmount(amountMonthly, scheduleFactor);
+
+            decimal paymentValue = PaymentFromAmount(amountFactor, scheduledHours, workingsHours);
+
+            return DecRoundUp(paymentValue);
+        }
+
+        public Decimal SalaryAmountScheduleWork(Decimal amountMonthly,
+            Int32 fullWeekHour, Int32 workWeekHours,
+            Int32 fulltimeHour, Int32 workingsHours)
+        {
+            decimal coeffSalary = OperationsDec.Divide(workWeekHours, fullWeekHour); // 1.0m;
+
+            decimal salaryValue = MonthlyAmountWithWorkingHours(amountMonthly, coeffSalary, fulltimeHour, workingsHours);
+
+            return salaryValue;
+        }
+        public Decimal SalaryAmountFixedValue(Decimal amountFixed)
+        {
+            decimal paymentValue = PaymentFromFixedAmount(amountFixed);
+
+            return DecRoundUp(paymentValue);
+        }
+        public decimal FactorizeAmount(decimal amount, decimal factor)
+        {
+            decimal result = OperationsDec.Multiply(amount, factor);
+
+            return result;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HraveMzdy.Legalios.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 
@@ -16,5 +17,9 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 MarginIncomeAgr { get; }
         bool ValueEquals(IPropsSocial other);
         bool HasParticy(WorkSocialTerms term, Int32 incomeTerm, Int32 incomeSpec);
+        Int32 RoundedEmployeePaym(Int32 basisResult);
+        Int32 RoundedEmployerPaym(Int32 basisResult);
+        Tuple<Int32, Int32> ResultOvercaps(Int32 baseSuma, Int32 overCaps);
+        Tuple<Int32, Int32, T[]> AnnualsBasisCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis) where T : IParticyResult;
     }
 }

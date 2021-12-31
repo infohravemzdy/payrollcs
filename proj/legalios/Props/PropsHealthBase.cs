@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 
@@ -104,5 +106,67 @@ namespace HraveMzdy.Legalios.Props
         protected abstract bool HasIncomeBasedEmploymentParticy(WorkHealthTerms term);
         protected abstract bool HasIncomeBasedAgreementsParticy(WorkHealthTerms term);
         protected abstract bool HasIncomeCumulatedParticy(WorkHealthTerms term);
+
+        public decimal DecInsuranceRoundUp(decimal valueDec)
+        {
+            return RoundUp(valueDec);
+        }
+
+        public Int32 IntInsuranceRoundUp(decimal valueDec)
+        {
+            return RoundUp(valueDec);
+        }
+        public Int32 RoundedCompoundPaym(Int32 basisResult)
+        {
+            decimal factorCompound = OperationsDec.Divide(FactorCompound, 100);
+
+            Int32 compoundPayment = IntInsuranceRoundUp(OperationsDec.Multiply(basisResult, factorCompound));
+            return compoundPayment;
+        }
+        public Int32 RoundedEmployeePaym(Int32 basisResult)
+        {
+            decimal factorCompound = OperationsDec.Divide(FactorCompound, 100);
+            Int32 employeePayment = IntInsuranceRoundUp(OperationsDec.MultiplyAndDivide(basisResult, factorCompound, FactorEmployee));
+            return employeePayment;
+
+        }
+        public Int32 RoundedAugmentEmployeePaym(Int32 basisGenerals, Int32 basisAugment)
+        {
+            decimal factorCompound = OperationsDec.Divide(FactorCompound, 100);
+
+            Int32 employeePayment = IntInsuranceRoundUp(
+                OperationsDec.Multiply(basisAugment, factorCompound)
+                + OperationsDec.MultiplyAndDivide(basisGenerals, factorCompound, FactorEmployee));
+            return employeePayment;
+        }
+
+        public Int32 RoundedAugmentEmployerPaym(Int32 basisGenerals, Int32 baseEmployee, Int32 baseEmployer)
+        {
+            decimal factorCompound = OperationsDec.Divide(FactorCompound, 100);
+
+            Int32 compoundBasis = baseEmployer + baseEmployee + basisGenerals;
+
+            Int32 compoundPayment = IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorCompound));
+            Int32 employeePayment = IntInsuranceRoundUp(OperationsDec.Multiply(baseEmployee, factorCompound)
+                + OperationsDec.MultiplyAndDivide(basisGenerals, factorCompound, FactorEmployee));
+            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+
+            return employerPayment;
+        }
+
+        public Int32 RoundedEmployerPaym(Int32 basisResult)
+        {
+            Int32 compoundPayment = RoundedCompoundPaym(basisResult);
+            Int32 employeePayment = RoundedEmployeePaym(basisResult);
+
+            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+            return employerPayment;
+        }
+
+        public Tuple<Int32, Int32, T[]> AnnualsBasisCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis)
+            where T : IParticyResult
+        {
+            return MaximResultCut(incomeList, annuityBasis, MaxAnnualsBasis);
+        }
     }
 }

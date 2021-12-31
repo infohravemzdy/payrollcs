@@ -15,6 +15,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
     class PayrolexConceptSpec : ConceptSpec
     {
+        protected static readonly decimal INT_ROUNDING_CONST = 0.5m;
+
         public const Int32 VALUE_ZERO = 0;
         public const Int32 BASIS_ZERO = 0;
         public const string DESCRIPTION_EMPTY = "result from input value";
@@ -23,6 +25,12 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public static readonly UInt16 TERM_END_FINISHED = 0;
         public PayrolexConceptSpec(Int32 code) : base(code)
         {
+        }
+        public Int32 RoundToInt(decimal valueDec)
+        {
+            decimal roundRet = decimal.Floor(Math.Abs(valueDec) + INT_ROUNDING_CONST);
+
+            return decimal.ToInt32(valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
         }
         public static Result<T, ITermResultError> GetTypedTarget<T>(ITermTarget target, IPeriod period)
             where T : class, ITermTarget

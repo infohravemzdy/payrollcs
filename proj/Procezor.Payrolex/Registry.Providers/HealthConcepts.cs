@@ -10,7 +10,6 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using MaybeMonad;
 using ResultMonad;
 
@@ -180,7 +179,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 decimal resValue = incomeList.Aggregate(decimal.Zero,
                     (agr, item) => decimal.Add(agr, item));
 
-                contractResult.AddResultValue(RoundingInt.RoundToInt(resValue));
+                contractResult.AddResultValue(RoundToInt(resValue));
                 return agr;
             });
 
@@ -686,9 +685,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsHealth healthRules = resPrHealth.Value;
 
-            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
-            decimal factorEmployee = healthRules.FactorEmployee;
-
             var resTarget = GetTypedTarget<HealthPaymEmployeeTarget>(target, period);
             if (resTarget.IsFailure)
             {
@@ -734,9 +730,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 genBaseOvercaps = Math.Max(0, (valBaseGenerals - maxBaseGenerals));
             valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
 
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(
-                OperationsDec.Multiply(maxBaseEmployee, factorCompound)
-                + OperationsDec.MultiplyAndDivide(maxBaseGenerals, factorCompound, factorEmployee));
+            Int32 employeePayment = healthRules.RoundedAugmentEmployeePaym(maxBaseGenerals, maxBaseEmployee);
 
             ITermResult resultsValues = new HealthPaymEmployeeResult(target, spec, maxBaseEmployee, maxBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
 
@@ -788,9 +782,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrHealth.Error);
             }
             IPropsHealth healthRules = resPrHealth.Value;
-
-            decimal factorCompound = OperationsDec.Divide(healthRules.FactorCompound, 100);
-            decimal factorEmployee = healthRules.FactorEmployee;
 
             var resTarget = GetTypedTarget<HealthPaymEmployerTarget>(target, period);
             if (resTarget.IsFailure)
@@ -849,12 +840,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 emrBaseOvercaps = Math.Max(0, (valBaseEmployer - maxBaseEmployer));
             valBaseOvercaps = Math.Max(0, valBaseOvercaps - emrBaseOvercaps);
 
-            Int32 compoundBasis = maxBaseEmployer + maxBaseEmployee + maxBaseGenerals;
-
-            Int32 compoundPayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(compoundBasis, factorCompound));
-            Int32 employeePayment = OperationsHealth.IntInsuranceRoundUp(OperationsDec.Multiply(maxBaseEmployee, factorCompound)
-                + OperationsDec.MultiplyAndDivide(maxBaseGenerals, factorCompound, factorEmployee));
-            Int32 employerPayment = Math.Max(0, compoundPayment - employeePayment);
+            Int32 employerPayment = healthRules.RoundedAugmentEmployerPaym(maxBaseGenerals, maxBaseEmployee, maxBaseEmployer);
 
             ITermResult resultsValues = new HealthPaymEmployerResult(target, spec, maxBaseEmployer, maxBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
 

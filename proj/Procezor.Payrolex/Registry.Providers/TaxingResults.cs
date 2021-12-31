@@ -7,6 +7,7 @@ using HraveMzdy.Legalios.Service.Types;
 using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Service.Types;
+using HraveMzdy.Legalios.Service.Interfaces;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
@@ -126,7 +127,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // TaxingIncomeHealth		TAXING_INCOME_HEALTH
-    public class TaxingIncomeHealthResult : PayrolexTermResult
+    public class TaxingIncomeHealthResult : PayrolexTermResult, IParticyResult
     {
         public WorkTaxingTerms SubjectType { get; private set; }
         public Int16 InterestCode { get; private set; }
@@ -216,7 +217,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     }
 
     // TaxingIncomeSocial		TAXING_INCOME_SOCIAL
-    public class TaxingIncomeSocialResult : PayrolexTermResult
+    public class TaxingIncomeSocialResult : PayrolexTermResult, IParticyResult
     {
         public WorkTaxingTerms SubjectType { get; private set; }
         public Int16 InterestCode { get; private set; }

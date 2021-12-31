@@ -4,8 +4,12 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsSocial2012 : PropsSocial, IPropsSocial
+    public class PropsSocial2012 : PropsSocialBase, IPropsSocial
     {
+        public static IPropsSocial Empty()
+        {
+            return new PropsSocial2012(VERSION_ZERO);
+        }
         public PropsSocial2012(Int16 version) : base(version)
         {
         }

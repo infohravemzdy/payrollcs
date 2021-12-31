@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
+namespace HraveMzdy.Legalios.Service.Types
 {
     public static class OperationsDec
     {
@@ -100,6 +100,5 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Operations
             }
             return valueDec;
         }
-
     }
 }

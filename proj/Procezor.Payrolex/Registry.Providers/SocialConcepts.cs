@@ -10,7 +10,6 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using ResultMonad;
 using MaybeMonad;
 
@@ -179,7 +178,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 decimal resValue = incomeList.Aggregate(decimal.Zero,
                     (agr, item) => decimal.Add(agr, item));
 
-                contractResult.AddResultValue(RoundingInt.RoundToInt(resValue));
+                contractResult.AddResultValue(RoundToInt(resValue));
                 return agr;
             });
 
@@ -547,7 +546,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             IPropsSocial socialRules = resPrSocial.Value;
 
-            decimal factorEmployee = OperationsDec.Divide(socialRules.FactorEmployee, 100);
 
             var resTarget = GetTypedTarget<SocialPaymEmployeeTarget>(target, period);
             if (resTarget.IsFailure)
@@ -586,16 +584,12 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 valBaseOvercaps = resBaseOvercaps.Value.ResultValue;
             }
 
-            Int32 maxBaseEmployee = Math.Max(0, valBaseEmployee - valBaseOvercaps);
-            Int32 empBaseOvercaps = Math.Max(0, (valBaseEmployee - maxBaseEmployee));
-            valBaseOvercaps = Math.Max(0, valBaseOvercaps - empBaseOvercaps);
-
-            Int32 maxBaseGenerals = Math.Max(0, valBaseGenerals - valBaseOvercaps);
-            Int32 genBaseOvercaps = Math.Max(0, (valBaseGenerals - maxBaseGenerals));
-            valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
+            var (maxBaseEmployee, empBaseOvercaps) = socialRules.ResultOvercaps(valBaseEmployee, valBaseOvercaps);
+            var (maxBaseGenerals, genBaseOvercaps) = socialRules.ResultOvercaps(valBaseGenerals, empBaseOvercaps);
 
             Int32 sumBaseEmployee = (maxBaseEmployee + maxBaseGenerals);
-            Int32 employeePayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(sumBaseEmployee, factorEmployee));
+
+            Int32 employeePayment = socialRules.RoundedEmployeePaym(sumBaseEmployee);
 
             ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, maxBaseEmployee, maxBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
 
@@ -646,8 +640,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 return BuildFailResults(resPrSocial.Error);
             }
             IPropsSocial socialRules = resPrSocial.Value;
-
-            decimal factorEmployer = OperationsDec.Divide(socialRules.FactorEmployer, 100);
 
             var resTarget = GetTypedTarget<SocialPaymEmployerTarget>(target, period);
             if (resTarget.IsFailure)
@@ -703,7 +695,8 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             valBaseOvercaps = Math.Max(0, valBaseOvercaps - genBaseOvercaps);
 
             Int32 sumBaseEmployer = (maxBaseEmployer + maxBaseGenerals);
-            Int32 employerPayment = OperationsSocial.IntInsuranceRoundUp(OperationsDec.Multiply(sumBaseEmployer, factorEmployer));
+
+            Int32 employerPayment = socialRules.RoundedEmployerPaym(sumBaseEmployer);
 
             ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, maxBaseEmployer, maxBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
 

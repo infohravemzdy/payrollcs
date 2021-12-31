@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 
@@ -104,5 +105,44 @@ namespace HraveMzdy.Legalios.Props
         protected abstract bool HasIncomeBasedEmploymentParticy(WorkSocialTerms term);
         protected abstract bool HasIncomeBasedAgreementsParticy(WorkSocialTerms term);
         protected abstract bool HasIncomeCumulatedParticy(WorkSocialTerms term);
+        public decimal DecInsuranceRoundUp(decimal valueDec)
+        {
+            return RoundUp(valueDec);
+        }
+
+        public Int32 IntInsuranceRoundUp(decimal valueDec)
+        {
+            return RoundUp(valueDec);
+        }
+
+        public Int32 RoundedEmployeePaym(Int32 basisResult)
+        {
+            decimal factorEmployee = OperationsDec.Divide(FactorEmployee, 100);
+
+            Int32 employeePayment = IntInsuranceRoundUp(OperationsDec.Multiply(basisResult, factorEmployee));
+            return employeePayment;
+
+        }
+        public Int32 RoundedEmployerPaym(Int32 basisResult)
+        {
+            decimal factorEmployer = OperationsDec.Divide(FactorEmployer, 100);
+
+            Int32 employerPayment = IntInsuranceRoundUp(OperationsDec.Multiply(basisResult, factorEmployer));
+            return employerPayment;
+        }
+        public Tuple<Int32, Int32> ResultOvercaps(Int32 baseSuma, Int32 overCaps)
+        {
+            Int32 maxBaseEmployee = Math.Max(0, baseSuma - overCaps);
+            Int32 empBaseOvercaps = Math.Max(0, (baseSuma - maxBaseEmployee));
+            Int32 valBaseOvercaps = Math.Max(0, overCaps - empBaseOvercaps);
+
+            return new Tuple<Int32, Int32>(maxBaseEmployee, valBaseOvercaps);
+        }
+
+        public Tuple<Int32, Int32, T[]> AnnualsBasisCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis)
+            where T : IParticyResult
+        {
+            return MaximResultCut(incomeList, annuityBasis, MaxAnnualsBasis);
+        }
     }
 }

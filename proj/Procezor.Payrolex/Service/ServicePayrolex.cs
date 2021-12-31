@@ -7,8 +7,8 @@ using HraveMzdy.Procezor.Service.Interfaces;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using HraveMzdy.Procezor.Payrolex.Registry.Factories;
-using HraveMzdy.Procezor.Payrolex.Registry.Operations;
 using HraveMzdy.Procezor.Payrolex.Registry.Providers;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Procezor.Payrolex.Service
 {
