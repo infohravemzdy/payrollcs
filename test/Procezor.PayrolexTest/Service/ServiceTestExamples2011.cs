@@ -65,9 +65,9 @@ namespace Procezor.PayrolexTest.Service
         }
 
         [Fact]
-        public void ServiceExamples_153_PPomMzdaNepodPojZaporPlatTest()
+        public void ServiceExamples_193_PPomMzdaNepodPojZaporPlatTest()
         {
-            ExampleGenerator example = Example_153_PPomMzdaNepodPojZaporPlat();
+            ExampleGenerator example = Example_193_PPomMzdaNepodPojZaporPlat();
             ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
         }
 

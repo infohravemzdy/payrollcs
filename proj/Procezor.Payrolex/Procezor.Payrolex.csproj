@@ -16,6 +16,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>hravemzdy__org_publish_key.pfx</AssemblyOriginatorKeyFile>
+    <RootNamespace>HraveMzdy.Procezor.Payrolex</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

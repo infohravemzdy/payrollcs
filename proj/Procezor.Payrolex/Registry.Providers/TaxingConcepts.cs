@@ -472,8 +472,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -553,8 +551,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -698,7 +694,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -803,7 +798,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -1000,7 +994,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
@@ -1103,7 +1096,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
@@ -1434,35 +1426,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 incomeRes = RoundToInt(Math.Max(0, incomeSum));
 
-            var healthList = results
-               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_HEALTH))
-               .Select((x) => (x as TaxingAdvancesHealthResult))
-               .Where((v) => (v is not null))
-               .Select((r) => (r.ResultValue)).ToArray();
+            Int32 taxableBasis = taxingRules.TaxableIncomeBasis(incomeRes);
 
-            decimal healthSum = healthList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item));
+            Int32 advancesBase = taxingRules.RoundedBaseAdvances(incomeRes);
 
-            Int32 healthRes = RoundToInt(Math.Max(0, healthSum));
-
-            var socialList = results
-               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_SOCIAL))
-               .Select((x) => (x as TaxingAdvancesSocialResult))
-               .Where((v) => (v is not null))
-               .Select((r) => (r.ResultValue)).ToArray();
-
-            decimal socialSum = socialList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item));
-
-            Int32 socialRes = RoundToInt(Math.Max(0, socialSum));
-
-            Int32 taxableSuper = taxingRules.TaxableIncomeSupers(incomeRes, healthRes, socialRes);
-
-            Int32 advancesBase = taxingRules.RoundedBaseAdvances(incomeRes, healthRes, socialRes);
-
-            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -1552,7 +1520,73 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvancesConSpec(this.Code.Value);
+            if (period.Year >= 2021)
+            {
+                return new TaxingAdvancesConSpec(this.Code.Value);
+            }
+            return new TaxingAdvancesCon2010Spec(this.Code.Value);
+        }
+    }
+
+    class TaxingAdvancesCon2010Spec : PayrolexConceptSpec
+    {
+        public TaxingAdvancesCon2010Spec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingAdvancesTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrTaxing = GetTaxingPropsResult(ruleset, target, period);
+            if (resPrTaxing.IsFailure)
+            {
+                return BuildFailResults(resPrTaxing.Error);
+            }
+            IPropsTaxing taxingRules = resPrTaxing.Value;
+
+            var resTarget = GetTypedTarget<TaxingAdvancesTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAdvancesTarget evalTarget = resTarget.Value;
+
+            var resBaseVal = GetContractResult<TaxingAdvancesBasisResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES_BASIS));
+
+            if (resBaseVal.IsFailure)
+            {
+                return BuildFailResults(resBaseVal.Error);
+            }
+
+            var evalBaseVal = resBaseVal.Value;
+
+            Int32 advanceBasis = evalBaseVal.ResultBasis;
+
+            Int32 advanceSuper = evalBaseVal.ResultValue;
+
+            Int32 advancePaym = taxingRules.RoundedAdvancesPaym(advanceSuper, advanceBasis);
+
+            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceSuper, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
         }
     }
 
@@ -1608,11 +1642,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advanceBasis = evalBaseVal.ResultBasis;
 
-            Int32 advanceSuper = evalBaseVal.ResultValue;
+            Int32 advanceFound = evalBaseVal.ResultValue;
 
-            Int32 advancePaym = taxingRules.RoundedAdvancesPaym(advanceSuper, advanceBasis);
+            Int32 advancePaym = taxingRules.RoundedAdvancesPaym(advanceFound, advanceBasis);
 
-            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceFound, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
@@ -1706,13 +1740,17 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new TaxingAdvancesTotalConSpec(this.Code.Value);
+            if (period.Year >= 2021)
+            {
+                return new TaxingAdvancesTotalConSpec(this.Code.Value);
+            }
+            return new TaxingAdvancesTotalCon2010Spec(this.Code.Value);
         }
     }
 
-    class TaxingAdvancesTotalConSpec : PayrolexConceptSpec
+    class TaxingAdvancesTotalCon2010Spec : PayrolexConceptSpec
     {
-        public TaxingAdvancesTotalConSpec(Int32 code) : base(code)
+        public TaxingAdvancesTotalCon2010Spec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES,
@@ -1769,6 +1807,59 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 solidaryTaxing = RoundToInt(solidarySum);
 
             Int32 advancesTotals = (advancesTaxing + solidaryTaxing);
+
+            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    class TaxingAdvancesTotalConSpec : PayrolexConceptSpec
+    {
+        public TaxingAdvancesTotalConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TaxingAdvancesTotalTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<TaxingAdvancesTotalTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TaxingAdvancesTotalTarget evalTarget = resTarget.Value;
+
+            var advancesList = results
+               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_ADVANCES))
+               .Select((x) => (x as TaxingAdvancesResult))
+               .Where((v) => (v is not null))
+               .Select((r) => (r.ResultValue)).ToArray();
+
+            decimal advancesSum = advancesList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            Int32 advancesTaxing = RoundToInt(advancesSum);
+
+            Int32 advancesTotals = (advancesTaxing);
 
             ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0, DESCRIPTION_EMPTY);
 
@@ -1883,8 +1974,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -2029,7 +2118,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -2135,7 +2223,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
             ResultDelegate = ConceptEval;
@@ -2333,7 +2420,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
@@ -2436,7 +2522,6 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SUBJECT,
-                (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_HEALTH,
                 (Int32)PayrolexArticleConst.ARTICLE_TAXING_INCOME_SOCIAL,
             });
 
@@ -2765,35 +2850,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 incomeRes = RoundToInt(incomeSum);
 
-            var healthList = results
-               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_HEALTH))
-               .Select((x) => (x as TaxingWithholdHealthResult))
-               .Where((v) => (v is not null))
-               .Select((r) => (r.ResultValue)).ToArray();
+            Int32 taxableBasis = incomeRes;
 
-            decimal healthSum = healthList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item));
+            Int32 withholdBase = taxingRules.RoundedBaseWithhold(taxableBasis);
 
-            Int32 healthRes = RoundToInt(healthSum);
-
-            var socialList = results
-               .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-               .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_TAXING_WITHHOLD_SOCIAL))
-               .Select((x) => (x as TaxingWithholdSocialResult))
-               .Where((v) => (v is not null))
-               .Select((r) => (r.ResultValue)).ToArray();
-
-            decimal socialSum = socialList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item));
-
-            Int32 socialRes = RoundToInt(socialSum);
-
-            Int32 taxableSuper = incomeRes + healthRes + socialRes;
-
-            Int32 withholdBase = taxingRules.RoundedBaseWithhold(taxableSuper);
-
-            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableBasis, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

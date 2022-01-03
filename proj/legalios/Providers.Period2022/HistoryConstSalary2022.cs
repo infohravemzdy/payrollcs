@@ -16,7 +16,7 @@ namespace HraveMzdy.Legalios.Providers.Period2022
 
         public const Int32 WORKING_SHIFT_WEEK = HistoryConstSalary2021.WORKING_SHIFT_WEEK;
         public const Int32 WORKING_SHIFT_TIME = HistoryConstSalary2021.WORKING_SHIFT_TIME;
-        public const Int32 MIN_MONTHLY_WAGE = HistoryConstSalary2021.MIN_MONTHLY_WAGE;
-        public const Int32 MIN_HOURLY_WAGE = HistoryConstSalary2021.MIN_HOURLY_WAGE;
+        public const Int32 MIN_MONTHLY_WAGE = 16200;
+        public const Int32 MIN_HOURLY_WAGE = 9640;
     }
 }

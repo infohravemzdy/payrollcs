@@ -221,9 +221,12 @@ namespace HraveMzdy.Legalios.Props
         {
             decimal bonusForChild = decimal.Negate(Math.Min(0, rebated - benefit));
 
-            if (income < MarginIncomeOfTaxBonus)
+            if (MarginIncomeOfTaxBonus > 0)
             {
-                bonusForChild = 0;
+                if (income < MarginIncomeOfTaxBonus)
+                {
+                    bonusForChild = 0;
+                }
             }
             return RoundToInt(bonusForChild);
         }
@@ -231,28 +234,44 @@ namespace HraveMzdy.Legalios.Props
         {
             Int32 childBonus = BonusChildRaw(income, benefit, rebated);
 
-            if (childBonus < MinAmountOfTaxBonus)
+            if (MinAmountOfTaxBonus > 0)
             {
-                return 0;
+                if (childBonus < MinAmountOfTaxBonus)
+                {
+                    return 0;
+                }
             }
-            else if (childBonus > MaxAmountOfTaxBonus)
+            if (MaxAmountOfTaxBonus > 0)
             {
-                return MaxAmountOfTaxBonus;
+                if (childBonus > MaxAmountOfTaxBonus)
+                {
+                    return MaxAmountOfTaxBonus;
+                }
             }
             return childBonus;
         }
 
         public Int32 TaxableIncomeSupers(Int32 incomeResult, Int32 healthResult, Int32 socialResult)
         {
-            Int32 taxableSuper = Math.Max(0, incomeResult + healthResult + socialResult);
+            return TaxableIncomeBasis(incomeResult + healthResult + socialResult);
+        }
+
+        public Int32 TaxableIncomeBasis(Int32 incomeResult)
+        {
+            Int32 taxableSuper = Math.Max(0, incomeResult);
             return taxableSuper;
         }
 
         public Int32 RoundedBaseAdvances(Int32 incomeResult, Int32 healthResult, Int32 socialResult)
         {
-            Int32 taxableSuper = TaxableIncomeSupers(incomeResult, healthResult, socialResult);
+            Int32 advanceBase = RoundedBaseAdvances(incomeResult + healthResult + socialResult);
 
-            Int32 amountForCalc = Math.Max(0, taxableSuper);
+            return advanceBase;
+        }
+
+        public Int32 RoundedBaseAdvances(Int32 incomeResult)
+        {
+            Int32 amountForCalc = TaxableIncomeBasis(incomeResult);
 
             Int32 advanceBase = 0;
             if (amountForCalc <= MarginIncomeOfRounding)
@@ -277,22 +296,7 @@ namespace HraveMzdy.Legalios.Props
             }
             return solidaryBase;
         }
-        public Int32 RoundedAdvancesPaym(Int32 supersResult, Int32 basisResult)
-        {
-            decimal factorAdvances = OperationsDec.Divide(FactorAdvances, 100);
-
-            Int32 advanceTaxing = 0;
-            if (basisResult <= MarginIncomeOfRounding)
-            {
-                advanceTaxing = IntTaxRoundUp(OperationsDec.Multiply(supersResult, factorAdvances));
-            }
-            else
-            {
-                advanceTaxing = IntTaxRoundUp(OperationsDec.Multiply(supersResult, factorAdvances));
-            }
-
-            return advanceTaxing;
-        }
+        public abstract Int32 RoundedAdvancesPaym(Int32 supersResult, Int32 basisResult);
         public Int32 RoundedSolidaryPaym(Int32 basisResult)
         {
             decimal factorSolidary = OperationsDec.Divide(FactorSolidary, 100);

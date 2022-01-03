@@ -22,7 +22,7 @@ namespace HraveMzdy.Legalios.Providers.Period2022
     {
         public const Int16 VERSION_CODE = 2022;
 
-        public const Int32 MAX_ANNUALS_BASIS = HistoryConstSocial2021.MAX_ANNUALS_BASIS;
+        public const Int32 MAX_ANNUALS_BASIS = 1867728;
         public const decimal FACTOR_EMPLOYER = HistoryConstSocial2021.FACTOR_EMPLOYER;
         public const decimal FACTOR_EMPLOYER_HIGHER = HistoryConstSocial2021.FACTOR_EMPLOYER_HIGHER;
         public const decimal FACTOR_EMPLOYEE = HistoryConstSocial2021.FACTOR_EMPLOYEE;

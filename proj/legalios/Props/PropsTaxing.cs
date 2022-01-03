@@ -88,5 +88,33 @@ namespace HraveMzdy.Legalios.Props
             }
             return withholdIncome;
         }
+        public override Int32 RoundedAdvancesPaym(Int32 basisResult, Int32 foundResult)
+        {
+            decimal factorAdvances = OperationsDec.Divide(FactorAdvances, 100);
+            decimal factorTaxRate2 = OperationsDec.Divide(FactorTaxRate2, 100);
+
+            Int32 taxRate1Basis = basisResult;
+            Int32 taxRate2Basis = 0;
+            if (MarginIncomeOfTaxRate2 != 0)
+            {
+                taxRate1Basis = Math.Min(basisResult, MarginIncomeOfTaxRate2);
+                taxRate2Basis = Math.Max(0, basisResult - MarginIncomeOfTaxRate2);
+            }
+            decimal taxRate1Taxing = 0;
+            if (foundResult <= MarginIncomeOfRounding)
+            {
+                taxRate1Taxing = OperationsDec.Multiply(taxRate1Basis, factorAdvances);
+            }
+            else
+            {
+                taxRate1Taxing = OperationsDec.Multiply(taxRate1Basis, factorAdvances);
+            }
+            decimal taxRate2Taxing = 0;
+            if (MarginIncomeOfTaxRate2 != 0)
+            {
+                taxRate2Taxing = OperationsDec.Multiply(taxRate2Basis, factorTaxRate2);
+            }
+            return IntTaxRoundUp(taxRate1Taxing + taxRate2Taxing);
+        }
     }
 }
