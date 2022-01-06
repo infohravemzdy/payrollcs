@@ -8,139 +8,208 @@ using HraveMzdy.Procezor.Optimula.Registry.Constants;
 
 namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 {
-    // ContractTimePlan		CONTRACT_TIME_PLAN
-    class ContractTimePlanArtProv : ArticleSpecProvider
+    // TimesheetsPlan		TIMESHEETS_PLAN
+    class TimesheetsPlanArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_CONTRACT_TIME_PLAN;
-        public ContractTimePlanArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_PLAN;
+        public TimesheetsPlanArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new ContractTimePlanArtSpec(this.Code.Value);
+            return new TimesheetsPlanArtSpec(this.Code.Value);
         }
     }
 
-    class ContractTimePlanArtSpec : ArticleSpec
+    class TimesheetsPlanArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_CONTRACT_TIME_PLAN;
-        public ContractTimePlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_PLAN;
+        public TimesheetsPlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // ContractTimeWork		CONTRACT_TIME_WORK
-    class ContractTimeWorkArtProv : ArticleSpecProvider
+    // TimesheetsWork		TIMESHEETS_WORK
+    class TimesheetsWorkArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_CONTRACT_TIME_WORK;
-        public ContractTimeWorkArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_WORK;
+        public TimesheetsWorkArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new ContractTimeWorkArtSpec(this.Code.Value);
+            return new TimesheetsWorkArtSpec(this.Code.Value);
         }
     }
 
-    class ContractTimeWorkArtSpec : ArticleSpec
+    class TimesheetsWorkArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_CONTRACT_TIME_WORK;
-        public ContractTimeWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_WORK;
+        public TimesheetsWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PaymentMsalary		PAYMENT_MSALARY
-    class PaymentMsalaryArtProv : ArticleSpecProvider
+    // TimeactualWork		TIMEACTUAL_WORK
+    class TimeactualWorkArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PAYMENT_MSALARY;
-        public PaymentMsalaryArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK;
+        public TimeactualWorkArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PaymentMsalaryArtSpec(this.Code.Value);
+            return new TimeactualWorkArtSpec(this.Code.Value);
         }
     }
 
-    class PaymentMsalaryArtSpec : ArticleSpec
+    class TimeactualWorkArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMEACTUAL_WORK;
+        public TimeactualWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // MsalaryBasical		MSALARY_BASICAL
+    class MsalaryBasicalArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MSALARY_BASICAL;
+        public MsalaryBasicalArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new MsalaryBasicalArtSpec(this.Code.Value);
+        }
+    }
+
+    class MsalaryBasicalArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_BASIS;
-        public PaymentMsalaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MsalaryBasicalArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PaymentMperson		PAYMENT_MPERSON
-    class PaymentMpersonArtProv : ArticleSpecProvider
+    // MsalaryBonused		MSALARY_BONUSED
+    class MsalaryBonusedArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PAYMENT_MPERSON;
-        public PaymentMpersonArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MSALARY_BONUSED;
+        public MsalaryBonusedArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PaymentMpersonArtSpec(this.Code.Value);
+            return new MsalaryBonusedArtSpec(this.Code.Value);
         }
     }
 
-    class PaymentMpersonArtSpec : ArticleSpec
+    class MsalaryBonusedArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS;
-        public PaymentMpersonArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MsalaryBonusedArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PaymentPremium		PAYMENT_PREMIUM
-    class PaymentPremiumArtProv : ArticleSpecProvider
+    // PremiumBonused		PREMIUM_BONUSED
+    class PremiumBonusedArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PAYMENT_PREMIUM;
-        public PaymentPremiumArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BONUSED;
+        public PremiumBonusedArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PaymentPremiumArtSpec(this.Code.Value);
+            return new PremiumBonusedArtSpec(this.Code.Value);
         }
     }
 
-    class PaymentPremiumArtSpec : ArticleSpec
+    class PremiumBonusedArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PaymentPremiumArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremiumBonusedArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PaymentAgrwork		PAYMENT_AGRWORK
-    class PaymentAgrworkArtProv : ArticleSpecProvider
+    // PremiumBossing		PREMIUM_BOSSING
+    class PremiumBossingArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PAYMENT_AGRWORK;
-        public PaymentAgrworkArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BOSSING;
+        public PremiumBossingArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PaymentAgrworkArtSpec(this.Code.Value);
+            return new PremiumBossingArtSpec(this.Code.Value);
         }
     }
 
-    class PaymentAgrworkArtSpec : ArticleSpec
+    class PremiumBossingArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
+        public PremiumBossingArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // PremiumPersona		PREMIUM_PERSONA
+    class PremiumPersonaArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_PERSONA;
+        public PremiumPersonaArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PremiumPersonaArtSpec(this.Code.Value);
+        }
+    }
+
+    class PremiumPersonaArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
+        public PremiumPersonaArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // AllowceAgrwork		ALLOWCE_AGRWORK
+    class AllowceAgrworkArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_AGRWORK;
+        public AllowceAgrworkArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new AllowceAgrworkArtSpec(this.Code.Value);
+        }
+    }
+
+    class AllowceAgrworkArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS;
-        public PaymentAgrworkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceAgrworkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

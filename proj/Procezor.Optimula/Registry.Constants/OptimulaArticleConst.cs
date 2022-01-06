@@ -9,14 +9,17 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
 {
     public enum OptimulaArticleConst : Int32
     {
-        ARTICLE_CONTRACT_TIME_PLAN,     // Full Timesheet Hours
-        ARTICLE_CONTRACT_TIME_WORK,     // Work Timesheet Hours
-        ARTICLE_PAYMENT_MSALARY,        // Base Salary
-        ARTICLE_PAYMENT_MPERSON,        // Personal Allowance
-        ARTICLE_PAYMENT_PREMIUM,        // Premium Bonus
-        ARTICLE_PAYMENT_AGRWORK,        // Agreement Percent Limit
-        ARTICLE_ALLOWCE_HOFFICE,        // HomeOffice Tariff
-        ARTICLE_ALLOWCE_CLOTHES,        // Clothing Tarrif
+        ARTICLE_TIMESHEETS_PLAN,     // Full Timesheets Hours
+        ARTICLE_TIMESHEETS_WORK,     // Work Timesheets Hours
+        ARTICLE_TIMEACTUAL_WORK,     // Work Timeactual Hours
+        ARTICLE_MSALARY_BASICAL,     // Base Salary
+        ARTICLE_MSALARY_BONUSED,     // Personal  Salary
+        ARTICLE_PREMIUM_BONUSED,     // Premium Bonus
+        ARTICLE_PREMIUM_BOSSING,     // Premium Boss
+        ARTICLE_PREMIUM_PERSONA,     // Premium Personal
+        ARTICLE_ALLOWCE_AGRWORK,     // Agreement Tariff
+        ARTICLE_ALLOWCE_HOFFICE,     // HomeOffice Tariff
+        ARTICLE_ALLOWCE_CLOTHES,     // Clothing Tarrif
         //ARTICLE_SETTLEMENT_ALLOWANCE,   // Settlement from allowance
         //ARTICLE_OVER_TIME,              // OverTimesheet Hours
         //ARTICLE_ABSENCE_TIME,           // Absence Timesheet Hours

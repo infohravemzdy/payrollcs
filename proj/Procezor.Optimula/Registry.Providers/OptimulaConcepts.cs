@@ -12,23 +12,23 @@ using ResultMonad;
 
 namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 {
-    // ContractTimePlan			CONTRACT_TIME_PLAN
-    class ContractTimePlanConProv : ConceptSpecProvider
+    // TimesheetsPlan			TIMESHEETS_PLAN
+    class TimesheetsPlanConProv : ConceptSpecProvider
     {
-        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_CONTRACT_TIME_PLAN;
-        public ContractTimePlanConProv() : base(CONCEPT_CODE)
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_PLAN;
+        public TimesheetsPlanConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new ContractTimePlanConSpec(this.Code.Value);
+            return new TimesheetsPlanConSpec(this.Code.Value);
         }
     }
 
-    class ContractTimePlanConSpec : OptimulaConceptSpec
+    class TimesheetsPlanConSpec : OptimulaConceptSpec
     {
-        public ContractTimePlanConSpec(Int32 code) : base(code)
+        public TimesheetsPlanConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -44,42 +44,42 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new ContractTimePlanTarget(month, con, pos, var, article, this.Code, 0),
+                new TimesheetsPlanTarget(month, con, pos, var, article, this.Code, 0),
             };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<ContractTimePlanTarget>(target, period);
+            var resTarget = GetTypedTarget<TimesheetsPlanTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            ContractTimePlanTarget evalTarget = resTarget.Value;
+            TimesheetsPlanTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new ContractTimePlanResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TimesheetsPlanResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }
     }
 
-    // ContractTimeWork			CONTRACT_TIME_WORK
-    class ContractTimeWorkConProv : ConceptSpecProvider
+    // TimesheetsWork			TIMESHEETS_WORK
+    class TimesheetsWorkConProv : ConceptSpecProvider
     {
-        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_CONTRACT_TIME_WORK;
-        public ContractTimeWorkConProv() : base(CONCEPT_CODE)
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_WORK;
+        public TimesheetsWorkConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new ContractTimeWorkConSpec(this.Code.Value);
+            return new TimesheetsWorkConSpec(this.Code.Value);
         }
     }
 
-    class ContractTimeWorkConSpec : OptimulaConceptSpec
+    class TimesheetsWorkConSpec : OptimulaConceptSpec
     {
-        public ContractTimeWorkConSpec(Int32 code) : base(code)
+        public TimesheetsWorkConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -95,20 +95,71 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new ContractTimeWorkTarget(month, con, pos, var, article, this.Code, 0),
+                new TimesheetsWorkTarget(month, con, pos, var, article, this.Code, 0),
             };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<ContractTimeWorkTarget>(target, period);
+            var resTarget = GetTypedTarget<TimesheetsWorkTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            ContractTimeWorkTarget evalTarget = resTarget.Value;
+            TimesheetsWorkTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new ContractTimeWorkResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TimesheetsWorkResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // TimeactualWork			TIMEACTUAL_WORK
+    class TimeactualWorkConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMEACTUAL_WORK;
+        public TimeactualWorkConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new TimeactualWorkConSpec(this.Code.Value);
+        }
+    }
+
+    class TimeactualWorkConSpec : OptimulaConceptSpec
+    {
+        public TimeactualWorkConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new TimeactualWorkTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<TimeactualWorkTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            TimeactualWorkTarget evalTarget = resTarget.Value;
+
+            ITermResult resultsValues = new TimeactualWorkResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
 
             return BuildOkResults(resultsValues);
         }

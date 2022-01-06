@@ -9,12 +9,12 @@ using HraveMzdy.Procezor.Optimula.Registry.Constants;
 
 namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 {
-    // ContractTimePlan		CONTRACT_TIME_PLAN
-    public class ContractTimePlanTarget : OptimulaTermTarget
+    // TimesheetsPlan		TIMESHEETS_PLAN
+    public class TimesheetsPlanTarget : OptimulaTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
-        public ContractTimePlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public TimesheetsPlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
@@ -23,12 +23,26 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // ContractTimeWork		CONTRACT_TIME_WORK
-    public class ContractTimeWorkTarget : OptimulaTermTarget
+    // TimesheetsWork		TIMESHEETS_WORK
+    public class TimesheetsWorkTarget : OptimulaTermTarget
     {
         public Int32 TargetVals { get; private set; }
 
-        public ContractTimeWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public TimesheetsWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 targetVals) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+        {
+            TargetVals = targetVals;
+        }
+    }
+
+    // TimeactualWork		TIMEACTUAL_WORK
+    public class TimeactualWorkTarget : OptimulaTermTarget
+    {
+        public Int32 TargetVals { get; private set; }
+
+        public TimeactualWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)

@@ -9,15 +9,16 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
 {
     public enum OptimulaConceptConst : Int32
     {
-        CONCEPT_CONTRACT_TIME_PLAN,
-        CONCEPT_CONTRACT_TIME_WORK,
+        CONCEPT_TIMESHEETS_PLAN,
+        CONCEPT_TIMESHEETS_WORK,
+        CONCEPT_TIMEACTUAL_WORK, 
         CONCEPT_PAYMENT_BASIS,
         CONCEPT_OPTIMUS_BASIS,
         CONCEPT_PAYMENT_FIXED,
         CONCEPT_OPTIMUS_FIXED,
         CONCEPT_PAYMENT_HOURS,
         CONCEPT_ALLOWCE_HOURS,
-        CONCEPT_AGRWORK_HOURS, 
+        CONCEPT_AGRWORK_HOURS,
     }
     public static class ServiceConceptExtensions
     {

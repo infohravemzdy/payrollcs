@@ -8,10 +8,10 @@ using HraveMzdy.Procezor.Optimula.Registry.Constants;
 
 namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 {
-    // ContractTimePlan		CONTRACT_TIME_PLAN
-    public class ContractTimePlanResult : OptimulaTermResult
+    // TimesheetsPlan		TIMESHEETS_PLAN
+    public class TimesheetsPlanResult : OptimulaTermResult
     {
-        public ContractTimePlanResult(ITermTarget target, IArticleSpec spec,
+        public TimesheetsPlanResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
         }
@@ -21,10 +21,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // ContractTimeWork		CONTRACT_TIME_WORK
-    public class ContractTimeWorkResult : OptimulaTermResult
+    // TimesheetsWork		TIMESHEETS_WORK
+    public class TimesheetsWorkResult : OptimulaTermResult
     {
-        public ContractTimeWorkResult(ITermTarget target, IArticleSpec spec,
+        public TimesheetsWorkResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+    }
+
+    // TimeactualWork		TIMEACTUAL_WORK
+    public class TimeactualWorkResult : OptimulaTermResult
+    {
+        public TimeactualWorkResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
         {
         }
