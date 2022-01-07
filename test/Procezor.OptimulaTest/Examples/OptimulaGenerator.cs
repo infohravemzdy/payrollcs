@@ -38,6 +38,7 @@ namespace Procezor.OptimulaTest.Examples
             WorkSheetDayFunc = DefaultWorkSheetDay;
             OverSheetHrsFunc = DefaultOverSheetHrs;
             VacaRecomHrsFunc = DefaultVacaRecomHrs;
+            PaidRecomHrsFunc = DefaultPaidRecomHrs;
             HoliRecomHrsFunc = DefaultHoliRecomHrs;
             OverAllowHrsFunc = DefaultOverAllowHrs;
             OverAllowRioFunc = DefaultOverAllowRio;
@@ -49,6 +50,10 @@ namespace Procezor.OptimulaTest.Examples
             NighAllowRioFunc = DefaultNighAllowRio;
             HoliAllowHrsFunc = DefaultHoliAllowHrs;
             HoliAllowRioFunc = DefaultHoliAllowRio;
+            QClothesBaseFunc = DefaultQClothesBase;
+            QHOfficeBaseFunc = DefaultQHOfficeBase;
+            QAgrWorkBaseFunc = DefaultQAgrWorkBase;
+            QSumWorkHourFunc = DefaultQSumWorkHour;
             /*
             "$C",  "CompAgrWorkTariff",   OPTIONAL,  3), // SAZBA DPP
             "$D",  "CompAgrWorkRatio",    OPTIONAL,  4), // Procento DPP
@@ -157,6 +162,10 @@ namespace Procezor.OptimulaTest.Examples
         {
             return 0;
         }
+        private Int32 DefaultPaidRecomHrs(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return 0;
+        }
         private Int32 DefaultHoliRecomHrs(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return 0;
@@ -201,6 +210,22 @@ namespace Procezor.OptimulaTest.Examples
         {
             return 0;
         }
+        private Int32 DefaultQClothesBase(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return 0;
+        }
+        private Int32 DefaultQHOfficeBase(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return 0;
+        }
+        private Int32 DefaultQAgrWorkBase(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return 0;
+        }
+        private Int32 DefaultQSumWorkHour(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return 0;
+        }
 
         public int Id { get; }
         public string Name { get; }
@@ -225,6 +250,7 @@ namespace Procezor.OptimulaTest.Examples
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> WorkSheetDayFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> OverSheetHrsFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> VacaRecomHrsFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> PaidRecomHrsFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HoliRecomHrsFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> OverAllowHrsFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> OverAllowRioFunc { get; private set; }
@@ -236,10 +262,185 @@ namespace Procezor.OptimulaTest.Examples
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> NighAllowRioFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HoliAllowHrsFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HoliAllowRioFunc { get; private set; }
-
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QClothesBaseFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QHOfficeBaseFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QAgrWorkBaseFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QSumWorkHourFunc { get; private set; }
         public static OptimulaGenerator Spec(Int32 id, string name, string number)
         {
             return new OptimulaGenerator(id, name, number);
+        }
+        public static Int32 ParseNANothing(string valString)
+        {
+            return 0;
+        }
+        public static Int32 ParseIntNumber(string valString)
+        {
+            if (valString.Trim().Equals(""))
+            {
+                return 0;
+            }
+            string numberToParse = valString.Replace('.', ',').TrimEnd('%').Replace("Kč", "").TrimEnd(' ');
+            decimal numberValue = 0;
+            try
+            {
+                numberValue = decimal.Parse(numberToParse);
+            }
+            catch (Exception e)
+            {
+            }
+            return decimal.ToInt32(numberValue);
+        }
+        public static Int32 ParseDecNumber(string valString)
+        {
+            if (valString.Trim().Equals(""))
+            {
+                return 0;
+            }
+            string numberToParse = valString.Replace('.', ',').TrimEnd('%').Replace("Kč", "").TrimEnd(' ');
+            decimal numberValue = 0;
+            try
+            {
+                numberValue = decimal.Parse(numberToParse);
+            }
+            catch (Exception e)
+            {
+            }
+            return decimal.ToInt32(numberValue * 100);
+        }
+        public static Int32 ParseHrsNumber(string valString)
+        {
+            if (valString.Trim().Equals(""))
+            {
+                return 0;
+            }
+            string numberToParse = valString.Replace('.', ',').TrimEnd('%').Replace("Kč", "").TrimEnd(' ');
+            decimal numberValue = 0;
+            try
+            {
+                numberValue = decimal.Parse(numberToParse);
+            }
+            catch (Exception e)
+            {
+            }
+            return decimal.ToInt32(numberValue * 60);
+        }
+        public static OptimulaGenerator ParseSpec(Int32 id, string specString)
+        {
+            string[] specDefValues = specString.Split(';');
+            if (specDefValues.Length < 1)
+            {
+                return new OptimulaGenerator(id, "Unknownn", "Unknownn");
+            }
+            if (specDefValues.Length < 2)
+            {
+                return new OptimulaGenerator(id, "Unknownn", specDefValues[0]);
+            }
+            var gen = new OptimulaGenerator(id, specDefValues[1], specDefValues[0]);
+
+            Func<string, Int32>[] specParser = new Func<string, Int32>[]
+            {
+                ParseIntNumber,   //   1  EmployeeNumb	101
+                ParseNANothing,   //   2  EmployeeName	Drahota Jakub
+                ParseDecNumber,   //   3  AgrWorkTarif	105,00
+                ParseDecNumber,   //   4  AgrWorkRatio	0,14
+                ParseHrsNumber,   //   5  AgrHourLimit	0,00
+                ParseDecNumber,   //   6  AgrWorkLimit	0,00
+                ParseDecNumber,   //   7  ClothesTarif	57,00
+                ParseDecNumber,   //   8  HomeOffTarif	0,00
+                ParseHrsNumber,   //   9  HomeOffHours	0,00
+                ParseDecNumber,   //   10  MSalaryBonus	8 000,00
+                ParseHrsNumber,   //   11  HHourlyBonus	0,00
+                ParseDecNumber,   //   12  FPremiumBase	0,00
+                ParseDecNumber,   //   13  FPremiumBoss	0,00
+                ParseDecNumber,   //   14  FPremiumPers	0,00
+                ParseHrsNumber,   //   15  FullSheetHrs	176,00
+                ParseHrsNumber,   //   16  TimeSheetHrs	176,00
+                ParseHrsNumber,   //   17  HoliSheetHrs	0,00
+                ParseHrsNumber,   //   18  WorkSheetHrs	96,00
+                ParseDecNumber,   //   19  WorkSheetDay	12,00
+                ParseHrsNumber,   //   20  OverSheetHrs	40,00
+                ParseHrsNumber,   //   21  VacaRecomHrs	80,00
+                ParseHrsNumber,   //   22  PaidRecomHrs	0,00
+                ParseHrsNumber,   //   23  HoliRecomHrs	0,00
+                ParseNANothing,   //24  -----------
+                ParseNANothing,   //25  -----------
+                ParseNANothing,   //26  -----------
+                ParseHrsNumber,   //   27  OverAllowHrs	40,00
+                ParseDecNumber,   //   28  OverAllowRio	0,25
+                ParseHrsNumber,   //   29  RestAllowHrs	0,00
+                ParseDecNumber,   //   30  RestAllowRio	0,00
+                ParseHrsNumber,   //   31  WendAllowHrs	0,00
+                ParseDecNumber,   //   32  WendAllowRio	0,00
+                ParseHrsNumber,   //   33  NighAllowHrs	18,25
+                ParseDecNumber,   //   34  NighAllowRio	0,10
+                ParseHrsNumber,   //   35  HoliAllowHrs	0,00
+                ParseDecNumber,   //   36  HoliAllowRio	0,00
+                ParseDecNumber,   //   37  QClothesBase	3 506,00
+                ParseDecNumber,   //   38  QHOfficeBase	0,00
+                ParseDecNumber,   //   39  QAgrWorkBase	8 852,00
+                ParseDecNumber,   //   40  QSumWorkHour	912,08
+            };
+            Int32[] specIntValues = specDefValues.Zip(specParser).Select((x) => x.Second(x.First)).ToArray();
+
+            Func<Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32>, OptimulaGenerator>[] specGenerator = new Func<Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32>, OptimulaGenerator>[]
+            {
+                gen.WithNANothing,   //   1  EmployeeNumb	101
+                gen.WithNANothing,   //   2  EmployeeName	Drahota Jakub
+                gen.WithAgrWorkTarif,   //   3  AgrWorkTarif	105,00
+                gen.WithAgrWorkRatio,   //   4  AgrWorkRatio	0,14
+                gen.WithAgrHourLimit,   //   5  AgrHourLimit	0,00
+                gen.WithAgrWorkLimit,   //   6  AgrWorkLimit	0,00
+                gen.WithClothesTarif,   //   7  ClothesTarif	57,00
+                gen.WithHomeOffTarif,   //   8  HomeOffTarif	0,00
+                gen.WithHomeOffHours,   //   9  HomeOffHours	0,00
+                gen.WithMSalaryBonus,   //   10  MSalaryBonus	8 000,00
+                gen.WithHHourlyBonus,   //   11  HHourlyBonus	0,00
+                gen.WithFPremiumBase,   //   12  FPremiumBase	0,00
+                gen.WithFPremiumBoss,   //   13  FPremiumBoss	0,00
+                gen.WithFPremiumPers,   //   14  FPremiumPers	0,00
+                gen.WithFullSheetHrs,   //   15  FullSheetHrs	176,00
+                gen.WithTimeSheetHrs,   //   16  TimeSheetHrs	176,00
+                gen.WithHoliSheetHrs,   //   17  HoliSheetHrs	0,00
+                gen.WithWorkSheetHrs,   //   18  WorkSheetHrs	96,00
+                gen.WithWorkSheetDay,   //   19  WorkSheetDay	12,00
+                gen.WithOverSheetHrs,   //   20  OverSheetHrs	40,00
+                gen.WithVacaRecomHrs,   //   21  VacaRecomHrs	80,00
+                gen.WithPaidRecomHrs,   //   22  PaidRecomHrs	0,00
+                gen.WithHoliRecomHrs,   //   23  HoliRecomHrs	0,00
+                gen.WithNANothing,   //24  -----------
+                gen.WithNANothing,   //25  -----------
+                gen.WithNANothing,   //26  -----------
+                gen.WithOverAllowHrs,   //   27  OverAllowHrs	40,00
+                gen.WithOverAllowRio,   //   28  OverAllowRio	0,25
+                gen.WithRestAllowHrs,   //   29  RestAllowHrs	0,00
+                gen.WithRestAllowRio,   //   30  RestAllowRio	0,00
+                gen.WithWendAllowHrs,   //   31  WendAllowHrs	0,00
+                gen.WithWendAllowRio,   //   32  WendAllowRio	0,00
+                gen.WithNighAllowHrs,   //   33  NighAllowHrs	18,25
+                gen.WithNighAllowRio,   //   34  NighAllowRio	0,10
+                gen.WithHoliAllowHrs,   //   35  HoliAllowHrs	0,00
+                gen.WithHoliAllowRio,   //   36  HoliAllowRio	0,00
+                gen.WithQClothesBase,   //   37  QClothesBase	3 506,00
+                gen.WithQHOfficeBase,   //   38  QHOfficeBase	0,00
+                gen.WithQAgrWorkBase,   //   39  QAgrWorkBase	8 852,00
+                gen.WithQSumWorkHour,   //   40  QSumWorkHour	912,08
+            };
+            /*
+            EmployeeNumb;EmployeeName;AgrWorkTarif;AgrWorkRatio;AgrHourLimit;AgrWorkLimit;ClothesTarif;HomeOffTarif;HomeOffHours;MSalaryBonus;HHourlyBonus;FPremiumBase;FPremiumBoss;FPremiumPers;FullSheetHrs;TimeSheetHrs;HoliSheetHrs;WorkSheetHrs;WorkSheetDay;OverSheetHrs;VacaRecomHrs;PaidRecomHrs;HoliRecomHrs;OverAllowHrs;OverAllowRio;RestAllowHrs;RestAllowRio;WendAllowHrs;WendAllowRio;NighAllowHrs;NighAllowRio;HoliAllowHrs;HoliAllowRio;QClothesBase;QHOfficeBase;QAgrWorkBase;QSumWorkHour;
+            101;Drahota Jakub;105,00;0,14;0,00;0,00;57,00;0,00;0,00;8 000,00;0,00;0,00;0,00;0,00;176,00;176,00;0,00;96,00;12,00;40,00;80,00;0,00;0,00;40,00;0,25;0,00;0,00;0,00;0,00;18,25;0,10;0,00;0,00;3 506,00;0,00;8 852,00;912,08
+            */
+            specIntValues.Zip(specGenerator).Select((x) => x.Second(WithValue(x.First))).ToArray();
+
+            return gen;
+        }
+        protected static Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> WithValue(Int32 val)
+        {
+            return (OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (val);
+        }
+        public OptimulaGenerator WithNANothing(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            return this;
         }
         public OptimulaGenerator WithAgrWorkTarif(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
@@ -336,6 +537,11 @@ namespace Procezor.OptimulaTest.Examples
             VacaRecomHrsFunc = func;
             return this;
         }
+        public OptimulaGenerator WithPaidRecomHrs(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            PaidRecomHrsFunc = func;
+            return this;
+        }
         public OptimulaGenerator WithHoliRecomHrs(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             HoliRecomHrsFunc = func;
@@ -391,8 +597,27 @@ namespace Procezor.OptimulaTest.Examples
             HoliAllowRioFunc = func;
             return this;
         }
-
-        public string[] BuildImportString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        public OptimulaGenerator WithQClothesBase(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            QClothesBaseFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithQHOfficeBase(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            QHOfficeBaseFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithQAgrWorkBase(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            QAgrWorkBaseFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithQSumWorkHour(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            QSumWorkHourFunc = func;
+            return this;
+        }
+        public string[] BuildImportXlsString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             Int32 AgrWorkTarifVal = AgrWorkTarifFunc(this, period, ruleset, prevset);
             Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
@@ -414,6 +639,7 @@ namespace Procezor.OptimulaTest.Examples
             Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);
             Int32 OverSheetHrsVal = OverSheetHrsFunc(this, period, ruleset, prevset);
             Int32 VacaRecomHrsVal = VacaRecomHrsFunc(this, period, ruleset, prevset);
+            Int32 PaidRecomHrsVal = PaidRecomHrsFunc(this, period, ruleset, prevset);
             Int32 HoliRecomHrsVal = HoliRecomHrsFunc(this, period, ruleset, prevset);
             Int32 OverAllowHrsVal = OverAllowHrsFunc(this, period, ruleset, prevset);
             Int32 OverAllowRioVal = OverAllowRioFunc(this, period, ruleset, prevset);
@@ -425,47 +651,141 @@ namespace Procezor.OptimulaTest.Examples
             Int32 NighAllowRioVal = NighAllowRioFunc(this, period, ruleset, prevset);
             Int32 HoliAllowHrsVal = HoliAllowHrsFunc(this, period, ruleset, prevset);
             Int32 HoliAllowRioVal = HoliAllowRioFunc(this, period, ruleset, prevset);
+            Int32 QClothesBaseVal = QClothesBaseFunc(this, period, ruleset, prevset);
+            Int32 QHOfficeBaseVal = QHOfficeBaseFunc(this, period, ruleset, prevset);
+            Int32 QAgrWorkBaseVal = QAgrWorkBaseFunc(this, period, ruleset, prevset);
+            Int32 QSumWorkHourVal = QSumWorkHourFunc(this, period, ruleset, prevset);
 
             string[] valuesList = new string[]
             {
                 Number, // A
                 Name,   // B
-                $"{AgrWorkTarifVal}", // C
-                $"{AgrWorkRatioVal}", // D
-                $"{AgrHourLimitVal}", // E
-                $"{AgrWorkLimitVal}", // F
-                $"{ClothesTarifVal}", // G
-                $"{HomeOffTarifVal}", // H
-                $"{HomeOffHoursVal}", // I
-                $"{MSalaryBonusVal}", // J
-                $"{HHourlyBonusVal}", // K
-                $"{FPremiumBaseVal}", // L
-                $"{FPremiumBossVal}", // M
-                $"{FPremiumPersVal}", // N
-                $"{FullSheetHrsVal}", // O  
-                $"{TimeSheetHrsVal}", // P  
-                $"{HoliSheetHrsVal}", // Q  
-                $"{WorkSheetHrsVal}", // R  
-                $"{WorkSheetDayVal}", // S   
-                $"{OverSheetHrsVal}", // T
-                $"{VacaRecomHrsVal}", // U
-                $"{HoliRecomHrsVal}", // V  
-                "", // W     
+                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // C
+                $"{NumFormatIntX100(AgrWorkRatioVal)}", // D
+                $"{HrsFormatIntX060(AgrHourLimitVal)}", // E
+                $"{NumFormatIntX100(AgrWorkLimitVal)}", // F
+                $"{CcyFormatIntX100(ClothesTarifVal)}", // G
+                $"{CcyFormatIntX100(HomeOffTarifVal)}", // H
+                $"{HrsFormatIntX060(HomeOffHoursVal)}", // I
+                $"{CcyFormatIntX100(MSalaryBonusVal)}", // J
+                $"{CcyFormatIntX100(HHourlyBonusVal)}", // K
+                $"{CcyFormatIntX100(FPremiumBaseVal)}", // L
+                $"{CcyFormatIntX100(FPremiumBossVal)}", // M
+                $"{CcyFormatIntX100(FPremiumPersVal)}", // N
+                $"{HrsFormatIntX060(FullSheetHrsVal)}", // O  
+                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // P  
+                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // Q  
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // R  
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // S   
+                $"{HrsFormatIntX060(OverSheetHrsVal)}", // T
+                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // U
+                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // V
+                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // W  
                 "", // X     
                 "", // Y     
                 "", // Z     
-                $"{OverAllowHrsVal}", // AB
-                $"{OverAllowRioVal}", // AC
-                $"{RestAllowHrsVal}", // AD
-                $"{RestAllowRioVal}", // AE
-                $"{WendAllowHrsVal}", // AF
-                $"{WendAllowRioVal}", // AG
-                $"{NighAllowHrsVal}", // AH
-                $"{NighAllowRioVal}", // AI
-                $"{HoliAllowHrsVal}", // AJ
-                $"{HoliAllowRioVal}", // AK
-            };
+                $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
+                $"{CcyFormatIntX100(OverAllowRioVal)}", // AB
+                $"{HrsFormatIntX060(RestAllowHrsVal)}", // AC
+                $"{CcyFormatIntX100(RestAllowRioVal)}", // AD
+                $"{HrsFormatIntX060(WendAllowHrsVal)}", // AE
+                $"{CcyFormatIntX100(WendAllowRioVal)}", // AF
+                $"{HrsFormatIntX060(NighAllowHrsVal)}", // AG
+                $"{CcyFormatIntX100(NighAllowRioVal)}", // AH
+                $"{HrsFormatIntX060(HoliAllowHrsVal)}", // AI
+                $"{CcyFormatIntX100(HoliAllowRioVal)}", // AJ
+                $"{CcyFormatIntX100(QClothesBaseVal)}", // AK
+                $"{CcyFormatIntX100(QHOfficeBaseVal)}", // AL
+                $"{CcyFormatIntX100(QAgrWorkBaseVal)}", // AM
+                $"{CcyFormatIntX100(QSumWorkHourVal)}", // AN
+        };                                             
             string[] importResult = new string[] { string.Join('\t', valuesList) };
+
+            return importResult;
+        }
+        public string[] BuildImportCsvString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            Int32 AgrWorkTarifVal = AgrWorkTarifFunc(this, period, ruleset, prevset);
+            Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
+            Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
+            Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
+            Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
+            Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
+
+            Int32 MSalaryBonusVal = MSalaryBonusFunc(this, period, ruleset, prevset);
+            Int32 HHourlyBonusVal = HHourlyBonusFunc(this, period, ruleset, prevset);
+            Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
+            Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
+            Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
+            Int32 FullSheetHrsVal = FullSheetHrsFunc(this, period, ruleset, prevset);
+            Int32 TimeSheetHrsVal = TimeSheetHrsFunc(this, period, ruleset, prevset);
+            Int32 HoliSheetHrsVal = HoliSheetHrsFunc(this, period, ruleset, prevset);
+            Int32 WorkSheetHrsVal = WorkSheetHrsFunc(this, period, ruleset, prevset);
+            Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);
+            Int32 OverSheetHrsVal = OverSheetHrsFunc(this, period, ruleset, prevset);
+            Int32 VacaRecomHrsVal = VacaRecomHrsFunc(this, period, ruleset, prevset);
+            Int32 PaidRecomHrsVal = PaidRecomHrsFunc(this, period, ruleset, prevset);
+            Int32 HoliRecomHrsVal = HoliRecomHrsFunc(this, period, ruleset, prevset);
+            Int32 OverAllowHrsVal = OverAllowHrsFunc(this, period, ruleset, prevset);
+            Int32 OverAllowRioVal = OverAllowRioFunc(this, period, ruleset, prevset);
+            Int32 RestAllowHrsVal = RestAllowHrsFunc(this, period, ruleset, prevset);
+            Int32 RestAllowRioVal = RestAllowRioFunc(this, period, ruleset, prevset);
+            Int32 WendAllowHrsVal = WendAllowHrsFunc(this, period, ruleset, prevset);
+            Int32 WendAllowRioVal = WendAllowRioFunc(this, period, ruleset, prevset);
+            Int32 NighAllowHrsVal = NighAllowHrsFunc(this, period, ruleset, prevset);
+            Int32 NighAllowRioVal = NighAllowRioFunc(this, period, ruleset, prevset);
+            Int32 HoliAllowHrsVal = HoliAllowHrsFunc(this, period, ruleset, prevset);
+            Int32 HoliAllowRioVal = HoliAllowRioFunc(this, period, ruleset, prevset);
+            Int32 QClothesBaseVal = QClothesBaseFunc(this, period, ruleset, prevset);
+            Int32 QHOfficeBaseVal = QHOfficeBaseFunc(this, period, ruleset, prevset);
+            Int32 QAgrWorkBaseVal = QAgrWorkBaseFunc(this, period, ruleset, prevset);
+            Int32 QSumWorkHourVal = QSumWorkHourFunc(this, period, ruleset, prevset);
+
+            string[] valuesList = new string[]
+            {
+                Number, // A
+                Name,   // B
+                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // C
+                $"{NumFormatIntX100(AgrWorkRatioVal)}", // D
+                $"{HrsFormatIntX060(AgrHourLimitVal)}", // E
+                $"{NumFormatIntX100(AgrWorkLimitVal)}", // F
+                $"{CcyFormatIntX100(ClothesTarifVal)}", // G
+                $"{CcyFormatIntX100(HomeOffTarifVal)}", // H
+                $"{HrsFormatIntX060(HomeOffHoursVal)}", // I
+                $"{CcyFormatIntX100(MSalaryBonusVal)}", // J
+                $"{CcyFormatIntX100(HHourlyBonusVal)}", // K
+                $"{CcyFormatIntX100(FPremiumBaseVal)}", // L
+                $"{CcyFormatIntX100(FPremiumBossVal)}", // M
+                $"{CcyFormatIntX100(FPremiumPersVal)}", // N
+                $"{HrsFormatIntX060(FullSheetHrsVal)}", // O  
+                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // P  
+                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // Q  
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // R  
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // S   
+                $"{HrsFormatIntX060(OverSheetHrsVal)}", // T
+                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // U
+                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // V
+                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // W  
+                "", // X     
+                "", // Y     
+                "", // Z     
+                $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
+                $"{CcyFormatIntX100(OverAllowRioVal)}", // AB
+                $"{HrsFormatIntX060(RestAllowHrsVal)}", // AC
+                $"{CcyFormatIntX100(RestAllowRioVal)}", // AD
+                $"{HrsFormatIntX060(WendAllowHrsVal)}", // AE
+                $"{CcyFormatIntX100(WendAllowRioVal)}", // AF
+                $"{HrsFormatIntX060(NighAllowHrsVal)}", // AG
+                $"{CcyFormatIntX100(NighAllowRioVal)}", // AH
+                $"{HrsFormatIntX060(HoliAllowHrsVal)}", // AI
+                $"{CcyFormatIntX100(HoliAllowRioVal)}", // AJ
+                $"{CcyFormatIntX100(QClothesBaseVal)}", // AK
+                $"{CcyFormatIntX100(QHOfficeBaseVal)}", // AL
+                $"{CcyFormatIntX100(QAgrWorkBaseVal)}", // AM
+                $"{CcyFormatIntX100(QSumWorkHourVal)}", // AN
+            };                                             
+            string[] importResult = new string[] { string.Join(';', valuesList) + ";" };
 
             return importResult;
         }
@@ -550,6 +870,118 @@ namespace Procezor.OptimulaTest.Examples
             //targets = targets.Concat(new ITermTarget[] { targetSgn }).ToArray();
 
             return targets;
+        }
+        public static double ResultDivDouble(double dblUpper, double dblDown, double multiplex = 1.0)
+        {
+            if (dblDown == 0.0)
+            {
+                return 0;
+            }
+
+            double dblReturn = ((dblUpper / dblDown) * multiplex);
+
+            return (dblReturn);
+        }
+        public static Int32 RoundDoubleToInt(double dblValue)
+        {
+            const double NEZADANO_N0DOUBLE = 0.0;
+            double dblAdjusted5 = ((dblValue >= NEZADANO_N0DOUBLE) ? dblValue + 0.5 : dblValue - 0.5);
+            double dblRoundRown = Math.Truncate(dblAdjusted5);
+            return Convert.ToInt32(dblRoundRown);
+        }
+        public static string CcyFormatDouble(double dblValue)
+        {
+            string resultText = string.Format("{0:N2}", dblValue);
+            // No fear of rounding and takes the default number format
+            // decimal decValue = dblValue;
+            // decValue.ToString("0.00");
+            // dblValue.ToString("F");
+            // String.Format("{0:0.00}", dblValue);
+            return resultText;
+        }
+        public static string NumFormatDouble(double dblValue)
+        {
+            string resultText = string.Format("{0:0.00}", dblValue);
+            // No fear of rounding and takes the default number format
+            // decimal decValue = dblValue;
+            // decValue.ToString("0.00");
+            // dblValue.ToString("F");
+            return resultText;
+        }
+        public static string NumFormatInteger(Int32 nValue)
+        {
+            string resultText = string.Format("{0:0}", nValue);
+            // No fear of rounding and takes the default number format
+            // decimal decValue = dblValue;
+            // decValue.ToString("0.00");
+            // dblValue.ToString("F");
+            return resultText;
+        }
+        public static string HrsFormatHHMM(double dblValue)
+        {
+            int nIntSumMinut = RoundDoubleToInt(dblValue * 60);
+            int nIntHours = nIntSumMinut / 60;
+            int nIntMinut = nIntSumMinut % 60;
+
+            return string.Format("{0}:{1:00}", nIntHours, nIntMinut);
+        }
+        public static string HrsFormatDouble(double dblValue)
+        {
+            return string.Format("{0:N2}", dblValue);
+        }
+        public static string HrdFormatDouble(double dblValue)
+        {
+            return string.Format("{0:0.00}", dblValue);
+        }
+        public static string DayFormatDouble(double dblValue)
+        {
+            return string.Format("{0:N2}", dblValue);
+        }
+        public static string DecFormatDouble(double dblValue)
+        {
+            return string.Format("{0:N4}", dblValue);
+        }
+        public static string CcyFormatIntX100(Int32 value)
+        {
+            double dblValue = ResultDivDouble(value, 100);
+            return CcyFormatDouble(dblValue);
+        }
+        public static string NumFormatIntX(Int32 value, bool bIntNumbers)
+        {
+            if (bIntNumbers)
+            {
+                return NumFormatInteger(value / 100);
+            }
+            else
+            {
+                double dblValue = ResultDivDouble(value, 100);
+                return NumFormatDouble(dblValue);
+            }
+        }
+        public static string RatFormatIntX100(Int32 value)
+        {
+            double dblValue = ResultDivDouble(value, 10000);
+            return NumFormatDouble(dblValue);
+        }
+        public static string NumFormatIntX100(Int32 value)
+        {
+            double dblValue = ResultDivDouble(value, 100);
+            return NumFormatDouble(dblValue);
+        }
+        public static string HrsFormatIntX060(Int32 value)
+        {
+            double dblValue = ResultDivDouble(value, 60);
+            return HrsFormatDouble(dblValue);
+        }
+        public static string HrdFormatIntX060(Int32 value)
+        {
+            double dblValue = ResultDivDouble(value, 60);
+            return HrdFormatDouble(dblValue);
+        }
+        public static string DayFormatIntX100(Int32 value)
+        {
+            double dblValue = ResultDivDouble(value, 100);
+            return DayFormatDouble(dblValue);
         }
     }
 }
