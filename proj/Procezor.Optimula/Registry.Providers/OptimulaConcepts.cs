@@ -57,7 +57,11 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             TimesheetsPlanTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TimesheetsPlanResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 fullSheetHrsVal = evalTarget.FullSheetHrsVal;
+
+            ITermResult resultsValues = new TimesheetsPlanResult(target, spec, 
+                fullSheetHrsVal, 
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -95,7 +99,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new TimesheetsWorkTarget(month, con, pos, var, article, this.Code, 0),
+                new TimesheetsWorkTarget(month, con, pos, var, article, this.Code, 0, 0),
             };
         }
 
@@ -108,7 +112,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             TimesheetsWorkTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TimesheetsWorkResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 timeSheetHrsVal = evalTarget.TimeSheetHrsVal;
+            Int32 holiSheetHrsVal = evalTarget.HoliSheetHrsVal;
+
+            ITermResult resultsValues = new TimesheetsWorkResult(target, spec,
+                timeSheetHrsVal, holiSheetHrsVal,
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -146,7 +155,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new TimeactualWorkTarget(month, con, pos, var, article, this.Code, 0),
+                new TimeactualWorkTarget(month, con, pos, var, article, this.Code, 0, 0, 0),
             };
         }
 
@@ -159,7 +168,13 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             TimeactualWorkTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new TimeactualWorkResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 workSheetHrsVal = evalTarget.WorkSheetHrsVal;
+            Int32 workSheetDayVal = evalTarget.WorkSheetDayVal; 
+            Int32 overSheetHrsVal = evalTarget.OverSheetHrsVal;
+
+            ITermResult resultsValues = new TimeactualWorkResult(target, spec,
+                workSheetHrsVal, workSheetDayVal, overSheetHrsVal, 
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -210,7 +225,11 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             PaymentBasisTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new PaymentBasisResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 msalaryBasisVal = evalTarget.MSalaryBasisVal;
+
+            ITermResult resultsValues = new PaymentBasisResult(target, spec, 
+                msalaryBasisVal, 
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -261,7 +280,11 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             OptimusBasisTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new OptimusBasisResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 msalaryBonusVal = evalTarget.MSalaryBonusVal;
+
+            ITermResult resultsValues = new OptimusBasisResult(target, spec, 
+                msalaryBonusVal, 
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -312,7 +335,11 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             OptimusFixedTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new OptimusFixedResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 premiumBasisVal = evalTarget.PremiumBasisVal;
+
+            ITermResult resultsValues = new OptimusFixedResult(target, spec, 
+                premiumBasisVal, 
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -350,7 +377,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new AgrworkHoursTarget(month, con, pos, var, article, this.Code, 0),
+                new AgrworkHoursTarget(month, con, pos, var, article, this.Code, 0, 0, 0, 0),
             };
         }
 
@@ -363,7 +390,92 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             AgrworkHoursTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new AgrworkHoursResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 agrWorkTarifVal = evalTarget.AgrWorkTarifVal;
+            Int32 agrWorkRatioVal = evalTarget.AgrWorkRatioVal;
+            Int32 agrWorkLimitVal = evalTarget.AgrWorkLimitVal;
+            Int32 agrHourLimitVal = evalTarget.AgrHourLimitVal;
+
+            ITermResult resultsValues = new AgrworkHoursResult(target, spec, 
+                agrWorkTarifVal, agrWorkRatioVal, agrWorkLimitVal, agrHourLimitVal,
+                0, 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // AllowceHFull			ALLOWCE_HFULL
+    class AllowceHFullConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL;
+        public AllowceHFullConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new AllowceHFullConSpec(this.Code.Value);
+        }
+    }
+
+    class AllowceHFullConSpec : OptimulaConceptSpec
+    {
+        public AllowceHFullConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new AllowceHFullTarget(month, con, pos, var, article, this.Code, 0, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<AllowceHFullTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            AllowceHFullTarget evalTarget = resTarget.Value;
+
+            Int32 allowceTarifVal = evalTarget.AllowceTarifVal;
+            Int32 allowceHFullVal = evalTarget.AllowceHFullVal;
+
+            var resTimeWork = GetPositionResult<TimesheetsWorkResult>(target, period, results,
+               target.Contract, target.Position, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_WORK));
+
+            var resTimeActa = GetPositionResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, target.Position, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            var resCompound = GetFailedOrOk(resTimeWork.ErrOrOk(), resTimeActa.ErrOrOk());
+            if (resCompound.IsFailure)
+            {
+                return BuildFailResults(resCompound.Error);
+            }
+            var evalTimeWork = resTimeWork.Value;
+
+            var evalTimeActa = resTimeActa.Value;
+
+            Int32 hoursLiable = evalTimeWork.TimeSheetHrsVal;
+            Int32 hoursWorked = evalTimeActa.WorkSheetHrsVal;
+
+            Int32 coefTimeWorkRes = hoursWorked / hoursLiable;
+            Int32 hoursAllowceRes = coefTimeWorkRes * allowceHFullVal;
+            Int32 allowceValueRes = allowceTarifVal * hoursAllowceRes;
+
+            ITermResult resultsValues = new AllowceHFullResult(target, spec, 
+                allowceTarifVal, allowceHFullVal, 
+                0, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -414,7 +526,25 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             AllowceHoursTarget evalTarget = resTarget.Value;
 
-            ITermResult resultsValues = new AllowceHoursResult(target, spec, 0, 0, DESCRIPTION_EMPTY);
+            Int32 allowceTarifVal = evalTarget.AllowceTarifVal;
+
+            var resTimeActa = GetPositionResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, target.Position, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            if (resTimeActa.IsFailure)
+            {
+                return BuildFailResults(resTimeActa.Error);
+            }
+
+            var evalTimeActa = resTimeActa.Value;
+
+            Int32 hoursWorked = evalTimeActa.WorkSheetHrsVal;
+
+            Int32 allowceValueRes = allowceTarifVal * hoursWorked;
+
+            ITermResult resultsValues = new AllowceHoursResult(target, spec, 
+                allowceTarifVal, 
+                0, allowceValueRes);
 
             return BuildOkResults(resultsValues);
         }

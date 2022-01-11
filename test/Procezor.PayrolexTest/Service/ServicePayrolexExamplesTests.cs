@@ -91,7 +91,7 @@ namespace Procezor.PayrolexTest.Service
             {
                 if (result.IsSuccess)
                 {
-                    var resultValue = result.Value;
+                    var resultValue = result.Value as PayrolexTermResult;
                     var articleSymbol = resultValue.ArticleDescr();
                     var conceptSymbol = resultValue.ConceptDescr();
                     output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());

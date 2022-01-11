@@ -15,7 +15,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public WorkContractTerms TermType { get; private set; }
         public Byte TermDayFrom { get; private set; }
         public Byte TermDayStop { get; private set; }
-        public ContractWorkTermResult(ITermTarget target, IArticleSpec spec, WorkContractTerms termType, Byte dayTermFrom, Byte dayTermStop) : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+        public ContractWorkTermResult(ITermTarget target, IArticleSpec spec, WorkContractTerms termType, Byte dayTermFrom, Byte dayTermStop) : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             TermType = termType;
             TermDayFrom = dayTermFrom;
@@ -33,7 +33,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public string TermName { get; private set; }
         public Byte TermDayFrom { get; private set; }
         public Byte TermDayStop { get; private set; }
-        public PositionWorkTermResult(ITermTarget target, IArticleSpec spec, string termName, Byte dayFrom, Byte dayStop) : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+        public PositionWorkTermResult(ITermTarget target, IArticleSpec spec, string termName, Byte dayFrom, Byte dayStop) : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             TermName = termName;
             TermDayFrom = dayFrom;

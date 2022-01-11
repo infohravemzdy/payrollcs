@@ -91,7 +91,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 shiftLiable, shiftWorked,
                 hoursLiable, hoursWorked);
             ITermResult resultsValues = new PaymentBasisResult(target, spec,
-                salaryRules.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
+                salaryRules.RoundUp(resValue), evalTarget.TargetBasis);
 
             return BuildOkResults(resultsValues);
         }
@@ -146,7 +146,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Decimal resValue = salaryRules.SalaryAmountFixedValue(evalTarget.TargetBasis);
 
             ITermResult resultsValues = new PaymentFixedResult(target, spec,
-                salaryRules.RoundUp(resValue), evalTarget.TargetBasis, DESCRIPTION_EMPTY);
+                salaryRules.RoundUp(resValue), evalTarget.TargetBasis);
 
             return BuildOkResults(resultsValues);
         }

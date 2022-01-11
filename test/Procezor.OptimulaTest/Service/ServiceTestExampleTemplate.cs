@@ -358,7 +358,7 @@ namespace Procezor.OptimulaTest.Service
                 {
                     if (result.IsSuccess)
                     {
-                        var resultValue = result.Value;
+                        var resultValue = result.Value as OptimulaTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
                         output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
@@ -435,7 +435,7 @@ namespace Procezor.OptimulaTest.Service
                 {
                     if (result.IsSuccess)
                     {
-                        var resultValue = result.Value;
+                        var resultValue = result.Value as OptimulaTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
                         output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
@@ -458,10 +458,6 @@ namespace Procezor.OptimulaTest.Service
         public OptimulaGenerator Example_101_OPTDppPremieZaklad()
         {
             return OptimulaGenerator.ParseSpec(101, "101;Drahota Jakub;105,00;0,14;0,00;0,00;57,00;0,00;0,00;8 000,00;0,00;0,00;0,00;0,00;176,00;176,00;0,00;96,00;12,00;40,00;80,00;0,00;0,00;40,00;0,25;0,00;0,00;0,00;0,00;18,25;0,10;0,00;0,00;3 506,00;0,00;8 852,00;912,08");
-        }
-        protected static Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> OptValue(Int32 val)
-        {
-            return (OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (val);
         }
     }
 }

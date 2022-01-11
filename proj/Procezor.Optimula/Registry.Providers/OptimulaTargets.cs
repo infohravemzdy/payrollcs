@@ -12,112 +12,140 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     // TimesheetsPlan		TIMESHEETS_PLAN
     public class TimesheetsPlanTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 FullSheetHrsVal { get; private set; }
 
         public TimesheetsPlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 fullSheetHrsVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            FullSheetHrsVal = fullSheetHrsVal;
         }
     }
 
     // TimesheetsWork		TIMESHEETS_WORK
     public class TimesheetsWorkTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 TimeSheetHrsVal { get; private set; }
+        public Int32 HoliSheetHrsVal { get; private set; }
 
         public TimesheetsWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 timeSheetHrsVal, Int32 holiSheetHrsVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            TimeSheetHrsVal = timeSheetHrsVal;
+            HoliSheetHrsVal = holiSheetHrsVal;
         }
     }
 
     // TimeactualWork		TIMEACTUAL_WORK
     public class TimeactualWorkTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 WorkSheetHrsVal { get; private set; }
+        public Int32 WorkSheetDayVal { get; private set; }
+        public Int32 OverSheetHrsVal { get; private set; }
 
         public TimeactualWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 workSheetHrsVal, Int32 workSheetDayVal, Int32 overSheetHrsVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            WorkSheetHrsVal = workSheetHrsVal;
+            WorkSheetDayVal = workSheetDayVal;
+            OverSheetHrsVal = overSheetHrsVal;
         }
     }
 
     // PaymentBasis		PAYMENT_BASIS
     public class PaymentBasisTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 MSalaryBasisVal { get; private set; }
 
         public PaymentBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 msalaryBasisVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            MSalaryBasisVal = msalaryBasisVal;
         }
     }
 
     // OptimusBasis		OPTIMUS_BASIS
     public class OptimusBasisTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 MSalaryBonusVal { get; private set; }
 
         public OptimusBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 msalaryBonusVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            MSalaryBonusVal = msalaryBonusVal;
         }
     }
 
     // OptimusFixed		OPTIMUS_FIXED
     public class OptimusFixedTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 PremiumBasisVal { get; private set; }
 
         public OptimusFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 premiumBasisVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            PremiumBasisVal = premiumBasisVal;
         }
     }
 
     // AgrworkHours		AGRWORK_HOURS
     public class AgrworkHoursTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 AgrWorkTarifVal { get; private set; }
+        public Int32 AgrWorkRatioVal { get; private set; }
+        public Int32 AgrWorkLimitVal { get; private set; }
+        public Int32 AgrHourLimitVal { get; private set; }
 
         public AgrworkHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 agrWorkTarifVal, Int32 agrWorkRatioVal, Int32 agrWorkLimitVal, Int32 agrHourLimitVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            AgrWorkTarifVal = agrWorkTarifVal;
+            AgrWorkRatioVal = agrWorkRatioVal;
+            AgrWorkLimitVal = agrWorkLimitVal;
+            AgrHourLimitVal = agrHourLimitVal;
+        }
+    }
+
+    // AllowceHFull		ALLOWCE_HFULL
+    public class AllowceHFullTarget : OptimulaTermTarget
+    {
+        public Int32 AllowceTarifVal { get; private set; }
+        public Int32 AllowceHFullVal { get; private set; }
+
+        public AllowceHFullTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceTarifVal, Int32 allowceHFullVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceTarifVal = allowceTarifVal;
+            AllowceHFullVal = allowceHFullVal;
         }
     }
 
     // AllowceHours		ALLOWCE_HOURS
     public class AllowceHoursTarget : OptimulaTermTarget
     {
-        public Int32 TargetVals { get; private set; }
+        public Int32 AllowceTarifVal { get; private set; }
 
         public AllowceHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            Int32 allowceTarifVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
-            TargetVals = targetVals;
+            AllowceTarifVal = allowceTarifVal;
         }
     }
 

@@ -60,12 +60,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.ResultValue)).ToArray();
 
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            ITermResult resultsValues = new IncomeGrossResult(target, spec, RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new IncomeGrossResult(target, spec, RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -188,6 +189,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.ResultValue)).ToArray();
 
             decimal resNetto = incomeList.Aggregate(decimal.Zero,
@@ -206,7 +208,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 decimal.Add(decimal.Add(paymentHealth, paymentSocial), 
                 decimal.Add(paymentAdvances, paymentWithhold))), evalBonusChild);
 
-            ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new IncomeNettoResult(target, spec, RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -264,6 +266,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.ResultValue)).ToArray();
 
             decimal resValue = incomeList.Aggregate(decimal.Zero,
@@ -272,6 +275,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var costHealthList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_HEALTH_PAYM_EMPLOYER))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.ResultValue)).ToArray();
 
             decimal costHealthValue = costHealthList.Aggregate(decimal.Zero,
@@ -282,6 +286,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var costSocialList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Article.Value == (Int32)PayrolexArticleConst.ARTICLE_SOCIAL_PAYM_EMPLOYER))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.ResultValue)).ToArray();
 
             decimal costSocialValue = costSocialList.Aggregate(decimal.Zero,
@@ -289,7 +294,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             resValue = decimal.Add(resValue, costSocialValue);
 
-            ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundToInt(resValue), 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new EmployerCostsResult(target, spec, RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
         }

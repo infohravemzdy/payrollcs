@@ -231,7 +231,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
     class AllowceHofficeArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL;
         public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();

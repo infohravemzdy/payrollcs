@@ -19,7 +19,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public PositionWorkPlanResult(ITermTarget target, IArticleSpec spec, 
             WorkScheduleType workType, Int32[] fullWeeks, Int32[] realWeeks, Int32[] fullMonth, Int32[] realMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             WorkType = workType;
             HoursFullWeeks = fullWeeks.ToArray();
@@ -58,7 +58,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32[] HoursTermMonth { get; private set; }
         public PositionTimePlanResult(ITermTarget target, IArticleSpec spec, Byte dayTermFrom, Byte dayTermStop, 
             Int32[] realMonth, Int32[] termMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             TermDayFrom = dayTermFrom;
             TermDayStop = dayTermStop;
@@ -86,7 +86,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Byte TermDayStop { get; private set; }
         public Int32[] HoursTermMonth { get; private set; }
         public PositionTimeWorkResult(ITermTarget target, IArticleSpec spec, Byte dayTermFrom, Byte dayTermStop, Int32[] termMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             TermDayFrom = dayTermFrom;
             TermDayStop = dayTermStop;
@@ -109,7 +109,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Byte TermDayStop { get; private set; }
         public Int32[] HoursTermMonth { get; private set; }
         public PositionTimeAbscResult(ITermTarget target, IArticleSpec spec, Byte dayTermFrom, Byte dayTermStop, Int32[] termMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             TermDayFrom = dayTermFrom;
             TermDayStop = dayTermStop;
@@ -130,7 +130,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public Int32[] HoursTimeMonth { get; private set; }
         public ContractTimePlanResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             HoursTimeMonth = timeMonth.ToArray();
         }
@@ -149,7 +149,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public Int32[] HoursTimeMonth { get; private set; }
         public ContractTimeWorkResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             HoursTimeMonth = timeMonth.ToArray();
         }
@@ -168,7 +168,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public Int32[] HoursTimeMonth { get; private set; }
         public ContractTimeAbscResult(ITermTarget target, IArticleSpec spec, Int32[] timeMonth)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             HoursTimeMonth = timeMonth.ToArray();
         }

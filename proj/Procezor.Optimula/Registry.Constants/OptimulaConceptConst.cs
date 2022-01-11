@@ -17,6 +17,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         CONCEPT_PAYMENT_FIXED,
         CONCEPT_OPTIMUS_FIXED,
         CONCEPT_PAYMENT_HOURS,
+        CONCEPT_ALLOWCE_HFULL,
         CONCEPT_ALLOWCE_HOURS,
         CONCEPT_AGRWORK_HOURS,
     }

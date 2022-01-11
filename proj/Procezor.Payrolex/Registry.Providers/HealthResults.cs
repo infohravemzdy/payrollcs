@@ -19,7 +19,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public HealthDeclareResult(ITermTarget target, IArticleSpec spec, 
             Int16 interestCode, WorkHealthTerms contractType, Int16 mandatorBase) 
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             InterestCode = interestCode;
             ContractType = contractType;
@@ -40,7 +40,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public HealthIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
             Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -145,7 +145,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public HealthBaseResult(ITermTarget target, IArticleSpec spec,
             Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
-            Int32 annuityBase, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 annuityBase, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -163,7 +163,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class HealthBaseEmployeeResult : PayrolexTermResult
     {
         public HealthBaseEmployeeResult(ITermTarget target, IArticleSpec spec, 
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -175,7 +175,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // HealthBaseEmployer		HEALTH_BASE_EMPLOYER
     public class HealthBaseEmployerResult : PayrolexTermResult
     {
-        public HealthBaseEmployerResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public HealthBaseEmployerResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -193,7 +193,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public HealthBaseMandateResult(ITermTarget target, ContractCode con, IArticleSpec spec,
             Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -276,7 +276,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public HealthBaseOvercapResult(ITermTarget target, ContractCode con, IArticleSpec spec,
             Int16 interestCode, WorkHealthTerms subjectType, Int16 mandatorBase, Int16 particyCode, 
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -352,7 +352,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32 EmployeeBasis { get; private set; }
         public Int32 GeneralsBasis { get; private set; }
         public HealthPaymEmployeeResult(ITermTarget target, IArticleSpec spec,
-            Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             EmployeeBasis = employeeBasis;
             GeneralsBasis = generalsBasis;
@@ -373,7 +373,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32 EmployerBasis { get; private set; }
         public Int32 GeneralsBasis { get; private set; }
         public HealthPaymEmployerResult(ITermTarget target, IArticleSpec spec, 
-            Int32 employerBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employerBasis, Int32 generalsBasis, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             EmployerBasis = employerBasis;
             GeneralsBasis = generalsBasis;

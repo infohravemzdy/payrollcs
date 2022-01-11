@@ -37,7 +37,7 @@ namespace HraveMzdy.Procezor.Models
 
         protected IList<V> InternalList;
         public abstract ITermList<ITermSymbol, ITermTarget> AddItem(MonthCode period, ContractCode contract, PositionCode position,
-            ArticleCode article, ConceptCode concept, Int32 basis, string descr);
+            ArticleCode article, ConceptCode concept, Int32 basis);
 
         protected static Int16 GetNewVariant(IEnumerable<ITermTarget> targets, ContractCode contract, PositionCode position, ArticleCode article)
         {

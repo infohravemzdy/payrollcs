@@ -11,7 +11,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // PaymentBasis		PAYMENT_BASIS
     public class PaymentBasisResult : PayrolexTermResult
     {
-        public PaymentBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public PaymentBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -23,7 +23,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // PaymentFixed		PAYMENT_FIXED
     public class PaymentFixedResult : PayrolexTermResult
     {
-        public PaymentFixedResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public PaymentFixedResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()

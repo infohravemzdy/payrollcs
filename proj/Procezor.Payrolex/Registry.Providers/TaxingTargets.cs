@@ -18,7 +18,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingDeclareTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int16 interestCode, WorkTaxingTerms contractType) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             InterestCode = interestCode;
             ContractType = contractType;
@@ -34,7 +34,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingSigningTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             TaxDeclSignOption declSignOpts, TaxNoneSignOption noneSignOpts) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             DeclSignOpts = declSignOpts;
             NoneSignOpts = noneSignOpts;
@@ -49,7 +49,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingIncomeSubjectTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             WorkTaxingTerms subjectType) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             SubjectType = subjectType;
         }
@@ -60,7 +60,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingIncomeHealthTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
         }
     }
@@ -70,7 +70,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingIncomeSocialTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
         }
     }
@@ -83,7 +83,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAdvancesIncomeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -97,7 +97,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAdvancesHealthTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -111,7 +111,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAdvancesSocialTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -125,7 +125,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAdvancesBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -139,7 +139,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingSolidaryBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -153,7 +153,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAdvancesTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -167,7 +167,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingSolidaryTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -181,7 +181,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAdvancesTotalTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -195,7 +195,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingWithholdIncomeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -209,7 +209,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingWithholdHealthTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -223,7 +223,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingWithholdSocialTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -237,7 +237,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingWithholdBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -251,7 +251,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingWithholdTotalTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -264,7 +264,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAllowancePayerTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             TaxDeclBenfOption benefitApply) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             BenefitApply = benefitApply;
         }
@@ -280,7 +280,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAllowanceChildTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             TaxDeclBenfOption benefitApply, Int32 benefitDisab, Int32 benefitOrder) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             BenefitApply = benefitApply;
             BenefitDisab = benefitDisab;
@@ -296,7 +296,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAllowanceDisabTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             TaxDeclDisabOption declDisabOpts) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             BenefitApply = declDisabOpts;
         }
@@ -310,7 +310,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingAllowanceStudyTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             TaxDeclBenfOption benefitApply) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             BenefitApply = benefitApply;
         }
@@ -324,7 +324,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingRebatePayerTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -338,7 +338,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingRebateChildTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -352,7 +352,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingBonusChildTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -365,7 +365,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingPaymAdvancesTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -379,7 +379,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxingPaymWithholdTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }

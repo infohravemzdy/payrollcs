@@ -19,7 +19,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
         public TaxingDeclareResult(ITermTarget target, IArticleSpec spec, 
             Int16 interestCode, WorkTaxingTerms contractType)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             InterestCode = interestCode;
             ContractType = contractType;
@@ -37,7 +37,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public TaxNoneSignOption NoneSignOpts { get; private set; }
         public TaxingSigningResult(ITermTarget target, IArticleSpec spec,
             TaxDeclSignOption declSignOpts, TaxNoneSignOption noneSignOpts)
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             DeclSignOpts = declSignOpts;
             NoneSignOpts = noneSignOpts;
@@ -116,7 +116,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public WorkTaxingTerms SubjectType { get; private set; }
 
         public TaxingIncomeSubjectResult(ITermTarget target, IArticleSpec spec, 
-            WorkTaxingTerms subjectType, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            WorkTaxingTerms subjectType, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             SubjectType = subjectType;
         }
@@ -135,7 +135,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public TaxingIncomeHealthResult(ITermTarget target, ContractCode con, IArticleSpec spec, 
             WorkTaxingTerms subjectType, Int16 interestCode, WorkHealthTerms subjectTerm, Int16 particyCode, 
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             SubjectType = subjectType;
             InterestCode = interestCode;
@@ -225,7 +225,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public TaxingIncomeSocialResult(ITermTarget target, ContractCode con, IArticleSpec spec,
             WorkTaxingTerms subjectType, Int16 interestCode, WorkSocialTerms subjectTerm, Int16 particyCode,
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             SubjectType = subjectType;
             InterestCode = interestCode;
@@ -315,7 +315,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingAdvancesIncome		TAXING_ADVANCES_INCOME
     public class TaxingAdvancesIncomeResult : PayrolexTermResult
     {
-        public TaxingAdvancesIncomeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingAdvancesIncomeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -327,7 +327,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingAdvancesHealth		TAXING_ADVANCES_HEALTH
     public class TaxingAdvancesHealthResult : PayrolexTermResult
     {
-        public TaxingAdvancesHealthResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingAdvancesHealthResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -339,7 +339,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingAdvancesSocial		TAXING_ADVANCES_SOCIAL
     public class TaxingAdvancesSocialResult : PayrolexTermResult
     {
-        public TaxingAdvancesSocialResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingAdvancesSocialResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -351,7 +351,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingAdvancesBasis		TAXING_ADVANCES_BASIS
     public class TaxingAdvancesBasisResult : PayrolexTermResult
     {
-        public TaxingAdvancesBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingAdvancesBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -363,7 +363,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingSolidaryBasis		TAXING_SOLIDARY_BASIS
     public class TaxingSolidaryBasisResult : PayrolexTermResult
     {
-        public TaxingSolidaryBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingSolidaryBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -375,7 +375,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingAdvances		TAXING_ADVANCES
     public class TaxingAdvancesResult : PayrolexTermResult
     {
-        public TaxingAdvancesResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingAdvancesResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -387,7 +387,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingSolidary		TAXING_SOLIDARY
     public class TaxingSolidaryResult : PayrolexTermResult
     {
-        public TaxingSolidaryResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingSolidaryResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -399,7 +399,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingAdvancesTotal		TAXING_ADVANCES_TOTAL
     public class TaxingAdvancesTotalResult : PayrolexTermResult
     {
-        public TaxingAdvancesTotalResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingAdvancesTotalResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -411,7 +411,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingWithholdIncome		TAXING_WITHHOLD_INCOME
     public class TaxingWithholdIncomeResult : PayrolexTermResult
     {
-        public TaxingWithholdIncomeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingWithholdIncomeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -423,7 +423,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingWithholdHealth		TAXING_WITHHOLD_HEALTH
     public class TaxingWithholdHealthResult : PayrolexTermResult
     {
-        public TaxingWithholdHealthResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingWithholdHealthResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -435,7 +435,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingWithholdSocial		TAXING_WITHHOLD_SOCIAL
     public class TaxingWithholdSocialResult : PayrolexTermResult
     {
-        public TaxingWithholdSocialResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingWithholdSocialResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -447,7 +447,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingWithholdBasis		TAXING_WITHHOLD_BASIS
     public class TaxingWithholdBasisResult : PayrolexTermResult
     {
-        public TaxingWithholdBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingWithholdBasisResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -459,7 +459,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // TaxingWithholdTotal		TAXING_WITHHOLD_TOTAL
     public class TaxingWithholdTotalResult : PayrolexTermResult
     {
-        public TaxingWithholdTotalResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public TaxingWithholdTotalResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -472,7 +472,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxDeclBenfOption BenefitApply { get; private set; }
         public TaxingAllowancePayerResult(ITermTarget target, IArticleSpec spec,
-            TaxDeclBenfOption benefitApply, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            TaxDeclBenfOption benefitApply, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             BenefitApply = benefitApply;
         }
@@ -498,7 +498,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32 BenefitOrder { get; private set; }
         public TaxingAllowanceChildResult(ITermTarget target, IArticleSpec spec,
             TaxDeclBenfOption benefitApply, Int32 benefitDisab, Int32 benefitOrder, 
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             BenefitApply = benefitApply;
             BenefitDisab = benefitDisab;
@@ -547,7 +547,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxDeclDisabOption BenefitApply { get; private set; }
         public TaxingAllowanceDisabResult(ITermTarget target, IArticleSpec spec,
-            TaxDeclDisabOption benefitApply, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            TaxDeclDisabOption benefitApply, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             BenefitApply = benefitApply;
         }
@@ -586,7 +586,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxDeclBenfOption BenefitApply { get; private set; }
         public TaxingAllowanceStudyResult(ITermTarget target, IArticleSpec spec,
-            TaxDeclBenfOption benefitApply, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            TaxDeclBenfOption benefitApply, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             BenefitApply = benefitApply;
         }
@@ -608,7 +608,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingRebatePayerResult : PayrolexTermResult
     {
         public TaxingRebatePayerResult(ITermTarget target, IArticleSpec spec,
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -621,7 +621,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingRebateChildResult : PayrolexTermResult
     {
         public TaxingRebateChildResult(ITermTarget target, IArticleSpec spec,
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -634,7 +634,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingBonusChildResult : PayrolexTermResult
     {
         public TaxingBonusChildResult(ITermTarget target, IArticleSpec spec,
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -646,7 +646,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingPaymAdvancesResult : PayrolexTermResult
     {
         public TaxingPaymAdvancesResult(ITermTarget target, IArticleSpec spec,
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
@@ -659,7 +659,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     public class TaxingPaymWithholdResult : PayrolexTermResult
     {
         public TaxingPaymWithholdResult(ITermTarget target, IArticleSpec spec,
-            Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
