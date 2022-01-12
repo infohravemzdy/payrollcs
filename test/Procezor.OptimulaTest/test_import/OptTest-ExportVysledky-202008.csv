@@ -1,0 +1,9 @@
+EmployeeNumb;EmployeeName;WorkSheetHrs;WorkSheetDay;WotkAbsenHrs;WotkAbsenDay;OverSheetHrs;RES-AgrWorkPaymt;RES-AgrWorkHours;RES-ClothesPaymt;RES-HomeOffPaymt;IMP-MSalaryBonus;RES-MSalaryBonus;IMP-FPremiumBase;RES-FPremiumBase;IMP-FPremiumBoss;RES-FPremiumBoss;IMP-FPremiumPers;RES-FPremiumPers;IMP-QAverageBase;IMP-AverPremsPay;IMP-AverVacasPay;IMP-AverOversPay;
+101;FullTime_OverTimeZeroHolidaysZero;168,00;0,00;0,00;0,00;0,00;1300,00;13,00;0,00;4400,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+102;FullTime_OverTimeHs16HolidaysZero;168,00;0,00;0,00;0,00;16,00;1300,00;13,00;0,00;4400,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+103;FullTime_OverTimeZeroHolidaysHs16;168,00;0,00;0,00;0,00;0,00;1300,00;13,00;0,00;4400,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+104;FullTime_OverTimeHs16HolidaysHs16;168,00;0,00;0,00;0,00;16,00;1300,00;13,00;0,00;4400,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+111;WorkTime_OverTimeZeroHolidaysZero;160,00;0,00;0,00;0,00;0,00;1239,00;12,00;0,00;4190,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+112;WorkTime_OverTimeHs16HolidaysZero;160,00;0,00;0,00;0,00;16,00;1239,00;12,00;0,00;4190,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+113;WorkTime_OverTimeZeroHolidaysHs16;160,00;0,00;0,00;0,00;0,00;1239,00;12,00;0,00;4190,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;
+114;WorkTime_OverTimeHs16HolidaysHs16;160,00;0,00;0,00;0,00;16,00;1239,00;12,00;0,00;4190,00;5700,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;0,00;

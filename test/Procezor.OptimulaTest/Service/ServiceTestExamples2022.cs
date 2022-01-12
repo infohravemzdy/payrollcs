@@ -40,6 +40,13 @@ namespace Procezor.OptimulaTest.Service
             ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
         }
         [Fact]
+        public void ServiceExamples_101_FullTime_OverTimeZeroHolidaysZeroTest()
+        {
+            OptimulaGenerator example = Example_101_FullTime_OverTimeZeroHolidaysZero();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+        [Fact]
         public void ServiceExamples_CreateImport()
         {
             ServiceExamplesCreateImport(_genTests, TestPeriod, TestPeriodCode, PrevPeriodCode);

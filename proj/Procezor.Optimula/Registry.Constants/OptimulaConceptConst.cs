@@ -20,6 +20,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         CONCEPT_ALLOWCE_HFULL,
         CONCEPT_ALLOWCE_HOURS,
         CONCEPT_AGRWORK_HOURS,
+        CONCEPT_INCOMES_TAXFREE,
+        CONCEPT_INCOMES_TAXBASE,
+        CONCEPT_INCOMES_TAXWINS,
+        CONCEPT_INCOMES_SUMMARY,
     }
     public static class ServiceConceptExtensions
     {

@@ -42,6 +42,13 @@ namespace HraveMzdy.Legalios.Props
 
             return decimal.ToInt32(valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
         }
+        public Int32 RoundNorm(decimal valueDec)
+        {
+            // decimal roundRet = decimal.Round(Math.Abs(valueDec));
+            decimal roundRet = decimal.Truncate(Math.Abs(valueDec + INT_ROUNDING_CONST));
+
+            return decimal.ToInt32(valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
+        }
 
         public Int32 NearRoundUp(decimal valueDec, Int32 nearest = 100)
         {
@@ -60,6 +67,17 @@ namespace HraveMzdy.Legalios.Props
 
             return RoundToInt(multiRet);
         }
+        public Int32 RoundUp50(decimal valueDec)
+        {
+            decimal dividRet = OperationsDec.Divide(DecRoundUp(OperationsDec.Multiply(valueDec, 2m)), 2m);
+            return RoundToInt(dividRet);
+        }
+        public Int32 RoundUp25(decimal valueDec)
+        {
+            decimal dividRet = OperationsDec.Divide(DecRoundUp(OperationsDec.Multiply(valueDec, 4m)), 4m);
+            return RoundToInt(dividRet);
+        }
+
         public decimal DecRoundUp(decimal valueDec)
         {
             decimal roundRet = decimal.Ceiling(Math.Abs(valueDec));
@@ -70,6 +88,12 @@ namespace HraveMzdy.Legalios.Props
         public decimal DecRoundDown(decimal valueDec)
         {
             decimal roundRet = decimal.Floor(Math.Abs(valueDec));
+
+            return (valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
+        }
+        public decimal DecRoundNorm(decimal valueDec)
+        {
+            decimal roundRet = decimal.Round(Math.Abs(valueDec));
 
             return (valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
         }
@@ -92,6 +116,31 @@ namespace HraveMzdy.Legalios.Props
 
             return multiRet;
         }
+        public decimal DecRoundUp50(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundUp(OperationsDec.Multiply(valueDec, 2m)), 2m);
+        }
+        public decimal DecRoundUp25(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundUp(OperationsDec.Multiply(valueDec, 4m)), 4m);
+        }
+        public decimal DecRoundDown50(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundDown(OperationsDec.Multiply(valueDec, 2m)), 2m);
+        }
+        public decimal DecRoundDown25(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundDown(OperationsDec.Multiply(valueDec, 4m)), 4m);
+        }
+        public decimal DecRoundNorm50(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundNorm(OperationsDec.Multiply(valueDec, 2m)), 2m);
+        }
+        public decimal DecRoundNorm25(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundNorm(OperationsDec.Multiply(valueDec, 4m)), 4m);
+        }
+
         public Tuple<Int32, Int32, T[]> MaximResultCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis, Int32 annualyMaxim)
             where T : IParticyResult
         {

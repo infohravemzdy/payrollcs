@@ -1141,6 +1141,7 @@ namespace Procezor.OptimulaTest.Examples
             var targets = new ITermTarget[] {
                 contractTimePlan,
                 contractTimeWork,
+                timeactualWork,
             };
 
             if (MSalaryBasisVal != 0)

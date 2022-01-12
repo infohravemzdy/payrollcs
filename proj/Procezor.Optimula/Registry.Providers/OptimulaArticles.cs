@@ -261,4 +261,96 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // IncomesTaxFree		INCOMES_TAXFREE
+    class IncomesTaxFreeArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES;
+        public IncomesTaxFreeArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new IncomesTaxFreeArtSpec(this.Code.Value);
+        }
+    }
+
+    class IncomesTaxFreeArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public IncomesTaxFreeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // IncomesTaxBase		INCOMES_TAXBASE
+    class IncomesTaxBaseArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES;
+        public IncomesTaxBaseArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new IncomesTaxBaseArtSpec(this.Code.Value);
+        }
+    }
+
+    class IncomesTaxBaseArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public IncomesTaxBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // IncomesTaxWIns		INCOMES_TAXWINS
+    class IncomesTaxWInsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS;
+        public IncomesTaxWInsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new IncomesTaxWInsArtSpec(this.Code.Value);
+        }
+    }
+
+    class IncomesTaxWInsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXWINS;
+        public IncomesTaxWInsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // IncomesSummary		INCOMES_TAXWINS
+    class IncomesSummaryArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY;
+        public IncomesSummaryArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new IncomesSummaryArtSpec(this.Code.Value);
+        }
+    }
+
+    class IncomesSummaryArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_SUMMARY;
+        public IncomesSummaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
 }

@@ -17,9 +17,10 @@ namespace HraveMzdy.Procezor.Optimula.Service
         public const Int32 TEST_VERSION = 100;
 
         private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
-            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_AGRWORK),
-            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
-            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXBASE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY),
         };
 
         public ServiceOptimula() : base(TEST_VERSION, TEST_FINAL_DEFS)

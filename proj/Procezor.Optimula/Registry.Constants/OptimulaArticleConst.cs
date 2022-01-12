@@ -20,6 +20,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         ARTICLE_ALLOWCE_AGRWORK,     // Agreement Tariff
         ARTICLE_ALLOWCE_HOFFICE,     // HomeOffice Tariff
         ARTICLE_ALLOWCE_CLOTHES,     // Clothing Tarrif
+        ARTICLE_INCOMES_TAXFREE,
+        ARTICLE_INCOMES_TAXBASE,
+        ARTICLE_INCOMES_TAXWINS,
+        ARTICLE_INCOMES_SUMMARY,
         //ARTICLE_SETTLEMENT_ALLOWANCE,   // Settlement from allowance
         //ARTICLE_OVER_TIME,              // OverTimesheet Hours
         //ARTICLE_ABSENCE_TIME,           // Absence Timesheet Hours

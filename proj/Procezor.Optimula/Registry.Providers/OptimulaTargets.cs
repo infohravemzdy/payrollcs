@@ -149,4 +149,44 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // IncomesTaxFree		INCOMES_TAXFREE
+    public class IncomesTaxFreeTarget : OptimulaTermTarget
+    {
+        public IncomesTaxFreeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // IncomesTaxBase		INCOMES_TAXBASE
+    public class IncomesTaxBaseTarget : OptimulaTermTarget
+    {
+        public IncomesTaxBaseTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // IncomesTaxWIns		INCOMES_TAXWINS
+    public class IncomesTaxWInsTarget : OptimulaTermTarget
+    {
+        public IncomesTaxWInsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // IncomesSummary		INCOMES_SUMMARY
+    public class IncomesSummaryTarget : OptimulaTermTarget
+    {
+        public IncomesSummaryTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
 }
