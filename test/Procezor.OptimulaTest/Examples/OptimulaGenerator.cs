@@ -25,10 +25,11 @@ namespace Procezor.OptimulaTest.Examples
             DefaultAgrHourLimitValue = 0;
             DefaultAgrWorkLimitValue = 0;
             DefaultClothesTarifValue = 0;
+            DefaultClothesDailyValue = 0;
             DefaultHomeOffTarifValue = 0;
             DefaultHomeOffHoursValue = 0;
-            DefaultMSalaryBonusValue = 0;
-            DefaultHHourlyBonusValue = 0;
+            DefaultMSalaryAwardValue = 0;
+            DefaultHSalaryAwardValue = 0;
             DefaultFPremiumBaseValue = 0;
             DefaultFPremiumBossValue = 0;
             DefaultFPremiumPersValue = 0;
@@ -61,10 +62,11 @@ namespace Procezor.OptimulaTest.Examples
             AgrHourLimitFunc = DefaultAgrHourLimit;
             AgrWorkLimitFunc = DefaultAgrWorkLimit;
             ClothesTarifFunc = DefaultClothesTarif;
+            ClothesDailyFunc = DefaultClothesDaily;
             HomeOffTarifFunc = DefaultHomeOffTarif;
             HomeOffHoursFunc = DefaultHomeOffHours;
-            MSalaryBonusFunc = DefaultMSalaryBonus;
-            HHourlyBonusFunc = DefaultHHourlyBonus;
+            MSalaryAwardFunc = DefaultMSalaryAward;
+            HSalaryAwardFunc = DefaultHSalaryAward;
             FPremiumBaseFunc = DefaultFPremiumBase;
             FPremiumBossFunc = DefaultFPremiumBoss;
             FPremiumPersFunc = DefaultFPremiumPers;
@@ -143,6 +145,10 @@ namespace Procezor.OptimulaTest.Examples
         {
             return DefaultClothesTarifValue;
         }
+        private Int32 DefaultClothesDaily(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultClothesDailyValue;
+        }
         private Int32 DefaultHomeOffTarif(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return DefaultHomeOffTarifValue;
@@ -151,13 +157,13 @@ namespace Procezor.OptimulaTest.Examples
         {
             return DefaultHomeOffHoursValue;
         }
-        private Int32 DefaultMSalaryBonus(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultMSalaryAward(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return DefaultMSalaryBonusValue;
+            return DefaultMSalaryAwardValue;
         }
-        private Int32 DefaultHHourlyBonus(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultHSalaryAward(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return DefaultHHourlyBonusValue;
+            return DefaultHSalaryAwardValue;
         }
         private Int32 DefaultFPremiumBase(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
@@ -273,10 +279,11 @@ namespace Procezor.OptimulaTest.Examples
         public Int32 DefaultAgrHourLimitValue { get; private set; }
         public Int32 DefaultAgrWorkLimitValue { get; private set; }
         public Int32 DefaultClothesTarifValue { get; private set; }
+        public Int32 DefaultClothesDailyValue { get; private set; }
         public Int32 DefaultHomeOffTarifValue { get; private set; }
         public Int32 DefaultHomeOffHoursValue { get; private set; }
-        public Int32 DefaultMSalaryBonusValue { get; private set; }
-        public Int32 DefaultHHourlyBonusValue { get; private set; }
+        public Int32 DefaultMSalaryAwardValue { get; private set; }
+        public Int32 DefaultHSalaryAwardValue { get; private set; }
         public Int32 DefaultFPremiumBaseValue { get; private set; }
         public Int32 DefaultFPremiumBossValue { get; private set; }
         public Int32 DefaultFPremiumPersValue { get; private set; }
@@ -309,10 +316,11 @@ namespace Procezor.OptimulaTest.Examples
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrHourLimitFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrWorkLimitFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesTarifFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesDailyFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffTarifFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffHoursFunc { get; private set; }
-        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MSalaryBonusFunc { get; private set; }
-        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HHourlyBonusFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MSalaryAwardFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HSalaryAwardFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> FPremiumBaseFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> FPremiumBossFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> FPremiumPersFunc { get; private set; }
@@ -422,8 +430,8 @@ namespace Procezor.OptimulaTest.Examples
                 ParseDecNumber,   //   7  ClothesTarif	57,00
                 ParseDecNumber,   //   8  HomeOffTarif	0,00
                 ParseHrsNumber,   //   9  HomeOffHours	0,00
-                ParseDecNumber,   //   10  MSalaryBonus	8 000,00
-                ParseHrsNumber,   //   11  HHourlyBonus	0,00
+                ParseDecNumber,   //   10  MSalaryAward	8 000,00
+                ParseHrsNumber,   //   11  HSalaryAward	0,00
                 ParseDecNumber,   //   12  FPremiumBase	0,00
                 ParseDecNumber,   //   13  FPremiumBoss	0,00
                 ParseDecNumber,   //   14  FPremiumPers	0,00
@@ -464,11 +472,11 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
                 gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
                 gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
-                gen.WithClothesTarifVal,   //   7  ClothesTarif	57,00
+                gen.WithClothesDailyVal,   //   7  ClothesDaily	106,00
                 gen.WithHomeOffTarifVal,   //   8  HomeOffTarif	0,00
                 gen.WithHomeOffHoursVal,   //   9  HomeOffHours	0,00
-                gen.WithMSalaryBonusVal,   //   10  MSalaryBonus	8 000,00
-                gen.WithHHourlyBonusVal,   //   11  HHourlyBonus	0,00
+                gen.WithMSalaryAwardVal,   //   10  MSalaryAward	8 000,00
+                gen.WithHSalaryAwardVal,   //   11  HSalaryAward	0,00
                 gen.WithFPremiumBaseVal,   //   12  FPremiumBase	0,00
                 gen.WithFPremiumBossVal,   //   13  FPremiumBoss	0,00
                 gen.WithFPremiumPersVal,   //   14  FPremiumPers	0,00
@@ -500,7 +508,7 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithQSumWorkHourVal,   //   40  QSumWorkHour	912,08
             };
             /*
-            EmployeeNumb;EmployeeName;AgrWorkTarif;AgrWorkRatio;AgrHourLimit;AgrWorkLimit;ClothesTarif;HomeOffTarif;HomeOffHours;MSalaryBonus;HHourlyBonus;FPremiumBase;FPremiumBoss;FPremiumPers;FullSheetHrs;TimeSheetHrs;HoliSheetHrs;WorkSheetHrs;WorkSheetDay;OverSheetHrs;VacaRecomHrs;PaidRecomHrs;HoliRecomHrs;OverAllowHrs;OverAllowRio;RestAllowHrs;RestAllowRio;WendAllowHrs;WendAllowRio;NighAllowHrs;NighAllowRio;HoliAllowHrs;HoliAllowRio;QClothesBase;QHOfficeBase;QAgrWorkBase;QSumWorkHour;
+            EmployeeNumb;EmployeeName;AgrWorkTarif;AgrWorkRatio;AgrHourLimit;AgrWorkLimit;ClothesDaily;HomeOffTarif;HomeOffHours;MSalaryAward;HSalaryAward;FPremiumBase;FPremiumBoss;FPremiumPers;FullSheetHrs;TimeSheetHrs;HoliSheetHrs;WorkSheetHrs;WorkSheetDay;OverSheetHrs;VacaRecomHrs;PaidRecomHrs;HoliRecomHrs;OverAllowHrs;OverAllowRio;RestAllowHrs;RestAllowRio;WendAllowHrs;WendAllowRio;NighAllowHrs;NighAllowRio;HoliAllowHrs;HoliAllowRio;QClothesBase;QHOfficeBase;QAgrWorkBase;QSumWorkHour;
             101;Drahota Jakub;105,00;0,14;0,00;0,00;57,00;0,00;0,00;8 000,00;0,00;0,00;0,00;0,00;176,00;176,00;0,00;96,00;12,00;40,00;80,00;0,00;0,00;40,00;0,25;0,00;0,00;0,00;0,00;18,25;0,10;0,00;0,00;3 506,00;0,00;8 852,00;912,08
             */
             specIntValues.Zip(specGenerator).Select((x) => x.Second(x.First)).ToArray();
@@ -540,6 +548,11 @@ namespace Procezor.OptimulaTest.Examples
             DefaultClothesTarifValue = val;
             return this;
         }
+        public OptimulaGenerator WithClothesDailyVal(Int32 val)
+        {
+            DefaultClothesDailyValue = val;
+            return this;
+        }
         public OptimulaGenerator WithHomeOffTarifVal(Int32 val)
         {
             DefaultHomeOffTarifValue = val;
@@ -550,14 +563,14 @@ namespace Procezor.OptimulaTest.Examples
             DefaultHomeOffHoursValue = val;
             return this;
         }
-        public OptimulaGenerator WithMSalaryBonusVal(Int32 val)
+        public OptimulaGenerator WithMSalaryAwardVal(Int32 val)
         {
-            DefaultMSalaryBonusValue = val;
+            DefaultMSalaryAwardValue = val;
             return this;
         }
-        public OptimulaGenerator WithHHourlyBonusVal(Int32 val)
+        public OptimulaGenerator WithHSalaryAwardVal(Int32 val)
         {
-            DefaultHHourlyBonusValue = val;
+            DefaultHSalaryAwardValue = val;
             return this;
         }
         public OptimulaGenerator WithFPremiumBaseVal(Int32 val)
@@ -720,6 +733,11 @@ namespace Procezor.OptimulaTest.Examples
             ClothesTarifFunc = func;
             return this;
         }
+        public OptimulaGenerator WithClothesDaily(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            ClothesDailyFunc = func;
+            return this;
+        }
         public OptimulaGenerator WithHomeOffTarif(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             HomeOffTarifFunc = func;
@@ -730,14 +748,14 @@ namespace Procezor.OptimulaTest.Examples
             HomeOffHoursFunc = func;
             return this;
         }
-        public OptimulaGenerator WithMSalaryBonus(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        public OptimulaGenerator WithMSalaryAward(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
-            MSalaryBonusFunc = func;
+            MSalaryAwardFunc = func;
             return this;
         }
-        public OptimulaGenerator WithHHourlyBonus(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        public OptimulaGenerator WithHSalaryAward(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
-            HHourlyBonusFunc = func;
+            HSalaryAwardFunc = func;
             return this;
         }
         public OptimulaGenerator WithFPremiumBase(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
@@ -877,11 +895,12 @@ namespace Procezor.OptimulaTest.Examples
             Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
             Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
             Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
             Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
 
-            Int32 MSalaryBonusVal = MSalaryBonusFunc(this, period, ruleset, prevset);
-            Int32 HHourlyBonusVal = HHourlyBonusFunc(this, period, ruleset, prevset);
+            Int32 MSalaryAwardVal = MSalaryAwardFunc(this, period, ruleset, prevset);
+            Int32 HSalaryAwardVal = HSalaryAwardFunc(this, period, ruleset, prevset);
             Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
             Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
             Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
@@ -917,11 +936,11 @@ namespace Procezor.OptimulaTest.Examples
                 $"{NumFormatIntX100(AgrWorkRatioVal)}", // D
                 $"{HrsFormatIntX060(AgrHourLimitVal)}", // E
                 $"{NumFormatIntX100(AgrWorkLimitVal)}", // F
-                $"{CcyFormatIntX100(ClothesTarifVal)}", // G
+                $"{CcyFormatIntX100(ClothesDailyVal)}", // G
                 $"{CcyFormatIntX100(HomeOffTarifVal)}", // H
                 $"{HrsFormatIntX060(HomeOffHoursVal)}", // I
-                $"{CcyFormatIntX100(MSalaryBonusVal)}", // J
-                $"{CcyFormatIntX100(HHourlyBonusVal)}", // K
+                $"{CcyFormatIntX100(MSalaryAwardVal)}", // J
+                $"{CcyFormatIntX100(HSalaryAwardVal)}", // K
                 $"{CcyFormatIntX100(FPremiumBaseVal)}", // L
                 $"{CcyFormatIntX100(FPremiumBossVal)}", // M
                 $"{CcyFormatIntX100(FPremiumPersVal)}", // N
@@ -963,11 +982,12 @@ namespace Procezor.OptimulaTest.Examples
             Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
             Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
             Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
             Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
 
-            Int32 MSalaryBonusVal = MSalaryBonusFunc(this, period, ruleset, prevset);
-            Int32 HHourlyBonusVal = HHourlyBonusFunc(this, period, ruleset, prevset);
+            Int32 MSalaryAwardVal = MSalaryAwardFunc(this, period, ruleset, prevset);
+            Int32 HSalaryAwardVal = HSalaryAwardFunc(this, period, ruleset, prevset);
             Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
             Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
             Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
@@ -1003,11 +1023,11 @@ namespace Procezor.OptimulaTest.Examples
                 $"{NumFormatIntX100(AgrWorkRatioVal)}", // D
                 $"{HrsFormatIntX060(AgrHourLimitVal)}", // E
                 $"{NumFormatIntX100(AgrWorkLimitVal)}", // F
-                $"{CcyFormatIntX100(ClothesTarifVal)}", // G
+                $"{CcyFormatIntX100(ClothesDailyVal)}", // G
                 $"{CcyFormatIntX100(HomeOffTarifVal)}", // H
                 $"{HrsFormatIntX060(HomeOffHoursVal)}", // I
-                $"{CcyFormatIntX100(MSalaryBonusVal)}", // J
-                $"{CcyFormatIntX100(HHourlyBonusVal)}", // K
+                $"{CcyFormatIntX100(MSalaryAwardVal)}", // J
+                $"{CcyFormatIntX100(HSalaryAwardVal)}", // K
                 $"{CcyFormatIntX100(FPremiumBaseVal)}", // L
                 $"{CcyFormatIntX100(FPremiumBossVal)}", // M
                 $"{CcyFormatIntX100(FPremiumPersVal)}", // N
@@ -1058,12 +1078,13 @@ namespace Procezor.OptimulaTest.Examples
             Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
             Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
             Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
             Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
 
             Int32 MSalaryBasisVal = 0;
-            Int32 MSalaryBonusVal = MSalaryBonusFunc(this, period, ruleset, prevset);
-            Int32 HHourlyBonusVal = HHourlyBonusFunc(this, period, ruleset, prevset);
+            Int32 MAwardsBasisVal = MSalaryAwardFunc(this, period, ruleset, prevset);
+            Int32 HSalaryAwardVal = HSalaryAwardFunc(this, period, ruleset, prevset);
             Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
             Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
             Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
@@ -1095,84 +1116,103 @@ namespace Procezor.OptimulaTest.Examples
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_WORK),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_WORK), TimeSheetHrsVal, HoliSheetHrsVal);
             // TimeactualWork	TIMEACTUAL_WORK
-            var timeactualWork = new TimeactualWorkTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            var contractTimeActa = new TimeactualWorkTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_TIMEACTUAL_WORK), 
                 WorkSheetHrsVal, WorkSheetDayVal, OverSheetHrsVal);
             // PaymentBasis		PAYMENT_BASIS
             var paymentMSalary = new PaymentBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MSALARY_BASICAL),
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MSALARY_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_PAYMENT_BASIS), 
                 MSalaryBasisVal);
             // OptimusBasis		OPTIMUS_BASIS
-            var paymentMPerson = new OptimusBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MSALARY_BONUSED),
+            var optimusMAwards = new OptimusBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS), 
-                MSalaryBonusVal);
+                MAwardsBasisVal);
+            // ReducedBasis		REDUCED_BASIS
+            var reducedMAwards = new ReducedBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS), 
+                MAwardsBasisVal);
             // OptimusFixed		OPTIMUS_FIXED
-            var payPremiumBase = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BONUSED),
+            var optPremiumBase = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED), 
                 FPremiumBaseVal);
-            var payPremiumBoss = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BONUSED),
+            var optPremiumBoss = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED), 
                 FPremiumBossVal);
-            var payPremiumPers = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BONUSED),
+            var optPremiumPers = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED), 
                 FPremiumPersVal);
+            // ReducedFixed		REDUCED_FIXED
+            var redPremiumBase = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 0);
+            var redPremiumBoss = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_RESULTS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 0);
+            var redPremiumPers = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_RESULTS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 0);
             // AgrworkHours		AGRWORK_HOURS
             var allowceAgrwork = new AgrworkHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_AGRWORK),
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS), 
                 AgrWorkTarifVal, AgrWorkRatioVal, AgrWorkLimitVal, AgrHourLimitVal);
+            // AgrworkRedux		AGRWORK_REDUX
+            var reducedAgrwork = new AgrworkReduxTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_RESULTS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_REDUX), 0, 0, 0, 0);
             // AllowceHours		ALLOWCE_HOURS
             var allowceHOffice = new AllowceHFullTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL), 
                 HomeOffTarifVal, HomeOffHoursVal);
-            // AllowceHours		ALLOWCE_HOURS
-            var allowceClothes = new AllowceHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            // AllowceDaily		ALLOWCE_DAILY
+            var allowceClothes = new AllowceDailyTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS), 
-                ClothesTarifVal);
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY),
+                ClothesDailyVal);
 
             var targets = new ITermTarget[] {
                 contractTimePlan,
                 contractTimeWork,
-                timeactualWork,
+                contractTimeActa,
             };
 
             if (MSalaryBasisVal != 0)
             {
                 targets = targets.Concat(new ITermTarget[] { paymentMSalary }).ToArray();
             }
-            if (MSalaryBonusVal != 0)
+            if (MAwardsBasisVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { paymentMPerson }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { optimusMAwards, reducedMAwards }).ToArray();
             }
             if (FPremiumBaseVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { payPremiumBase }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { optPremiumBase, redPremiumBase }).ToArray();
             }
             if (FPremiumBossVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { payPremiumBoss }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { optPremiumBoss, redPremiumBoss }).ToArray();
             }
             if (FPremiumPersVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { payPremiumPers }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { optPremiumPers, redPremiumPers }).ToArray();
             }
             if (AgrWorkTarifVal != 0 && AgrWorkRatioVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { allowceAgrwork }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { allowceAgrwork, reducedAgrwork }).ToArray();
             }
             if (HomeOffTarifVal != 0)
             {
                 targets = targets.Concat(new ITermTarget[] { allowceHOffice }).ToArray();
             }
-            if (ClothesTarifVal != 0)
+            if (ClothesDailyVal != 0)
             {
                 targets = targets.Concat(new ITermTarget[] { allowceClothes }).ToArray();
             }

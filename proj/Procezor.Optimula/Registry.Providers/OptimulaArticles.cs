@@ -77,139 +77,300 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // MsalaryBasical		MSALARY_BASICAL
-    class MsalaryBasicalArtProv : ArticleSpecProvider
+    // MsalaryTargets		MSALARY_TARGETS
+    class MsalaryTargetsArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MSALARY_BASICAL;
-        public MsalaryBasicalArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MSALARY_TARGETS;
+        public MsalaryTargetsArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new MsalaryBasicalArtSpec(this.Code.Value);
+            return new MsalaryTargetsArtSpec(this.Code.Value);
         }
     }
 
-    class MsalaryBasicalArtSpec : ArticleSpec
+    class MsalaryTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_BASIS;
-        public MsalaryBasicalArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MsalaryTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // MsalaryBonused		MSALARY_BONUSED
-    class MsalaryBonusedArtProv : ArticleSpecProvider
+    // HSalaryTargets		HSALARY_TARGETS
+    class HSalaryTargetsArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MSALARY_BONUSED;
-        public MsalaryBonusedArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_HSALARY_TARGETS;
+        public HSalaryTargetsArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new MsalaryBonusedArtSpec(this.Code.Value);
+            return new HSalaryTargetsArtSpec(this.Code.Value);
         }
     }
 
-    class MsalaryBonusedArtSpec : ArticleSpec
+    class HSalaryTargetsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_HOURS;
+        public HSalaryTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // MAwardsTargets		MAWARDS_TARGETS
+    class MAwardsTargetsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS;
+        public MAwardsTargetsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new MAwardsTargetsArtSpec(this.Code.Value);
+        }
+    }
+
+    class MAwardsTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS;
-        public MsalaryBonusedArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MAwardsTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PremiumBonused		PREMIUM_BONUSED
-    class PremiumBonusedArtProv : ArticleSpecProvider
+    // HAwardsTargets		HAWARDS_TARGETS
+    class HAwardsTargetsArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BONUSED;
-        public PremiumBonusedArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS;
+        public HAwardsTargetsArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PremiumBonusedArtSpec(this.Code.Value);
+            return new HAwardsTargetsArtSpec(this.Code.Value);
         }
     }
 
-    class PremiumBonusedArtSpec : ArticleSpec
+    class HAwardsTargetsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_HOURS;
+        public HAwardsTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // PremiumTargets		PREMIUM_TARGETS
+    class PremiumTargetsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS;
+        public PremiumTargetsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PremiumTargetsArtSpec(this.Code.Value);
+        }
+    }
+
+    class PremiumTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremiumBonusedArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremiumTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PremiumBossing		PREMIUM_BOSSING
-    class PremiumBossingArtProv : ArticleSpecProvider
+    // PremAdvTargets		PREMADV_TARGETS
+    class PremAdvTargetsArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_BOSSING;
-        public PremiumBossingArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMADV_TARGETS;
+        public PremAdvTargetsArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PremiumBossingArtSpec(this.Code.Value);
+            return new PremAdvTargetsArtSpec(this.Code.Value);
         }
     }
 
-    class PremiumBossingArtSpec : ArticleSpec
+    class PremAdvTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremiumBossingArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremAdvTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // PremiumPersona		PREMIUM_PERSONA
-    class PremiumPersonaArtProv : ArticleSpecProvider
+    // PremExtTargets		PREMEXT_TARGETS
+    class PremExtTargetsArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_PERSONA;
-        public PremiumPersonaArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMEXT_TARGETS;
+        public PremExtTargetsArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new PremiumPersonaArtSpec(this.Code.Value);
+            return new PremExtTargetsArtSpec(this.Code.Value);
         }
     }
 
-    class PremiumPersonaArtSpec : ArticleSpec
+    class PremExtTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremiumPersonaArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremExtTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
     }
 
-    // AllowceAgrwork		ALLOWCE_AGRWORK
-    class AllowceAgrworkArtProv : ArticleSpecProvider
+    // MAwardsResults		MAWARDS_RESULTS
+    class MAwardsResultsArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_AGRWORK;
-        public AllowceAgrworkArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS;
+        public MAwardsResultsArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new AllowceAgrworkArtSpec(this.Code.Value);
+            return new MAwardsResultsArtSpec(this.Code.Value);
         }
     }
 
-    class AllowceAgrworkArtSpec : ArticleSpec
+    class MAwardsResultsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS;
+        public MAwardsResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // PremiumResults		PREMIUM_RESULTS
+    class PremiumResultsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS;
+        public PremiumResultsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PremiumResultsArtSpec(this.Code.Value);
+        }
+    }
+
+    class PremiumResultsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
+        public PremiumResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // PremAdvResults		PREMADV_RESULTS
+    class PremAdvResultsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMADV_RESULTS;
+        public PremAdvResultsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PremAdvResultsArtSpec(this.Code.Value);
+        }
+    }
+
+    class PremAdvResultsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
+        public PremAdvResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // PremExtResults		PREMEXT_RESULTS
+    class PremExtResultsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_PREMEXT_RESULTS;
+        public PremExtResultsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PremExtResultsArtSpec(this.Code.Value);
+        }
+    }
+
+    class PremExtResultsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
+        public PremExtResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // AgrworkTargets		AGRWORK_TARGETS
+    class AgrworkTargetsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS;
+        public AgrworkTargetsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new AgrworkTargetsArtSpec(this.Code.Value);
+        }
+    }
+
+    class AgrworkTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS;
-        public AllowceAgrworkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AgrworkTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // AgrworkResults		AGRWORK_RESULTS
+    class AgrworkResultsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_AGRWORK_RESULTS;
+        public AgrworkResultsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new AgrworkResultsArtSpec(this.Code.Value);
+        }
+    }
+
+    class AgrworkResultsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS;
+        public AgrworkResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -254,8 +415,54 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
     class AllowceClothesArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY;
         public AllowceClothesArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // SettlemTargets		SETTLEM_TARGETS
+    class SettlemTargetsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS;
+        public SettlemTargetsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new SettlemTargetsArtSpec(this.Code.Value);
+        }
+    }
+
+    class SettlemTargetsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_TARGETS;
+        public SettlemTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // SettlemAllowce		SETTLEM_ALLOWCE
+    class SettlemAllowceArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE;
+        public SettlemAllowceArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new SettlemAllowceArtSpec(this.Code.Value);
+        }
+    }
+
+    class SettlemAllowceArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_ALLOWCE;
+        public SettlemAllowceArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -264,7 +471,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     // IncomesTaxFree		INCOMES_TAXFREE
     class IncomesTaxFreeArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES;
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE;
         public IncomesTaxFreeArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -277,7 +484,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
     class IncomesTaxFreeArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXFREE;
         public IncomesTaxFreeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -287,7 +494,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     // IncomesTaxBase		INCOMES_TAXBASE
     class IncomesTaxBaseArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES;
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXBASE;
         public IncomesTaxBaseArtProv() : base(ARTICLE_CODE)
         {
         }
@@ -300,7 +507,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
     class IncomesTaxBaseArtSpec : ArticleSpec
     {
-        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXBASE;
         public IncomesTaxBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
@@ -330,7 +537,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // IncomesSummary		INCOMES_TAXWINS
+    // IncomesSummary		INCOMES_SUMMARY
     class IncomesSummaryArtProv : ArticleSpecProvider
     {
         public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY;

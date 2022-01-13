@@ -124,6 +124,10 @@ namespace HraveMzdy.Legalios.Props
         {
             return OperationsDec.Divide(DecRoundUp(OperationsDec.Multiply(valueDec, 4m)), 4m);
         }
+        public decimal DecRoundUp01(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundUp(OperationsDec.Multiply(valueDec, 100m)), 100m);
+        }
         public decimal DecRoundDown50(decimal valueDec)
         {
             return OperationsDec.Divide(DecRoundDown(OperationsDec.Multiply(valueDec, 2m)), 2m);
@@ -132,6 +136,10 @@ namespace HraveMzdy.Legalios.Props
         {
             return OperationsDec.Divide(DecRoundDown(OperationsDec.Multiply(valueDec, 4m)), 4m);
         }
+        public decimal DecRoundDown01(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundDown(OperationsDec.Multiply(valueDec, 100m)), 100m);
+        }
         public decimal DecRoundNorm50(decimal valueDec)
         {
             return OperationsDec.Divide(DecRoundNorm(OperationsDec.Multiply(valueDec, 2m)), 2m);
@@ -139,6 +147,10 @@ namespace HraveMzdy.Legalios.Props
         public decimal DecRoundNorm25(decimal valueDec)
         {
             return OperationsDec.Divide(DecRoundNorm(OperationsDec.Multiply(valueDec, 4m)), 4m);
+        }
+        public decimal DecRoundNorm01(decimal valueDec)
+        {
+            return OperationsDec.Divide(DecRoundNorm(OperationsDec.Multiply(valueDec, 100m)), 100m);
         }
 
         public Tuple<Int32, Int32, T[]> MaximResultCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis, Int32 annualyMaxim)

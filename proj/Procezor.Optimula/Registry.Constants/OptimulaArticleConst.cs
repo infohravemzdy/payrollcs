@@ -12,12 +12,22 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         ARTICLE_TIMESHEETS_PLAN,     // Full Timesheets Hours
         ARTICLE_TIMESHEETS_WORK,     // Work Timesheets Hours
         ARTICLE_TIMEACTUAL_WORK,     // Work Timeactual Hours
-        ARTICLE_MSALARY_BASICAL,     // Base Salary
-        ARTICLE_MSALARY_BONUSED,     // Personal  Salary
-        ARTICLE_PREMIUM_BONUSED,     // Premium Bonus
-        ARTICLE_PREMIUM_BOSSING,     // Premium Boss
-        ARTICLE_PREMIUM_PERSONA,     // Premium Personal
-        ARTICLE_ALLOWCE_AGRWORK,     // Agreement Tariff
+        ARTICLE_MSALARY_TARGETS,     // Base Salary
+        ARTICLE_HSALARY_TARGETS,     // Base Salary
+        ARTICLE_MAWARDS_TARGETS,     // Personal  Salary - Targets
+        ARTICLE_HAWARDS_TARGETS,     // Personal  Salary - Targets
+        ARTICLE_PREMIUM_TARGETS,     // Premium Bonus    - Targets
+        ARTICLE_PREMADV_TARGETS,     // Premium Boss     - Targets
+        ARTICLE_PREMEXT_TARGETS,     // Premium Personal - Targets
+        ARTICLE_AGRWORK_TARGETS,     // Agreement Tariff - Targets
+        ARTICLE_AGRWORK_RESULTS,     // Agreement Tariff - Results
+        ARTICLE_SETTLEM_TARGETS,     // Setlement - Targets
+        ARTICLE_SETTLEM_ALLOWCE,     // Setlement - Allowance
+        ARTICLE_PREMEXT_RESULTS,     // Premium Personal - Results
+        ARTICLE_PREMADV_RESULTS,     // Premium Boss     - Results
+        ARTICLE_PREMIUM_RESULTS,     // Premium Bonus    - Results
+        ARTICLE_MAWARDS_RESULTS,     // Personal Award   - Results
+        ARTICLE_HAWARDS_RESULTS,     // Personal Award   - Results
         ARTICLE_ALLOWCE_HOFFICE,     // HomeOffice Tariff
         ARTICLE_ALLOWCE_CLOTHES,     // Clothing Tarrif
         ARTICLE_INCOMES_TAXFREE,

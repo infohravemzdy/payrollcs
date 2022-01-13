@@ -27,6 +27,9 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         decimal HoursToQuartsHoursDown(decimal hoursVakue);
         decimal HoursToHalfHoursNorm(decimal hoursVakue);
         decimal HoursToQuartsHoursNorm(decimal hoursVakue);
+        decimal MoneyToRoundDown(decimal moneyVakue);
+        decimal MoneyToRoundUp(decimal moneyVakue);
+        decimal MoneyToRoundNorm(decimal moneyVakue);
         Int32 RoundUp(decimal valueDec);
         Int32 RoundDown(decimal valueDec);
         Int32 RoundNorm(decimal valueDec);

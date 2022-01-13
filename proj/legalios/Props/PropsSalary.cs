@@ -55,7 +55,7 @@ namespace HraveMzdy.Legalios.Props
         {
             Int32 totalHours = TotalHoursForPayment(scheduledHours, workingsHours);
 
-            decimal payment = OperationsDec.MultiplyAndDivide(totalHours, amountMonthly, scheduledHours);
+            decimal payment = OperationsDec.MultiplyAndDivide(amountMonthly, totalHours, scheduledHours);
 
             return payment;
         }
@@ -83,7 +83,7 @@ namespace HraveMzdy.Legalios.Props
         }
         public decimal TariffWithWorkingCoeff(decimal amountMonthly, decimal scheduleFactor, decimal workingsFactor)
         {
-            decimal amountFactor = FactorizeValue(amountMonthly, workingsFactor);
+            decimal amountFactor = FactorizeValue(amountMonthly, scheduleFactor);
 
             decimal paymentValue = FactorizeValue(amountFactor, workingsFactor);
 
@@ -99,7 +99,7 @@ namespace HraveMzdy.Legalios.Props
         }
         public decimal MonthlyAmountWithWorkingCoeff(decimal amountMonthly, decimal scheduleFactor, decimal workingsFactor)
         {
-            decimal amountFactor = FactorizeValue(amountMonthly, workingsFactor);
+            decimal amountFactor = FactorizeValue(amountMonthly, scheduleFactor);
 
             decimal paymentValue = FactorizeValue(amountFactor, workingsFactor);
 
@@ -169,6 +169,18 @@ namespace HraveMzdy.Legalios.Props
         public decimal HoursToQuartsHoursNorm(decimal hoursVakue)
         {
             return DecRoundNorm25(hoursVakue);
+        }
+        public decimal MoneyToRoundDown(decimal moneyVakue)
+        {
+            return DecRoundDown01(moneyVakue);
+        }
+        public decimal MoneyToRoundUp(decimal moneyVakue)
+        {
+            return DecRoundUp01(moneyVakue);
+        }
+        public decimal MoneyToRoundNorm(decimal moneyVakue)
+        {
+            return DecRoundNorm01(moneyVakue);
         }
 
         public decimal FactorizeValue(decimal baseVakue, decimal factor)

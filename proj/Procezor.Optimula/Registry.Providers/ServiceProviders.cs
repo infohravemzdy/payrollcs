@@ -159,6 +159,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         {
             return ServiceConceptEnumUtils.GetSymbol(Concept.Value);
         }
+        public virtual string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}";
+        }
     }
 
     public class OptimulaTermResult : TermResult
