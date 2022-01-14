@@ -113,14 +113,14 @@ namespace ProcezorTests.Service.Examples
                     var resultValue = result.Value;
                     var articleSymbol = resultValue.ArticleDescr();
                     var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}", index, articleSymbol, conceptSymbol);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}", index, articleSymbol, conceptSymbol);
                 }
                 else if (result.IsFailure) 
                 {
                     var errorValue = result.Error;
                     var articleSymbol = errorValue.ArticleDescr();
                     var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
                 }
             }
 
@@ -167,14 +167,14 @@ namespace ProcezorTests.Service.Examples
                     var resultValue = result.Value;
                     var articleSymbol = resultValue.ArticleDescr();
                     var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}", index, articleSymbol, conceptSymbol);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}", index, articleSymbol, conceptSymbol);
                 }
                 else if (result.IsFailure) 
                 {
                     var errorValue = result.Error;
                     var articleSymbol = errorValue.ArticleDescr();
                     var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue);
                 }
             }
 

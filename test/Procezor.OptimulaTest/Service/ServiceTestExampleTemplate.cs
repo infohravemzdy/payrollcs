@@ -39,6 +39,21 @@ namespace Procezor.OptimulaTest.Service
         protected readonly IServiceLegalios _leg;
 
         protected static readonly OptimulaGenerator[] _genTests = new OptimulaGenerator[] {
+            OptimulaGenerator.Spec(101, "FullTime_FullTime_MinimumWage", "101")
+                .WithFullSheetHrsVal(157 * 60 + 30)
+                .WithTimeSheetHrsVal(157 * 60 + 30)
+                .WithWorkSheetHrsVal(142 * 60 + 30)
+                .WithWorkSheetDayVal(19 * 100)
+                .WithOverSheetHrsVal(0 * 60)
+                .WithHoliSheetHrsVal(0 * 60)
+                .WithMSalaryAwardVal(2993 * 100)
+                .WithFPremiumBaseVal(0 * 100)
+                .WithClothesDailyVal(106 * 100)
+                .WithAgrWorkRatioVal(0 * 100 + 14)
+                .WithAgrWorkTarifVal(91 * 100),
+        };
+
+        protected static readonly OptimulaGenerator[] _genBasicTests = new OptimulaGenerator[] {
             OptimulaGenerator.Spec(101, "FullTime_OverTimeZeroHolidaysZero", "101").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithOverSheetHrsVal(0).WithHoliSheetHrsVal(0).WithMSalaryAwardVal(570000).WithHomeOffTarifVal(11000).WithHomeOffHoursVal(40*60).WithClothesTarifVal(10600).WithAgrWorkRatioVal(14).WithAgrWorkTarifVal(10000),
             OptimulaGenerator.Spec(102, "FullTime_OverTimeHs16HolidaysZero", "102").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithOverSheetHrsVal(16*60).WithHoliSheetHrsVal(0).WithMSalaryAwardVal(570000).WithHomeOffTarifVal(11000).WithHomeOffHoursVal(40*60).WithClothesTarifVal(10600).WithAgrWorkRatioVal(14).WithAgrWorkTarifVal(10000),
             OptimulaGenerator.Spec(103, "FullTime_OverTimeZeroHolidaysHs16", "103").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithOverSheetHrsVal(0).WithHoliSheetHrsVal(16*60).WithMSalaryAwardVal(570000).WithHomeOffTarifVal(11000).WithHomeOffHoursVal(40*60).WithClothesTarifVal(10600).WithAgrWorkRatioVal(14).WithAgrWorkTarifVal(10000),
@@ -230,28 +245,28 @@ namespace Procezor.OptimulaTest.Service
             {
                 "EmployeeNumb", // A
                 "EmployeeName", // B
-                "AgrWorkTarif", // C
-                "AgrWorkRatio", // D
-                "AgrHourLimit", // E
-                "AgrWorkLimit", // F
-                "ClothesTarif", // G
-                "HomeOffTarif", // H
-                "HomeOffHours", // I
-                "MSalaryAward", // J
-                "HSalaryAward", // K
-                "FPremiumBase", // L
-                "FPremiumBoss", // M
-                "FPremiumPers", // N
-                "FullSheetHrs", // O  
-                "TimeSheetHrs", // P  
-                "HoliSheetHrs", // Q  
-                "WorkSheetHrs", // R  
-                "WorkSheetDay", // S   
-                "OverSheetHrs", // T
-                "VacaRecomHrs", // U
-                "PaidRecomHrs", // V
-                "HoliRecomHrs", // W  
-                "", // X
+                "PeriodName",   // C
+                "AgrWorkTarif", // D
+                "AgrWorkRatio", // E
+                "AgrHourLimit", // F
+                "AgrWorkLimit", // G
+                "ClothesTarif", // H
+                "HomeOffTarif", // I
+                "HomeOffHours", // J
+                "MSalaryAward", // K
+                "HSalaryAward", // L
+                "FPremiumBase", // M
+                "FPremiumBoss", // N
+                "FPremiumPers", // O  
+                "FullSheetHrs", // P  
+                "TimeSheetHrs", // Q  
+                "HoliSheetHrs", // R  
+                "WorkSheetHrs", // S   
+                "WorkSheetDay", // T
+                "OverSheetHrs", // U
+                "VacaRecomHrs", // V
+                "PaidRecomHrs", // W  
+                "HoliRecomHrs", // X
                 "", // Y
                 "", // Z
                 "OverAllowHrs", // AA
@@ -329,6 +344,92 @@ namespace Procezor.OptimulaTest.Service
                 throw e;
             }
         }
+        protected string GetExampleOptResultsLine(OptimulaGenerator example, IPeriod period, IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> results)
+        {
+            decimal IMP_WORKSHEETHRS = GetDecResultSelect<TimeactualWorkResult>(results,
+                OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK, (x) => (x.WorkSheetHrsVal)); //IMP-WorkSheetHrs
+            decimal IMP_WORKSHEETDAY = GetDecResultSelect<TimeactualWorkResult>(results,
+                OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK, (x) => (x.WorkSheetDayVal)); //IMP-WorkSheetDay
+            decimal IMP_WOTKABSENHRS = 0; //IMP-WotkAbsenHrs
+            decimal IMP_WOTKABSENDAY = 0; //IMP-WotkAbsenDay
+            decimal IMP_OVERSHEETHRS = GetDecResultSelect<TimeactualWorkResult>(results,
+                OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK, (x) => (x.OverSheetHrsVal)); //IMP-OverSheetHrs
+            decimal RES_AGRWORKPAYMT = GetDecResultSelect<AgrworkHoursResult>(results,
+                OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS, (x) => (x.ResultValue)); //RES-AgrWorkPaymt
+            decimal RES_AGRWORKHOURS = GetDecResultSelect<AgrworkHoursResult>(results,
+                OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS, (x) => (x.AgrResultsHours)); //RES-AgrWorkHours
+            decimal RES_CLOTHESPAYMT = GetDecResultSelect<AllowceDailyResult>(results,
+                OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES, (x) => (x.ResultValue)); //RES-ClothesPaymt
+            decimal RES_HOMEOFFPAYMT = GetDecResultSelect<AllowceHFullResult>(results,
+                OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE, (x) => (x.ResultValue)); //RES-HomeOffPaymt
+            decimal IMP_MSALARYBONUS = GetDecResultSelect<OptimusBasisResult>(results,
+                OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-MSalaryBonus
+            decimal RES_MSALARYBONUS = GetDecResultSelect<ReducedBasisResult>(results,
+                OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS, (x) => (x.ResultValue)); //RES-MSalaryBonus
+            decimal IMP_FPREMIUMBASE = GetDecResultSelect<OptimusFixedResult>(results,
+                OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-FPremiumBase
+            decimal RES_FPREMIUMBASE = GetDecResultSelect<ReducedFixedResult>(results,
+                OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS, (x) => (x.ResultValue)); //RES-FPremiumBase
+            decimal IMP_FPREMIUMBOSS = GetDecResultSelect<OptimusFixedResult>(results,
+                OptimulaArticleConst.ARTICLE_PREMADV_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-FPremiumBoss
+            decimal RES_FPREMIUMBOSS = GetDecResultSelect<ReducedFixedResult>(results,
+                OptimulaArticleConst.ARTICLE_PREMADV_RESULTS, (x) => (x.ResultValue)); //RES-FPremiumBoss
+            decimal IMP_FPREMIUMPERS = GetDecResultSelect<OptimusFixedResult>(results,
+                OptimulaArticleConst.ARTICLE_PREMEXT_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-FPremiumPers
+            decimal RES_FPREMIUMPERS = GetDecResultSelect<ReducedFixedResult>(results,
+                OptimulaArticleConst.ARTICLE_PREMEXT_RESULTS, (x) => (x.ResultValue)); //RES-FPremiumPers
+            decimal IMP_QAVERAGEBASE = 0; //IMP-QAverageBase
+            decimal IMP_AVERPREMSPAY = 0; //IMP-AverPremsPay
+            decimal IMP_AVERVACASPAY = 0; //IMP-AverVacasPay
+            decimal IMP_AVEROVERSPAY = 0; //IMP-AverOversPay
+
+            string[] resultLine = new string[]
+            {
+                example.Number,              //EmployeeNumb
+                example.Name,                //EmployeeName
+                period.Code.ToString(),
+                DecFormatDouble(IMP_WORKSHEETHRS), //IMP-WorkSheetHrs
+                DecFormatDouble(IMP_WORKSHEETDAY), //IMP-WorkSheetDay
+                DecFormatDouble(IMP_WOTKABSENHRS), //IMP-WotkAbsenHrs
+                DecFormatDouble(IMP_WOTKABSENDAY), //IMP-WotkAbsenDay
+                DecFormatDouble(IMP_OVERSHEETHRS), //IMP-OverSheetHrs
+                DecFormatDouble(RES_AGRWORKPAYMT), //RES-AgrWorkPaymt
+                DecFormatDouble(RES_AGRWORKHOURS), //RES-AgrWorkHours
+                DecFormatDouble(RES_CLOTHESPAYMT), //RES-ClothesPaymt
+                DecFormatDouble(RES_HOMEOFFPAYMT), //RES-HomeOffPaymt
+                DecFormatDouble(IMP_MSALARYBONUS), //IMP-MSalaryBonus
+                DecFormatDouble(RES_MSALARYBONUS), //RES-MSalaryBonus
+                DecFormatDouble(IMP_FPREMIUMBASE), //IMP-FPremiumBase
+                DecFormatDouble(RES_FPREMIUMBASE), //RES-FPremiumBase
+                DecFormatDouble(IMP_FPREMIUMBOSS), //IMP-FPremiumBoss
+                DecFormatDouble(RES_FPREMIUMBOSS), //RES-FPremiumBoss
+                DecFormatDouble(IMP_FPREMIUMPERS), //IMP-FPremiumPers
+                DecFormatDouble(RES_FPREMIUMPERS), //RES-FPremiumPers
+                DecFormatDouble(IMP_QAVERAGEBASE), //IMP-QAverageBase
+                DecFormatDouble(IMP_AVERPREMSPAY), //IMP-AverPremsPay
+                DecFormatDouble(IMP_AVERVACASPAY), //IMP-AverVacasPay
+                DecFormatDouble(IMP_AVEROVERSPAY), //IMP-AverOversPay
+            };
+
+            return string.Join(";", resultLine) + ";";
+        }
+
+        public static string DecFormatDouble(decimal decValue)
+        {
+            //string resultText = string.Format("{0:N2}", decValue);
+            string resultText = decValue.ToString("0.00");
+            return resultText;
+        }
+        protected decimal GetDecResultSelect<T>(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, OptimulaArticleConst artCode, Func<T, decimal> selVal)
+            where T : class, ITermResult
+        {
+            decimal resultInit = default;
+            var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
+            var resultValue = result.Select((c) => (c as T))
+                .Aggregate(resultInit, (agr, x) => (agr + selVal(x)));
+            return resultValue;
+        }
+
         protected void ServiceExampleTest(OptimulaGenerator example, IPeriod testPeriod, Int32 testPeriodCode, Int32 prevPeriodCode)
         {
             output.WriteLine($"Test: {example.Name}, Number: {example.Number}");
@@ -355,7 +456,7 @@ namespace Procezor.OptimulaTest.Service
                     var targetValue = target as OptimulaTermTarget;
                     var articleSymbol = target.ArticleDescr();
                     var conceptSymbol = target.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}, Target: {6}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value, targetValue.TargetMessage());
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; con: {3}; pos: {4}; var: {5}; Target: {6}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value, targetValue.TargetMessage());
                 }
 
                 var initService = _sut.InitWithPeriod(testPeriod);
@@ -373,14 +474,14 @@ namespace Procezor.OptimulaTest.Service
                         var resultValue = result.Value as OptimulaTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                     }
                     else if (result.IsFailure)
                     {
                         var errorValue = result.Error;
                         var articleSymbol = errorValue.ArticleDescr();
                         var conceptSymbol = errorValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                     }
                 }
             }
@@ -394,11 +495,34 @@ namespace Procezor.OptimulaTest.Service
             if (example.Id == 101)
             {
                 string[] strHeaderRadkaPRAC = new string[] {
-                    "EMPLOYEEID",
+                    "EmployeeNumb",
+                    "EmployeeName",
+                    "PeriodName",
+                    "IMP-WorkSheetHrs",
+                    "IMP-WorkSheetDay",
+                    "IMP-WotkAbsenHrs",
+                    "IMP-WotkAbsenDay",
+                    "IMP-OverSheetHrs",
+                    "RES-AgrWorkPaymt",
+                    "RES-AgrWorkHours",
+                    "RES-ClothesPaymt",
+                    "RES-HomeOffPaymt",
+                    "IMP-MSalaryAward",
+                    "RES-MSalaryAward",
+                    "IMP-FPremiumBase",
+                    "RES-FPremiumBase",
+                    "IMP-FPremiumBoss",
+                    "RES-FPremiumBoss",
+                    "IMP-FPremiumPers",
+                    "RES-FPremiumPers",
+                    "IMP-QAverageBase",
+                    "IMP-AverPremsPay",
+                    "IMP-AverVacasPay",
+                    "IMP-AverOversPay",
                 };
                 using (var testProtokol = CreateProtokolFile($"OPTIMIT_TEST_{testPeriod.Year}_{testPeriod.Code}.CSV"))
                 {
-                    testProtokol.WriteLine(string.Join(";", strHeaderRadkaPRAC));
+                    testProtokol.WriteLine(string.Join(";", strHeaderRadkaPRAC) + ";");
                 }
             }
             output.WriteLine($"Test: {example.Name}, Number: {example.Number}");
@@ -426,7 +550,7 @@ namespace Procezor.OptimulaTest.Service
                 {
                     var articleSymbol = target.ArticleDescr();
                     var conceptSymbol = target.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; con: {3}; pos: {4}; var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
                 }
 
                 var initService = _sut.InitWithPeriod(testPeriod);
@@ -437,7 +561,7 @@ namespace Procezor.OptimulaTest.Service
 
                 using (var testProtokol = OpenProtokolFile($"OPTIMIT_TEST_{testPeriod.Year}_{testPeriod.Code}.CSV"))
                 {
-                    var testResults = ""; // GetExamplePracResultsLine(example, testPeriod, restService);
+                    var testResults = GetExampleOptResultsLine(example, testPeriod, restService);
                     testProtokol.WriteLine(testResults);
                 }
 
@@ -450,14 +574,14 @@ namespace Procezor.OptimulaTest.Service
                         var resultValue = result.Value as OptimulaTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                     }
                     else if (result.IsFailure)
                     {
                         var errorValue = result.Error;
                         var articleSymbol = errorValue.ArticleDescr();
                         var conceptSymbol = errorValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                     }
                 }
             }
@@ -498,6 +622,7 @@ namespace Procezor.OptimulaTest.Service
                 .WithOverSheetHrsVal(0 * 60)
                 .WithHoliSheetHrsVal(0 * 60)
                 .WithMSalaryAwardVal(2993 * 100)
+                .WithFPremiumBaseVal(0 * 100)
                 .WithClothesDailyVal(106 * 100) // 106 Kč
                 .WithAgrWorkRatioVal(0 * 100 + 14) // procent 0,14
                 .WithAgrWorkTarifVal(91 * 100);

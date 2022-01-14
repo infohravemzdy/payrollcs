@@ -94,14 +94,14 @@ namespace Procezor.PayrolexTest.Service
                     var resultValue = result.Value as PayrolexTermResult;
                     var articleSymbol = resultValue.ArticleDescr();
                     var conceptSymbol = resultValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                 }
                 else if (result.IsFailure)
                 {
                     var errorValue = result.Error;
                     var articleSymbol = errorValue.ArticleDescr();
                     var conceptSymbol = errorValue.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                 }
             }
         }

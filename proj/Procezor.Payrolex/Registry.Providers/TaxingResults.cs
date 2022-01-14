@@ -26,7 +26,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Interrest: {this.InterestCode}, Type: {Enum.GetName<WorkTaxingTerms>(this.ContractType)}";
+            return $"Interrest: {this.InterestCode}; Type: {Enum.GetName<WorkTaxingTerms>(this.ContractType)}";
         }
     }
 
@@ -44,7 +44,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Declaration Sign Opts: {Enum.GetName<TaxDeclSignOption>(this.DeclSignOpts)}, None Sign Opts: {Enum.GetName<TaxNoneSignOption>(this.NoneSignOpts)}";
+            return $"Declaration Sign Opts: {Enum.GetName<TaxDeclSignOption>(this.DeclSignOpts)}; None Sign Opts: {Enum.GetName<TaxNoneSignOption>(this.NoneSignOpts)}";
         }
         public string DeclSignText()
         {
@@ -122,7 +122,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -144,7 +144,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkHealthTerms>(this.SubjectTerm)}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}; Interrest: {this.InterestCode}; Term: {Enum.GetName<WorkHealthTerms>(this.SubjectTerm)}; Particy: {this.ParticyCode}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {
@@ -234,7 +234,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}, Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.SubjectTerm)}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkTaxingTerms>(this.SubjectType)}; Interrest: {this.InterestCode}; Term: {Enum.GetName<WorkSocialTerms>(this.SubjectTerm)}; Particy: {this.ParticyCode}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {
@@ -320,7 +320,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -332,7 +332,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -344,7 +344,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -356,7 +356,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -368,7 +368,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -380,7 +380,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -392,7 +392,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -404,7 +404,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -416,7 +416,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -428,7 +428,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -440,7 +440,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -452,7 +452,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -464,7 +464,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
     // TaxingAllowancePayer		TAXING_ALLOWANCE_PAYER
@@ -478,7 +478,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 BenefitApplyResult()
         {
@@ -506,7 +506,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Disability: {this.BenefitDisab}, Order: {this.BenefitOrder}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}; Disability: {this.BenefitDisab}; Order: {this.BenefitOrder}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 BenefitApplyOrd(Int32 order, Int32 disab)
         {
@@ -553,7 +553,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Benefit: {Enum.GetName<TaxDeclDisabOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Benefit: {Enum.GetName<TaxDeclDisabOption>(this.BenefitApply)}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 BenefitApplyDisab1()
         {
@@ -592,7 +592,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Benefit: {Enum.GetName<TaxDeclBenfOption>(this.BenefitApply)}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 BenefitApplyResult()
         {
@@ -613,7 +613,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -626,7 +626,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -639,7 +639,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
     // TaxingPaymAdvances		TAXING_PAYM_ADVANCES
@@ -651,7 +651,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -664,7 +664,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 }

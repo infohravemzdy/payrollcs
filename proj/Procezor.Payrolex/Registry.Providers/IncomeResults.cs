@@ -16,7 +16,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -28,7 +28,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
     // EmployerCosts		EMPLOYER_COSTS
@@ -39,7 +39,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 }

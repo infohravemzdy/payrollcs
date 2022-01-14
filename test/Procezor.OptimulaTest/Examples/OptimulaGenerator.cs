@@ -932,28 +932,28 @@ namespace Procezor.OptimulaTest.Examples
             {
                 Number, // A
                 Name,   // B
-                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // C
-                $"{NumFormatIntX100(AgrWorkRatioVal)}", // D
-                $"{HrsFormatIntX060(AgrHourLimitVal)}", // E
-                $"{NumFormatIntX100(AgrWorkLimitVal)}", // F
-                $"{CcyFormatIntX100(ClothesDailyVal)}", // G
-                $"{CcyFormatIntX100(HomeOffTarifVal)}", // H
-                $"{HrsFormatIntX060(HomeOffHoursVal)}", // I
-                $"{CcyFormatIntX100(MSalaryAwardVal)}", // J
-                $"{CcyFormatIntX100(HSalaryAwardVal)}", // K
-                $"{CcyFormatIntX100(FPremiumBaseVal)}", // L
-                $"{CcyFormatIntX100(FPremiumBossVal)}", // M
-                $"{CcyFormatIntX100(FPremiumPersVal)}", // N
-                $"{HrsFormatIntX060(FullSheetHrsVal)}", // O  
-                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // P  
-                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // Q  
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // R  
-                $"{DayFormatIntX100(WorkSheetDayVal)}", // S   
-                $"{HrsFormatIntX060(OverSheetHrsVal)}", // T
-                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // U
-                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // V
-                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // W  
-                "", // X     
+                period.Code.ToString(),                 // C
+                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // D
+                $"{NumFormatIntX100(AgrWorkRatioVal)}", // E
+                $"{HrsFormatIntX060(AgrHourLimitVal)}", // F
+                $"{NumFormatIntX100(AgrWorkLimitVal)}", // G
+                $"{CcyFormatIntX100(ClothesDailyVal)}", // H
+                $"{CcyFormatIntX100(HomeOffTarifVal)}", // I
+                $"{HrsFormatIntX060(HomeOffHoursVal)}", // J
+                $"{CcyFormatIntX100(MSalaryAwardVal)}", // K
+                $"{CcyFormatIntX100(HSalaryAwardVal)}", // L
+                $"{CcyFormatIntX100(FPremiumBaseVal)}", // M
+                $"{CcyFormatIntX100(FPremiumBossVal)}", // N
+                $"{CcyFormatIntX100(FPremiumPersVal)}", // O  
+                $"{HrsFormatIntX060(FullSheetHrsVal)}", // P  
+                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q  
+                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // R  
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // S   
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // T
+                $"{HrsFormatIntX060(OverSheetHrsVal)}", // U
+                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // V
+                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // W  
+                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // X     
                 "", // Y     
                 "", // Z     
                 $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
@@ -1019,28 +1019,28 @@ namespace Procezor.OptimulaTest.Examples
             {
                 Number, // A
                 Name,   // B
-                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // C
-                $"{NumFormatIntX100(AgrWorkRatioVal)}", // D
-                $"{HrsFormatIntX060(AgrHourLimitVal)}", // E
-                $"{NumFormatIntX100(AgrWorkLimitVal)}", // F
-                $"{CcyFormatIntX100(ClothesDailyVal)}", // G
-                $"{CcyFormatIntX100(HomeOffTarifVal)}", // H
-                $"{HrsFormatIntX060(HomeOffHoursVal)}", // I
-                $"{CcyFormatIntX100(MSalaryAwardVal)}", // J
-                $"{CcyFormatIntX100(HSalaryAwardVal)}", // K
-                $"{CcyFormatIntX100(FPremiumBaseVal)}", // L
-                $"{CcyFormatIntX100(FPremiumBossVal)}", // M
-                $"{CcyFormatIntX100(FPremiumPersVal)}", // N
-                $"{HrsFormatIntX060(FullSheetHrsVal)}", // O  
-                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // P  
-                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // Q  
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // R  
-                $"{DayFormatIntX100(WorkSheetDayVal)}", // S   
-                $"{HrsFormatIntX060(OverSheetHrsVal)}", // T
-                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // U
-                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // V
-                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // W  
-                "", // X     
+                period.Code.ToString(),                 // C
+                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // D
+                $"{NumFormatIntX100(AgrWorkRatioVal)}", // E
+                $"{HrsFormatIntX060(AgrHourLimitVal)}", // F
+                $"{NumFormatIntX100(AgrWorkLimitVal)}", // G
+                $"{CcyFormatIntX100(ClothesDailyVal)}", // H
+                $"{CcyFormatIntX100(HomeOffTarifVal)}", // I
+                $"{HrsFormatIntX060(HomeOffHoursVal)}", // J
+                $"{CcyFormatIntX100(MSalaryAwardVal)}", // K
+                $"{CcyFormatIntX100(HSalaryAwardVal)}", // L
+                $"{CcyFormatIntX100(FPremiumBaseVal)}", // M
+                $"{CcyFormatIntX100(FPremiumBossVal)}", // N
+                $"{CcyFormatIntX100(FPremiumPersVal)}", // O 
+                $"{HrsFormatIntX060(FullSheetHrsVal)}", // P 
+                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q 
+                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // R 
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // S 
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // T 
+                $"{HrsFormatIntX060(OverSheetHrsVal)}", // U
+                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // V
+                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // W 
+                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // X     
                 "", // Y     
                 "", // Z     
                 $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
@@ -1133,8 +1133,8 @@ namespace Procezor.OptimulaTest.Examples
             // ReducedBasis		REDUCED_BASIS
             var reducedMAwards = new ReducedBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS), 
-                MAwardsBasisVal);
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS),
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS));
             // OptimusFixed		OPTIMUS_FIXED
             var optPremiumBase = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS),
@@ -1151,22 +1151,21 @@ namespace Procezor.OptimulaTest.Examples
             // ReducedFixed		REDUCED_FIXED
             var redPremiumBase = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 0);
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS));           
             var redPremiumBoss = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 0);
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_TARGETS));   
             var redPremiumPers = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 0);
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_TARGETS));          
             // AgrworkHours		AGRWORK_HOURS
             var allowceAgrwork = new AgrworkHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS), 
                 AgrWorkTarifVal, AgrWorkRatioVal, AgrWorkLimitVal, AgrHourLimitVal);
-            // AgrworkRedux		AGRWORK_REDUX
-            var reducedAgrwork = new AgrworkReduxTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_REDUX), 0, 0, 0, 0);
             // AllowceHours		ALLOWCE_HOURS
             var allowceHOffice = new AllowceHFullTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
@@ -1206,7 +1205,7 @@ namespace Procezor.OptimulaTest.Examples
             }
             if (AgrWorkTarifVal != 0 && AgrWorkRatioVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { allowceAgrwork, reducedAgrwork }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { allowceAgrwork }).ToArray();
             }
             if (HomeOffTarifVal != 0)
             {

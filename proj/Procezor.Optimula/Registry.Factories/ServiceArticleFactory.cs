@@ -50,30 +50,32 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Factories
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS,
             new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_REDUCED_HOURS,
             new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED,
             new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_PREMADV_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED,
             new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED,
             new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS, (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS,
             new Int32[] {
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
-            }),
-        new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_REDUX,
-            new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXBASE,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL,
@@ -89,6 +91,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Factories
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS, (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_TARGETS,
             Array.Empty<Int32>()),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE, (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_ALLOWCE,
+            Array.Empty<Int32>()),
+        new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK, (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_AGRWORK,
+            Array.Empty<Int32>()),
+        new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS, (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_RESULTS,
             Array.Empty<Int32>()),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE, (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXFREE,
             new Int32[] {

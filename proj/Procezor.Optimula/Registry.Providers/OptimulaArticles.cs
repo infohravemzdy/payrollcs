@@ -353,20 +353,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // AgrworkResults		AGRWORK_RESULTS
-    class AgrworkResultsArtProv : ArticleSpecProvider
-    {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_AGRWORK_RESULTS;
-        public AgrworkResultsArtProv() : base(ARTICLE_CODE)
-        {
-        }
-
-        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
-        {
-            return new AgrworkResultsArtSpec(this.Code.Value);
-        }
-    }
-
     class AgrworkResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS;
@@ -463,6 +449,52 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_ALLOWCE;
         public SettlemAllowceArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // SettlemAgrWork		SETTLEM_AGRWORK
+    class SettlemAgrWorkArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK;
+        public SettlemAgrWorkArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new SettlemAgrWorkArtSpec(this.Code.Value);
+        }
+    }
+
+    class SettlemAgrWorkArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_AGRWORK;
+        public SettlemAgrWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // SettlemResults		SETTLEM_RESULTS
+    class SettlemResultsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS;
+        public SettlemResultsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new SettlemResultsArtSpec(this.Code.Value);
+        }
+    }
+
+    class SettlemResultsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_RESULTS;
+        public SettlemResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

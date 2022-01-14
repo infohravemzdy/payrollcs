@@ -20,14 +20,15 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         ARTICLE_PREMADV_TARGETS,     // Premium Boss     - Targets
         ARTICLE_PREMEXT_TARGETS,     // Premium Personal - Targets
         ARTICLE_AGRWORK_TARGETS,     // Agreement Tariff - Targets
-        ARTICLE_AGRWORK_RESULTS,     // Agreement Tariff - Results
         ARTICLE_SETTLEM_TARGETS,     // Setlement - Targets
+        ARTICLE_SETTLEM_AGRWORK,     // Setlement - Agreement
         ARTICLE_SETTLEM_ALLOWCE,     // Setlement - Allowance
         ARTICLE_PREMEXT_RESULTS,     // Premium Personal - Results
         ARTICLE_PREMADV_RESULTS,     // Premium Boss     - Results
         ARTICLE_PREMIUM_RESULTS,     // Premium Bonus    - Results
         ARTICLE_MAWARDS_RESULTS,     // Personal Award   - Results
         ARTICLE_HAWARDS_RESULTS,     // Personal Award   - Results
+        ARTICLE_SETTLEM_RESULTS,     // Setlement - Results
         ARTICLE_ALLOWCE_HOFFICE,     // HomeOffice Tariff
         ARTICLE_ALLOWCE_CLOTHES,     // Clothing Tarrif
         ARTICLE_INCOMES_TAXFREE,

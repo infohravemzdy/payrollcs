@@ -43,7 +43,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Work Time: {this.TimeSheetHrsVal}, Holi Time: {this.HoliSheetHrsVal}, Work Coeff: {this.WorkLoadHrsCoef}";
+            return $"Work Time: {this.TimeSheetHrsVal}; Holi Time: {this.HoliSheetHrsVal}; Work Coeff: {this.WorkLoadHrsCoef}";
         }
     }
 
@@ -67,7 +67,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Work Hours: {this.WorkSheetHrsVal}, Work Days: {this.WorkSheetDayVal}, Over Hours: {this.OverSheetHrsVal}, Work Coeff: {this.WorkTimeHrsCoef}";
+            return $"Work Hours: {this.WorkSheetHrsVal}; Work Days: {this.WorkSheetDayVal}; Over Hours: {this.OverSheetHrsVal}; Work Coeff: {this.WorkTimeHrsCoef}";
         }
     }
 
@@ -84,7 +84,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Payment Basis: {this.PaymentBasisVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Payment Basis: {this.PaymentBasisVal}";
         }
     }
 
@@ -101,7 +101,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Payment Basis: {this.PaymentBasisVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Payment Basis: {this.PaymentBasisVal}";
         }
     }
 
@@ -120,7 +120,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Payment Basis: {this.PaymentBasisVal}, Payment Hours: {this.PaymentHoursVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Payment Basis: {this.PaymentBasisVal}; Payment Hours: {this.PaymentHoursVal}";
         }
     }
 
@@ -137,7 +137,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Optimus Basis: {this.OptimusBasisVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Optimus Basis: {this.OptimusBasisVal}";
         }
     }
 
@@ -154,7 +154,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Optimus Basis: {this.OptimusBasisVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Optimus Basis: {this.OptimusBasisVal}";
         }
     }
 
@@ -173,7 +173,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Optimus Basis: {this.OptimusBasisVal}, Optimus Hours: {this.OptimusHoursVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Optimus Basis: {this.OptimusBasisVal}; Optimus Hours: {this.OptimusHoursVal}";
         }
     }
 
@@ -190,7 +190,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Reduced Basis: {this.ReducedBasisVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Reduced Basis: {this.ReducedBasisVal}";
         }
     }
 
@@ -207,7 +207,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Reduced Basis: {this.ReducedBasisVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Reduced Basis: {this.ReducedBasisVal}";
         }
     }
 
@@ -226,7 +226,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Reduced Basis: {this.ReducedBasisVal}, Reduced Hours: {this.ReducedHoursVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Reduced Basis: {this.ReducedBasisVal}; Reduced Hours: {this.ReducedHoursVal}";
         }
     }
 
@@ -234,33 +234,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     public class AgrworkHoursResult : OptimulaTermResult
     {
         public AgrworkHoursResult(ITermTarget target, IArticleSpec spec,
-            decimal agrWorkTarifVal, decimal agrWorkRatioVal, decimal agrWorkLimitVal, decimal agrHourLimitVal,
-            decimal agrResultsHours,
-            Int32 value, Int32 basis) : base(target, spec, value, basis)
-        {
-            AgrWorkTarifVal = agrWorkTarifVal;
-            AgrWorkRatioVal = agrWorkRatioVal;
-            AgrWorkLimitVal = agrWorkLimitVal;
-            AgrHourLimitVal = agrHourLimitVal;
-            AgrResultsHours = agrResultsHours;
-        }
-
-        public decimal AgrWorkTarifVal { get; private set; }
-        public decimal AgrWorkRatioVal { get; private set; }
-        public decimal AgrWorkLimitVal { get; private set; }
-        public decimal AgrHourLimitVal { get; private set; }
-        public decimal AgrResultsHours { get; private set; }
-
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Tariff: {this.AgrWorkTarifVal}, Ratio: {this.AgrWorkRatioVal}, Tariff Limit: {this.AgrWorkLimitVal}, Hours Limit: {this.AgrHourLimitVal}, Hours Result: {this.AgrResultsHours}";
-        }
-    }
-
-    // AgrworkRedux		AGRWORK_REDUX
-    public class AgrworkReduxResult : OptimulaTermResult
-    {
-        public AgrworkReduxResult(ITermTarget target, IArticleSpec spec,
             decimal agrWorkTarifVal, decimal agrWorkRatioVal, decimal agrWorkLimitVal, decimal agrHourLimitVal,
             decimal agrResultsHours, decimal agrResultsBasis,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
@@ -282,7 +255,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Tariff: {this.AgrWorkTarifVal}, Ratio: {this.AgrWorkRatioVal}, Tariff Limit: {this.AgrWorkLimitVal}, Hours Limit: {this.AgrHourLimitVal}, Hours Result: {this.AgrResultsHours}, Tariff Result: {this.AgrResultsBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Tariff: {this.AgrWorkTarifVal}; Ratio: {this.AgrWorkRatioVal}; Tariff Limit: {this.AgrWorkLimitVal}; Hours Limit: {this.AgrHourLimitVal}; Hours Result: {this.AgrResultsHours}; Tariff Result: {this.AgrResultsBasis}";
         }
     }
 
@@ -302,7 +275,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
        
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}, Tariff: {this.AllowceTarifVal}, Full Hours: {this.AllowceHFullVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Tariff: {this.AllowceTarifVal}; Full Hours: {this.AllowceHFullVal}";
         }
     }
 
@@ -319,7 +292,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -336,7 +309,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -349,7 +322,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -362,7 +335,33 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
+        }
+    }
+
+    // SettlemAgrWork	SETTLEM_AGRWORK
+    public class SettlemAgrWorkResult : OptimulaTermResult
+    {
+        public SettlemAgrWorkResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
+        }
+    }
+
+    // SettlemResults	SETTLEM_RESULTS
+    public class SettlemResultsResult : OptimulaTermResult
+    {
+        public SettlemResultsResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -375,7 +374,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -388,7 +387,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -401,7 +400,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -414,7 +413,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 

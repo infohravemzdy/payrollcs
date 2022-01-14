@@ -752,7 +752,7 @@ namespace Procezor.PayrolexTest.Service
                 {
                     var articleSymbol = target.ArticleDescr();
                     var conceptSymbol = target.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; con: {3}; pos: {4}; var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
                 }
 
                 var initService = _sut.InitWithPeriod(testPeriod);
@@ -770,14 +770,14 @@ namespace Procezor.PayrolexTest.Service
                         var resultValue = result.Value as PayrolexTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                     }
                     else if (result.IsFailure)
                     {
                         var errorValue = result.Error;
                         var articleSymbol = errorValue.ArticleDescr();
                         var conceptSymbol = errorValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                     }
                 }
             }
@@ -919,7 +919,7 @@ namespace Procezor.PayrolexTest.Service
                 {
                     var articleSymbol = target.ArticleDescr();
                     var conceptSymbol = target.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; con: {3}; pos: {4}; var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
                 }
 
                 var initService = _sut.InitWithPeriod(testPeriod);
@@ -951,14 +951,14 @@ namespace Procezor.PayrolexTest.Service
                         var resultValue = result.Value as PayrolexTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                     }
                     else if (result.IsFailure)
                     {
                         var errorValue = result.Error;
                         var articleSymbol = errorValue.ArticleDescr();
                         var conceptSymbol = errorValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                     }
                 }
             }

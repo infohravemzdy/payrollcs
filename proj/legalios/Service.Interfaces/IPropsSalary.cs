@@ -17,7 +17,10 @@ namespace HraveMzdy.Legalios.Service.Interfaces
             decimal coeffSalary, Int32 fulltimeHour, Int32 workingsHours);
         decimal SalaryTariffWorkHourCoeff(decimal amountMonthly, 
             decimal coeffSalary, decimal coeffWorking);
+        decimal ReverzTariffWorkHourCoeff(decimal amountMonthly, 
+            decimal coeffSalary, decimal coeffWorking);
         decimal SalaryAmountHourlyValue(decimal tariffHourly, decimal workingsHours);
+        decimal SalaryAmountHourlyBasis(decimal tariffHourly, decimal workingsHours);
         decimal SalaryAmountFixedValue(decimal amountFixed);
         decimal WorkingHoursCoeff(decimal fulltimeHour, decimal workingsHours);
         decimal FactorizeValue(decimal baseVakue, decimal factor);
