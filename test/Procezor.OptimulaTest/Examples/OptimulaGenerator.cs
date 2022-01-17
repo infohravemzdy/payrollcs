@@ -24,7 +24,7 @@ namespace Procezor.OptimulaTest.Examples
             DefaultAgrWorkRatioValue = 0;
             DefaultAgrHourLimitValue = 0;
             DefaultAgrWorkLimitValue = 0;
-            DefaultClothesTarifValue = 0;
+            DefaultClothesHoursValue = 0;
             DefaultClothesDailyValue = 0;
             DefaultHomeOffTarifValue = 0;
             DefaultHomeOffHoursValue = 0;
@@ -61,7 +61,7 @@ namespace Procezor.OptimulaTest.Examples
             AgrWorkRatioFunc = DefaultAgrWorkRatio;
             AgrHourLimitFunc = DefaultAgrHourLimit;
             AgrWorkLimitFunc = DefaultAgrWorkLimit;
-            ClothesTarifFunc = DefaultClothesTarif;
+            ClothesHoursFunc = DefaultClothesHours;
             ClothesDailyFunc = DefaultClothesDaily;
             HomeOffTarifFunc = DefaultHomeOffTarif;
             HomeOffHoursFunc = DefaultHomeOffHours;
@@ -141,9 +141,9 @@ namespace Procezor.OptimulaTest.Examples
         {
             return DefaultAgrWorkLimitValue;
         }
-        private Int32 DefaultClothesTarif(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultClothesHours(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return DefaultClothesTarifValue;
+            return DefaultClothesHoursValue;
         }
         private Int32 DefaultClothesDaily(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
@@ -278,7 +278,7 @@ namespace Procezor.OptimulaTest.Examples
         public Int32 DefaultAgrWorkRatioValue { get; private set; }
         public Int32 DefaultAgrHourLimitValue { get; private set; }
         public Int32 DefaultAgrWorkLimitValue { get; private set; }
-        public Int32 DefaultClothesTarifValue { get; private set; }
+        public Int32 DefaultClothesHoursValue { get; private set; }
         public Int32 DefaultClothesDailyValue { get; private set; }
         public Int32 DefaultHomeOffTarifValue { get; private set; }
         public Int32 DefaultHomeOffHoursValue { get; private set; }
@@ -315,7 +315,7 @@ namespace Procezor.OptimulaTest.Examples
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrWorkRatioFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrHourLimitFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrWorkLimitFunc { get; private set; }
-        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesTarifFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesHoursFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesDailyFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffTarifFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffHoursFunc { get; private set; }
@@ -428,24 +428,24 @@ namespace Procezor.OptimulaTest.Examples
                 ParseDecNumber,   //   4  AgrWorkRatio	0,14
                 ParseHrsNumber,   //   5  AgrHourLimit	0,00
                 ParseDecNumber,   //   6  AgrWorkLimit	0,00
-                ParseDecNumber,   //   7  ClothesTarif	57,00
-                ParseDecNumber,   //   8  HomeOffTarif	0,00
-                ParseHrsNumber,   //   9  HomeOffHours	0,00
-                ParseDecNumber,   //   10  MSalaryAward	8 000,00
-                ParseHrsNumber,   //   11  HSalaryAward	0,00
-                ParseDecNumber,   //   12  FPremiumBase	0,00
-                ParseDecNumber,   //   13  FPremiumBoss	0,00
-                ParseDecNumber,   //   14  FPremiumPers	0,00
-                ParseHrsNumber,   //   15  FullSheetHrs	176,00
-                ParseHrsNumber,   //   16  TimeSheetHrs	176,00
-                ParseHrsNumber,   //   17  HoliSheetHrs	0,00
-                ParseHrsNumber,   //   18  WorkSheetHrs	96,00
-                ParseDecNumber,   //   19  WorkSheetDay	12,00
-                ParseHrsNumber,   //   20  OverSheetHrs	40,00
-                ParseHrsNumber,   //   21  VacaRecomHrs	80,00
-                ParseHrsNumber,   //   22  PaidRecomHrs	0,00
-                ParseHrsNumber,   //   23  HoliRecomHrs	0,00
-                ParseNANothing,   //24  -----------
+                ParseDecNumber,   //   7  ClothesHours	11,17
+                ParseDecNumber,   //   8  ClothesDaily	57,00
+                ParseDecNumber,   //   9  HomeOffTarif	0,00
+                ParseHrsNumber,   //  10  HomeOffHours	0,00
+                ParseDecNumber,   //  11  MSalaryAward	8 000,00
+                ParseHrsNumber,   //  12  HSalaryAward	0,00
+                ParseDecNumber,   //  13  FPremiumBase	0,00
+                ParseDecNumber,   //  14  FPremiumBoss	0,00
+                ParseDecNumber,   //  15  FPremiumPers	0,00
+                ParseHrsNumber,   //  16  FullSheetHrs	176,00
+                ParseHrsNumber,   //  17  TimeSheetHrs	176,00
+                ParseHrsNumber,   //  18  HoliSheetHrs	0,00
+                ParseHrsNumber,   //  19  WorkSheetHrs	96,00
+                ParseDecNumber,   //  20  WorkSheetDay	12,00
+                ParseHrsNumber,   //  21  OverSheetHrs	40,00
+                ParseHrsNumber,   //  22  VacaRecomHrs	80,00
+                ParseHrsNumber,   //  23  PaidRecomHrs	0,00
+                ParseHrsNumber,   //  24  HoliRecomHrs	0,00
                 ParseNANothing,   //25  -----------
                 ParseNANothing,   //26  -----------
                 ParseHrsNumber,   //   27  OverAllowHrs	40,00
@@ -476,24 +476,24 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
                 gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
                 gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
-                gen.WithClothesDailyVal,   //   7  ClothesDaily	106,00
-                gen.WithHomeOffTarifVal,   //   8  HomeOffTarif	0,00
-                gen.WithHomeOffHoursVal,   //   9  HomeOffHours	0,00
-                gen.WithMSalaryAwardVal,   //   10  MSalaryAward	8 000,00
-                gen.WithHSalaryAwardVal,   //   11  HSalaryAward	0,00
-                gen.WithFPremiumBaseVal,   //   12  FPremiumBase	0,00
-                gen.WithFPremiumBossVal,   //   13  FPremiumBoss	0,00
-                gen.WithFPremiumPersVal,   //   14  FPremiumPers	0,00
-                gen.WithFullSheetHrsVal,   //   15  FullSheetHrs	176,00
-                gen.WithTimeSheetHrsVal,   //   16  TimeSheetHrs	176,00
-                gen.WithHoliSheetHrsVal,   //   17  HoliSheetHrs	0,00
-                gen.WithWorkSheetHrsVal,   //   18  WorkSheetHrs	96,00
-                gen.WithWorkSheetDayVal,   //   19  WorkSheetDay	12,00
-                gen.WithOverSheetHrsVal,   //   20  OverSheetHrs	40,00
-                gen.WithVacaRecomHrsVal,   //   21  VacaRecomHrs	80,00
-                gen.WithPaidRecomHrsVal,   //   22  PaidRecomHrs	0,00
-                gen.WithHoliRecomHrsVal,   //   23  HoliRecomHrs	0,00
-                gen.WithNANothingVal,   //24  -----------
+                gen.WithClothesDailyVal,   //   7  ClothesHours	11,17
+                gen.WithClothesDailyVal,   //   8  ClothesDaily	106,00
+                gen.WithHomeOffTarifVal,   //   9  HomeOffTarif	0,00
+                gen.WithHomeOffHoursVal,   //  10  HomeOffHours	0,00
+                gen.WithMSalaryAwardVal,   //  11  MSalaryAward	8 000,00
+                gen.WithHSalaryAwardVal,   //  12  HSalaryAward	0,00
+                gen.WithFPremiumBaseVal,   //  13  FPremiumBase	0,00
+                gen.WithFPremiumBossVal,   //  14  FPremiumBoss	0,00
+                gen.WithFPremiumPersVal,   //  15  FPremiumPers	0,00
+                gen.WithFullSheetHrsVal,   //  16  FullSheetHrs	176,00
+                gen.WithTimeSheetHrsVal,   //  17  TimeSheetHrs	176,00
+                gen.WithHoliSheetHrsVal,   //  18  HoliSheetHrs	0,00
+                gen.WithWorkSheetHrsVal,   //  19  WorkSheetHrs	96,00
+                gen.WithWorkSheetDayVal,   //  20  WorkSheetDay	12,00
+                gen.WithOverSheetHrsVal,   //  21  OverSheetHrs	40,00
+                gen.WithVacaRecomHrsVal,   //  22  VacaRecomHrs	80,00
+                gen.WithPaidRecomHrsVal,   //  23  PaidRecomHrs	0,00
+                gen.WithHoliRecomHrsVal,   //  24  HoliRecomHrs	0,00
                 gen.WithNANothingVal,   //25  -----------
                 gen.WithNANothingVal,   //26  -----------
                 gen.WithOverAllowHrsVal,   //   27  OverAllowHrs	40,00
@@ -521,24 +521,24 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
                 gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
                 gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
-                gen.WithClothesDailyVal,   //   7  ClothesDaily	106,00
-                gen.WithHomeOffTarifVal,   //   8  HomeOffTarif	0,00
-                gen.WithHomeOffHoursVal,   //   9  HomeOffHours	0,00
-                gen.WithMSalaryAwardVal,   //   10  MSalaryAward	8 000,00
-                gen.WithHSalaryAwardVal,   //   11  HSalaryAward	0,00
-                gen.WithFPremiumBaseVal,   //   12  FPremiumBase	0,00
-                gen.WithFPremiumBossVal,   //   13  FPremiumBoss	0,00
-                gen.WithFPremiumPersVal,   //   14  FPremiumPers	0,00
-                gen.WithFullSheetHrsVal,   //   15  FullSheetHrs	176,00
-                gen.WithTimeSheetHrsVal,   //   16  TimeSheetHrs	176,00
-                gen.WithHoliSheetHrsVal,   //   17  HoliSheetHrs	0,00
-                gen.WithWorkSheetHrsVal,   //   18  WorkSheetHrs	96,00
-                gen.WithWorkSheetDayVal,   //   19  WorkSheetDay	12,00
-                gen.WithOverSheetHrsVal,   //   20  OverSheetHrs	40,00
-                gen.WithVacaRecomHrsVal,   //   21  VacaRecomHrs	80,00
-                gen.WithPaidRecomHrsVal,   //   22  PaidRecomHrs	0,00
-                gen.WithHoliRecomHrsVal,   //   23  HoliRecomHrs	0,00
-                gen.WithNANothingVal,   //24  -----------
+                gen.WithClothesDailyVal,   //   7  ClothesHours	11,17
+                gen.WithClothesDailyVal,   //   8  ClothesDaily	106,00
+                gen.WithHomeOffTarifVal,   //   9  HomeOffTarif	0,00
+                gen.WithHomeOffHoursVal,   //  10 HomeOffHours	0,00
+                gen.WithMSalaryAwardVal,   //  11  MSalaryAward	8 000,00
+                gen.WithHSalaryAwardVal,   //  12  HSalaryAward	0,00
+                gen.WithFPremiumBaseVal,   //  13  FPremiumBase	0,00
+                gen.WithFPremiumBossVal,   //  14  FPremiumBoss	0,00
+                gen.WithFPremiumPersVal,   //  15  FPremiumPers	0,00
+                gen.WithFullSheetHrsVal,   //  16  FullSheetHrs	176,00
+                gen.WithTimeSheetHrsVal,   //  17  TimeSheetHrs	176,00
+                gen.WithHoliSheetHrsVal,   //  18  HoliSheetHrs	0,00
+                gen.WithWorkSheetHrsVal,   //  19  WorkSheetHrs	96,00
+                gen.WithWorkSheetDayVal,   //  20  WorkSheetDay	12,00
+                gen.WithOverSheetHrsVal,   //  21  OverSheetHrs	40,00
+                gen.WithVacaRecomHrsVal,   //  22  VacaRecomHrs	80,00
+                gen.WithPaidRecomHrsVal,   //  23  PaidRecomHrs	0,00
+                gen.WithHoliRecomHrsVal,   //  24  HoliRecomHrs	0,00
                 gen.WithNANothingVal,   //25  -----------
                 gen.WithNANothingVal,   //26  -----------
                 gen.WithNANothingVal,   //   27  OverAllowHrs	40,00
@@ -557,10 +557,6 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithNANothingVal,   //   40  QSumWorkHour	912,08
             };
 #endif
-            /*
-            EmployeeNumb;EmployeeName;AgrWorkTarif;AgrWorkRatio;AgrHourLimit;AgrWorkLimit;ClothesDaily;HomeOffTarif;HomeOffHours;MSalaryAward;HSalaryAward;FPremiumBase;FPremiumBoss;FPremiumPers;FullSheetHrs;TimeSheetHrs;HoliSheetHrs;WorkSheetHrs;WorkSheetDay;OverSheetHrs;VacaRecomHrs;PaidRecomHrs;HoliRecomHrs;OverAllowHrs;OverAllowRio;RestAllowHrs;RestAllowRio;WendAllowHrs;WendAllowRio;NighAllowHrs;NighAllowRio;HoliAllowHrs;HoliAllowRio;QClothesBase;QHOfficeBase;QAgrWorkBase;QSumWorkHour;
-            101;Drahota Jakub;105,00;0,14;0,00;0,00;57,00;0,00;0,00;8 000,00;0,00;0,00;0,00;0,00;176,00;176,00;0,00;96,00;12,00;40,00;80,00;0,00;0,00;40,00;0,25;0,00;0,00;0,00;0,00;18,25;0,10;0,00;0,00;3 506,00;0,00;8 852,00;912,08
-            */
             specIntValues.Zip(specGenerator).Select((x) => x.Second(x.First)).ToArray();
 
             return gen;
@@ -595,7 +591,7 @@ namespace Procezor.OptimulaTest.Examples
         }
         public OptimulaGenerator WithClothesTarifVal(Int32 val)
         {
-            DefaultClothesTarifValue = val;
+            DefaultClothesHoursValue = val;
             return this;
         }
         public OptimulaGenerator WithClothesDailyVal(Int32 val)
@@ -780,7 +776,7 @@ namespace Procezor.OptimulaTest.Examples
         }
         public OptimulaGenerator WithClothesTarif(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
-            ClothesTarifFunc = func;
+            ClothesHoursFunc = func;
             return this;
         }
         public OptimulaGenerator WithClothesDaily(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
@@ -944,7 +940,7 @@ namespace Procezor.OptimulaTest.Examples
             Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
             Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
             Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
-            Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 ClothesHoursVal = ClothesHoursFunc(this, period, ruleset, prevset);
             Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
             Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
@@ -987,24 +983,24 @@ namespace Procezor.OptimulaTest.Examples
                 $"{NumFormatIntX100(AgrWorkRatioVal)}", // E
                 $"{HrsFormatIntX060(AgrHourLimitVal)}", // F
                 $"{NumFormatIntX100(AgrWorkLimitVal)}", // G
-                $"{CcyFormatIntX100(ClothesDailyVal)}", // H
-                $"{CcyFormatIntX100(HomeOffTarifVal)}", // I
-                $"{HrsFormatIntX060(HomeOffHoursVal)}", // J
-                $"{CcyFormatIntX100(MSalaryAwardVal)}", // K
-                $"{CcyFormatIntX100(HSalaryAwardVal)}", // L
-                $"{CcyFormatIntX100(FPremiumBaseVal)}", // M
-                $"{CcyFormatIntX100(FPremiumBossVal)}", // N
-                $"{CcyFormatIntX100(FPremiumPersVal)}", // O  
-                $"{HrsFormatIntX060(FullSheetHrsVal)}", // P  
-                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q  
-                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // R  
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // S   
-                $"{DayFormatIntX100(WorkSheetDayVal)}", // T
-                $"{HrsFormatIntX060(OverSheetHrsVal)}", // U
-                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // V
-                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // W  
-                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // X     
-                "", // Y     
+                $"{CcyFormatIntX100(ClothesHoursVal)}", // H
+                $"{CcyFormatIntX100(ClothesDailyVal)}", // I
+                $"{CcyFormatIntX100(HomeOffTarifVal)}", // J
+                $"{HrsFormatIntX060(HomeOffHoursVal)}", // K
+                $"{CcyFormatIntX100(MSalaryAwardVal)}", // L
+                $"{CcyFormatIntX100(HSalaryAwardVal)}", // M
+                $"{CcyFormatIntX100(FPremiumBaseVal)}", // N
+                $"{CcyFormatIntX100(FPremiumBossVal)}", // O  
+                $"{CcyFormatIntX100(FPremiumPersVal)}", // P  
+                $"{HrsFormatIntX060(FullSheetHrsVal)}", // Q  
+                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // R  
+                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // S   
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // T
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // U
+                $"{HrsFormatIntX060(OverSheetHrsVal)}", // V
+                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // W  
+                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // X   
+                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // Y     
                 "", // Z     
                 $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
                 $"{CcyFormatIntX100(OverAllowRioVal)}", // AB
@@ -1031,7 +1027,7 @@ namespace Procezor.OptimulaTest.Examples
             Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
             Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
             Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
-            Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 ClothesHoursVal = ClothesHoursFunc(this, period, ruleset, prevset);
             Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
             Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
@@ -1074,24 +1070,24 @@ namespace Procezor.OptimulaTest.Examples
                 $"{NumFormatIntX100(AgrWorkRatioVal)}", // E
                 $"{HrsFormatIntX060(AgrHourLimitVal)}", // F
                 $"{NumFormatIntX100(AgrWorkLimitVal)}", // G
-                $"{CcyFormatIntX100(ClothesDailyVal)}", // H
-                $"{CcyFormatIntX100(HomeOffTarifVal)}", // I
-                $"{HrsFormatIntX060(HomeOffHoursVal)}", // J
-                $"{CcyFormatIntX100(MSalaryAwardVal)}", // K
-                $"{CcyFormatIntX100(HSalaryAwardVal)}", // L
-                $"{CcyFormatIntX100(FPremiumBaseVal)}", // M
-                $"{CcyFormatIntX100(FPremiumBossVal)}", // N
-                $"{CcyFormatIntX100(FPremiumPersVal)}", // O 
-                $"{HrsFormatIntX060(FullSheetHrsVal)}", // P 
-                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q 
-                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // R 
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // S 
-                $"{DayFormatIntX100(WorkSheetDayVal)}", // T 
-                $"{HrsFormatIntX060(OverSheetHrsVal)}", // U
-                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // V
-                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // W 
-                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // X     
-                "", // Y     
+                $"{CcyFormatIntX100(ClothesHoursVal)}", // H
+                $"{CcyFormatIntX100(ClothesDailyVal)}", // I
+                $"{CcyFormatIntX100(HomeOffTarifVal)}", // J
+                $"{HrsFormatIntX060(HomeOffHoursVal)}", // K
+                $"{CcyFormatIntX100(MSalaryAwardVal)}", // L
+                $"{CcyFormatIntX100(HSalaryAwardVal)}", // M
+                $"{CcyFormatIntX100(FPremiumBaseVal)}", // N
+                $"{CcyFormatIntX100(FPremiumBossVal)}", // O 
+                $"{CcyFormatIntX100(FPremiumPersVal)}", // P 
+                $"{HrsFormatIntX060(FullSheetHrsVal)}", // Q 
+                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // R 
+                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // S 
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // T 
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // U
+                $"{HrsFormatIntX060(OverSheetHrsVal)}", // V
+                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // W 
+                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // X    
+                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // Y     
                 "", // Z     
                 $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
                 $"{CcyFormatIntX100(OverAllowRioVal)}", // AB
@@ -1127,7 +1123,7 @@ namespace Procezor.OptimulaTest.Examples
             Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
             Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
             Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
-            Int32 ClothesTarifVal = ClothesTarifFunc(this, period, ruleset, prevset);
+            Int32 ClothesHoursVal = ClothesHoursFunc(this, period, ruleset, prevset);
             Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
             Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
