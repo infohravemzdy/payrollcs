@@ -423,6 +423,7 @@ namespace Procezor.OptimulaTest.Examples
             {
                 ParseIntNumber,   //   1  EmployeeNumb	101
                 ParseNANothing,   //   2  EmployeeName	Drahota Jakub
+                ParseNANothing,   //   3  PeriodName  	202201
                 ParseDecNumber,   //   3  AgrWorkTarif	105,00
                 ParseDecNumber,   //   4  AgrWorkRatio	0,14
                 ParseHrsNumber,   //   5  AgrHourLimit	0,00
@@ -464,10 +465,13 @@ namespace Procezor.OptimulaTest.Examples
             };
             Int32[] specIntValues = specDefValues.Zip(specParser).Select((x) => x.Second(x.First)).ToArray();
 
+
+#if __ALL_VALUES__
             Func<Int32, OptimulaGenerator>[] specGenerator = new Func<Int32, OptimulaGenerator>[]
             {
                 gen.WithNANothingVal,   //   1  EmployeeNumb	101
                 gen.WithNANothingVal,   //   2  EmployeeName	Drahota Jakub
+                gen.WithNANothingVal,   //   3  PeriodName  	202201
                 gen.WithAgrWorkTarifVal,   //   3  AgrWorkTarif	105,00
                 gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
                 gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
@@ -507,6 +511,52 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithQAgrWorkBaseVal,   //   39  QAgrWorkBase	8 852,00
                 gen.WithQSumWorkHourVal,   //   40  QSumWorkHour	912,08
             };
+#else
+            Func<Int32, OptimulaGenerator>[] specGenerator = new Func<Int32, OptimulaGenerator>[]
+            {
+                gen.WithNANothingVal,   //   1  EmployeeNumb	101
+                gen.WithNANothingVal,   //   2  EmployeeName	Drahota Jakub
+                gen.WithNANothingVal,   //   3  PeriodName  	202201
+                gen.WithAgrWorkTarifVal,   //   3  AgrWorkTarif	105,00
+                gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
+                gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
+                gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
+                gen.WithClothesDailyVal,   //   7  ClothesDaily	106,00
+                gen.WithHomeOffTarifVal,   //   8  HomeOffTarif	0,00
+                gen.WithHomeOffHoursVal,   //   9  HomeOffHours	0,00
+                gen.WithMSalaryAwardVal,   //   10  MSalaryAward	8 000,00
+                gen.WithHSalaryAwardVal,   //   11  HSalaryAward	0,00
+                gen.WithFPremiumBaseVal,   //   12  FPremiumBase	0,00
+                gen.WithFPremiumBossVal,   //   13  FPremiumBoss	0,00
+                gen.WithFPremiumPersVal,   //   14  FPremiumPers	0,00
+                gen.WithFullSheetHrsVal,   //   15  FullSheetHrs	176,00
+                gen.WithTimeSheetHrsVal,   //   16  TimeSheetHrs	176,00
+                gen.WithHoliSheetHrsVal,   //   17  HoliSheetHrs	0,00
+                gen.WithWorkSheetHrsVal,   //   18  WorkSheetHrs	96,00
+                gen.WithWorkSheetDayVal,   //   19  WorkSheetDay	12,00
+                gen.WithOverSheetHrsVal,   //   20  OverSheetHrs	40,00
+                gen.WithVacaRecomHrsVal,   //   21  VacaRecomHrs	80,00
+                gen.WithPaidRecomHrsVal,   //   22  PaidRecomHrs	0,00
+                gen.WithHoliRecomHrsVal,   //   23  HoliRecomHrs	0,00
+                gen.WithNANothingVal,   //24  -----------
+                gen.WithNANothingVal,   //25  -----------
+                gen.WithNANothingVal,   //26  -----------
+                gen.WithNANothingVal,   //   27  OverAllowHrs	40,00
+                gen.WithNANothingVal,   //   28  OverAllowRio	0,25
+                gen.WithNANothingVal,   //   29  RestAllowHrs	0,00
+                gen.WithNANothingVal,   //   30  RestAllowRio	0,00
+                gen.WithNANothingVal,   //   31  WendAllowHrs	0,00
+                gen.WithNANothingVal,   //   32  WendAllowRio	0,00
+                gen.WithNANothingVal,   //   33  NighAllowHrs	18,25
+                gen.WithNANothingVal,   //   34  NighAllowRio	0,10
+                gen.WithNANothingVal,   //   35  HoliAllowHrs	0,00
+                gen.WithNANothingVal,   //   36  HoliAllowRio	0,00
+                gen.WithNANothingVal,   //   37  QClothesBase	3 506,00
+                gen.WithNANothingVal,   //   38  QHOfficeBase	0,00
+                gen.WithNANothingVal,   //   39  QAgrWorkBase	8 852,00
+                gen.WithNANothingVal,   //   40  QSumWorkHour	912,08
+            };
+#endif
             /*
             EmployeeNumb;EmployeeName;AgrWorkTarif;AgrWorkRatio;AgrHourLimit;AgrWorkLimit;ClothesDaily;HomeOffTarif;HomeOffHours;MSalaryAward;HSalaryAward;FPremiumBase;FPremiumBoss;FPremiumPers;FullSheetHrs;TimeSheetHrs;HoliSheetHrs;WorkSheetHrs;WorkSheetDay;OverSheetHrs;VacaRecomHrs;PaidRecomHrs;HoliRecomHrs;OverAllowHrs;OverAllowRio;RestAllowHrs;RestAllowRio;WendAllowHrs;WendAllowRio;NighAllowHrs;NighAllowRio;HoliAllowHrs;HoliAllowRio;QClothesBase;QHOfficeBase;QAgrWorkBase;QSumWorkHour;
             101;Drahota Jakub;105,00;0,14;0,00;0,00;57,00;0,00;0,00;8 000,00;0,00;0,00;0,00;0,00;176,00;176,00;0,00;96,00;12,00;40,00;80,00;0,00;0,00;40,00;0,25;0,00;0,00;0,00;0,00;18,25;0,10;0,00;0,00;3 506,00;0,00;8 852,00;912,08

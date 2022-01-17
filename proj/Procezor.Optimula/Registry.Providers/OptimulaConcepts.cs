@@ -1153,7 +1153,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                         redCandidsHours = 25.0m;
                         redCandidsBasis = salaryRules.MoneyToRoundDown(OperationsDec.Divide(redCandidsValue, redCandidsHours));
                     }
-                    decimal minCandidsBasis = salaryRules.PaymentWithAmountFixed(OperationsDec.Divide(salaryRules.MinHourlyWage + 100, 100m));
+                    decimal minCandidsBasis = salaryRules.PaymentWithAmountFixed(OperationsDec.Divide(salaryRules.MinHourlyWage + 200, 100m));
 
                     if (redCandidsBasis < minCandidsBasis)
                     {
