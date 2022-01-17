@@ -107,12 +107,12 @@ namespace HraveMzdy.Legalios.Props
         protected abstract bool HasIncomeCumulatedParticy(WorkSocialTerms term);
         public decimal DecInsuranceRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
 
         public Int32 IntInsuranceRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
 
         public Int32 RoundedEmployeePaym(Int32 basisResult)

@@ -109,12 +109,12 @@ namespace HraveMzdy.Legalios.Props
 
         public decimal DecInsuranceRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
 
         public Int32 IntInsuranceRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
         public Int32 RoundedCompoundPaym(Int32 basisResult)
         {

@@ -87,11 +87,11 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 hoursLiable = OperationsPeriod.TotalMonthHours(evalTimePlan.HoursRealMonth);
             Int32 hoursWorked = OperationsPeriod.TotalMonthHours(evalTimeWork.HoursTermMonth);
 
-            Decimal resValue = salaryRules.SalaryAmountScheduleWork(evalTarget.TargetBasis, 
+            Decimal resValue = salaryRules.PaymentWithMonthlyAndFullWeekAndFullAndWorkHours(evalTarget.TargetBasis, 
                 shiftLiable, shiftWorked,
                 hoursLiable, hoursWorked);
             ITermResult resultsValues = new PaymentBasisResult(target, spec,
-                salaryRules.RoundUp(resValue), evalTarget.TargetBasis);
+                OperationsRound.RoundUp(resValue), evalTarget.TargetBasis);
 
             return BuildOkResults(resultsValues);
         }
@@ -143,10 +143,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             PaymentFixedTarget evalTarget = resTarget.Value;
 
-            Decimal resValue = salaryRules.SalaryAmountFixedValue(evalTarget.TargetBasis);
+            Decimal resValue = salaryRules.PaymentWithAmountFixed(evalTarget.TargetBasis);
 
             ITermResult resultsValues = new PaymentFixedResult(target, spec,
-                salaryRules.RoundUp(resValue), evalTarget.TargetBasis);
+                OperationsRound.RoundUp(resValue), evalTarget.TargetBasis);
 
             return BuildOkResults(resultsValues);
         }

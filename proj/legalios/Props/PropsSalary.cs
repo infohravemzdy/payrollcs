@@ -43,23 +43,31 @@ namespace HraveMzdy.Legalios.Props
                     this.MinHourlyWage == other.MinHourlyWage);
         }
 
-        public Int32 TotalHoursForPayment(Int32 scheduledHours, Int32 workingsHours)
+        protected Int32 TotalHoursWithFullAndPartHours(Int32 fullWorkHours, Int32 partWorkHours)
         {
-            Int32 totalsHours = Math.Max(0, workingsHours);
+            Int32 totalsHours = Math.Max(0, partWorkHours);
 
-            Int32 resultHours = Math.Min(scheduledHours, totalsHours);
+            Int32 resultHours = Math.Min(fullWorkHours, totalsHours);
 
             return resultHours;
         }
-        public decimal PaymentFromAmount(decimal amountMonthly, Int32 fullworkHours, Int32 workingsHours)
+        protected decimal DecPaymentWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours)
         {
-            Int32 totalHours = TotalHoursForPayment(fullworkHours, workingsHours);
+            decimal coeffAmount = FactorizeValue(amountMonthly, monthlyCoeff);
 
-            decimal payment = OperationsDec.MultiplyAndDivide(amountMonthly, totalHours, fullworkHours);
+            decimal payment = DecPaymentWithMonthlyAndFullAndWorkHours(coeffAmount, fullWorkHours, partWorkHours);
 
             return payment;
         }
-        public decimal PaymentFromTariff(decimal tariffHourly, decimal workingsHours)
+        protected decimal DecPaymentWithMonthlyAndFullAndWorkHours(decimal amountMonthly, Int32 fullWorkHours, Int32 partWorkHours)
+        {
+            Int32 paymWorkHours = TotalHoursWithFullAndPartHours(fullWorkHours, partWorkHours);
+
+            decimal payment = OperationsDec.MultiplyAndDivide(amountMonthly, paymWorkHours, fullWorkHours);
+
+            return payment;
+        }
+        protected decimal DecPaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
         {
             decimal totalHours = Math.Max(0m, workingsHours);
 
@@ -67,7 +75,7 @@ namespace HraveMzdy.Legalios.Props
 
             return payment;
         }
-        public decimal TariffFromPayment(decimal amountHourly, decimal workingsHours)
+        protected decimal DecTariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours)
         {
             decimal totalHours = Math.Max(0m, workingsHours);
 
@@ -75,140 +83,138 @@ namespace HraveMzdy.Legalios.Props
 
             return tariff;
         }
-        public decimal PaymentFromFixedAmount(decimal amountFixed)
+        protected decimal DecPaymentWithAmountFixed(decimal amountFixed)
         {
             decimal payment = amountFixed;
 
             return payment;
         }
-        public decimal PartTariffWithWorkingHours(decimal amountMonthly, decimal scheduleFactor, Int32 fullworkHours, Int32 workingsHours)
+        public decimal CoeffWithPartAndFullHours(decimal fullHours, decimal partHours)
         {
-            decimal amountFactor = FactorizeValue(amountMonthly, scheduleFactor);
-
-            decimal paymentValue = PaymentFromAmount(amountFactor, fullworkHours, workingsHours);
-
-            return DecRoundNorm(paymentValue);
-        }
-        public decimal PartTariffWithWorkingCoeff(decimal amountMonthly, decimal scheduleFactor, decimal workingsFactor)
-        {
-            decimal amountFactor = FactorizeValue(amountMonthly, scheduleFactor);
-
-            decimal paymentValue = FactorizeValue(amountFactor, workingsFactor);
-
-            return DecRoundNorm(paymentValue);
-        }
-        public decimal FullTariffWithWorkingCoeff(decimal amountMonthly, decimal scheduleFactor, decimal workingsFactor)
-        {
-            decimal amountFactor = DefactorizeValue(amountMonthly, scheduleFactor);
-
-            decimal paymentValue = DefactorizeValue(amountFactor, workingsFactor);
-
-            return DecRoundNorm(paymentValue);
-        }
-        public decimal MonthlyAmountWithWorkingHours(decimal amountMonthly, decimal scheduleFactor, Int32 fullworkHours, Int32 workingsHours)
-        {
-            decimal amountFactor = FactorizeValue(amountMonthly, scheduleFactor);
-
-            decimal paymentValue = PaymentFromAmount(amountFactor, fullworkHours, workingsHours);
-
-            return DecRoundUp(paymentValue);
-        }
-        public decimal MonthlyAmountWithWorkingCoeff(decimal amountMonthly, decimal scheduleFactor, decimal workingsFactor)
-        {
-            decimal amountFactor = FactorizeValue(amountMonthly, scheduleFactor);
-
-            decimal paymentValue = FactorizeValue(amountFactor, workingsFactor);
-
-            return DecRoundUp(paymentValue);
-        }
-        public decimal WorkingHoursCoeff(decimal fullworkHour, decimal workingsHours)
-        {
-            decimal coeffWorking = Math.Min(1.0m, OperationsDec.Divide(workingsHours, fullworkHour));
+            decimal coeffWorking = Math.Min(1.0m, OperationsDec.Divide(partHours, fullHours));
 
             return coeffWorking;
         }
-        public decimal SalaryAmountScheduleWork(decimal amountMonthly,
-            Int32 fullWeekHours, Int32 workWeekHours,
-            Int32 fullworkHours, Int32 workingsHours)
+        public decimal RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
-            decimal coeffSalary = WorkingHoursCoeff(workWeekHours, fullWeekHours); // 1.0m;
+            decimal amountCoeffs = FactorizeValue(amountMonthly, monthlyCoeff);
 
-            decimal salaryValue = MonthlyAmountWithWorkingHours(amountMonthly, coeffSalary, fullworkHours, workingsHours);
+            decimal relativeAmount = FactorizeValue(amountCoeffs, workingCoeff);
 
-            return salaryValue;
+            return relativeAmount;
         }
-        public decimal SalaryAmountScheduleCoeff(decimal amountMonthly, decimal coeffSalary,
-            Int32 fullworkHours, Int32 workingsHours)
+        public decimal ReverzedAmountWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
-            decimal salaryValue = MonthlyAmountWithWorkingHours(amountMonthly, coeffSalary, fullworkHours, workingsHours);
+            decimal amountCoeffs = ReverzedFactorizeValue(amountMonthly, monthlyCoeff);
 
-            return salaryValue;
-        }
-        public decimal SalaryTariffWorkHourCoeff(decimal amountMonthly, decimal coeffSalary, decimal coeffWorking)
-        {
-            decimal salaryValue = PartTariffWithWorkingCoeff(amountMonthly, coeffSalary, coeffWorking);
+            decimal reverzedAmount = ReverzedFactorizeValue(amountCoeffs, workingCoeff);
 
-            return salaryValue;
+            return reverzedAmount;
         }
-        public decimal ReverzTariffWorkHourCoeff(decimal amountMonthly, decimal coeffSalary, decimal coeffWorking)
+        public decimal RelativeTariffWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
-            decimal salaryValue = FullTariffWithWorkingCoeff(amountMonthly, coeffSalary, coeffWorking);
+            decimal paymentValue = RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(amountMonthly, monthlyCoeff, workingCoeff);
 
-            return salaryValue;
+            return OperationsRound.DecRoundNorm01(paymentValue);
         }
-        public decimal SalaryAmountFixedValue(decimal amountFixed)
+        public decimal ReverzedTariffWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
-            decimal paymentValue = PaymentFromFixedAmount(amountFixed);
+            decimal paymentValue = ReverzedAmountWithMonthlyAndCoeffAndWorkCoeff(amountMonthly, monthlyCoeff, workingCoeff);
 
-            return DecRoundUp(paymentValue);
+            return OperationsRound.DecRoundNorm01(paymentValue);
         }
-        public decimal SalaryAmountHourlyValue(decimal tariffHourly, decimal workingsHours)
+        public decimal RelativePaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
-            decimal paymentValue = PaymentFromTariff(tariffHourly, workingsHours);
+            decimal paymentValue = RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(amountMonthly, monthlyCoeff, workingCoeff);
 
-            return DecRoundUp(paymentValue);
+            return OperationsRound.DecRoundNorm(paymentValue);
         }
-        public decimal SalaryAmountHourlyBasis(decimal amountHourly, decimal workingsHours)
+        public decimal ReverzedPaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
-            decimal tariffValue = TariffFromPayment(amountHourly, workingsHours);
+            decimal paymentValue = ReverzedAmountWithMonthlyAndCoeffAndWorkCoeff(amountMonthly, monthlyCoeff, workingCoeff);
+
+            return OperationsRound.DecRoundNorm(paymentValue);
+        }
+        public decimal PaymentWithAmountFixed(decimal amountFixed)
+        {
+            decimal paymentValue = DecPaymentWithAmountFixed(amountFixed);
+
+            return OperationsRound.DecRoundNorm(paymentValue);
+        }
+        public decimal PaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
+        {
+            decimal paymentValue = DecPaymentWithTariffAndHours(tariffHourly, workingsHours);
+
+            return OperationsRound.DecRoundNorm(paymentValue);
+        }
+        public decimal TariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours)
+        {
+            decimal tariffValue = DecTariffWithPaymentAndHours(amountHourly, workingsHours);
 
             return MoneyToRoundNorm(tariffValue);
         }
+
+        public decimal PaymentWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullworkHours, Int32 workingsHours)
+        {
+            decimal amountCoeffs = FactorizeValue(amountMonthly, monthlyCoeff);
+
+            decimal paymentValue = DecPaymentWithMonthlyAndFullAndWorkHours(amountCoeffs, fullworkHours, workingsHours);
+
+            return OperationsRound.DecRoundNorm(paymentValue);
+        }
+        public decimal PaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
+        {
+            decimal amountFactor = FactorizeValue(amountMonthly, monthlyCoeff);
+
+            decimal paymentValue = FactorizeValue(amountFactor, workingCoeff);
+
+            return OperationsRound.DecRoundNorm(paymentValue);
+        }
+        public decimal PaymentWithMonthlyAndFullWeekAndFullAndWorkHours(decimal amountMonthly,
+            Int32 fullWeekHours, Int32 partWeekHours,
+            Int32 fullWorkHours, Int32 partWorkHours)
+        {
+            decimal coeffSalary = CoeffWithPartAndFullHours(partWeekHours, fullWeekHours); // 1.0m;
+
+            decimal salaryValue = PaymentWithMonthlyAndCoeffAndFullAndWorkHours(amountMonthly, coeffSalary, fullWorkHours, partWorkHours);
+
+            return salaryValue;
+        }
         public decimal HoursToHalfHoursUp(decimal hoursVakue)
         {
-            return DecRoundUp50(hoursVakue);
+            return OperationsRound.DecRoundUp50(hoursVakue);
         }
-        public decimal HoursToQuartsHoursUp(decimal hoursVakue)
+        public decimal HoursToQuartHoursUp(decimal hoursVakue)
         {
-            return DecRoundUp25(hoursVakue);
+            return OperationsRound.DecRoundUp25(hoursVakue);
         }
         public decimal HoursToHalfHoursDown(decimal hoursVakue)
         {
-            return DecRoundDown50(hoursVakue);
+            return OperationsRound.DecRoundDown50(hoursVakue);
         }
-        public decimal HoursToQuartsHoursDown(decimal hoursVakue)
+        public decimal HoursToQuartHoursDown(decimal hoursVakue)
         {
-            return DecRoundDown25(hoursVakue);
+            return OperationsRound.DecRoundDown25(hoursVakue);
         }
         public decimal HoursToHalfHoursNorm(decimal hoursVakue)
         {
-            return DecRoundNorm50(hoursVakue);
+            return OperationsRound.DecRoundNorm50(hoursVakue);
         }
-        public decimal HoursToQuartsHoursNorm(decimal hoursVakue)
+        public decimal HoursToQuartHoursNorm(decimal hoursVakue)
         {
-            return DecRoundNorm25(hoursVakue);
+            return OperationsRound.DecRoundNorm25(hoursVakue);
         }
         public decimal MoneyToRoundDown(decimal moneyVakue)
         {
-            return DecRoundDown01(moneyVakue);
+            return OperationsRound.DecRoundDown01(moneyVakue);
         }
         public decimal MoneyToRoundUp(decimal moneyVakue)
         {
-            return DecRoundUp01(moneyVakue);
+            return OperationsRound.DecRoundUp01(moneyVakue);
         }
         public decimal MoneyToRoundNorm(decimal moneyVakue)
         {
-            return DecRoundNorm01(moneyVakue);
+            return OperationsRound.DecRoundNorm01(moneyVakue);
         }
 
         public decimal FactorizeValue(decimal baseVakue, decimal factor)
@@ -217,7 +223,7 @@ namespace HraveMzdy.Legalios.Props
 
             return result;
         }
-        public decimal DefactorizeValue(decimal baseVakue, decimal factor)
+        public decimal ReverzedFactorizeValue(decimal baseVakue, decimal factor)
         {
             decimal result = OperationsDec.Multiply(baseVakue, OperationsDec.Divide(1m, factor));
 

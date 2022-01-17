@@ -39,21 +39,6 @@ namespace Procezor.OptimulaTest.Service
         protected readonly IServiceLegalios _leg;
 
         protected static readonly OptimulaGenerator[] _genTests = new OptimulaGenerator[] {
-            OptimulaGenerator.Spec(101, "FullTime_FullTime_MinimumWage", "101")
-                .WithFullSheetHrsVal(157 * 60 + 30)
-                .WithTimeSheetHrsVal(157 * 60 + 30)
-                .WithWorkSheetHrsVal(142 * 60 + 30)
-                .WithWorkSheetDayVal(19 * 100)
-                .WithOverSheetHrsVal(0 * 60)
-                .WithHoliSheetHrsVal(0 * 60)
-                .WithMSalaryAwardVal(2993 * 100)
-                .WithFPremiumBaseVal(0 * 100)
-                .WithClothesDailyVal(106 * 100)
-                .WithAgrWorkRatioVal(0 * 100 + 14)
-                .WithAgrWorkTarifVal(91 * 100),
-        };
-
-        protected static readonly OptimulaGenerator[] _genBasicTests = new OptimulaGenerator[] {
             OptimulaGenerator.Spec(101, "FullTime_OverTimeZeroHolidaysZero", "101").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithOverSheetHrsVal(0).WithHoliSheetHrsVal(0).WithMSalaryAwardVal(570000).WithHomeOffTarifVal(11000).WithHomeOffHoursVal(40*60).WithClothesTarifVal(10600).WithAgrWorkRatioVal(14).WithAgrWorkTarifVal(10000),
             OptimulaGenerator.Spec(102, "FullTime_OverTimeHs16HolidaysZero", "102").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithOverSheetHrsVal(16*60).WithHoliSheetHrsVal(0).WithMSalaryAwardVal(570000).WithHomeOffTarifVal(11000).WithHomeOffHoursVal(40*60).WithClothesTarifVal(10600).WithAgrWorkRatioVal(14).WithAgrWorkTarifVal(10000),
             OptimulaGenerator.Spec(103, "FullTime_OverTimeZeroHolidaysHs16", "103").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithOverSheetHrsVal(0).WithHoliSheetHrsVal(16*60).WithMSalaryAwardVal(570000).WithHomeOffTarifVal(11000).WithHomeOffHoursVal(40*60).WithClothesTarifVal(10600).WithAgrWorkRatioVal(14).WithAgrWorkTarifVal(10000),
@@ -612,6 +597,21 @@ namespace Procezor.OptimulaTest.Service
                 .WithAgrWorkRatioVal(0 * 100 + 14) // procent 0,14
                 .WithAgrWorkTarifVal(100 * 100);
         }
+        public OptimulaGenerator Example_111_WorkTime_OverTimeZeroHolidaysZero()
+        {
+            return OptimulaGenerator.Spec(111, "WorkTime_OverTimeZeroHolidaysZero", "111")
+                .WithFullSheetHrsVal(168 * 60)
+                .WithTimeSheetHrsVal(168 * 60)
+                .WithWorkSheetHrsVal(160 * 60)
+                .WithOverSheetHrsVal(0)
+                .WithHoliSheetHrsVal(0)
+                .WithMSalaryAwardVal(5700 * 100)
+                .WithHomeOffTarifVal(110 * 100)
+                .WithHomeOffHoursVal(40 * 60)
+                .WithClothesTarifVal(106 * 100)
+                .WithAgrWorkRatioVal(0*100 + 14)
+                .WithAgrWorkTarifVal(100 * 100);
+        }
         public OptimulaGenerator Example_102_FullTime_MinimumWage()
         {
             return OptimulaGenerator.Spec(102, "FullTime_FullTime_MinimumWage", "102")
@@ -623,8 +623,8 @@ namespace Procezor.OptimulaTest.Service
                 .WithHoliSheetHrsVal(0 * 60)
                 .WithMSalaryAwardVal(2993 * 100)
                 .WithFPremiumBaseVal(0 * 100)
-                .WithClothesDailyVal(106 * 100) // 106 Kč
-                .WithAgrWorkRatioVal(0 * 100 + 14) // procent 0,14
+                .WithClothesDailyVal(106 * 100)
+                .WithAgrWorkRatioVal(0 * 100 + 14)
                 .WithAgrWorkTarifVal(91 * 100);
         }
     }

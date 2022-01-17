@@ -10,31 +10,35 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 MinMonthlyWage { get; }
         Int32 MinHourlyWage { get; }
         bool ValueEquals(IPropsSalary other);
-        decimal SalaryAmountScheduleWork(decimal amountMonthly,
-            Int32 fullWeekHour, Int32 workWeekHours,
-            Int32 fulltimeHour, Int32 workingsHours);
-        decimal SalaryAmountScheduleCoeff(decimal amountMonthly, 
-            decimal coeffSalary, Int32 fulltimeHour, Int32 workingsHours);
-        decimal SalaryTariffWorkHourCoeff(decimal amountMonthly, 
-            decimal coeffSalary, decimal coeffWorking);
-        decimal ReverzTariffWorkHourCoeff(decimal amountMonthly, 
-            decimal coeffSalary, decimal coeffWorking);
-        decimal SalaryAmountHourlyValue(decimal tariffHourly, decimal workingsHours);
-        decimal SalaryAmountHourlyBasis(decimal tariffHourly, decimal workingsHours);
-        decimal SalaryAmountFixedValue(decimal amountFixed);
-        decimal WorkingHoursCoeff(decimal fulltimeHour, decimal workingsHours);
-        decimal FactorizeValue(decimal baseVakue, decimal factor);
+        decimal CoeffWithPartAndFullHours(decimal fullWorkHours, decimal partWorkHours);
+        decimal PaymentWithMonthlyAndFullWeekAndFullAndWorkHours(decimal amountMonthly,
+            Int32 fullWeekHours, Int32 partWeekHours,
+            Int32 fullWorkHours, Int32 partWorkHours);
+        decimal PaymentWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, 
+            decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours);
+        decimal RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal RelativeTariffWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal RelativePaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal ReverzedAmountWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal ReverzedTariffWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal ReverzedPaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal PaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours);
+        decimal TariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours);
+        decimal PaymentWithAmountFixed(decimal amountFixed);
         decimal HoursToHalfHoursUp(decimal hoursVakue);
-        decimal HoursToQuartsHoursUp(decimal hoursVakue);
+        decimal HoursToQuartHoursUp(decimal hoursVakue);
         decimal HoursToHalfHoursDown(decimal hoursVakue);
-        decimal HoursToQuartsHoursDown(decimal hoursVakue);
+        decimal HoursToQuartHoursDown(decimal hoursVakue);
         decimal HoursToHalfHoursNorm(decimal hoursVakue);
-        decimal HoursToQuartsHoursNorm(decimal hoursVakue);
+        decimal HoursToQuartHoursNorm(decimal hoursVakue);
         decimal MoneyToRoundDown(decimal moneyVakue);
         decimal MoneyToRoundUp(decimal moneyVakue);
         decimal MoneyToRoundNorm(decimal moneyVakue);
-        Int32 RoundUp(decimal valueDec);
-        Int32 RoundDown(decimal valueDec);
-        Int32 RoundNorm(decimal valueDec);
     }
 }

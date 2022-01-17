@@ -47,6 +47,13 @@ namespace Procezor.OptimulaTest.Service
             ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
         }
         [Fact]
+        public void ServiceExamples_111_WorkTime_OverTimeZeroHolidaysZeroTest()
+        {
+            OptimulaGenerator example = Example_111_WorkTime_OverTimeZeroHolidaysZero();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+        [Fact]
         public void ServiceExamples_102_FullTime_MinimumWageTest()
         {
             OptimulaGenerator example = Example_102_FullTime_MinimumWage();

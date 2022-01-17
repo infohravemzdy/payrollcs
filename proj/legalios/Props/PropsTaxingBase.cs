@@ -117,37 +117,37 @@ namespace HraveMzdy.Legalios.Props
         }
         public Int32 IntTaxRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
         public Int32 IntTaxRoundNearUp(decimal valueDec, Int32 nearest = 100)
         {
-            return NearRoundUp(valueDec, nearest);
+            return OperationsRound.NearRoundUp(valueDec, nearest);
         }
         public Int32 IntTaxRoundDown(decimal valueDec)
         {
-            return RoundDown(valueDec);
+            return OperationsRound.RoundDown(valueDec);
         }
         public Int32 IntTaxRoundNearDown(decimal valueDec, Int32 nearest = 100)
         {
-            return NearRoundDown(valueDec, nearest);
+            return OperationsRound.NearRoundDown(valueDec, nearest);
         }
 
         public decimal DecTaxRoundUp(decimal valueDec)
         {
-            return DecRoundUp(valueDec);
+            return OperationsRound.DecRoundUp(valueDec);
         }
 
         public decimal DecTaxRoundNearUp(decimal valueDec, Int32 nearest = 100)
         {
-            return DecNearRoundUp(valueDec, nearest);
+            return OperationsRound.DecNearRoundUp(valueDec, nearest);
         }
         public decimal DecTaxRoundDown(decimal valueDec)
         {
-            return DecRoundDown(valueDec);
+            return OperationsRound.DecRoundDown(valueDec);
         }
         public decimal DecTaxRoundNearDown(decimal valueDec, Int32 nearest = 100)
         {
-            return DecNearRoundDown(valueDec, nearest);
+            return OperationsRound.DecNearRoundDown(valueDec, nearest);
         }
 
         public abstract bool HasWithholdIncome(WorkTaxingTerms termOpt, TaxDeclSignOption signOpt, TaxNoneSignOption noneOpt, Int32 incomeSum);
@@ -228,7 +228,7 @@ namespace HraveMzdy.Legalios.Props
                     bonusForChild = 0;
                 }
             }
-            return RoundToInt(bonusForChild);
+            return OperationsRound.RoundToInt(bonusForChild);
         }
         public Int32 BonusChildFix(Int32 income, Int32 benefit, Int32 rebated)
         {
