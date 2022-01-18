@@ -141,11 +141,23 @@ namespace HraveMzdy.Legalios.Props
 
             return OperationsRound.DecRoundNorm(paymentValue);
         }
+        public decimal PaymentRoundUpWithAmountFixed(decimal amountFixed)
+        {
+            decimal paymentValue = DecPaymentWithAmountFixed(amountFixed);
+
+            return OperationsRound.DecRoundUp(paymentValue);
+        }
         public decimal PaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
         {
             decimal paymentValue = DecPaymentWithTariffAndHours(tariffHourly, workingsHours);
 
             return OperationsRound.DecRoundNorm(paymentValue);
+        }
+        public decimal PaymentRoundUpWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
+        {
+            decimal paymentValue = DecPaymentWithTariffAndHours(tariffHourly, workingsHours);
+
+            return OperationsRound.DecRoundUp(paymentValue);
         }
         public decimal TariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours)
         {
@@ -162,6 +174,14 @@ namespace HraveMzdy.Legalios.Props
 
             return OperationsRound.DecRoundNorm(paymentValue);
         }
+        public decimal PaymentRoundUpWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullworkHours, Int32 workingsHours)
+        {
+            decimal amountCoeffs = FactorizeValue(amountMonthly, monthlyCoeff);
+
+            decimal paymentValue = DecPaymentWithMonthlyAndFullAndWorkHours(amountCoeffs, fullworkHours, workingsHours);
+
+            return OperationsRound.DecRoundUp(paymentValue);
+        }
         public decimal PaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
         {
             decimal amountFactor = FactorizeValue(amountMonthly, monthlyCoeff);
@@ -177,6 +197,16 @@ namespace HraveMzdy.Legalios.Props
             decimal coeffSalary = CoeffWithPartAndFullHours(partWeekHours, fullWeekHours); // 1.0m;
 
             decimal salaryValue = PaymentWithMonthlyAndCoeffAndFullAndWorkHours(amountMonthly, coeffSalary, fullWorkHours, partWorkHours);
+
+            return salaryValue;
+        }
+        public decimal PaymentRoundUpWithMonthlyAndFullWeekAndFullAndWorkHours(decimal amountMonthly,
+            Int32 fullWeekHours, Int32 partWeekHours,
+            Int32 fullWorkHours, Int32 partWorkHours)
+        {
+            decimal coeffSalary = CoeffWithPartAndFullHours(partWeekHours, fullWeekHours); // 1.0m;
+
+            decimal salaryValue = PaymentRoundUpWithMonthlyAndCoeffAndFullAndWorkHours(amountMonthly, coeffSalary, fullWorkHours, partWorkHours);
 
             return salaryValue;
         }

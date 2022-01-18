@@ -1016,10 +1016,14 @@ namespace Procezor.OptimulaTest.Examples
                 $"{CcyFormatIntX100(QHOfficeBaseVal)}", // AL
                 $"{CcyFormatIntX100(QAgrWorkBaseVal)}", // AM
                 $"{CcyFormatIntX100(QSumWorkHourVal)}", // AN
-        };                                             
-            string[] importResult = new string[] { string.Join('\t', valuesList) };
+            };
+            if (WorkSheetHrsVal != 0)
+            {
+                string[] importResult = new string[] { string.Join('\t', valuesList) };
 
-            return importResult;
+                return importResult;
+            }
+            return Array.Empty<string>();
         }
         public string[] BuildImportCsvString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
@@ -1103,10 +1107,15 @@ namespace Procezor.OptimulaTest.Examples
                 $"{CcyFormatIntX100(QHOfficeBaseVal)}", // AL
                 $"{CcyFormatIntX100(QAgrWorkBaseVal)}", // AM
                 $"{CcyFormatIntX100(QSumWorkHourVal)}", // AN
-            };                                             
-            string[] importResult = new string[] { string.Join(';', valuesList) + ";" };
+            };         
+            
+            if (WorkSheetHrsVal != 0)
+            {
+                string[] importResult = new string[] { string.Join(';', valuesList) + ";" };
 
-            return importResult;
+                return importResult;
+            }
+            return Array.Empty<string>();
         }
         public IEnumerable<ITermTarget> BuildSpecTargets(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
@@ -1130,7 +1139,7 @@ namespace Procezor.OptimulaTest.Examples
 
             Int32 MSalaryBasisVal = 0;
             Int32 MAwardsBasisVal = MSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 HSalaryAwardVal = HSalaryAwardFunc(this, period, ruleset, prevset);
+            Int32 HAwardsBasisVal = HSalaryAwardFunc(this, period, ruleset, prevset);
             Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
             Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
             Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
@@ -1181,6 +1190,16 @@ namespace Procezor.OptimulaTest.Examples
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS),
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS));
+            // OptimusHours		OPTIMUS_HOURS
+            var optimusHAwards = new OptimusHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_HOURS),
+                HAwardsBasisVal, WorkSheetHrsVal);
+            // ReducedHours		REDUCED_HOURS
+            var reducedHAwards = new ReducedHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_RESULTS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_HOURS),
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS));
             // OptimusFixed		OPTIMUS_FIXED
             var optPremiumBase = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS),
@@ -1236,6 +1255,10 @@ namespace Procezor.OptimulaTest.Examples
             if (MAwardsBasisVal != 0)
             {
                 targets = targets.Concat(new ITermTarget[] { optimusMAwards, reducedMAwards }).ToArray();
+            }
+            if (HAwardsBasisVal != 0)
+            {
+                targets = targets.Concat(new ITermTarget[] { optimusHAwards, reducedHAwards }).ToArray();
             }
             if (FPremiumBaseVal != 0)
             {

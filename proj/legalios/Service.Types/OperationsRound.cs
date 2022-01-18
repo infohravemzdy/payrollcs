@@ -80,7 +80,7 @@ namespace HraveMzdy.Legalios.Service.Types
         }
         public static decimal DecRoundNorm(decimal valueDec)
         {
-            decimal roundRet = decimal.Round(Math.Abs(valueDec));
+            decimal roundRet = decimal.Truncate(Math.Abs(valueDec + INT_ROUNDING_CONST));
 
             return (valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
         }

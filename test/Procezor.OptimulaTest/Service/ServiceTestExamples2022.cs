@@ -33,9 +33,37 @@ namespace Procezor.OptimulaTest.Service
         {
         }
         [Fact]
-        public void ServiceExamples_101_OPTDppPremieZakladTest()
+        public void ServiceExamples_1_OPTOptTestMonthTestCase101Test()
         {
-            OptimulaGenerator example = Example_101_OPTDppPremieZaklad();
+            OptimulaGenerator example = Example_1_OPTOptTestMonthTestCase101();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+        [Fact]
+        public void ServiceExamples_1_OPTOptTestHourTestCase111Test()
+        {
+            OptimulaGenerator example = Example_1_OPTOptTestHourTestCase111();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+        [Fact]
+        public void ServiceExamples_1_OPTOptTestHourTestCase161Test()
+        {
+            OptimulaGenerator example = Example_1_OPTOptTestHourTestCase161();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+        [Fact]
+        public void ServiceExamples_1_OPTOptTestHourTestCase276Test()
+        {
+            OptimulaGenerator example = Example_1_OPTOptTestHourTestCase276();
+
+            ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
+        }
+        [Fact]
+        public void ServiceExamples_1_OPTOptTestEpsTestCase126Test()
+        {
+            OptimulaGenerator example = Example_1_OPTOptTestEpsTestCase126();
 
             ServiceExampleTest(example, TestPeriod, TestPeriodCode, PrevPeriodCode);
         }

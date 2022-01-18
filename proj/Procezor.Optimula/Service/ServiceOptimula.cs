@@ -28,7 +28,7 @@ namespace HraveMzdy.Procezor.Optimula.Service
             ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY),
         };
 
-        public ServiceOptimula() : base(TEST_VERSION_SCM, TEST_FINAL_DEFS)
+        public ServiceOptimula() : base(TEST_VERSION_EPS, TEST_FINAL_DEFS)
         {
         }
 

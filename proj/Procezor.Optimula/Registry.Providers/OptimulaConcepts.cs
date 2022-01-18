@@ -1274,36 +1274,13 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             Int32 settlemResultsDif = (evalSettlemTargets.ResultValue - evalSettlemAllowce.ResultValue);
             if (settlemResultsDif < paymentValueRes)
             {
-                paymentValueRes = settlemResultsDif;
+                decimal overcapValueRes = (paymentValueRes - settlemResultsDif);
 
-                decimal agrCandidsHours = salaryRules.HoursToHalfHoursDown(OperationsDec.Divide(paymentValueRes, paymentBasisRes));
+                decimal agrCandidsHours = salaryRules.HoursToHalfHoursUp(OperationsDec.Divide(overcapValueRes, paymentBasisRes));
 
-                paymentHoursRes = Math.Max(0, agrCandidsHours);
+                paymentHoursRes = Math.Max(0, (paymentHoursRes - agrCandidsHours));
 
-                if (paymentHoursRes != 0.0m)
-                {
-                    decimal redCandidsValue = Math.Min(10000.0m, paymentValueRes);
-
-                    decimal redCandidsHours = salaryRules.HoursToHalfHoursDown(OperationsDec.Divide(redCandidsValue, paymentBasisRes));
-                    decimal redCandidsBasis = salaryRules.MoneyToRoundDown(OperationsDec.Divide(redCandidsValue, redCandidsHours));
-
-                    if (redCandidsHours > 25.0m)
-                    {
-                        redCandidsHours = 25.0m;
-                        redCandidsBasis = salaryRules.MoneyToRoundDown(OperationsDec.Divide(redCandidsValue, redCandidsHours));
-                    }
-                    decimal minCandidsBasis = salaryRules.PaymentWithAmountFixed(OperationsDec.Divide(salaryRules.MinHourlyWage + 100, 100m));
-
-                    if (redCandidsBasis < minCandidsBasis)
-                    {
-                        redCandidsBasis = minCandidsBasis;
-                        redCandidsHours = salaryRules.HoursToHalfHoursDown(OperationsDec.Divide(redCandidsValue, redCandidsBasis));
-                    }
-                    paymentHoursRes = Math.Max(0, redCandidsHours);
-                    paymentBasisRes = Math.Max(0, Math.Max(paymentBasisRes, redCandidsBasis));
-
-                    paymentValueRes = redCandidsValue;
-                }
+                paymentValueRes = salaryRules.PaymentWithTariffAndHours(paymentBasisRes, paymentHoursRes);
             }
 
             ITermResult resultsValues = new AgrworkHoursResult(target, spec,

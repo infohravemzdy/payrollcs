@@ -14,7 +14,12 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         decimal PaymentWithMonthlyAndFullWeekAndFullAndWorkHours(decimal amountMonthly,
             Int32 fullWeekHours, Int32 partWeekHours,
             Int32 fullWorkHours, Int32 partWorkHours);
+        decimal PaymentRoundUpWithMonthlyAndFullWeekAndFullAndWorkHours(decimal amountMonthly,
+            Int32 fullWeekHours, Int32 partWeekHours,
+            Int32 fullWorkHours, Int32 partWorkHours);
         decimal PaymentWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, 
+            decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours);
+        decimal PaymentRoundUpWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, 
             decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours);
         decimal RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
             decimal monthlyCoeff, decimal workingCoeff);
@@ -29,8 +34,10 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         decimal ReverzedPaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
             decimal monthlyCoeff, decimal workingCoeff);
         decimal PaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours);
+        decimal PaymentRoundUpWithTariffAndHours(decimal tariffHourly, decimal workingsHours);
         decimal TariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours);
         decimal PaymentWithAmountFixed(decimal amountFixed);
+        decimal PaymentRoundUpWithAmountFixed(decimal amountFixed);
         decimal HoursToHalfHoursUp(decimal hoursVakue);
         decimal HoursToQuartHoursUp(decimal hoursVakue);
         decimal HoursToHalfHoursDown(decimal hoursVakue);
