@@ -774,17 +774,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             var evalSettlemAllowce = resSettlemAllowce.Value;
 
-            var resSettlemTargets = GetContractResult<SettlemTargetsResult>(target, period, results,
-               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS));
-
-            if (resSettlemTargets.IsFailure)
-            {
-                return BuildFailResults(resSettlemTargets.Error);
-            }
-
-            var evalSettlemTargets = resSettlemTargets.Value;
-
-            decimal settlemTargetsVal = evalSettlemTargets.ResultValue;
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
@@ -804,12 +793,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS))))
                 .Select((v) => (v as OptimulaTermResult))
-                .Select((tr) => (tr.ResultValue, tr.ResultBasis)).ToArray();
+                .Select((tr) => (tr.ResultBasis)).ToArray();
 
-            decimal settlemResultsValue = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item.ResultValue));
             decimal settlemResultsBasis = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item.ResultBasis));
+                (agr, basis) => decimal.Add(agr, basis));
 
             decimal settlemDiffsVal = (optimusTargetsVal + settlemResultsBasis - settlemAllowceVal - settlemAgrWorkVal);
 
@@ -902,17 +889,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             var evalSettlemAllowce = resSettlemAllowce.Value;
 
-            var resSettlemTargets = GetContractResult<SettlemTargetsResult>(target, period, results,
-               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS));
-
-            if (resSettlemTargets.IsFailure)
-            {
-                return BuildFailResults(resSettlemTargets.Error);
-            }
-
-            var evalSettlemTargets = resSettlemTargets.Value;
-
-            decimal settlemTargetsVal = evalSettlemTargets.ResultValue;
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
@@ -932,12 +908,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS))))
                 .Select((v) => (v as OptimulaTermResult))
-                .Select((tr) => (tr.ResultValue, tr.ResultBasis)).ToArray();
+                .Select((tr) => (tr.ResultBasis)).ToArray();
 
-            decimal settlemResultsValue = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item.ResultValue));
             decimal settlemResultsBasis = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item.ResultBasis));
+                (agr, basis) => decimal.Add(agr, basis));
 
             decimal settlemDiffsVal = (optimusTargetsVal + settlemResultsBasis - settlemAllowceVal - settlemAgrWorkVal);
 
@@ -1029,17 +1003,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             var evalSettlemAllowce = resSettlemAllowce.Value;
 
-            var resSettlemTargets = GetContractResult<SettlemTargetsResult>(target, period, results,
-               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS));
-
-            if (resSettlemTargets.IsFailure)
-            {
-                return BuildFailResults(resSettlemTargets.Error);
-            }
-
-            var evalSettlemTargets = resSettlemTargets.Value;
-
-            decimal settlemTargetsVal = evalSettlemTargets.ResultValue;
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
@@ -1059,12 +1022,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS))))
                 .Select((v) => (v as OptimulaTermResult))
-                .Select((tr) => (tr.ResultValue, tr.ResultBasis)).ToArray();
+                .Select((tr) => (tr.ResultBasis)).ToArray();
 
-            decimal settlemResultsValue = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item.ResultValue));
             decimal settlemResultsBasis = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, item) => decimal.Add(agr, item.ResultBasis));
+                (agr, basis) => decimal.Add(agr, basis));
 
             decimal settlemDiffsVal = (optimusTargetsVal + settlemResultsBasis - settlemAllowceVal - settlemAgrWorkVal);
 
