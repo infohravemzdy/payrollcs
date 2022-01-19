@@ -433,7 +433,7 @@ namespace Procezor.OptimulaTest.Examples
                 ParseDecNumber,   //   9  HomeOffTarif	0,00
                 ParseHrsNumber,   //  10  HomeOffHours	0,00
                 ParseDecNumber,   //  11  MSalaryAward	8 000,00
-                ParseHrsNumber,   //  12  HSalaryAward	0,00
+                ParseDecNumber,   //  12  HSalaryAward	0,00
                 ParseDecNumber,   //  13  FPremiumBase	0,00
                 ParseDecNumber,   //  14  FPremiumBoss	0,00
                 ParseDecNumber,   //  15  FPremiumPers	0,00
@@ -521,7 +521,7 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
                 gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
                 gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
-                gen.WithClothesDailyVal,   //   7  ClothesHours	11,17
+                gen.WithClothesHoursVal,   //   7  ClothesHours	11,17
                 gen.WithClothesDailyVal,   //   8  ClothesDaily	106,00
                 gen.WithHomeOffTarifVal,   //   9  HomeOffTarif	0,00
                 gen.WithHomeOffHoursVal,   //  10 HomeOffHours	0,00
@@ -589,7 +589,7 @@ namespace Procezor.OptimulaTest.Examples
             DefaultAgrWorkLimitValue = val;
             return this;
         }
-        public OptimulaGenerator WithClothesTarifVal(Int32 val)
+        public OptimulaGenerator WithClothesHoursVal(Int32 val)
         {
             DefaultClothesHoursValue = val;
             return this;
@@ -774,7 +774,7 @@ namespace Procezor.OptimulaTest.Examples
             AgrWorkLimitFunc = func;
             return this;
         }
-        public OptimulaGenerator WithClothesTarif(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        public OptimulaGenerator WithClothesHours(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             ClothesHoursFunc = func;
             return this;
@@ -1231,14 +1231,19 @@ namespace Procezor.OptimulaTest.Examples
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS), 
                 AgrWorkTarifVal, AgrWorkRatioVal, AgrWorkLimitVal, AgrHourLimitVal);
-            // AllowceHours		ALLOWCE_HOURS
+            // AllowceHFull		ALLOWCE_HFULL
             var allowceHOffice = new AllowceHFullTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL), 
                 HomeOffTarifVal, HomeOffHoursVal);
+            // AllowceHours		ALLOWCE_HOURS
+            var allowceClotHrs = new AllowceHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHRS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS),
+                ClothesHoursVal);
             // AllowceDaily		ALLOWCE_DAILY
-            var allowceClothes = new AllowceDailyTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES),
+            var allowceClotDay = new AllowceDailyTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY),
                 ClothesDailyVal);
 
@@ -1282,7 +1287,11 @@ namespace Procezor.OptimulaTest.Examples
             }
             if (ClothesDailyVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { allowceClothes }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { allowceClotDay }).ToArray();
+            }
+            if (ClothesHoursVal != 0)
+            {
+                targets = targets.Concat(new ITermTarget[] { allowceClotHrs }).ToArray();
             }
 
             return targets;

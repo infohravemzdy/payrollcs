@@ -385,24 +385,47 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // AllowceClothes		ALLOWCE_CLOTHES
-    class AllowceClothesArtProv : ArticleSpecProvider
+    // AllowceClotDay		ALLOWCE_CLOTDAY
+    class AllowceClotDayArtProv : ArticleSpecProvider
     {
-        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES;
-        public AllowceClothesArtProv() : base(ARTICLE_CODE)
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY;
+        public AllowceClotDayArtProv() : base(ARTICLE_CODE)
         {
         }
 
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new AllowceClothesArtSpec(this.Code.Value);
+            return new AllowceClotDayArtSpec(this.Code.Value);
         }
     }
 
-    class AllowceClothesArtSpec : ArticleSpec
+    class AllowceClotDayArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY;
-        public AllowceClothesArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceClotDayArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        {
+            Sums = new List<ArticleCode>();
+        }
+    }
+
+    // AllowceClotHrs		ALLOWCE_CLOTHRS
+    class AllowceClotHrsArtProv : ArticleSpecProvider
+    {
+        public const Int32 ARTICLE_CODE = (Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHRS;
+        public AllowceClotHrsArtProv() : base(ARTICLE_CODE)
+        {
+        }
+
+        public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new AllowceClotHrsArtSpec(this.Code.Value);
+        }
+    }
+
+    class AllowceClotHrsArtSpec : ArticleSpec
+    {
+        public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
+        public AllowceClotHrsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

@@ -83,7 +83,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Factories
                 (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,
             }),
-        new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHES, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY,
+        new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY,
+            new Int32[] {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,
+            }),
+        new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHRS, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS,
             new Int32[] {
                 (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,

@@ -30,7 +30,8 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         ARTICLE_HAWARDS_RESULTS,     // Personal Award   - Results
         ARTICLE_SETTLEM_RESULTS,     // Setlement - Results
         ARTICLE_ALLOWCE_HOFFICE,     // HomeOffice Tariff
-        ARTICLE_ALLOWCE_CLOTHES,     // Clothing Tarrif
+        ARTICLE_ALLOWCE_CLOTDAY,     // Clothing Daily Tarrif
+        ARTICLE_ALLOWCE_CLOTHRS,     // Clothing Hours Tarrif
         ARTICLE_INCOMES_TAXFREE,
         ARTICLE_INCOMES_TAXBASE,
         ARTICLE_INCOMES_TAXWINS,
