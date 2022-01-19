@@ -774,6 +774,17 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             var evalSettlemAllowce = resSettlemAllowce.Value;
 
+            var resSettlemTargets = GetContractResult<SettlemTargetsResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS));
+
+            if (resSettlemTargets.IsFailure)
+            {
+                return BuildFailResults(resSettlemTargets.Error);
+            }
+
+            var evalSettlemTargets = resSettlemTargets.Value;
+
+            decimal settlemTargetsVal = evalSettlemTargets.ResultValue;
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
@@ -891,6 +902,17 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             var evalSettlemAllowce = resSettlemAllowce.Value;
 
+            var resSettlemTargets = GetContractResult<SettlemTargetsResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS));
+
+            if (resSettlemTargets.IsFailure)
+            {
+                return BuildFailResults(resSettlemTargets.Error);
+            }
+
+            var evalSettlemTargets = resSettlemTargets.Value;
+
+            decimal settlemTargetsVal = evalSettlemTargets.ResultValue;
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
@@ -1007,6 +1029,17 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             var evalSettlemAllowce = resSettlemAllowce.Value;
 
+            var resSettlemTargets = GetContractResult<SettlemTargetsResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS));
+
+            if (resSettlemTargets.IsFailure)
+            {
+                return BuildFailResults(resSettlemTargets.Error);
+            }
+
+            var evalSettlemTargets = resSettlemTargets.Value;
+
+            decimal settlemTargetsVal = evalSettlemTargets.ResultValue;
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
@@ -1036,12 +1069,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal settlemDiffsVal = (optimusTargetsVal + settlemResultsBasis - settlemAllowceVal - settlemAgrWorkVal);
 
             decimal reducedHoursVal = evalOptimusTargets.OptimusHoursVal;
-            decimal reducedBasisVal = salaryRules.TariffWithPaymentAndHours(Math.Max(0, settlemDiffsVal), reducedHoursVal);
+            decimal reducedTarifVal = salaryRules.TariffWithPaymentAndHours(Math.Max(0, settlemDiffsVal), reducedHoursVal);
             decimal reducedResValue = Math.Max(0, settlemDiffsVal);
-            decimal reducedResBasis = Math.Max(0, optimusTargetsVal - reducedBasisVal);
+            decimal reducedResBasis = Math.Max(0, optimusTargetsVal - reducedResValue);
 
             ITermResult resultsValues = new ReducedHoursResult(target, spec,
-                reducedBasisVal, reducedHoursVal,
+                reducedTarifVal, reducedHoursVal,
                 RoundToInt(reducedResValue), RoundToInt(reducedResBasis));
 
             return BuildOkResults(resultsValues);

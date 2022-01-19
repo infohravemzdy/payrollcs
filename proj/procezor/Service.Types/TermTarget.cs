@@ -14,10 +14,6 @@ namespace HraveMzdy.Procezor.Service.Types
         }
 
         public ConceptCode Concept { get; private set; }
-        public IArticleDefine Defs()
-        {
-            return new ArticleDefine(Article.Value, Concept.Value);
-        }
         public virtual string ConceptDescr()
         {
             return string.Format("ConceptCode for {0}", Concept.Value);

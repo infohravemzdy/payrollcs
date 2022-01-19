@@ -17,7 +17,7 @@ namespace HraveMzdy.Procezor.Registry
         IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IBundleProps ruleset, 
             IEnumerable<IContractTerm> contractTerms, IEnumerable<IPositionTerm> positionTerms, 
             IEnumerable<ITermTarget> targets, IEnumerable<ArticleCode> calcArticles);
-        IList<ArticleCode> ArticleOrder { get; }
-        IDictionary<ArticleCode, IEnumerable<IArticleDefine>> ArticlePaths { get; }
+        IList<ArticleTerm> ArticleOrder { get; }
+        IDictionary<ArticleTerm, IEnumerable<IArticleDefine>> ArticlePaths { get; }
     }
 }

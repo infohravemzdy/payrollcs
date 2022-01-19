@@ -28,7 +28,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthDeclareArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_DECLARE;
-        public HealthDeclareArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthDeclareArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -51,7 +51,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthIncomeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_INCOME;
-        public HealthIncomeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthIncomeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -74,7 +74,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthBaseArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE;
-        public HealthBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthBaseArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -97,7 +97,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthBaseEmployeeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_EMPLOYEE;
-        public HealthBaseEmployeeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthBaseEmployeeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -120,7 +120,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthBaseEmployerArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_EMPLOYER;
-        public HealthBaseEmployerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthBaseEmployerArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -143,7 +143,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthBaseMandateArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_MANDATE;
-        public HealthBaseMandateArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthBaseMandateArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -166,7 +166,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthBaseOvercapArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_BASE_OVERCAP;
-        public HealthBaseOvercapArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthBaseOvercapArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -189,7 +189,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthPaymEmployeeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_PAYM_EMPLOYEE;
-        public HealthPaymEmployeeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthPaymEmployeeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -212,7 +212,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class HealthPaymEmployerArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_HEALTH_PAYM_EMPLOYER;
-        public HealthPaymEmployerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthPaymEmployerArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

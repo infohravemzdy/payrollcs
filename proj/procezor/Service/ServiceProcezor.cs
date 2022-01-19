@@ -18,8 +18,8 @@ namespace HraveMzdy.Procezor.Service
         protected IArticleSpecFactory ArticleFactory { get; set; }
         protected IConceptSpecFactory ConceptFactory { get; set; }
         protected IResultBuilder Builder { get; set; }
-        public IList<ArticleCode> BuilderOrder { get { return Builder.ArticleOrder; } }
-        public IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get { return Builder.ArticlePaths; } }
+        public IList<ArticleTerm> BuilderOrder { get { return Builder.ArticleOrder; } }
+        public IDictionary<ArticleTerm, IEnumerable<IArticleDefine>> BuilderPaths { get { return Builder.ArticlePaths; } }
 
         public ServiceProcezor(Int32 version, IList<ArticleCode> calcArticles)
         {

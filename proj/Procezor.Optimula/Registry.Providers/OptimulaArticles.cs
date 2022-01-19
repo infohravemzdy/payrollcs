@@ -25,7 +25,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class TimesheetsPlanArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_PLAN;
-        public TimesheetsPlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TimesheetsPlanArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -48,7 +48,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class TimesheetsWorkArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_WORK;
-        public TimesheetsWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TimesheetsWorkArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -71,7 +71,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class TimeactualWorkArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_TIMEACTUAL_WORK;
-        public TimeactualWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TimeactualWorkArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -94,7 +94,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class MsalaryTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_BASIS;
-        public MsalaryTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MsalaryTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -117,7 +117,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class HSalaryTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_HOURS;
-        public HSalaryTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HSalaryTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -140,7 +140,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class MAwardsTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS;
-        public MAwardsTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MAwardsTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -163,7 +163,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class HAwardsTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_HOURS;
-        public HAwardsTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HAwardsTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -186,7 +186,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class PremiumTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremiumTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremiumTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -209,7 +209,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class PremAdvTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremAdvTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremAdvTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -232,7 +232,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class PremExtTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremExtTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremExtTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -255,7 +255,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class MAwardsResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS;
-        public MAwardsResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public MAwardsResultsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -278,7 +278,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class PremiumResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremiumResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremiumResultsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -301,7 +301,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class PremAdvResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremAdvResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremAdvResultsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -324,7 +324,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class PremExtResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public PremExtResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PremExtResultsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -347,7 +347,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class AgrworkTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS;
-        public AgrworkTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AgrworkTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -356,7 +356,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class AgrworkResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS;
-        public AgrworkResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AgrworkResultsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -379,7 +379,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class AllowceHofficeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL;
-        public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceHofficeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -402,7 +402,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class AllowceClotDayArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY;
-        public AllowceClotDayArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceClotDayArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -425,7 +425,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class AllowceClotHrsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS;
-        public AllowceClotHrsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceClotHrsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -448,7 +448,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class SettlemTargetsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_TARGETS;
-        public SettlemTargetsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SettlemTargetsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -471,7 +471,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class SettlemAllowceArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_ALLOWCE;
-        public SettlemAllowceArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SettlemAllowceArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -494,7 +494,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class SettlemAgrWorkArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_AGRWORK;
-        public SettlemAgrWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SettlemAgrWorkArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -517,7 +517,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class SettlemResultsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_RESULTS;
-        public SettlemResultsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SettlemResultsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -540,7 +540,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class IncomesTaxFreeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXFREE;
-        public IncomesTaxFreeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomesTaxFreeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -563,7 +563,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class IncomesTaxBaseArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXBASE;
-        public IncomesTaxBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomesTaxBaseArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -586,7 +586,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class IncomesTaxWInsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXWINS;
-        public IncomesTaxWInsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomesTaxWInsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -609,7 +609,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     class IncomesSummaryArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_SUMMARY;
-        public IncomesSummaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomesSummaryArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

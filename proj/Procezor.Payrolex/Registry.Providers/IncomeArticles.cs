@@ -25,7 +25,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class IncomeGrossArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_INCOME_GROSS;
-        public IncomeGrossArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomeGrossArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -48,7 +48,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class IncomeNettoArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_INCOME_NETTO;
-        public IncomeNettoArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomeNettoArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -70,7 +70,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class EmployerCostsArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_EMPLOYER_COSTS;
-        public EmployerCostsArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public EmployerCostsArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

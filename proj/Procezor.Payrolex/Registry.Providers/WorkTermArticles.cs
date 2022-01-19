@@ -25,7 +25,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class ContractWorkTermArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_WORK_TERM;
-        public ContractWorkTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public ContractWorkTermArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -48,7 +48,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PositionWorkTermArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_TERM;
-        public PositionWorkTermArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PositionWorkTermArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

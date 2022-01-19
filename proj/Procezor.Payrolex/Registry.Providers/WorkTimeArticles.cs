@@ -25,7 +25,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PositionWorkPlanArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_WORK_PLAN;
-        public PositionWorkPlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PositionWorkPlanArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -48,7 +48,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PositionTimePlanArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TIME_PLAN;
-        public PositionTimePlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PositionTimePlanArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -71,7 +71,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PositionTimeWorkArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TIME_WORK;
-        public PositionTimeWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PositionTimeWorkArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -94,7 +94,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PositionTimeAbscArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_POSITION_TIME_ABSC;
-        public PositionTimeAbscArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PositionTimeAbscArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -117,7 +117,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class ContractTimePlanArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_PLAN;
-        public ContractTimePlanArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public ContractTimePlanArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -140,7 +140,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class ContractTimeWorkArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_WORK;
-        public ContractTimeWorkArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public ContractTimeWorkArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -163,7 +163,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class ContractTimeAbscArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_CONTRACT_TIME_ABSC;
-        public ContractTimeAbscArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public ContractTimeAbscArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

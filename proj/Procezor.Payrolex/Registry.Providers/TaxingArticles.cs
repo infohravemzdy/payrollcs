@@ -28,7 +28,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingDeclareArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_DECLARE;
-        public TaxingDeclareArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingDeclareArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -51,7 +51,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingSigningArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_SIGNING;
-        public TaxingSigningArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingSigningArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -73,7 +73,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingIncomeSubjectArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_INCOME_SUBJECT;
-        public TaxingIncomeSubjectArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingIncomeSubjectArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -96,7 +96,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingIncomeHealthArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_INCOME_HEALTH;
-        public TaxingIncomeHealthArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingIncomeHealthArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -119,7 +119,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingIncomeSocialArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_INCOME_SOCIAL;
-        public TaxingIncomeSocialArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingIncomeSocialArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -142,7 +142,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAdvancesIncomeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ADVANCES_INCOME;
-        public TaxingAdvancesIncomeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvancesIncomeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -165,7 +165,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAdvancesHealthArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ADVANCES_HEALTH;
-        public TaxingAdvancesHealthArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvancesHealthArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -188,7 +188,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAdvancesSocialArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ADVANCES_SOCIAL;
-        public TaxingAdvancesSocialArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvancesSocialArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -211,7 +211,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAdvancesBasisArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ADVANCES_BASIS;
-        public TaxingAdvancesBasisArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvancesBasisArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -234,7 +234,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingSolidaryBasisArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_SOLIDARY_BASIS;
-        public TaxingSolidaryBasisArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingSolidaryBasisArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -257,7 +257,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAdvancesArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ADVANCES;
-        public TaxingAdvancesArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvancesArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -280,7 +280,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingSolidaryArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_SOLIDARY;
-        public TaxingSolidaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingSolidaryArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -303,7 +303,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAdvancesTotalArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ADVANCES_TOTAL;
-        public TaxingAdvancesTotalArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvancesTotalArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -326,7 +326,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingWithholdIncomeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_WITHHOLD_INCOME;
-        public TaxingWithholdIncomeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingWithholdIncomeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -349,7 +349,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingWithholdHealthArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_WITHHOLD_HEALTH;
-        public TaxingWithholdHealthArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingWithholdHealthArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -372,7 +372,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingWithholdSocialArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_WITHHOLD_SOCIAL;
-        public TaxingWithholdSocialArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingWithholdSocialArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -395,7 +395,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingWithholdBasisArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_WITHHOLD_BASIS;
-        public TaxingWithholdBasisArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingWithholdBasisArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -418,7 +418,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingWithholdTotalArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_WITHHOLD_TOTAL;
-        public TaxingWithholdTotalArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingWithholdTotalArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -440,7 +440,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAllowancePayerArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_PAYER;
-        public TaxingAllowancePayerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAllowancePayerArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -463,7 +463,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAllowanceChildArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_CHILD;
-        public TaxingAllowanceChildArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAllowanceChildArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -486,7 +486,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAllowanceDisabArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_DISAB;
-        public TaxingAllowanceDisabArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAllowanceDisabArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -509,7 +509,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingAllowanceStudyArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_ALLOWANCE_STUDY;
-        public TaxingAllowanceStudyArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAllowanceStudyArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -532,7 +532,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingRebatePayerArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_REBATE_PAYER;
-        public TaxingRebatePayerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingRebatePayerArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -555,7 +555,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingRebateChildArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_REBATE_CHILD;
-        public TaxingRebateChildArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingRebateChildArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -578,7 +578,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingBonusChildArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_BONUS_CHILD;
-        public TaxingBonusChildArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingBonusChildArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -600,7 +600,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingPaymAdvancesArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_PAYM_ADVANCES;
-        public TaxingPaymAdvancesArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingPaymAdvancesArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -623,7 +623,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class TaxingPaymWithholdArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_TAXING_PAYM_WITHHOLD;
-        public TaxingPaymWithholdArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingPaymWithholdArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

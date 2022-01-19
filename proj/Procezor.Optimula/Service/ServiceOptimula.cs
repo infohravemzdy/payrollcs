@@ -44,7 +44,18 @@ namespace HraveMzdy.Procezor.Optimula.Service
 
         protected override bool BuildArticleFactory()
         {
-            ArticleFactory = new ServiceArticleFactory();
+            switch (Version.Value)
+            {
+            case TEST_VERSION_SCM:
+                ArticleFactory = new ServiceScmArticleFactory();
+                break;
+            case TEST_VERSION_EPS:
+                ArticleFactory = new ServiceEpsArticleFactory();
+                break;
+            default:
+                ArticleFactory = new ServiceScmArticleFactory();
+                break;
+            }
 
             return true;
         }

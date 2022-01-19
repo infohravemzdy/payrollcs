@@ -17,8 +17,8 @@ namespace HraveMzdy.Procezor.Registry
         public VersionCode Version { get; private set; }
         public IPeriod PeriodInit { get; private set; }
 
-        public IList<ArticleCode> ArticleOrder { get; private set; }
-        public IDictionary<ArticleCode, IEnumerable<IArticleDefine>> ArticlePaths { get; private set; }
+        public IList<ArticleTerm> ArticleOrder { get; private set; }
+        public IDictionary<ArticleTerm, IEnumerable<IArticleDefine>> ArticlePaths { get; private set; }
         private IEnumerable<IArticleSpec> articleModel { get; set; }
         private IEnumerable<IConceptSpec> conceptModel { get; set; }
         public ResultBuilder()
@@ -29,8 +29,8 @@ namespace HraveMzdy.Procezor.Registry
             articleModel = new List<IArticleSpec>();
             conceptModel = new List<IConceptSpec>();
 
-            ArticleOrder = new List<ArticleCode>();
-            ArticlePaths = new Dictionary<ArticleCode, IEnumerable<IArticleDefine>>();
+            ArticleOrder = new List<ArticleTerm>();
+            ArticlePaths = new Dictionary<ArticleTerm, IEnumerable<IArticleDefine>>();
         }
         public bool InitWithPeriod(VersionCode version, IPeriod period, IArticleSpecFactory articleFactory, IConceptSpecFactory conceptFactory)
         {
@@ -62,7 +62,7 @@ namespace HraveMzdy.Procezor.Registry
             IEnumerable<ITermTarget> targets, IEnumerable<ArticleCode> calcArticles)
         {
             IEnumerable<IArticleDefine> calcDefines = calcArticles.Select((a) => articleModel.FirstOrDefault((m) => (m.Code.Equals(a))))
-                .Where((s) => (s != null)).Select((x) => (new ArticleDefine(x.Code.Value, x.Role.Value)));
+                .Where((s) => (s != null)).Select((x) => (new ArticleDefine(x.Code.Value, x.Seqs.Value, x.Role.Value)));
 
             IEnumerable<ITermTarget> targetsSpec = AddFinDefToTargets(period, ruleset, contractTerms, positionTerms, targets.ToList(), calcDefines);
 
@@ -120,7 +120,7 @@ namespace HraveMzdy.Procezor.Registry
         {
             IEnumerable<ITermTarget> resultList = init.ToList();
 
-            var pendingsSpec = ArticlePaths.FirstOrDefault((x) => (x.Key == target.Article));
+            var pendingsSpec = ArticlePaths.FirstOrDefault((x) => (x.Key.Code == target.Article));
             var pendingsPath = pendingsSpec.Value;
 
             if (pendingsPath != null)
@@ -200,9 +200,9 @@ namespace HraveMzdy.Procezor.Registry
         private class TargetComparator : IComparer<ITermTarget>
         {
             private IList<ArticleCode> TopoOrders;
-            public TargetComparator(IList<ArticleCode> topoOrders)
+            public TargetComparator(IList<ArticleTerm> topoOrders)
             {
-                TopoOrders = topoOrders.ToList();
+                TopoOrders = topoOrders.Select((t) => (t.Code)).ToList();
             }
 
             public int Compare(ITermTarget x, ITermTarget y)

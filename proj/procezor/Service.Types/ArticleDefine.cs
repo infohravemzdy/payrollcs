@@ -6,31 +6,37 @@ namespace HraveMzdy.Procezor.Service.Types
     public class ArticleDefine : IArticleDefine
     {
         public ArticleCode Code { get; }
+        public ArticleSeqs Seqs { get; }
         public ConceptCode Role { get; }
         public ArticleDefine()
         {
             Code = ArticleCode.New();
 
+            Seqs = ArticleSeqs.New();
+
             Role = ConceptCode.New();
         }
-        public ArticleDefine(Int32 code, Int32 role)
+        public ArticleDefine(Int32 code, Int16 seqs, Int32 role)
         {
             Code = new ArticleCode(code);
+
+            Seqs = new ArticleSeqs(seqs);
 
             Role = new ConceptCode(role);
-        }
-        public ArticleDefine(Int32 code)
-        {
-            Code = new ArticleCode(code);
-
-            Role = ConceptCode.New();
         }
         public ArticleDefine(IArticleDefine define)
         {
             Code = define.Code;
 
+            Seqs = define.Seqs;
+
             Role = define.Role;
         }
+        public ArticleTerm Term()
+        {
+            return ArticleTerm.Get(Code.Value, Seqs.Value);
+        }
+
         public int CompareTo(object obj)
         {
             IArticleDefine other = obj as IArticleDefine;

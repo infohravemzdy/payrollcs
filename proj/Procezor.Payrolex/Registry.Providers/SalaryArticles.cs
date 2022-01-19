@@ -25,7 +25,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PaymentSalaryArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_BASIS;
-        public PaymentSalaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentSalaryArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                     (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
@@ -50,7 +50,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PaymentBonusArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
-        public PaymentBonusArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentBonusArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                     (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
@@ -75,7 +75,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PaymentWorkedArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
-        public PaymentWorkedArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentWorkedArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                     (Int32)PayrolexArticleConst.ARTICLE_INCOME_GROSS,
@@ -100,7 +100,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class PaymentBarterArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
-        public PaymentBarterArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentBarterArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -123,7 +123,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class AllowceHofficeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_PAYMENT_FIXED;
-        public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceHofficeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                     (Int32)PayrolexArticleConst.ARTICLE_INCOME_NETTO,

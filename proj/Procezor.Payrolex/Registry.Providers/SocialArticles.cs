@@ -28,7 +28,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialDeclareArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_DECLARE;
-        public SocialDeclareArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialDeclareArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -51,7 +51,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialIncomeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_INCOME;
-        public SocialIncomeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialIncomeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -74,7 +74,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialBaseArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE;
-        public SocialBaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialBaseArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -97,7 +97,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialBaseEmployeeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE_EMPLOYEE;
-        public SocialBaseEmployeeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialBaseEmployeeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -120,7 +120,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialBaseEmployerArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE_EMPLOYER;
-        public SocialBaseEmployerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialBaseEmployerArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -143,7 +143,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialBaseOvercapArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_BASE_OVERCAP;
-        public SocialBaseOvercapArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialBaseOvercapArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -166,7 +166,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialPaymEmployeeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_PAYM_EMPLOYEE;
-        public SocialPaymEmployeeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialPaymEmployeeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -189,7 +189,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     class SocialPaymEmployerArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)PayrolexConceptConst.CONCEPT_SOCIAL_PAYM_EMPLOYER;
-        public SocialPaymEmployerArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialPaymEmployerArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
