@@ -320,70 +320,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // PaymentFixed		PAYMENT_FIXED
-    class PaymentFixedConProv : ConceptSpecProvider
-    {
-        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_FIXED;
-        public PaymentFixedConProv() : base(CONCEPT_CODE)
-        {
-        }
-
-        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
-        {
-            return new PaymentFixedConSpec(this.Code.Value);
-        }
-    }
-
-    class PaymentFixedConSpec : OptimulaConceptSpec
-    {
-        public PaymentFixedConSpec(Int32 code) : base(code)
-        {
-            Path = new List<ArticleCode>();
-
-            ResultDelegate = ConceptEval;
-        }
-
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
-        {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
-            if (targets.Count() != 0)
-            {
-                return Array.Empty<ITermTarget>();
-            }
-            return new ITermTarget[] {
-                new PaymentFixedTarget(month, con, pos, var, article, this.Code, 0),
-            };
-        }
-
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-        {
-            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
-            if (resPrSalary.IsFailure)
-            {
-                return BuildFailResults(resPrSalary.Error);
-            }
-            IPropsSalary salaryRules = resPrSalary.Value;
-
-            var resTarget = GetTypedTarget<PaymentFixedTarget>(target, period);
-            if (resTarget.IsFailure)
-            {
-                return BuildFailResults(resTarget.Error);
-            }
-            PaymentFixedTarget evalTarget = resTarget.Value;
-
-            decimal paymentBasisVal = OperationsDec.Divide(evalTarget.PaymentBasisVal, 100);
-
-            decimal paymentValueRes = salaryRules.PaymentWithAmountFixed(paymentBasisVal);
-
-            ITermResult resultsValues = new PaymentFixedResult(target, spec,
-                paymentBasisVal,
-                RoundToInt(paymentValueRes), 0);
-
-            return BuildOkResults(resultsValues);
-        }
-    }
-
     // PaymentHours		PAYMENT_HOURS
     class PaymentHoursConProv : ConceptSpecProvider
     {
@@ -445,6 +381,70 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             ITermResult resultsValues = new PaymentHoursResult(target, spec,
                 paymentBasisVal, paymentHoursVal, 
+                RoundToInt(paymentValueRes), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // PaymentFixed		PAYMENT_FIXED
+    class PaymentFixedConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_PAYMENT_FIXED;
+        public PaymentFixedConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new PaymentFixedConSpec(this.Code.Value);
+        }
+    }
+
+    class PaymentFixedConSpec : OptimulaConceptSpec
+    {
+        public PaymentFixedConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new PaymentFixedTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<PaymentFixedTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            PaymentFixedTarget evalTarget = resTarget.Value;
+
+            decimal paymentBasisVal = OperationsDec.Divide(evalTarget.PaymentBasisVal, 100);
+
+            decimal paymentValueRes = salaryRules.PaymentWithAmountFixed(paymentBasisVal);
+
+            ITermResult resultsValues = new PaymentFixedResult(target, spec,
+                paymentBasisVal,
                 RoundToInt(paymentValueRes), 0);
 
             return BuildOkResults(resultsValues);
@@ -543,70 +543,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // OptimusFixed		OPTIMUS_FIXED
-    class OptimusFixedConProv : ConceptSpecProvider
-    {
-        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
-        public OptimusFixedConProv() : base(CONCEPT_CODE)
-        {
-        }
-
-        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
-        {
-            return new OptimusFixedConSpec(this.Code.Value);
-        }
-    }
-
-    class OptimusFixedConSpec : OptimulaConceptSpec
-    {
-        public OptimusFixedConSpec(Int32 code) : base(code)
-        {
-            Path = new List<ArticleCode>();
-
-            ResultDelegate = ConceptEval;
-        }
-
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
-        {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
-            if (targets.Count() != 0)
-            {
-                return Array.Empty<ITermTarget>();
-            }
-            return new ITermTarget[] {
-                new OptimusFixedTarget(month, con, pos, var, article, this.Code, 0),
-            };
-        }
-
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-        {
-            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
-            if (resPrSalary.IsFailure)
-            {
-                return BuildFailResults(resPrSalary.Error);
-            }
-            IPropsSalary salaryRules = resPrSalary.Value;
-
-            var resTarget = GetTypedTarget<OptimusFixedTarget>(target, period);
-            if (resTarget.IsFailure)
-            {
-                return BuildFailResults(resTarget.Error);
-            }
-            OptimusFixedTarget evalTarget = resTarget.Value;
-
-            decimal paymentBasisVal = OperationsDec.Divide(evalTarget.OptimusBasisVal, 100);
-
-            decimal paymentValueRes = salaryRules.PaymentWithAmountFixed(paymentBasisVal);
-
-            ITermResult resultsValues = new OptimusFixedResult(target, spec,
-                paymentBasisVal,
-                RoundToInt(paymentValueRes), 0);
-
-            return BuildOkResults(resultsValues);
-        }
-    }
-
     // OptimusHours		OPTIMUS_HOURS
     class OptimusHoursConProv : ConceptSpecProvider
     {
@@ -668,6 +604,70 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             ITermResult resultsValues = new OptimusHoursResult(target, spec,
                 paymentBasisVal, paymentHoursVal,
+                RoundToInt(paymentValueRes), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // OptimusFixed		OPTIMUS_FIXED
+    class OptimusFixedConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED;
+        public OptimusFixedConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new OptimusFixedConSpec(this.Code.Value);
+        }
+    }
+
+    class OptimusFixedConSpec : OptimulaConceptSpec
+    {
+        public OptimusFixedConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new OptimusFixedTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<OptimusFixedTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            OptimusFixedTarget evalTarget = resTarget.Value;
+
+            decimal paymentBasisVal = OperationsDec.Divide(evalTarget.OptimusBasisVal, 100);
+
+            decimal paymentValueRes = salaryRules.PaymentWithAmountFixed(paymentBasisVal);
+
+            ITermResult resultsValues = new OptimusFixedResult(target, spec,
+                paymentBasisVal,
                 RoundToInt(paymentValueRes), 0);
 
             return BuildOkResults(resultsValues);
@@ -777,17 +777,17 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
-            var resSettlemAgrWork = GetContractResult<SettlemAgrWorkResult>(target, period, results,
+            var resSettlemAgrwork = GetContractResult<SettlemAgrworkResult>(target, period, results,
                target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK));
 
-            if (resSettlemAgrWork.IsFailure)
+            if (resSettlemAgrwork.IsFailure)
             {
-                return BuildFailResults(resSettlemAgrWork.Error);
+                return BuildFailResults(resSettlemAgrwork.Error);
             }
 
-            var evalSettlemAgrWork = resSettlemAgrWork.Value;
+            var evalSettlemAgrwork = resSettlemAgrwork.Value;
 
-            decimal settlemAgrWorkVal = evalSettlemAgrWork.ResultValue;
+            decimal settlemAgrWorkVal = evalSettlemAgrwork.ResultValue;
 
             var settlemResultsList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -806,120 +806,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal reducedResBasis = Math.Max(0, optimusTargetsVal - reducedBasisVal);
 
             ITermResult resultsValues = new ReducedBasisResult(target, spec,
-                reducedBasisVal,
-                RoundToInt(reducedResValue), RoundToInt(reducedResBasis));
-
-            return BuildOkResults(resultsValues);
-        }
-    }
-
-    // ReducedFixed		REDUCED_FIXED
-    class ReducedFixedConProv : ConceptSpecProvider
-    {
-        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED;
-        public ReducedFixedConProv() : base(CONCEPT_CODE)
-        {
-        }
-
-        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
-        {
-            return new ReducedFixedConSpec(this.Code.Value);
-        }
-    }
-
-    class ReducedFixedConSpec : OptimulaConceptSpec
-    {
-        public ReducedFixedConSpec(Int32 code) : base(code)
-        {
-            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS,
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK,
-                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
-            });
-
-            ResultDelegate = ConceptEval;
-        }
-
-        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
-        {
-            var con = ContractCode.Zero;
-            var pos = PositionCode.Zero;
-            if (targets.Count() != 0)
-            {
-                return Array.Empty<ITermTarget>();
-            }
-            return new ITermTarget[] {
-                new ReducedFixedTarget(month, con, pos, var, article, this.Code, ArticleCode.Zero),
-            };
-        }
-
-        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-        {
-            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
-            if (resPrSalary.IsFailure)
-            {
-                return BuildFailResults(resPrSalary.Error);
-            }
-            IPropsSalary salaryRules = resPrSalary.Value;
-
-            var resTarget = GetTypedTarget<ReducedFixedTarget>(target, period);
-            if (resTarget.IsFailure)
-            {
-                return BuildFailResults(resTarget.Error);
-            }
-            ReducedFixedTarget evalTarget = resTarget.Value;
-
-            var resOptimusTargets = GetContractResult<OptimusFixedResult>(target, period, results,
-               target.Contract, evalTarget.ArticleTarget);
-
-            if (resOptimusTargets.IsFailure)
-            {
-                return BuildFailResults(resOptimusTargets.Error);
-            }
-
-            var evalOptimusTargets = resOptimusTargets.Value;
-
-            var resSettlemAllowce = GetContractResult<SettlemAllowceResult>(target, period, results,
-               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE));
-
-            if (resSettlemAllowce.IsFailure)
-            {
-                return BuildFailResults(resSettlemAllowce.Error);
-            }
-
-            var evalSettlemAllowce = resSettlemAllowce.Value;
-
-            decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
-            decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
-
-            var resSettlemAgrWork = GetContractResult<SettlemAgrWorkResult>(target, period, results,
-               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK));
-
-            if (resSettlemAgrWork.IsFailure)
-            {
-                return BuildFailResults(resSettlemAgrWork.Error);
-            }
-
-            var evalSettlemAgrWork = resSettlemAgrWork.Value;
-
-            decimal settlemAgrWorkVal = evalSettlemAgrWork.ResultValue;
-
-            var settlemResultsList = results
-                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
-                .Where((v) => (v.Spec.Sums.Contains(ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS))))
-                .Select((v) => (v as OptimulaTermResult))
-                .Select((tr) => (tr.ResultBasis)).ToArray();
-
-            decimal settlemResultsBasis = settlemResultsList.Aggregate(decimal.Zero,
-                (agr, basis) => decimal.Add(agr, basis));
-
-            decimal settlemDiffsVal = (optimusTargetsVal + settlemResultsBasis - settlemAllowceVal - settlemAgrWorkVal);
-
-            decimal reducedBasisVal = Math.Max(0, settlemDiffsVal);
-            decimal reducedResValue = Math.Max(0, settlemDiffsVal);
-            decimal reducedResBasis = Math.Max(0, optimusTargetsVal - reducedBasisVal);
-
-            ITermResult resultsValues = new ReducedFixedResult(target, spec,
                 reducedBasisVal,
                 RoundToInt(reducedResValue), RoundToInt(reducedResBasis));
 
@@ -1006,17 +892,17 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
             decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
 
-            var resSettlemAgrWork = GetContractResult<SettlemAgrWorkResult>(target, period, results,
+            var resSettlemAgrwork = GetContractResult<SettlemAgrworkResult>(target, period, results,
                target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK));
 
-            if (resSettlemAgrWork.IsFailure)
+            if (resSettlemAgrwork.IsFailure)
             {
-                return BuildFailResults(resSettlemAgrWork.Error);
+                return BuildFailResults(resSettlemAgrwork.Error);
             }
 
-            var evalSettlemAgrWork = resSettlemAgrWork.Value;
+            var evalSettlemAgrwork = resSettlemAgrwork.Value;
 
-            decimal settlemAgrWorkVal = evalSettlemAgrWork.ResultValue;
+            decimal settlemAgrWorkVal = evalSettlemAgrwork.ResultValue;
 
             var settlemResultsList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1036,6 +922,120 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             ITermResult resultsValues = new ReducedHoursResult(target, spec,
                 reducedTarifVal, reducedHoursVal,
+                RoundToInt(reducedResValue), RoundToInt(reducedResBasis));
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // ReducedFixed		REDUCED_FIXED
+    class ReducedFixedConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED;
+        public ReducedFixedConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new ReducedFixedConSpec(this.Code.Value);
+        }
+    }
+
+    class ReducedFixedConSpec : OptimulaConceptSpec
+    {
+        public ReducedFixedConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS,
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK,
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new ReducedFixedTarget(month, con, pos, var, article, this.Code, ArticleCode.Zero),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<ReducedFixedTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            ReducedFixedTarget evalTarget = resTarget.Value;
+
+            var resOptimusTargets = GetContractResult<OptimusFixedResult>(target, period, results,
+               target.Contract, evalTarget.ArticleTarget);
+
+            if (resOptimusTargets.IsFailure)
+            {
+                return BuildFailResults(resOptimusTargets.Error);
+            }
+
+            var evalOptimusTargets = resOptimusTargets.Value;
+
+            var resSettlemAllowce = GetContractResult<SettlemAllowceResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE));
+
+            if (resSettlemAllowce.IsFailure)
+            {
+                return BuildFailResults(resSettlemAllowce.Error);
+            }
+
+            var evalSettlemAllowce = resSettlemAllowce.Value;
+
+            decimal settlemAllowceVal = evalSettlemAllowce.ResultValue;
+            decimal optimusTargetsVal = evalOptimusTargets.ResultValue;
+
+            var resSettlemAgrwork = GetContractResult<SettlemAgrworkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK));
+
+            if (resSettlemAgrwork.IsFailure)
+            {
+                return BuildFailResults(resSettlemAgrwork.Error);
+            }
+
+            var evalSettlemAgrwork = resSettlemAgrwork.Value;
+
+            decimal settlemAgrWorkVal = evalSettlemAgrwork.ResultValue;
+
+            var settlemResultsList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Spec.Sums.Contains(ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS))))
+                .Select((v) => (v as OptimulaTermResult))
+                .Select((tr) => (tr.ResultBasis)).ToArray();
+
+            decimal settlemResultsBasis = settlemResultsList.Aggregate(decimal.Zero,
+                (agr, basis) => decimal.Add(agr, basis));
+
+            decimal settlemDiffsVal = (optimusTargetsVal + settlemResultsBasis - settlemAllowceVal - settlemAgrWorkVal);
+
+            decimal reducedBasisVal = Math.Max(0, settlemDiffsVal);
+            decimal reducedResValue = Math.Max(0, settlemDiffsVal);
+            decimal reducedResBasis = Math.Max(0, optimusTargetsVal - reducedBasisVal);
+
+            ITermResult resultsValues = new ReducedFixedResult(target, spec,
+                reducedBasisVal,
                 RoundToInt(reducedResValue), RoundToInt(reducedResBasis));
 
             return BuildOkResults(resultsValues);
@@ -1065,9 +1065,9 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         public AgrworkHoursConScmSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
                 (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS,
                 (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
             });
 
             ResultDelegate = ConceptEval;
@@ -1175,9 +1175,9 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         public AgrworkHoursConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
-                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
                 (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS,
                 (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
             });
 
             ResultDelegate = ConceptEval;
@@ -1286,23 +1286,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // AllowceHFull		ALLOWCE_HFULL
-    class AllowceHFullConProv : ConceptSpecProvider
+    // AllowceHfull		ALLOWCE_HFULL
+    class AllowceHfullConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL;
-        public AllowceHFullConProv() : base(CONCEPT_CODE)
+        public AllowceHfullConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new AllowceHFullConSpec(this.Code.Value);
+            return new AllowceHfullConSpec(this.Code.Value);
         }
     }
 
-    class AllowceHFullConSpec : OptimulaConceptSpec
+    class AllowceHfullConSpec : OptimulaConceptSpec
     {
-        public AllowceHFullConSpec(Int32 code) : base(code)
+        public AllowceHfullConSpec(Int32 code) : base(code)
         {
             Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
                 (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
@@ -1320,7 +1320,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new AllowceHFullTarget(month, con, pos, var, article, this.Code, 0, 0),
+                new AllowceHfullTarget(month, con, pos, var, article, this.Code, 0, 0),
             };
         }
 
@@ -1333,15 +1333,15 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             }
             IPropsSalary salaryRules = resPrSalary.Value;
 
-            var resTarget = GetTypedTarget<AllowceHFullTarget>(target, period);
+            var resTarget = GetTypedTarget<AllowceHfullTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            AllowceHFullTarget evalTarget = resTarget.Value;
+            AllowceHfullTarget evalTarget = resTarget.Value;
 
             decimal allowceTarifVal = OperationsDec.Divide(evalTarget.AllowceTarifVal, 100);
-            decimal allowceHFullVal = OperationsDec.Divide(evalTarget.AllowceHFullVal, 60);
+            decimal allowceHfullVal = OperationsDec.Divide(evalTarget.AllowceHfullVal, 60);
 
             var resTimeActa = GetContractResult<TimeactualWorkResult>(target, period, results,
                target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
@@ -1359,12 +1359,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 
             decimal workingCoeffs = evalTimeActa.WorkTimeHrsCoef;
 
-            decimal hoursAllowceRes = salaryRules.RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(allowceHFullVal, monthlyCoeffs, workingCoeffs);
+            decimal hoursAllowceRes = salaryRules.RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(allowceHfullVal, monthlyCoeffs, workingCoeffs);
 
             decimal allowceValueRes = salaryRules.PaymentWithTariffAndHours(allowceTarifVal, hoursAllowceRes);
 
-            ITermResult resultsValues = new AllowceHFullResult(target, spec, 
-                allowceTarifVal, allowceHFullVal, 
+            ITermResult resultsValues = new AllowceHfullResult(target, spec, 
+                allowceTarifVal, allowceHfullVal, 
                 RoundToInt(allowceValueRes), 0);
 
             return BuildOkResults(resultsValues);
@@ -1527,6 +1527,349 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OffworkHours			OFFWORK_HOURS
+    class OffworkHoursConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OFFWORK_HOURS;
+        public OffworkHoursConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new OffworkHoursConSpec(this.Code.Value);
+        }
+    }
+
+    class OffworkHoursConSpec : OptimulaConceptSpec
+    {
+        public OffworkHoursConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new OffworkHoursTarget(month, con, pos, var, article, this.Code, 0, 0, 0, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<OffworkHoursTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            OffworkHoursTarget evalTarget = resTarget.Value;
+
+            decimal redWorkTarifVal = OperationsDec.Divide(evalTarget.AgrWorkTarifVal, 100);
+            decimal redWorkRatioVal = OperationsDec.Divide(evalTarget.AgrWorkRatioVal, 100);
+            decimal redWorkLimitVal = OperationsDec.Divide(evalTarget.AgrWorkLimitVal, 100);
+            decimal redHourLimitVal = OperationsDec.Divide(evalTarget.AgrHourLimitVal, 60);
+
+            var resTimeActa = GetContractResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            if (resTimeActa.IsFailure)
+            {
+                return BuildFailResults(resTimeActa.Error);
+            }
+
+            var evalTimeActa = resTimeActa.Value;
+
+            decimal hoursWorkActa = evalTimeActa.WorkSheetHrsVal;
+
+            decimal paymentBasisRes = redWorkTarifVal;
+            decimal paymentHoursRes = 0m;
+
+            if (redHourLimitVal == 0m)
+            {
+                paymentHoursRes = salaryRules.HoursToHalfHoursNorm(OperationsDec.Multiply(hoursWorkActa, redWorkRatioVal));
+            }
+            else
+            {
+                decimal agrCandidsHours = 0m;
+                agrCandidsHours = salaryRules.HoursToHalfHoursNorm(OperationsDec.Multiply(hoursWorkActa, redWorkRatioVal));
+                if (redWorkRatioVal == 0m)
+                {
+                    paymentHoursRes = Math.Min(agrCandidsHours, salaryRules.HoursToHalfHoursNorm(redHourLimitVal));
+                }
+                else
+                {
+                    paymentHoursRes = salaryRules.HoursToHalfHoursNorm(redHourLimitVal);
+                }
+            }
+            decimal paymentValueRes = salaryRules.PaymentWithTariffAndHours(paymentBasisRes, paymentHoursRes);
+
+            ITermResult resultsValues = new OffworkHoursResult(target, spec,
+                redWorkTarifVal, redWorkRatioVal, redWorkLimitVal, redHourLimitVal,
+                paymentHoursRes, paymentBasisRes,
+                RoundToInt(paymentValueRes), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // OffsetsHfull			OFFSETS_HFULL
+    class OffsetsHfullConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OFFSETS_HFULL;
+        public OffsetsHfullConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new OffsetsHfullConSpec(this.Code.Value);
+        }
+    }
+
+    class OffsetsHfullConSpec : OptimulaConceptSpec
+    {
+        public OffsetsHfullConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new OffsetsHfullTarget(month, con, pos, var, article, this.Code, 0, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<OffsetsHfullTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            OffsetsHfullTarget evalTarget = resTarget.Value;
+
+            decimal allowceTarifVal = OperationsDec.Divide(evalTarget.AllowceTarifVal, 100);
+            decimal allowceHfullVal = OperationsDec.Divide(evalTarget.AllowceHfullVal, 60);
+
+            var resTimeActa = GetContractResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            if (resTimeActa.IsFailure)
+            {
+                return BuildFailResults(resTimeActa.Error);
+            }
+
+            var evalTimeActa = resTimeActa.Value;
+
+            decimal workHoursActa = evalTimeActa.WorkSheetHrsVal;
+
+            decimal monthlyCoeffs = 1.0m;
+
+            decimal workingCoeffs = evalTimeActa.WorkTimeHrsCoef;
+
+            decimal hoursAllowceRes = salaryRules.RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(allowceHfullVal, monthlyCoeffs, workingCoeffs);
+
+            decimal allowceValueRes = salaryRules.PaymentWithTariffAndHours(allowceTarifVal, hoursAllowceRes);
+
+            ITermResult resultsValues = new OffsetsHfullResult(target, spec,
+                allowceTarifVal, allowceHfullVal,
+                RoundToInt(allowceValueRes), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // OffsetsHours			OFFSETS_HOURS
+    class OffsetsHoursConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OFFSETS_HOURS;
+        public OffsetsHoursConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new OffsetsHoursConSpec(this.Code.Value);
+        }
+    }
+
+    class OffsetsHoursConSpec : OptimulaConceptSpec
+    {
+        public OffsetsHoursConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new OffsetsHoursTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<OffsetsHoursTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            OffsetsHoursTarget evalTarget = resTarget.Value;
+
+            decimal allowceTarifVal = OperationsDec.Divide(evalTarget.AllowceTarifVal, 100);
+
+            var resTimeActa = GetContractResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            if (resTimeActa.IsFailure)
+            {
+                return BuildFailResults(resTimeActa.Error);
+            }
+
+            var evalTimeActa = resTimeActa.Value;
+
+            decimal hoursWorked = evalTimeActa.WorkSheetHrsVal;
+
+            decimal allowceValueRes = salaryRules.PaymentWithTariffAndHours(allowceTarifVal, hoursWorked);
+
+            ITermResult resultsValues = new OffsetsHoursResult(target, spec,
+                allowceTarifVal,
+                RoundToInt(allowceValueRes), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // OffsetsDaily			OFFSETS_DAILY
+    class OffsetsDailyConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_OFFSETS_DAILY;
+        public OffsetsDailyConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new OffsetsDailyConSpec(this.Code.Value);
+        }
+    }
+
+    class OffsetsDailyConSpec : OptimulaConceptSpec
+    {
+        public OffsetsDailyConSpec(Int32 code) : base(code)
+        {
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK,
+            });
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new OffsetsDailyTarget(month, con, pos, var, article, this.Code, 0),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<OffsetsDailyTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            OffsetsDailyTarget evalTarget = resTarget.Value;
+
+            decimal allowceDailyVal = OperationsDec.Divide(evalTarget.AllowceDailyVal, 100);
+
+            var resTimeActa = GetContractResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            if (resTimeActa.IsFailure)
+            {
+                return BuildFailResults(resTimeActa.Error);
+            }
+
+            var evalTimeActa = resTimeActa.Value;
+
+            decimal dailyWorked = evalTimeActa.WorkSheetDayVal;
+
+            decimal allowceValueRes = salaryRules.PaymentWithTariffAndHours(allowceDailyVal, dailyWorked);
+
+            ITermResult resultsValues = new OffsetsDailyResult(target, spec,
+                allowceDailyVal,
+                RoundToInt(allowceValueRes), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
     // SettlemTargets	SETTLEM_TARGETS
     class SettlemTargetsConProv : ConceptSpecProvider
     {
@@ -1583,6 +1926,68 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 (agr, item) => decimal.Add(agr, item));
 
             ITermResult resultsValues = new SettlemTargetsResult(target, spec,
+                RoundToInt(resValue), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // SettlemAgrwork	SETTLEM_AGRWORK
+    class SettlemAgrworkConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_AGRWORK;
+        public SettlemAgrworkConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new SettlemAgrworkConSpec(this.Code.Value);
+        }
+    }
+
+    class SettlemAgrworkConSpec : OptimulaConceptSpec
+    {
+        public SettlemAgrworkConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new SettlemAgrworkTarget(month, con, pos, var, article, this.Code),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<SettlemAgrworkTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            SettlemAgrworkTarget evalTarget = resTarget.Value;
+
+
+            var incomeList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as OptimulaTermResult))
+                .Select((tr) => (tr.ResultValue)).ToArray();
+
+            decimal resValue = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            ITermResult resultsValues = new SettlemAgrworkResult(target, spec,
                 RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
@@ -1651,23 +2056,24 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // SettlemAgrWork	SETTLEM_AGRWORK
-    class SettlemAgrWorkConProv : ConceptSpecProvider
+
+    // SettlemOffwork			SETTLEM_OFFWORK
+    class SettlemOffworkConProv : ConceptSpecProvider
     {
-        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_AGRWORK;
-        public SettlemAgrWorkConProv() : base(CONCEPT_CODE)
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_OFFWORK;
+        public SettlemOffworkConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new SettlemAgrWorkConSpec(this.Code.Value);
+            return new SettlemOffworkConSpec(this.Code.Value);
         }
     }
 
-    class SettlemAgrWorkConSpec : OptimulaConceptSpec
+    class SettlemOffworkConSpec : OptimulaConceptSpec
     {
-        public SettlemAgrWorkConSpec(Int32 code) : base(code)
+        public SettlemOffworkConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -1683,19 +2089,18 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new SettlemAgrWorkTarget(month, con, pos, var, article, this.Code),
+                new SettlemOffworkTarget(month, con, pos, var, article, this.Code),
             };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<SettlemAgrWorkTarget>(target, period);
+            var resTarget = GetTypedTarget<SettlemOffworkTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            SettlemAgrWorkTarget evalTarget = resTarget.Value;
-
+            SettlemOffworkTarget evalTarget = resTarget.Value;
 
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1706,7 +2111,68 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            ITermResult resultsValues = new SettlemAgrWorkResult(target, spec,
+            ITermResult resultsValues = new SettlemOffworkResult(target, spec,
+                RoundToInt(resValue), 0);
+
+            return BuildOkResults(resultsValues);
+        }
+    }
+
+    // SettlemOffsets			SETTLEM_OFFSETS
+    class SettlemOffsetsConProv : ConceptSpecProvider
+    {
+        const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_SETTLEM_OFFSETS;
+        public SettlemOffsetsConProv() : base(CONCEPT_CODE)
+        {
+        }
+
+        public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
+        {
+            return new SettlemOffsetsConSpec(this.Code.Value);
+        }
+    }
+
+    class SettlemOffsetsConSpec : OptimulaConceptSpec
+    {
+        public SettlemOffsetsConSpec(Int32 code) : base(code)
+        {
+            Path = new List<ArticleCode>();
+
+            ResultDelegate = ConceptEval;
+        }
+
+        public override IEnumerable<ITermTarget> DefaultTargetList(ArticleCode article, IPeriod period, IBundleProps ruleset, MonthCode month, IEnumerable<IContractTerm> conTerms, IEnumerable<IPositionTerm> posTerms, IEnumerable<ITermTarget> targets, VariantCode var)
+        {
+            var con = ContractCode.Zero;
+            var pos = PositionCode.Zero;
+            if (targets.Count() != 0)
+            {
+                return Array.Empty<ITermTarget>();
+            }
+            return new ITermTarget[] {
+                new SettlemOffsetsTarget(month, con, pos, var, article, this.Code),
+            };
+        }
+
+        private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
+        {
+            var resTarget = GetTypedTarget<SettlemOffsetsTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            SettlemOffsetsTarget evalTarget = resTarget.Value;
+
+            var incomeList = results
+                .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
+                .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as OptimulaTermResult))
+                .Select((tr) => (tr.ResultValue)).ToArray();
+
+            decimal resValue = incomeList.Aggregate(decimal.Zero,
+                (agr, item) => decimal.Add(agr, item));
+
+            ITermResult resultsValues = new SettlemOffsetsResult(target, spec,
                 RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
@@ -1775,23 +2241,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // IncomesTaxFree	INCOMES_TAXFREE
-    class IncomesTaxFreeConProv : ConceptSpecProvider
+    // IncomesTaxfree	INCOMES_TAXFREE
+    class IncomesTaxfreeConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXFREE;
-        public IncomesTaxFreeConProv() : base(CONCEPT_CODE)
+        public IncomesTaxfreeConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new IncomesTaxFreeConSpec(this.Code.Value);
+            return new IncomesTaxfreeConSpec(this.Code.Value);
         }
     }
 
-    class IncomesTaxFreeConSpec : OptimulaConceptSpec
+    class IncomesTaxfreeConSpec : OptimulaConceptSpec
     {
-        public IncomesTaxFreeConSpec(Int32 code) : base(code)
+        public IncomesTaxfreeConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -1807,18 +2273,18 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new IncomesTaxFreeTarget(month, con, pos, var, article, this.Code),
+                new IncomesTaxfreeTarget(month, con, pos, var, article, this.Code),
             };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<IncomesTaxFreeTarget>(target, period);
+            var resTarget = GetTypedTarget<IncomesTaxfreeTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            IncomesTaxFreeTarget evalTarget = resTarget.Value;
+            IncomesTaxfreeTarget evalTarget = resTarget.Value;
 
 
             var incomeList = results
@@ -1830,30 +2296,30 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            ITermResult resultsValues = new IncomesTaxFreeResult(target, spec,
+            ITermResult resultsValues = new IncomesTaxfreeResult(target, spec,
                 RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
         }
     }
 
-    // IncomesTaxBase	INCOMES_TAXBASE
-    class IncomesTaxBaseConProv : ConceptSpecProvider
+    // IncomesTaxbase	INCOMES_TAXBASE
+    class IncomesTaxbaseConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXBASE;
-        public IncomesTaxBaseConProv() : base(CONCEPT_CODE)
+        public IncomesTaxbaseConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new IncomesTaxBaseConSpec(this.Code.Value);
+            return new IncomesTaxbaseConSpec(this.Code.Value);
         }
     }
 
-    class IncomesTaxBaseConSpec : OptimulaConceptSpec
+    class IncomesTaxbaseConSpec : OptimulaConceptSpec
     {
-        public IncomesTaxBaseConSpec(Int32 code) : base(code)
+        public IncomesTaxbaseConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -1869,18 +2335,18 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new IncomesTaxBaseTarget(month, con, pos, var, article, this.Code),
+                new IncomesTaxbaseTarget(month, con, pos, var, article, this.Code),
             };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<IncomesTaxBaseTarget>(target, period);
+            var resTarget = GetTypedTarget<IncomesTaxbaseTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            IncomesTaxBaseTarget evalTarget = resTarget.Value;
+            IncomesTaxbaseTarget evalTarget = resTarget.Value;
 
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
@@ -1891,30 +2357,30 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            ITermResult resultsValues = new IncomesTaxBaseResult(target, spec,
+            ITermResult resultsValues = new IncomesTaxbaseResult(target, spec,
                 RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);
         }
     }
 
-    // IncomesTaxWIns	INCOMES_TAXWINS
-    class IncomesTaxWInsConProv : ConceptSpecProvider
+    // IncomesTaxwins	INCOMES_TAXWINS
+    class IncomesTaxwinsConProv : ConceptSpecProvider
     {
         const Int32 CONCEPT_CODE = (Int32)OptimulaConceptConst.CONCEPT_INCOMES_TAXWINS;
-        public IncomesTaxWInsConProv() : base(CONCEPT_CODE)
+        public IncomesTaxwinsConProv() : base(CONCEPT_CODE)
         {
         }
 
         public override IConceptSpec GetSpec(IPeriod period, VersionCode version)
         {
-            return new IncomesTaxWInsConSpec(this.Code.Value);
+            return new IncomesTaxwinsConSpec(this.Code.Value);
         }
     }
 
-    class IncomesTaxWInsConSpec : OptimulaConceptSpec
+    class IncomesTaxwinsConSpec : OptimulaConceptSpec
     {
-        public IncomesTaxWInsConSpec(Int32 code) : base(code)
+        public IncomesTaxwinsConSpec(Int32 code) : base(code)
         {
             Path = new List<ArticleCode>();
 
@@ -1930,18 +2396,18 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
                 return Array.Empty<ITermTarget>();
             }
             return new ITermTarget[] {
-                new IncomesTaxWInsTarget(month, con, pos, var, article, this.Code),
+                new IncomesTaxwinsTarget(month, con, pos, var, article, this.Code),
             };
         }
 
         private IList<Result<ITermResult, ITermResultError>> ConceptEval(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resTarget = GetTypedTarget<IncomesTaxWInsTarget>(target, period);
+            var resTarget = GetTypedTarget<IncomesTaxwinsTarget>(target, period);
             if (resTarget.IsFailure)
             {
                 return BuildFailResults(resTarget.Error);
             }
-            IncomesTaxWInsTarget evalTarget = resTarget.Value;
+            IncomesTaxwinsTarget evalTarget = resTarget.Value;
 
 
             var incomeList = results
@@ -1953,7 +2419,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
             decimal resValue = incomeList.Aggregate(decimal.Zero,
                 (agr, item) => decimal.Add(agr, item));
 
-            ITermResult resultsValues = new IncomesTaxWInsResult(target, spec,
+            ITermResult resultsValues = new IncomesTaxwinsResult(target, spec,
                 RoundToInt(resValue), 0);
 
             return BuildOkResults(resultsValues);

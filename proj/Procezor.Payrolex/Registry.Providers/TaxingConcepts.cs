@@ -2956,7 +2956,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowancePayerConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -2984,7 +2986,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowancePayerTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowancePayer(evalTarget.BenefitApply);
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowancePayer(evalDeclSignOpts, evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowancePayerResult(target, spec,
                 evalTarget.BenefitApply, benefitValue, 0);
@@ -3011,7 +3025,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowanceChildConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -3065,7 +3081,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowanceDisabConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -3118,7 +3136,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowanceStudyConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }

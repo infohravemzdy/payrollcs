@@ -88,23 +88,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // PaymentFixed		PAYMENT_FIXED
-    public class PaymentFixedResult : OptimulaTermResult
-    {
-        public PaymentFixedResult(ITermTarget target, IArticleSpec spec,
-            decimal paymentBasisVal,
-            Int32 value, Int32 basis) : base(target, spec, value, basis)
-        {
-            PaymentBasisVal = paymentBasisVal;
-        }
-        public decimal PaymentBasisVal { get; private set; }
-
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Payment Basis: {this.PaymentBasisVal}";
-        }
-    }
-
     // PaymentHours		PAYMENT_HOURS
     public class PaymentHoursResult : OptimulaTermResult
     {
@@ -124,27 +107,27 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // PaymentFixed		PAYMENT_FIXED
+    public class PaymentFixedResult : OptimulaTermResult
+    {
+        public PaymentFixedResult(ITermTarget target, IArticleSpec spec,
+            decimal paymentBasisVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            PaymentBasisVal = paymentBasisVal;
+        }
+        public decimal PaymentBasisVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Payment Basis: {this.PaymentBasisVal}";
+        }
+    }
+
     // OptimusBasis		OPTIMUS_BASIS
     public class OptimusBasisResult : OptimulaTermResult
     {
         public OptimusBasisResult(ITermTarget target, IArticleSpec spec,
-            decimal paymentBasisVal,
-            Int32 value, Int32 basis) : base(target, spec, value, basis)
-        {
-            OptimusBasisVal = paymentBasisVal;
-        }
-        public decimal OptimusBasisVal { get; private set; }
-
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Optimus Basis: {this.OptimusBasisVal}";
-        }
-    }
-
-    // OptimusFixed		OPTIMUS_FIXED
-    public class OptimusFixedResult : OptimulaTermResult
-    {
-        public OptimusFixedResult(ITermTarget target, IArticleSpec spec,
             decimal paymentBasisVal,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
@@ -177,27 +160,27 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OptimusFixed		OPTIMUS_FIXED
+    public class OptimusFixedResult : OptimulaTermResult
+    {
+        public OptimusFixedResult(ITermTarget target, IArticleSpec spec,
+            decimal paymentBasisVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            OptimusBasisVal = paymentBasisVal;
+        }
+        public decimal OptimusBasisVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Optimus Basis: {this.OptimusBasisVal}";
+        }
+    }
+
     // ReducedBasis		REDUCED_BASIS
     public class ReducedBasisResult : OptimulaTermResult
     {
         public ReducedBasisResult(ITermTarget target, IArticleSpec spec,
-            decimal paymentBasisVal,
-            Int32 value, Int32 basis) : base(target, spec, value, basis)
-        {
-            ReducedBasisVal = paymentBasisVal;
-        }
-        public decimal ReducedBasisVal { get; private set; }
-
-        public override string ResultMessage()
-        {
-            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Reduced Basis: {this.ReducedBasisVal}";
-        }
-    }
-
-    // ReducedFixed		REDUCED_FIXED
-    public class ReducedFixedResult : OptimulaTermResult
-    {
-        public ReducedFixedResult(ITermTarget target, IArticleSpec spec,
             decimal paymentBasisVal,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
@@ -230,6 +213,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // ReducedFixed		REDUCED_FIXED
+    public class ReducedFixedResult : OptimulaTermResult
+    {
+        public ReducedFixedResult(ITermTarget target, IArticleSpec spec,
+            decimal paymentBasisVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            ReducedBasisVal = paymentBasisVal;
+        }
+        public decimal ReducedBasisVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Reduced Basis: {this.ReducedBasisVal}";
+        }
+    }
+
     // AgrworkHours		AGRWORK_HOURS
     public class AgrworkHoursResult : OptimulaTermResult
     {
@@ -259,23 +259,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // AllowceHFull		ALLOWCE_HFULL
-    public class AllowceHFullResult : OptimulaTermResult
+    // AllowceHfull		ALLOWCE_HFULL
+    public class AllowceHfullResult : OptimulaTermResult
     {
-        public AllowceHFullResult(ITermTarget target, IArticleSpec spec,
-            decimal allowceTarifVal, decimal allowceHFullVal, 
+        public AllowceHfullResult(ITermTarget target, IArticleSpec spec,
+            decimal allowceTarifVal, decimal allowceHfullVal, 
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             AllowceTarifVal = allowceTarifVal;
-            AllowceHFullVal = allowceHFullVal;
+            AllowceHfullVal = allowceHfullVal;
         }
 
         public decimal AllowceTarifVal { get; private set; }
-        public decimal AllowceHFullVal { get; private set; }
+        public decimal AllowceHfullVal { get; private set; }
        
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Tariff: {this.AllowceTarifVal}; Full Hours: {this.AllowceHFullVal}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Tariff: {this.AllowceTarifVal}; Full Hours: {this.AllowceHfullVal}";
         }
     }
 
@@ -313,10 +313,106 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OffworkHours		OFFWORK_HOURS
+    public class OffworkHoursResult : OptimulaTermResult
+    {
+        public OffworkHoursResult(ITermTarget target, IArticleSpec spec,
+            decimal agrWorkTarifVal, decimal agrWorkRatioVal, decimal agrWorkLimitVal, decimal agrHourLimitVal,
+            decimal agrResultsHours, decimal agrResultsBasis,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            AgrWorkTarifVal = agrWorkTarifVal;
+            AgrWorkRatioVal = agrWorkRatioVal;
+            AgrWorkLimitVal = agrWorkLimitVal;
+            AgrHourLimitVal = agrHourLimitVal;
+            AgrResultsHours = agrResultsHours;
+            AgrResultsBasis = agrResultsBasis;
+        }
+
+        public decimal AgrWorkTarifVal { get; private set; }
+        public decimal AgrWorkRatioVal { get; private set; }
+        public decimal AgrWorkLimitVal { get; private set; }
+        public decimal AgrHourLimitVal { get; private set; }
+        public decimal AgrResultsHours { get; private set; }
+        public decimal AgrResultsBasis { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Tariff: {this.AgrWorkTarifVal}; Ratio: {this.AgrWorkRatioVal}; Tariff Limit: {this.AgrWorkLimitVal}; Hours Limit: {this.AgrHourLimitVal}; Hours Result: {this.AgrResultsHours}; Tariff Result: {this.AgrResultsBasis}";
+        }
+    }
+
+    // OffsetsHfull		OFFSETS_HFULL
+    public class OffsetsHfullResult : OptimulaTermResult
+    {
+        public OffsetsHfullResult(ITermTarget target, IArticleSpec spec,
+            decimal allowceTarifVal, decimal allowceHfullVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            AllowceTarifVal = allowceTarifVal;
+            AllowceHfullVal = allowceHfullVal;
+        }
+
+        public decimal AllowceTarifVal { get; private set; }
+        public decimal AllowceHfullVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Tariff: {this.AllowceTarifVal}; Full Hours: {this.AllowceHfullVal}";
+        }
+    }
+
+    // OffsetsHours		OFFSETS_HOURS
+    public class OffsetsHoursResult : OptimulaTermResult
+    {
+        public OffsetsHoursResult(ITermTarget target, IArticleSpec spec,
+            decimal allowceTarifVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            AllowceTarifVal = allowceTarifVal;
+        }
+        public decimal AllowceTarifVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
+        }
+    }
+
+    // OffsetsDaily		OFFSETS_DAILY
+    public class OffsetsDailyResult : OptimulaTermResult
+    {
+        public OffsetsDailyResult(ITermTarget target, IArticleSpec spec,
+            decimal allowceDailyVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            AllowceDailyVal = allowceDailyVal;
+        }
+        public decimal AllowceDailyVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
+        }
+    }
+
     // SettlemTargets	SETTLEM_TARGETS
     public class SettlemTargetsResult : OptimulaTermResult
     {
         public SettlemTargetsResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
+        }
+    }
+
+    // SettlemAgrwork	SETTLEM_AGRWORK
+    public class SettlemAgrworkResult : OptimulaTermResult
+    {
+        public SettlemAgrworkResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
@@ -339,10 +435,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // SettlemAgrWork	SETTLEM_AGRWORK
-    public class SettlemAgrWorkResult : OptimulaTermResult
+    // SettlemOffwork	SETTLEM_OFFWORK
+    public class SettlemOffworkResult : OptimulaTermResult
     {
-        public SettlemAgrWorkResult(ITermTarget target, IArticleSpec spec,
+        public SettlemOffworkResult(ITermTarget target, IArticleSpec spec,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+        }
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
+        }
+    }
+
+    // SettlemOffsets	SETTLEM_OFFSETS
+    public class SettlemOffsetsResult : OptimulaTermResult
+    {
+        public SettlemOffsetsResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
@@ -365,10 +474,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // IncomesTaxFree	INCOMES_TAXFREE
-    public class IncomesTaxFreeResult : OptimulaTermResult
+    // IncomesTaxfree	INCOMES_TAXFREE
+    public class IncomesTaxfreeResult : OptimulaTermResult
     {
-        public IncomesTaxFreeResult(ITermTarget target, IArticleSpec spec,
+        public IncomesTaxfreeResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
@@ -378,10 +487,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // IncomesTaxBase	INCOMES_TAXBASE
-    public class IncomesTaxBaseResult : OptimulaTermResult
+    // IncomesTaxbase	INCOMES_TAXBASE
+    public class IncomesTaxbaseResult : OptimulaTermResult
     {
-        public IncomesTaxBaseResult(ITermTarget target, IArticleSpec spec,
+        public IncomesTaxbaseResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
@@ -391,10 +500,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // IncomesTaxWIns	INCOMES_TAXWINS
-    public class IncomesTaxWInsResult : OptimulaTermResult
+    // IncomesTaxwins	INCOMES_TAXWINS
+    public class IncomesTaxwinsResult : OptimulaTermResult
     {
-        public IncomesTaxWInsResult(ITermTarget target, IArticleSpec spec,
+        public IncomesTaxwinsResult(ITermTarget target, IArticleSpec spec,
             Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }

@@ -87,24 +87,6 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // PaymentFixed		OPTIMUS_FIXED
-    public class PaymentFixedTarget : OptimulaTermTarget
-    {
-        public Int32 PaymentBasisVal { get; private set; }
-
-        public PaymentFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 paymentBasisVal) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
-        {
-            PaymentBasisVal = paymentBasisVal;
-        }
-        public override string TargetMessage()
-        {
-            return $"Basis: {this.TargetBasis}, Target Basis: {OperationsDec.Divide(this.PaymentBasisVal, 100)}";
-        }
-    }
-
     // PaymentHours		PAYMENT_HOURS
     public class PaymentHoursTarget : OptimulaTermTarget
     {
@@ -125,30 +107,30 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // PaymentFixed		PAYMENT_FIXED
+    public class PaymentFixedTarget : OptimulaTermTarget
+    {
+        public Int32 PaymentBasisVal { get; private set; }
+
+        public PaymentFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 paymentBasisVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            PaymentBasisVal = paymentBasisVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Basis: {OperationsDec.Divide(this.PaymentBasisVal, 100)}";
+        }
+    }
+
     // OptimusBasis		OPTIMUS_BASIS
     public class OptimusBasisTarget : OptimulaTermTarget
     {
         public Int32 OptimusBasisVal { get; private set; }
 
         public OptimusBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
-            ArticleCode article, ConceptCode concept,
-            Int32 optimusBasisVal) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
-        {
-            OptimusBasisVal = optimusBasisVal;
-        }
-        public override string TargetMessage()
-        {
-            return $"Basis: {this.TargetBasis}, Target Basis: {OperationsDec.Divide(this.OptimusBasisVal, 100)}";
-        }
-    }
-
-    // OptimusFixed		OPTIMUS_FIXED
-    public class OptimusFixedTarget : OptimulaTermTarget
-    {
-        public Int32 OptimusBasisVal { get; private set; }
-
-        public OptimusFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 optimusBasisVal) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
@@ -181,6 +163,24 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OptimusFixed		OPTIMUS_FIXED
+    public class OptimusFixedTarget : OptimulaTermTarget
+    {
+        public Int32 OptimusBasisVal { get; private set; }
+
+        public OptimusFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 optimusBasisVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            OptimusBasisVal = optimusBasisVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Basis: {OperationsDec.Divide(this.OptimusBasisVal, 100)}";
+        }
+    }
+
     // ReducedBasis		REDUCED_BASIS
     public class ReducedBasisTarget : OptimulaTermTarget
     {
@@ -199,12 +199,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // ReducedFixed		REDUCED_FIXED
-    public class ReducedFixedTarget : OptimulaTermTarget
+    // ReducedHours		REDUCED_HOURS
+    public class ReducedHoursTarget : OptimulaTermTarget
     {
         public ArticleCode ArticleTarget { get; private set; }
 
-        public ReducedFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public ReducedHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             ArticleCode articleTarget) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
@@ -217,12 +217,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // ReducedHours		REDUCED_HOURS
-    public class ReducedHoursTarget : OptimulaTermTarget
+    // ReducedFixed		REDUCED_FIXED
+    public class ReducedFixedTarget : OptimulaTermTarget
     {
         public ArticleCode ArticleTarget { get; private set; }
 
-        public ReducedHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public ReducedFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             ArticleCode articleTarget) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
@@ -259,23 +259,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // AllowceHFull		ALLOWCE_HFULL
-    public class AllowceHFullTarget : OptimulaTermTarget
+    // AllowceHfull		ALLOWCE_HFULL
+    public class AllowceHfullTarget : OptimulaTermTarget
     {
         public Int32 AllowceTarifVal { get; private set; }
-        public Int32 AllowceHFullVal { get; private set; }
+        public Int32 AllowceHfullVal { get; private set; }
 
-        public AllowceHFullTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public AllowceHfullTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 allowceTarifVal, Int32 allowceHFullVal) :
+            Int32 allowceTarifVal, Int32 allowceHfullVal) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             AllowceTarifVal = allowceTarifVal;
-            AllowceHFullVal = allowceHFullVal;
+            AllowceHfullVal = allowceHfullVal;
         }
         public override string TargetMessage()
         {
-            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AllowceTarifVal, 100)}, Target Hours: {OperationsDec.Divide(this.AllowceHFullVal, 60)}";
+            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AllowceTarifVal, 100)}, Target Hours: {OperationsDec.Divide(this.AllowceHfullVal, 60)}";
         }
     }
 
@@ -315,10 +315,101 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OffworkHours		OFFWORK_HOURS
+    public class OffworkHoursTarget : OptimulaTermTarget
+    {
+        public Int32 AgrWorkTarifVal { get; private set; }
+        public Int32 AgrWorkRatioVal { get; private set; }
+        public Int32 AgrWorkLimitVal { get; private set; }
+        public Int32 AgrHourLimitVal { get; private set; }
+
+
+        public OffworkHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 agrWorkTarifVal, Int32 agrWorkRatioVal, Int32 agrWorkLimitVal, Int32 agrHourLimitVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AgrWorkTarifVal = agrWorkTarifVal;
+            AgrWorkRatioVal = agrWorkRatioVal;
+            AgrWorkLimitVal = agrWorkLimitVal;
+            AgrHourLimitVal = agrHourLimitVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AgrWorkTarifVal, 100)}, Target Ratio: {OperationsDec.Divide(this.AgrWorkRatioVal, 100)}, Limit Value: {OperationsDec.Divide(this.AgrWorkLimitVal, 100)}, Limit Hours: {OperationsDec.Divide(this.AgrHourLimitVal, 60)}";
+        }
+    }
+
+    // OffsetsHfull		OFFSETS_HFULL
+    public class OffsetsHfullTarget : OptimulaTermTarget
+    {
+        public Int32 AllowceTarifVal { get; private set; }
+        public Int32 AllowceHfullVal { get; private set; }
+
+        public OffsetsHfullTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceTarifVal, Int32 allowceHfullVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceTarifVal = allowceTarifVal;
+            AllowceHfullVal = allowceHfullVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AllowceTarifVal, 100)}, Target Hours: {OperationsDec.Divide(this.AllowceHfullVal, 60)}";
+        }
+    }
+
+    // OffsetsHours		OFFSETS_HOURS
+    public class OffsetsHoursTarget : OptimulaTermTarget
+    {
+        public Int32 AllowceTarifVal { get; private set; }
+
+        public OffsetsHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceTarifVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceTarifVal = allowceTarifVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AllowceTarifVal, 100)}";
+        }
+    }
+
+    // OffsetsDaily		OFFSETS_DAILY
+    public class OffsetsDailyTarget : OptimulaTermTarget
+    {
+        public Int32 AllowceDailyVal { get; private set; }
+
+        public OffsetsDailyTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceDailyVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceDailyVal = allowceDailyVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Daily: {OperationsDec.Divide(this.AllowceDailyVal, 100)}";
+        }
+    }
+
     // SettlemTargets   SETTLEM_TARGETS
     public class SettlemTargetsTarget : OptimulaTermTarget
     {
         public SettlemTargetsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // SettlemAgrwork   SETTLEM_AGRWORK
+    public class SettlemAgrworkTarget : OptimulaTermTarget
+    {
+        public SettlemAgrworkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
@@ -335,10 +426,20 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // SettlemAgrWork   SETTLEM_AGRWORK
-    public class SettlemAgrWorkTarget : OptimulaTermTarget
+    // SettlemOffwork		SETTLEM_OFFWORK
+    public class SettlemOffworkTarget : OptimulaTermTarget
     {
-        public SettlemAgrWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public SettlemOffworkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // SettlemOffsets		SETTLEM_OFFSETS
+    public class SettlemOffsetsTarget : OptimulaTermTarget
+    {
+        public SettlemOffsetsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
@@ -355,30 +456,30 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
-    // IncomesTaxFree   INCOMES_TAXFREE
-    public class IncomesTaxFreeTarget : OptimulaTermTarget
+    // IncomesTaxfree   INCOMES_TAXFREE
+    public class IncomesTaxfreeTarget : OptimulaTermTarget
     {
-        public IncomesTaxFreeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public IncomesTaxfreeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
         }
     }
 
-    // IncomesTaxBase   INCOMES_TAXBASE
-    public class IncomesTaxBaseTarget : OptimulaTermTarget
+    // IncomesTaxbase   INCOMES_TAXBASE
+    public class IncomesTaxbaseTarget : OptimulaTermTarget
     {
-        public IncomesTaxBaseTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public IncomesTaxbaseTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
         }
     }
 
-    // IncomesTaxWIns   INCOMES_TAXWINS
-    public class IncomesTaxWInsTarget : OptimulaTermTarget
+    // IncomesTaxwins   INCOMES_TAXWINS
+    public class IncomesTaxwinsTarget : OptimulaTermTarget
     {
-        public IncomesTaxWInsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+        public IncomesTaxwinsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {

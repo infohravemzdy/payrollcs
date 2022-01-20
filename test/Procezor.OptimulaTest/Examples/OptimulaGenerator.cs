@@ -1138,8 +1138,8 @@ namespace Procezor.OptimulaTest.Examples
             Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
 
             Int32 MSalaryBasisVal = 0;
-            Int32 MAwardsBasisVal = MSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 HAwardsBasisVal = HSalaryAwardFunc(this, period, ruleset, prevset);
+            Int32 MawardsBasisVal = MSalaryAwardFunc(this, period, ruleset, prevset);
+            Int32 HawardsBasisVal = HSalaryAwardFunc(this, period, ruleset, prevset);
             Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
             Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
             Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
@@ -1181,22 +1181,22 @@ namespace Procezor.OptimulaTest.Examples
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_PAYMENT_BASIS), 
                 MSalaryBasisVal);
             // OptimusBasis		OPTIMUS_BASIS
-            var optimusMAwards = new OptimusBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            var optimusMawards = new OptimusBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS), 
-                MAwardsBasisVal);
+                MawardsBasisVal);
             // ReducedBasis		REDUCED_BASIS
-            var reducedMAwards = new ReducedBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            var reducedMawards = new ReducedBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS),
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS));
             // OptimusHours		OPTIMUS_HOURS
-            var optimusHAwards = new OptimusHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            var optimusHawards = new OptimusHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_HOURS),
-                HAwardsBasisVal, WorkSheetHrsVal);
+                HawardsBasisVal, WorkSheetHrsVal);
             // ReducedHours		REDUCED_HOURS
-            var reducedHAwards = new ReducedHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            var reducedHawards = new ReducedHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_RESULTS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_HOURS),
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS));
@@ -1231,8 +1231,8 @@ namespace Procezor.OptimulaTest.Examples
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS), 
                 AgrWorkTarifVal, AgrWorkRatioVal, AgrWorkLimitVal, AgrHourLimitVal);
-            // AllowceHFull		ALLOWCE_HFULL
-            var allowceHOffice = new AllowceHFullTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            // AllowceHfull		ALLOWCE_HFULL
+            var allowceHOffice = new AllowceHfullTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL), 
                 HomeOffTarifVal, HomeOffHoursVal);
@@ -1257,13 +1257,13 @@ namespace Procezor.OptimulaTest.Examples
             {
                 targets = targets.Concat(new ITermTarget[] { paymentMSalary }).ToArray();
             }
-            if (MAwardsBasisVal != 0)
+            if (MawardsBasisVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { optimusMAwards, reducedMAwards }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { optimusMawards, reducedMawards }).ToArray();
             }
-            if (HAwardsBasisVal != 0)
+            if (HawardsBasisVal != 0)
             {
-                targets = targets.Concat(new ITermTarget[] { optimusHAwards, reducedHAwards }).ToArray();
+                targets = targets.Concat(new ITermTarget[] { optimusHawards, reducedHawards }).ToArray();
             }
             if (FPremiumBaseVal != 0)
             {

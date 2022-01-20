@@ -151,68 +151,79 @@ namespace HraveMzdy.Legalios.Props
         }
 
         public abstract bool HasWithholdIncome(WorkTaxingTerms termOpt, TaxDeclSignOption signOpt, TaxNoneSignOption noneOpt, Int32 incomeSum);
-        public Int32 BenefitAllowancePayer(TaxDeclBenfOption benefitOpts)
+        public Int32 BenefitAllowancePayer(TaxDeclSignOption signOpts, TaxDeclBenfOption benefitOpts)
         {
             Int32 benefitValue = 0;
-
-            if (benefitOpts == TaxDeclBenfOption.DECL_TAX_BENEF1)
+            if (signOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
             {
-                benefitValue = AllowancePayer;
-            }
-            return benefitValue;
-        }
-        public Int32 BenefitAllowanceDisab(TaxDeclDisabOption benefitOpts)
-        {
-            Int32 benefitValue = 0;
-            switch (benefitOpts)
-            {
-                case TaxDeclDisabOption.DECL_TAX_DISAB1:
-                    benefitValue = AllowanceDisab1st;
-                    break;
-                case TaxDeclDisabOption.DECL_TAX_DISAB2:
-                    benefitValue = AllowanceDisab2nd;
-                    break;
-                case TaxDeclDisabOption.DECL_TAX_DISAB3:
-                    benefitValue = AllowanceDisab3rd;
-                    break;
-            }
-            return benefitValue;
-        }
-        public Int32 BenefitAllowanceStudy(TaxDeclBenfOption benefitOpts)
-        {
-            Int32 benefitValue = 0;
-
-            if (benefitOpts == TaxDeclBenfOption.DECL_TAX_BENEF1)
-            {
-                benefitValue = AllowanceStudy;
-            }
-            return benefitValue;
-        }
-        public Int32 BenefitAllowanceChild(TaxDeclBenfOption benefitOpts, Int32 benefitOrds, Int32 disabelOpts)
-        {
-            Int32 benefitUnits = 0;
-            switch (benefitOrds)
-            {
-                case 0:
-                    benefitUnits = AllowanceChild1st;
-                    break;
-                case 1:
-                    benefitUnits = AllowanceChild2nd;
-                    break;
-                case 2:
-                    benefitUnits = AllowanceChild3rd;
-                    break;
-            }
-            Int32 benefitValue = 0;
-            if (benefitOpts == TaxDeclBenfOption.DECL_TAX_BENEF1)
-            {
-                if (disabelOpts == 1)
+                if (benefitOpts == TaxDeclBenfOption.DECL_TAX_BENEF1)
                 {
-                    benefitValue = benefitUnits * 2;
+                    benefitValue = AllowancePayer;
                 }
-                else
+            }
+            return benefitValue;
+        }
+        public Int32 BenefitAllowanceDisab(TaxDeclSignOption signOpts, TaxDeclDisabOption benefitOpts)
+        {
+            Int32 benefitValue = 0;
+            if (signOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
+            {
+                switch (benefitOpts)
                 {
-                    benefitValue = benefitUnits;
+                    case TaxDeclDisabOption.DECL_TAX_DISAB1:
+                        benefitValue = AllowanceDisab1st;
+                        break;
+                    case TaxDeclDisabOption.DECL_TAX_DISAB2:
+                        benefitValue = AllowanceDisab2nd;
+                        break;
+                    case TaxDeclDisabOption.DECL_TAX_DISAB3:
+                        benefitValue = AllowanceDisab3rd;
+                        break;
+                }
+            }
+            return benefitValue;
+        }
+        public Int32 BenefitAllowanceStudy(TaxDeclSignOption signOpts, TaxDeclBenfOption benefitOpts)
+        {
+            Int32 benefitValue = 0;
+
+            if (signOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
+            {
+                if (benefitOpts == TaxDeclBenfOption.DECL_TAX_BENEF1)
+                {
+                    benefitValue = AllowanceStudy;
+                }
+            }
+            return benefitValue;
+        }
+        public Int32 BenefitAllowanceChild(TaxDeclSignOption signOpts, TaxDeclBenfOption benefitOpts, Int32 benefitOrds, Int32 disabelOpts)
+        {
+            Int32 benefitValue = 0;
+            if (signOpts == TaxDeclSignOption.DECL_TAX_DO_SIGNED)
+            {
+                Int32 benefitUnits = 0;
+                switch (benefitOrds)
+                {
+                    case 0:
+                        benefitUnits = AllowanceChild1st;
+                        break;
+                    case 1:
+                        benefitUnits = AllowanceChild2nd;
+                        break;
+                    case 2:
+                        benefitUnits = AllowanceChild3rd;
+                        break;
+                }
+                if (benefitOpts == TaxDeclBenfOption.DECL_TAX_BENEF1)
+                {
+                    if (disabelOpts == 1)
+                    {
+                        benefitValue = benefitUnits * 2;
+                    }
+                    else
+                    {
+                        benefitValue = benefitUnits;
+                    }
                 }
             }
             return benefitValue;

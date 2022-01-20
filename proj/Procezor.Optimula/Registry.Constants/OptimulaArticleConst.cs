@@ -20,9 +20,12 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         ARTICLE_PREMADV_TARGETS,     // Premium Boss     - Targets
         ARTICLE_PREMEXT_TARGETS,     // Premium Personal - Targets
         ARTICLE_AGRWORK_TARGETS,     // Agreement Tariff - Targets
+        ARTICLE_OFFWORK_TARGETS,     // Agreement Tariff - Targets Plus
         ARTICLE_SETTLEM_TARGETS,     // Setlement - Targets
         ARTICLE_SETTLEM_AGRWORK,     // Setlement - Agreement
         ARTICLE_SETTLEM_ALLOWCE,     // Setlement - Allowance
+        ARTICLE_SETTLEM_OFFWORK,     // Setlement - Agreement Plus
+        ARTICLE_SETTLEM_OFFSETS,     // Setlement - Allowance Plus
         ARTICLE_PREMEXT_RESULTS,     // Premium Personal - Results
         ARTICLE_PREMADV_RESULTS,     // Premium Boss     - Results
         ARTICLE_PREMIUM_RESULTS,     // Premium Bonus    - Results
@@ -32,15 +35,16 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Constants
         ARTICLE_ALLOWCE_HOFFICE,     // HomeOffice Tariff
         ARTICLE_ALLOWCE_CLOTDAY,     // Clothing Daily Tarrif
         ARTICLE_ALLOWCE_CLOTHRS,     // Clothing Hours Tarrif
-        ARTICLE_INCOMES_TAXFREE,
-        ARTICLE_INCOMES_TAXBASE,
-        ARTICLE_INCOMES_TAXWINS,
-        ARTICLE_INCOMES_SUMMARY,
-        //ARTICLE_SETTLEMENT_ALLOWANCE,   // Settlement from allowance
+        ARTICLE_OFFSETS_HOFFICE,     // HomeOffice Tariff
+        ARTICLE_OFFSETS_CLOTDAY,     // Clothing Daily Tarrif
+        ARTICLE_OFFSETS_CLOTHRS,     // Clothing Hours Tarrif
+        ARTICLE_INCOMES_TAXFREE,     // Incomes Tax Free
+        ARTICLE_INCOMES_TAXBASE,     // Incomes Tax
+        ARTICLE_INCOMES_TAXWINS,     // Incomes Tax and Insurance
+        ARTICLE_INCOMES_SUMMARY,     // Incomes Summary
         //ARTICLE_OVER_TIME,              // OverTimesheet Hours
         //ARTICLE_ABSENCE_TIME,           // Absence Timesheet Hours
         //ARTICLE_AVERAGE_PAY,            // Average Pay
-        //ARTICLE_AGRWORK_TARIFF,         // Agreement Work Tariff
         //ARTICLE_OVER_WORKTIME,          // Overtime hours
         //ARTICLE_WEEKEND_WORKTIME,       // Weekend hours
         //ARTICLE_NIGHT_WORKTIME,         // Night hours

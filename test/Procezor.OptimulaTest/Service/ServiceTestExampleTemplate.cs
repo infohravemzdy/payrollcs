@@ -400,7 +400,7 @@ namespace Procezor.OptimulaTest.Service
                 "HomeOffTarif", // J
                 "HomeOffHours", // K
                 "MSalaryAward", // L
-                "HSalaryAward", // M
+                "HsalaryAward", // M
                 "FPremiumBase", // N
                 "FPremiumBoss", // O  
                 "FPremiumPers", // P  
@@ -447,7 +447,7 @@ namespace Procezor.OptimulaTest.Service
                 "HomeOffTarif", // J
                 "HomeOffHours", // K
                 "MSalaryAward", // L
-                "HSalaryAward", // M
+                "HsalaryAward", // M
                 "FPremiumBase", // N
                 "FPremiumBoss", // O 
                 "FPremiumPers", // P  
@@ -554,16 +554,16 @@ namespace Procezor.OptimulaTest.Service
                 OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY, (x) => (x.ResultValue)); //RES-ClotDayPaymt
             decimal RES_CLOTHRSPAYMT = GetDecResultSelect<AllowceHoursResult>(results,
                 OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHRS, (x) => (x.ResultValue)); //RES-ClotHrsPaymt
-            decimal RES_HOMEOFFPAYMT = GetDecResultSelect<AllowceHFullResult>(results,
+            decimal RES_HOMEOFFPAYMT = GetDecResultSelect<AllowceHfullResult>(results,
                 OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE, (x) => (x.ResultValue)); //RES-HomeOffPaymt
             decimal IMP_MSALARYBONUS = GetDecResultSelect<OptimusBasisResult>(results,
                 OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-MSalaryBonus
             decimal RES_MSALARYBONUS = GetDecResultSelect<ReducedBasisResult>(results,
                 OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS, (x) => (x.ResultValue)); //RES-MSalaryBonus
             decimal IMP_HSALARYBONUS = GetDecResultSelect<OptimusHoursResult>(results,
-                OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-HSalaryBonus
+                OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-HsalaryBonus
             decimal RES_HSALARYBONUS = GetDecResultSelect<ReducedHoursResult>(results,
-                OptimulaArticleConst.ARTICLE_HAWARDS_RESULTS, (x) => (x.ResultValue)); //RES-HSalaryBonus
+                OptimulaArticleConst.ARTICLE_HAWARDS_RESULTS, (x) => (x.ResultValue)); //RES-HsalaryBonus
             decimal IMP_FPREMIUMBASE = GetDecResultSelect<OptimusFixedResult>(results,
                 OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS, (x) => (x.OptimusBasisVal)); //IMP-FPremiumBase
             decimal RES_FPREMIUMBASE = GetDecResultSelect<ReducedFixedResult>(results,
@@ -597,8 +597,8 @@ namespace Procezor.OptimulaTest.Service
                 DecFormatDouble(RES_HOMEOFFPAYMT), //RES-HomeOffPaymt
                 DecFormatDouble(IMP_MSALARYBONUS), //IMP-MSalaryBonus
                 DecFormatDouble(RES_MSALARYBONUS), //RES-MSalaryBonus
-                DecFormatDouble(IMP_HSALARYBONUS), //IMP-HSalaryBonus
-                DecFormatDouble(RES_HSALARYBONUS), //RES-HSalaryBonus
+                DecFormatDouble(IMP_HSALARYBONUS), //IMP-HsalaryBonus
+                DecFormatDouble(RES_HSALARYBONUS), //RES-HsalaryBonus
                 DecFormatDouble(IMP_FPREMIUMBASE), //IMP-FPremiumBase
                 DecFormatDouble(RES_FPREMIUMBASE), //RES-FPremiumBase
                 DecFormatDouble(IMP_FPREMIUMBOSS), //IMP-FPremiumBoss
