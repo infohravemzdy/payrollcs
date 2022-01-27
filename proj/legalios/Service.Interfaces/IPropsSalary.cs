@@ -21,6 +21,10 @@ namespace HraveMzdy.Legalios.Service.Interfaces
             decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours);
         decimal PaymentRoundUpWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, 
             decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours);
+        decimal PaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly,
+            decimal monthlyCoeff, decimal workingCoeff);
+        decimal PaymentRoundUpWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly,
+            decimal monthlyCoeff, decimal workingCoeff);
         decimal RelativeAmountWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
             decimal monthlyCoeff, decimal workingCoeff);
         decimal RelativeTariffWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 

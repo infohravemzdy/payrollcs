@@ -21,7 +21,7 @@ using System.IO;
 
 namespace Procezor.OptimulaTest.Service
 {
-    public class ServiceTestExamples2022 : ServiceTestExampleTemplate
+    public class ServiceTestPamicaExamples2022 : ServiceTestPamicaExampleTemplate
     {
         private static IPeriod TestPeriod = new Period(2022, 1);
         private static Int32 TestPeriodCode = 202201;
@@ -29,7 +29,7 @@ namespace Procezor.OptimulaTest.Service
 
         public static IEnumerable<object[]> GenTestData => GetGenTestDecData(_genTests, TestPeriod, TestPeriodCode, PrevPeriodCode);
 
-        public ServiceTestExamples2022(ITestOutputHelper output) : base(output)
+        public ServiceTestPamicaExamples2022(ITestOutputHelper output) : base(output)
         {
         }
         [Fact]

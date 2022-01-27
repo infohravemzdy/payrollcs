@@ -3053,7 +3053,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceChildTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowanceChild(
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowanceChild(evalDeclSignOpts, 
                 evalTarget.BenefitApply, evalTarget.BenefitOrder, evalTarget.BenefitDisab);
 
             ITermResult resultsValues = new TaxingAllowanceChildResult(target, spec,
@@ -3109,7 +3121,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceDisabTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowanceDisab(evalTarget.BenefitApply);
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowanceDisab(evalDeclSignOpts, evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowanceDisabResult(target, spec,
                 evalTarget.BenefitApply, benefitValue, 0);
@@ -3164,7 +3188,19 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceStudyTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowanceStudy(evalTarget.BenefitApply);
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowanceStudy(evalDeclSignOpts, evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowanceStudyResult(target, spec, 
                 evalTarget.BenefitApply, benefitValue, 0);

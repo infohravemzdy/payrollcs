@@ -12,11 +12,19 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Procezor.Optimula.Service
 {
-    public class ServiceOptimula : ServiceProcezor
+    public abstract class ServiceOptimula : ServiceProcezor
     {
         public const Int32 TEST_VERSION_SCM = 100;
         public const Int32 TEST_VERSION_EPS = 200;
+        public const Int32 TEST_VERSION_PUZZLE = 300;
 
+        public ServiceOptimula(Int32 version, IList<ArticleCode> calcArticles) : base(version, calcArticles)
+        {
+        }
+    }
+
+    public class ServiceOptimulaScm : ServiceOptimula
+    {
         private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
             ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS),
             ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE),
@@ -28,7 +36,7 @@ namespace HraveMzdy.Procezor.Optimula.Service
             ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY),
         };
 
-        public ServiceOptimula() : base(TEST_VERSION_EPS, TEST_FINAL_DEFS)
+        public ServiceOptimulaScm() : base(TEST_VERSION_SCM, TEST_FINAL_DEFS)
         {
         }
 
@@ -44,18 +52,91 @@ namespace HraveMzdy.Procezor.Optimula.Service
 
         protected override bool BuildArticleFactory()
         {
-            switch (Version.Value)
-            {
-            case TEST_VERSION_SCM:
-                ArticleFactory = new ServiceScmArticleFactory();
-                break;
-            case TEST_VERSION_EPS:
-                ArticleFactory = new ServiceEpsArticleFactory();
-                break;
-            default:
-                ArticleFactory = new ServiceScmArticleFactory();
-                break;
-            }
+            ArticleFactory = new ServiceScmArticleFactory();
+
+            return true;
+        }
+
+        protected override bool BuildConceptFactory()
+        {
+            ConceptFactory = new ServiceConceptFactory();
+
+            return true;
+        }
+    }
+
+    public class ServiceOptimulaEps : ServiceOptimula
+    {
+        private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXBASE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY),
+        };
+
+        public ServiceOptimulaEps() : base(TEST_VERSION_EPS, TEST_FINAL_DEFS)
+        {
+        }
+
+        public override IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets)
+        {
+            return new List<IContractTerm>();
+        }
+
+        public override IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets)
+        {
+            return new List<IPositionTerm>();
+        }
+
+        protected override bool BuildArticleFactory()
+        {
+            ArticleFactory = new ServiceEpsArticleFactory();
+
+            return true;
+        }
+
+        protected override bool BuildConceptFactory()
+        {
+            ConceptFactory = new ServiceConceptFactory();
+
+            return true;
+        }
+    }
+
+    public class ServiceOptimulaPuzzle : ServiceOptimula
+    {
+        private static readonly IList<ArticleCode> TEST_FINAL_DEFS = new List<ArticleCode>() {
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_RESULTS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_SETTLEM_TARGETS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXBASE),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXWINS),
+            ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_INCOMES_SUMMARY),
+        };
+
+        public ServiceOptimulaPuzzle() : base(TEST_VERSION_PUZZLE, TEST_FINAL_DEFS)
+        {
+        }
+
+        public override IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets)
+        {
+            return new List<IContractTerm>();
+        }
+
+        public override IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets)
+        {
+            return new List<IPositionTerm>();
+        }
+
+        protected override bool BuildArticleFactory()
+        {
+            ArticleFactory = new ServicePuzArticleFactory();
 
             return true;
         }

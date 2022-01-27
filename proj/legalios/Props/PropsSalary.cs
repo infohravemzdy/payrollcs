@@ -190,6 +190,14 @@ namespace HraveMzdy.Legalios.Props
 
             return OperationsRound.DecRoundNorm(paymentValue);
         }
+        public decimal PaymentRoundUpWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, decimal monthlyCoeff, decimal workingCoeff)
+        {
+            decimal amountFactor = FactorizeValue(amountMonthly, monthlyCoeff);
+
+            decimal paymentValue = FactorizeValue(amountFactor, workingCoeff);
+
+            return OperationsRound.DecRoundUp(paymentValue);
+        }
         public decimal PaymentWithMonthlyAndFullWeekAndFullAndWorkHours(decimal amountMonthly,
             Int32 fullWeekHours, Int32 partWeekHours,
             Int32 fullWorkHours, Int32 partWorkHours)

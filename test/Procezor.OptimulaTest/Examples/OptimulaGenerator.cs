@@ -12,7 +12,7 @@ using HraveMzdy.Procezor.Service.Types;
 
 namespace Procezor.OptimulaTest.Examples
 {
-    public class OptimulaGenerator
+    public abstract class OptimulaGenerator
     {
         public OptimulaGenerator(int id, string name, string number)
         {
@@ -24,8 +24,14 @@ namespace Procezor.OptimulaTest.Examples
             DefaultAgrWorkRatioValue = 0;
             DefaultAgrHourLimitValue = 0;
             DefaultAgrWorkLimitValue = 0;
+            DefaultAgtWorkTarifValue = 0;
+            DefaultAgtWorkRatioValue = 0;
+            DefaultAgtHourLimitValue = 0;
+            DefaultAgtWorkLimitValue = 0;
             DefaultClothesHoursValue = 0;
             DefaultClothesDailyValue = 0;
+            DefaultMealConDailyValue = 0;
+            DefaultHomeOffMonthValue = 0;
             DefaultHomeOffTarifValue = 0;
             DefaultHomeOffHoursValue = 0;
             DefaultMSalaryAwardValue = 0;
@@ -63,6 +69,8 @@ namespace Procezor.OptimulaTest.Examples
             AgrWorkLimitFunc = DefaultAgrWorkLimit;
             ClothesHoursFunc = DefaultClothesHours;
             ClothesDailyFunc = DefaultClothesDaily;
+            MealConDailyFunc = DefaultMealConDaily;
+            HomeOffMonthFunc = DefaultHomeOffMonth;
             HomeOffTarifFunc = DefaultHomeOffTarif;
             HomeOffHoursFunc = DefaultHomeOffHours;
             MSalaryAwardFunc = DefaultMSalaryAward;
@@ -125,6 +133,9 @@ namespace Procezor.OptimulaTest.Examples
             */
         }
 
+        public abstract string[] BuildImportXlsString(IPeriod period, IBundleProps ruleset, IBundleProps prevset);
+        public abstract string[] BuildImportCsvString(IPeriod period, IBundleProps ruleset, IBundleProps prevset);
+        public abstract IEnumerable<ITermTarget> BuildSpecTargets(IPeriod period, IBundleProps ruleset, IBundleProps prevset);
         private Int32 DefaultAgrWorkTarif(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return DefaultAgrWorkTarifValue;
@@ -141,6 +152,22 @@ namespace Procezor.OptimulaTest.Examples
         {
             return DefaultAgrWorkLimitValue;
         }
+        private Int32 DefaultAgtWorkTarif(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultAgtWorkTarifValue;
+        }
+        private Int32 DefaultAgtWorkRatio(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultAgtWorkRatioValue;
+        }
+        private Int32 DefaultAgtHourLimit(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultAgtHourLimitValue;
+        }
+        private Int32 DefaultAgtWorkLimit(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultAgtWorkLimitValue;
+        }
         private Int32 DefaultClothesHours(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return DefaultClothesHoursValue;
@@ -148,6 +175,14 @@ namespace Procezor.OptimulaTest.Examples
         private Int32 DefaultClothesDaily(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             return DefaultClothesDailyValue;
+        }
+        private Int32 DefaultMealConDaily(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultMealConDailyValue;
+        }
+        private Int32 DefaultHomeOffMonth(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultHomeOffMonthValue;
         }
         private Int32 DefaultHomeOffTarif(OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
@@ -278,8 +313,14 @@ namespace Procezor.OptimulaTest.Examples
         public Int32 DefaultAgrWorkRatioValue { get; private set; }
         public Int32 DefaultAgrHourLimitValue { get; private set; }
         public Int32 DefaultAgrWorkLimitValue { get; private set; }
+        public Int32 DefaultAgtWorkTarifValue { get; private set; }
+        public Int32 DefaultAgtWorkRatioValue { get; private set; }
+        public Int32 DefaultAgtHourLimitValue { get; private set; }
+        public Int32 DefaultAgtWorkLimitValue { get; private set; }
         public Int32 DefaultClothesHoursValue { get; private set; }
         public Int32 DefaultClothesDailyValue { get; private set; }
+        public Int32 DefaultMealConDailyValue { get; private set; }
+        public Int32 DefaultHomeOffMonthValue { get; private set; }
         public Int32 DefaultHomeOffTarifValue { get; private set; }
         public Int32 DefaultHomeOffHoursValue { get; private set; }
         public Int32 DefaultMSalaryAwardValue { get; private set; }
@@ -315,8 +356,14 @@ namespace Procezor.OptimulaTest.Examples
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrWorkRatioFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrHourLimitFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgrWorkLimitFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgtWorkTarifFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgtWorkRatioFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgtHourLimitFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> AgtWorkLimitFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesHoursFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> ClothesDailyFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MealConDailyFunc { get; private set; }
+        public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffMonthFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffTarifFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> HomeOffHoursFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> MSalaryAwardFunc { get; private set; }
@@ -347,10 +394,6 @@ namespace Procezor.OptimulaTest.Examples
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QHOfficeBaseFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QAgrWorkBaseFunc { get; private set; }
         public Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> QSumWorkHourFunc { get; private set; }
-        public static OptimulaGenerator Spec(Int32 id, string name, string number)
-        {
-            return new OptimulaGenerator(id, name, number);
-        }
         public static Int32 ParseNANothing(string valString)
         {
             return 0;
@@ -406,161 +449,6 @@ namespace Procezor.OptimulaTest.Examples
             }
             return decimal.ToInt32(numberValue * 60);
         }
-        public static OptimulaGenerator ParseSpec(Int32 id, string specString)
-        {
-            string[] specDefValues = specString.Split(';');
-            if (specDefValues.Length < 1)
-            {
-                return new OptimulaGenerator(id, "Unknownn", "Unknownn");
-            }
-            if (specDefValues.Length < 2)
-            {
-                return new OptimulaGenerator(id, "Unknownn", specDefValues[0]);
-            }
-            var gen = new OptimulaGenerator(id, specDefValues[1], specDefValues[0]);
-
-            Func<string, Int32>[] specParser = new Func<string, Int32>[]
-            {
-                ParseIntNumber,   //   1  EmployeeNumb	101
-                ParseNANothing,   //   2  EmployeeName	Drahota Jakub
-                ParseNANothing,   //   3  PeriodName  	202201
-                ParseDecNumber,   //   3  AgrWorkTarif	105,00
-                ParseDecNumber,   //   4  AgrWorkRatio	0,14
-                ParseHrsNumber,   //   5  AgrHourLimit	0,00
-                ParseDecNumber,   //   6  AgrWorkLimit	0,00
-                ParseDecNumber,   //   7  ClothesHours	11,17
-                ParseDecNumber,   //   8  ClothesDaily	57,00
-                ParseDecNumber,   //   9  HomeOffTarif	0,00
-                ParseHrsNumber,   //  10  HomeOffHours	0,00
-                ParseDecNumber,   //  11  MSalaryAward	8 000,00
-                ParseDecNumber,   //  12  HSalaryAward	0,00
-                ParseDecNumber,   //  13  FPremiumBase	0,00
-                ParseDecNumber,   //  14  FPremiumBoss	0,00
-                ParseDecNumber,   //  15  FPremiumPers	0,00
-                ParseHrsNumber,   //  16  FullSheetHrs	176,00
-                ParseHrsNumber,   //  17  TimeSheetHrs	176,00
-                ParseHrsNumber,   //  18  HoliSheetHrs	0,00
-                ParseHrsNumber,   //  19  WorkSheetHrs	96,00
-                ParseDecNumber,   //  20  WorkSheetDay	12,00
-                ParseHrsNumber,   //  21  OverSheetHrs	40,00
-                ParseHrsNumber,   //  22  VacaRecomHrs	80,00
-                ParseHrsNumber,   //  23  PaidRecomHrs	0,00
-                ParseHrsNumber,   //  24  HoliRecomHrs	0,00
-                ParseNANothing,   //25  -----------
-                ParseNANothing,   //26  -----------
-                ParseHrsNumber,   //   27  OverAllowHrs	40,00
-                ParseDecNumber,   //   28  OverAllowRio	0,25
-                ParseHrsNumber,   //   29  RestAllowHrs	0,00
-                ParseDecNumber,   //   30  RestAllowRio	0,00
-                ParseHrsNumber,   //   31  WendAllowHrs	0,00
-                ParseDecNumber,   //   32  WendAllowRio	0,00
-                ParseHrsNumber,   //   33  NighAllowHrs	18,25
-                ParseDecNumber,   //   34  NighAllowRio	0,10
-                ParseHrsNumber,   //   35  HoliAllowHrs	0,00
-                ParseDecNumber,   //   36  HoliAllowRio	0,00
-                ParseDecNumber,   //   37  QClothesBase	3 506,00
-                ParseDecNumber,   //   38  QHOfficeBase	0,00
-                ParseDecNumber,   //   39  QAgrWorkBase	8 852,00
-                ParseDecNumber,   //   40  QSumWorkHour	912,08
-            };
-            Int32[] specIntValues = specDefValues.Zip(specParser).Select((x) => x.Second(x.First)).ToArray();
-
-
-#if __ALL_VALUES__
-            Func<Int32, OptimulaGenerator>[] specGenerator = new Func<Int32, OptimulaGenerator>[]
-            {
-                gen.WithNANothingVal,   //   1  EmployeeNumb	101
-                gen.WithNANothingVal,   //   2  EmployeeName	Drahota Jakub
-                gen.WithNANothingVal,   //   3  PeriodName  	202201
-                gen.WithAgrWorkTarifVal,   //   3  AgrWorkTarif	105,00
-                gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
-                gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
-                gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
-                gen.WithClothesDailyVal,   //   7  ClothesHours	11,17
-                gen.WithClothesDailyVal,   //   8  ClothesDaily	106,00
-                gen.WithHomeOffTarifVal,   //   9  HomeOffTarif	0,00
-                gen.WithHomeOffHoursVal,   //  10  HomeOffHours	0,00
-                gen.WithMSalaryAwardVal,   //  11  MSalaryAward	8 000,00
-                gen.WithHSalaryAwardVal,   //  12  HSalaryAward	0,00
-                gen.WithFPremiumBaseVal,   //  13  FPremiumBase	0,00
-                gen.WithFPremiumBossVal,   //  14  FPremiumBoss	0,00
-                gen.WithFPremiumPersVal,   //  15  FPremiumPers	0,00
-                gen.WithFullSheetHrsVal,   //  16  FullSheetHrs	176,00
-                gen.WithTimeSheetHrsVal,   //  17  TimeSheetHrs	176,00
-                gen.WithHoliSheetHrsVal,   //  18  HoliSheetHrs	0,00
-                gen.WithWorkSheetHrsVal,   //  19  WorkSheetHrs	96,00
-                gen.WithWorkSheetDayVal,   //  20  WorkSheetDay	12,00
-                gen.WithOverSheetHrsVal,   //  21  OverSheetHrs	40,00
-                gen.WithVacaRecomHrsVal,   //  22  VacaRecomHrs	80,00
-                gen.WithPaidRecomHrsVal,   //  23  PaidRecomHrs	0,00
-                gen.WithHoliRecomHrsVal,   //  24  HoliRecomHrs	0,00
-                gen.WithNANothingVal,   //25  -----------
-                gen.WithNANothingVal,   //26  -----------
-                gen.WithOverAllowHrsVal,   //   27  OverAllowHrs	40,00
-                gen.WithOverAllowRioVal,   //   28  OverAllowRio	0,25
-                gen.WithRestAllowHrsVal,   //   29  RestAllowHrs	0,00
-                gen.WithRestAllowRioVal,   //   30  RestAllowRio	0,00
-                gen.WithWendAllowHrsVal,   //   31  WendAllowHrs	0,00
-                gen.WithWendAllowRioVal,   //   32  WendAllowRio	0,00
-                gen.WithNighAllowHrsVal,   //   33  NighAllowHrs	18,25
-                gen.WithNighAllowRioVal,   //   34  NighAllowRio	0,10
-                gen.WithHoliAllowHrsVal,   //   35  HoliAllowHrs	0,00
-                gen.WithHoliAllowRioVal,   //   36  HoliAllowRio	0,00
-                gen.WithQClothesBaseVal,   //   37  QClothesBase	3 506,00
-                gen.WithQHOfficeBaseVal,   //   38  QHOfficeBase	0,00
-                gen.WithQAgrWorkBaseVal,   //   39  QAgrWorkBase	8 852,00
-                gen.WithQSumWorkHourVal,   //   40  QSumWorkHour	912,08
-            };
-#else
-            Func<Int32, OptimulaGenerator>[] specGenerator = new Func<Int32, OptimulaGenerator>[]
-            {
-                gen.WithNANothingVal,   //   1  EmployeeNumb	101
-                gen.WithNANothingVal,   //   2  EmployeeName	Drahota Jakub
-                gen.WithNANothingVal,   //   3  PeriodName  	202201
-                gen.WithAgrWorkTarifVal,   //   3  AgrWorkTarif	105,00
-                gen.WithAgrWorkRatioVal,   //   4  AgrWorkRatio	0,14
-                gen.WithAgrHourLimitVal,   //   5  AgrHourLimit	0,00
-                gen.WithAgrWorkLimitVal,   //   6  AgrWorkLimit	0,00
-                gen.WithClothesHoursVal,   //   7  ClothesHours	11,17
-                gen.WithClothesDailyVal,   //   8  ClothesDaily	106,00
-                gen.WithHomeOffTarifVal,   //   9  HomeOffTarif	0,00
-                gen.WithHomeOffHoursVal,   //  10 HomeOffHours	0,00
-                gen.WithMSalaryAwardVal,   //  11  MSalaryAward	8 000,00
-                gen.WithHSalaryAwardVal,   //  12  HSalaryAward	0,00
-                gen.WithFPremiumBaseVal,   //  13  FPremiumBase	0,00
-                gen.WithFPremiumBossVal,   //  14  FPremiumBoss	0,00
-                gen.WithFPremiumPersVal,   //  15  FPremiumPers	0,00
-                gen.WithFullSheetHrsVal,   //  16  FullSheetHrs	176,00
-                gen.WithTimeSheetHrsVal,   //  17  TimeSheetHrs	176,00
-                gen.WithHoliSheetHrsVal,   //  18  HoliSheetHrs	0,00
-                gen.WithWorkSheetHrsVal,   //  19  WorkSheetHrs	96,00
-                gen.WithWorkSheetDayVal,   //  20  WorkSheetDay	12,00
-                gen.WithOverSheetHrsVal,   //  21  OverSheetHrs	40,00
-                gen.WithVacaRecomHrsVal,   //  22  VacaRecomHrs	80,00
-                gen.WithPaidRecomHrsVal,   //  23  PaidRecomHrs	0,00
-                gen.WithHoliRecomHrsVal,   //  24  HoliRecomHrs	0,00
-                gen.WithNANothingVal,   //25  -----------
-                gen.WithNANothingVal,   //26  -----------
-                gen.WithNANothingVal,   //   27  OverAllowHrs	40,00
-                gen.WithNANothingVal,   //   28  OverAllowRio	0,25
-                gen.WithNANothingVal,   //   29  RestAllowHrs	0,00
-                gen.WithNANothingVal,   //   30  RestAllowRio	0,00
-                gen.WithNANothingVal,   //   31  WendAllowHrs	0,00
-                gen.WithNANothingVal,   //   32  WendAllowRio	0,00
-                gen.WithNANothingVal,   //   33  NighAllowHrs	18,25
-                gen.WithNANothingVal,   //   34  NighAllowRio	0,10
-                gen.WithNANothingVal,   //   35  HoliAllowHrs	0,00
-                gen.WithNANothingVal,   //   36  HoliAllowRio	0,00
-                gen.WithNANothingVal,   //   37  QClothesBase	3 506,00
-                gen.WithNANothingVal,   //   38  QHOfficeBase	0,00
-                gen.WithNANothingVal,   //   39  QAgrWorkBase	8 852,00
-                gen.WithNANothingVal,   //   40  QSumWorkHour	912,08
-            };
-#endif
-            specIntValues.Zip(specGenerator).Select((x) => x.Second(x.First)).ToArray();
-
-            return gen;
-        }
         protected static Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> WithValue(Int32 val)
         {
             return (OptimulaGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset) => (val);
@@ -589,6 +477,26 @@ namespace Procezor.OptimulaTest.Examples
             DefaultAgrWorkLimitValue = val;
             return this;
         }
+        public OptimulaGenerator WithAgtWorkTarifVal(Int32 val)
+        {
+            DefaultAgtWorkTarifValue = val;
+            return this;
+        }
+        public OptimulaGenerator WithAgtWorkRatioVal(Int32 val)
+        {
+            DefaultAgtWorkRatioValue = val;
+            return this;
+        }
+        public OptimulaGenerator WithAgtHourLimitVal(Int32 val)
+        {
+            DefaultAgtHourLimitValue = val;
+            return this;
+        }
+        public OptimulaGenerator WithAgtWorkLimitVal(Int32 val)
+        {
+            DefaultAgtWorkLimitValue = val;
+            return this;
+        }
         public OptimulaGenerator WithClothesHoursVal(Int32 val)
         {
             DefaultClothesHoursValue = val;
@@ -597,6 +505,16 @@ namespace Procezor.OptimulaTest.Examples
         public OptimulaGenerator WithClothesDailyVal(Int32 val)
         {
             DefaultClothesDailyValue = val;
+            return this;
+        }
+        public OptimulaGenerator WithMealConDailyVal(Int32 val)
+        {
+            DefaultMealConDailyValue = val;
+            return this;
+        }
+        public OptimulaGenerator WithHomeOffMonthVal(Int32 val)
+        {
+            DefaultHomeOffMonthValue = val;
             return this;
         }
         public OptimulaGenerator WithHomeOffTarifVal(Int32 val)
@@ -774,6 +692,26 @@ namespace Procezor.OptimulaTest.Examples
             AgrWorkLimitFunc = func;
             return this;
         }
+        public OptimulaGenerator WithAgtWorkTarif(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            AgtWorkTarifFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithAgtWorkRatio(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            AgtWorkRatioFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithAgtHourLimit(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            AgtHourLimitFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithAgtWorkLimit(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            AgtWorkLimitFunc = func;
+            return this;
+        }
         public OptimulaGenerator WithClothesHours(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             ClothesHoursFunc = func;
@@ -782,6 +720,11 @@ namespace Procezor.OptimulaTest.Examples
         public OptimulaGenerator WithClothesDaily(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             ClothesDailyFunc = func;
+            return this;
+        }
+        public OptimulaGenerator WithHomeOffMonth(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
+        {
+            HomeOffMonthFunc = func;
             return this;
         }
         public OptimulaGenerator WithHomeOffTarif(Func<OptimulaGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
@@ -933,368 +876,6 @@ namespace Procezor.OptimulaTest.Examples
         {
             QSumWorkHourFunc = func;
             return this;
-        }
-        public string[] BuildImportXlsString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
-        {
-            Int32 AgrWorkTarifVal = AgrWorkTarifFunc(this, period, ruleset, prevset);
-            Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
-            Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
-            Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
-            Int32 ClothesHoursVal = ClothesHoursFunc(this, period, ruleset, prevset);
-            Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
-            Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
-            Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
-
-            Int32 MSalaryAwardVal = MSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 HSalaryAwardVal = HSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
-            Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
-            Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
-            Int32 FullSheetHrsVal = FullSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 TimeSheetHrsVal = TimeSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliSheetHrsVal = HoliSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 WorkSheetHrsVal = WorkSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);
-            Int32 OverSheetHrsVal = OverSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 VacaRecomHrsVal = VacaRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 PaidRecomHrsVal = PaidRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliRecomHrsVal = HoliRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 OverAllowHrsVal = OverAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 OverAllowRioVal = OverAllowRioFunc(this, period, ruleset, prevset);
-            Int32 RestAllowHrsVal = RestAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 RestAllowRioVal = RestAllowRioFunc(this, period, ruleset, prevset);
-            Int32 WendAllowHrsVal = WendAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 WendAllowRioVal = WendAllowRioFunc(this, period, ruleset, prevset);
-            Int32 NighAllowHrsVal = NighAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 NighAllowRioVal = NighAllowRioFunc(this, period, ruleset, prevset);
-            Int32 HoliAllowHrsVal = HoliAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliAllowRioVal = HoliAllowRioFunc(this, period, ruleset, prevset);
-            Int32 QClothesBaseVal = QClothesBaseFunc(this, period, ruleset, prevset);
-            Int32 QHOfficeBaseVal = QHOfficeBaseFunc(this, period, ruleset, prevset);
-            Int32 QAgrWorkBaseVal = QAgrWorkBaseFunc(this, period, ruleset, prevset);
-            Int32 QSumWorkHourVal = QSumWorkHourFunc(this, period, ruleset, prevset);
-
-            string[] valuesList = new string[]
-            {
-                Number, // A
-                Name,   // B
-                period.Code.ToString(),                 // C
-                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // D
-                $"{NumFormatIntX100(AgrWorkRatioVal)}", // E
-                $"{HrsFormatIntX060(AgrHourLimitVal)}", // F
-                $"{NumFormatIntX100(AgrWorkLimitVal)}", // G
-                $"{CcyFormatIntX100(ClothesHoursVal)}", // H
-                $"{CcyFormatIntX100(ClothesDailyVal)}", // I
-                $"{CcyFormatIntX100(HomeOffTarifVal)}", // J
-                $"{HrsFormatIntX060(HomeOffHoursVal)}", // K
-                $"{CcyFormatIntX100(MSalaryAwardVal)}", // L
-                $"{CcyFormatIntX100(HSalaryAwardVal)}", // M
-                $"{CcyFormatIntX100(FPremiumBaseVal)}", // N
-                $"{CcyFormatIntX100(FPremiumBossVal)}", // O  
-                $"{CcyFormatIntX100(FPremiumPersVal)}", // P  
-                $"{HrsFormatIntX060(FullSheetHrsVal)}", // Q  
-                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // R  
-                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // S   
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // T
-                $"{DayFormatIntX100(WorkSheetDayVal)}", // U
-                $"{HrsFormatIntX060(OverSheetHrsVal)}", // V
-                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // W  
-                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // X   
-                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // Y     
-                "", // Z     
-                $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
-                $"{CcyFormatIntX100(OverAllowRioVal)}", // AB
-                $"{HrsFormatIntX060(RestAllowHrsVal)}", // AC
-                $"{CcyFormatIntX100(RestAllowRioVal)}", // AD
-                $"{HrsFormatIntX060(WendAllowHrsVal)}", // AE
-                $"{CcyFormatIntX100(WendAllowRioVal)}", // AF
-                $"{HrsFormatIntX060(NighAllowHrsVal)}", // AG
-                $"{CcyFormatIntX100(NighAllowRioVal)}", // AH
-                $"{HrsFormatIntX060(HoliAllowHrsVal)}", // AI
-                $"{CcyFormatIntX100(HoliAllowRioVal)}", // AJ
-                $"{CcyFormatIntX100(QClothesBaseVal)}", // AK
-                $"{CcyFormatIntX100(QHOfficeBaseVal)}", // AL
-                $"{CcyFormatIntX100(QAgrWorkBaseVal)}", // AM
-                $"{CcyFormatIntX100(QSumWorkHourVal)}", // AN
-            };
-            if (WorkSheetHrsVal != 0)
-            {
-                string[] importResult = new string[] { string.Join('\t', valuesList) };
-
-                return importResult;
-            }
-            return Array.Empty<string>();
-        }
-        public string[] BuildImportCsvString(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
-        {
-            Int32 AgrWorkTarifVal = AgrWorkTarifFunc(this, period, ruleset, prevset);
-            Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
-            Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
-            Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
-            Int32 ClothesHoursVal = ClothesHoursFunc(this, period, ruleset, prevset);
-            Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
-            Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
-            Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
-
-            Int32 MSalaryAwardVal = MSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 HSalaryAwardVal = HSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
-            Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
-            Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
-            Int32 FullSheetHrsVal = FullSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 TimeSheetHrsVal = TimeSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliSheetHrsVal = HoliSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 WorkSheetHrsVal = WorkSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);
-            Int32 OverSheetHrsVal = OverSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 VacaRecomHrsVal = VacaRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 PaidRecomHrsVal = PaidRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliRecomHrsVal = HoliRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 OverAllowHrsVal = OverAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 OverAllowRioVal = OverAllowRioFunc(this, period, ruleset, prevset);
-            Int32 RestAllowHrsVal = RestAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 RestAllowRioVal = RestAllowRioFunc(this, period, ruleset, prevset);
-            Int32 WendAllowHrsVal = WendAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 WendAllowRioVal = WendAllowRioFunc(this, period, ruleset, prevset);
-            Int32 NighAllowHrsVal = NighAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 NighAllowRioVal = NighAllowRioFunc(this, period, ruleset, prevset);
-            Int32 HoliAllowHrsVal = HoliAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliAllowRioVal = HoliAllowRioFunc(this, period, ruleset, prevset);
-            Int32 QClothesBaseVal = QClothesBaseFunc(this, period, ruleset, prevset);
-            Int32 QHOfficeBaseVal = QHOfficeBaseFunc(this, period, ruleset, prevset);
-            Int32 QAgrWorkBaseVal = QAgrWorkBaseFunc(this, period, ruleset, prevset);
-            Int32 QSumWorkHourVal = QSumWorkHourFunc(this, period, ruleset, prevset);
-
-            string[] valuesList = new string[]
-            {
-                Number, // A
-                Name,   // B
-                period.Code.ToString(),                 // C
-                $"{CcyFormatIntX100(AgrWorkTarifVal)}", // D
-                $"{NumFormatIntX100(AgrWorkRatioVal)}", // E
-                $"{HrsFormatIntX060(AgrHourLimitVal)}", // F
-                $"{NumFormatIntX100(AgrWorkLimitVal)}", // G
-                $"{CcyFormatIntX100(ClothesHoursVal)}", // H
-                $"{CcyFormatIntX100(ClothesDailyVal)}", // I
-                $"{CcyFormatIntX100(HomeOffTarifVal)}", // J
-                $"{HrsFormatIntX060(HomeOffHoursVal)}", // K
-                $"{CcyFormatIntX100(MSalaryAwardVal)}", // L
-                $"{CcyFormatIntX100(HSalaryAwardVal)}", // M
-                $"{CcyFormatIntX100(FPremiumBaseVal)}", // N
-                $"{CcyFormatIntX100(FPremiumBossVal)}", // O 
-                $"{CcyFormatIntX100(FPremiumPersVal)}", // P 
-                $"{HrsFormatIntX060(FullSheetHrsVal)}", // Q 
-                $"{HrsFormatIntX060(TimeSheetHrsVal)}", // R 
-                $"{HrsFormatIntX060(HoliSheetHrsVal)}", // S 
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // T 
-                $"{DayFormatIntX100(WorkSheetDayVal)}", // U
-                $"{HrsFormatIntX060(OverSheetHrsVal)}", // V
-                $"{HrsFormatIntX060(VacaRecomHrsVal)}", // W 
-                $"{HrsFormatIntX060(PaidRecomHrsVal)}", // X    
-                $"{HrsFormatIntX060(HoliRecomHrsVal)}", // Y     
-                "", // Z     
-                $"{HrsFormatIntX060(OverAllowHrsVal)}", // AA
-                $"{CcyFormatIntX100(OverAllowRioVal)}", // AB
-                $"{HrsFormatIntX060(RestAllowHrsVal)}", // AC
-                $"{CcyFormatIntX100(RestAllowRioVal)}", // AD
-                $"{HrsFormatIntX060(WendAllowHrsVal)}", // AE
-                $"{CcyFormatIntX100(WendAllowRioVal)}", // AF
-                $"{HrsFormatIntX060(NighAllowHrsVal)}", // AG
-                $"{CcyFormatIntX100(NighAllowRioVal)}", // AH
-                $"{HrsFormatIntX060(HoliAllowHrsVal)}", // AI
-                $"{CcyFormatIntX100(HoliAllowRioVal)}", // AJ
-                $"{CcyFormatIntX100(QClothesBaseVal)}", // AK
-                $"{CcyFormatIntX100(QHOfficeBaseVal)}", // AL
-                $"{CcyFormatIntX100(QAgrWorkBaseVal)}", // AM
-                $"{CcyFormatIntX100(QSumWorkHourVal)}", // AN
-            };         
-            
-            if (WorkSheetHrsVal != 0)
-            {
-                string[] importResult = new string[] { string.Join(';', valuesList) + ";" };
-
-                return importResult;
-            }
-            return Array.Empty<string>();
-        }
-        public IEnumerable<ITermTarget> BuildSpecTargets(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
-        {
-            var montCode = MonthCode.Get(period.Code);
-
-            Int16 CONTRACT_NULL = 0;
-            Int16 POSITION_NULL = 0;
-
-            var contractEmp = ContractCode.Get(CONTRACT_NULL);
-            var positionEmp = PositionCode.Get(POSITION_NULL);
-            var variant1Emp = VariantCode.Get(1);
-
-            Int32 AgrWorkTarifVal = AgrWorkTarifFunc(this, period, ruleset, prevset);
-            Int32 AgrWorkRatioVal = AgrWorkRatioFunc(this, period, ruleset, prevset);
-            Int32 AgrHourLimitVal = AgrHourLimitFunc(this, period, ruleset, prevset);
-            Int32 AgrWorkLimitVal = AgrWorkLimitFunc(this, period, ruleset, prevset);
-            Int32 ClothesHoursVal = ClothesHoursFunc(this, period, ruleset, prevset);
-            Int32 ClothesDailyVal = ClothesDailyFunc(this, period, ruleset, prevset);
-            Int32 HomeOffTarifVal = HomeOffTarifFunc(this, period, ruleset, prevset);
-            Int32 HomeOffHoursVal = HomeOffHoursFunc(this, period, ruleset, prevset);
-
-            Int32 MSalaryBasisVal = 0;
-            Int32 MawardsBasisVal = MSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 HawardsBasisVal = HSalaryAwardFunc(this, period, ruleset, prevset);
-            Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);
-            Int32 FPremiumBossVal = FPremiumBossFunc(this, period, ruleset, prevset);
-            Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);
-            Int32 FullSheetHrsVal = FullSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 TimeSheetHrsVal = TimeSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliSheetHrsVal = HoliSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 WorkSheetHrsVal = WorkSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);
-            Int32 OverSheetHrsVal = OverSheetHrsFunc(this, period, ruleset, prevset);
-            Int32 VacaRecomHrsVal = VacaRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliRecomHrsVal = HoliRecomHrsFunc(this, period, ruleset, prevset);
-            Int32 OverAllowHrsVal = OverAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 OverAllowRioVal = OverAllowRioFunc(this, period, ruleset, prevset);
-            Int32 RestAllowHrsVal = RestAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 RestAllowRioVal = RestAllowRioFunc(this, period, ruleset, prevset);
-            Int32 WendAllowHrsVal = WendAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 WendAllowRioVal = WendAllowRioFunc(this, period, ruleset, prevset);
-            Int32 NighAllowHrsVal = NighAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 NighAllowRioVal = NighAllowRioFunc(this, period, ruleset, prevset);
-            Int32 HoliAllowHrsVal = HoliAllowHrsFunc(this, period, ruleset, prevset);
-            Int32 HoliAllowRioVal = HoliAllowRioFunc(this, period, ruleset, prevset);
-
-            // ContractTimePlan	CONTRACT_TIME_PLAN
-            var contractTimePlan = new TimesheetsPlanTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_PLAN),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_PLAN), FullSheetHrsVal);
-            // ContractTimeWork	CONTRACT_TIME_WORK
-            var contractTimeWork = new TimesheetsWorkTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_WORK),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_TIMESHEETS_WORK), TimeSheetHrsVal, HoliSheetHrsVal);
-            // TimeactualWork	TIMEACTUAL_WORK
-            var contractTimeActa = new TimeactualWorkTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_TIMEACTUAL_WORK), 
-                WorkSheetHrsVal, WorkSheetDayVal, OverSheetHrsVal);
-            // PaymentBasis		PAYMENT_BASIS
-            var paymentMSalary = new PaymentBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MSALARY_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_PAYMENT_BASIS), 
-                MSalaryBasisVal);
-            // OptimusBasis		OPTIMUS_BASIS
-            var optimusMawards = new OptimusBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_BASIS), 
-                MawardsBasisVal);
-            // ReducedBasis		REDUCED_BASIS
-            var reducedMawards = new ReducedBasisTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_BASIS),
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_MAWARDS_TARGETS));
-            // OptimusHours		OPTIMUS_HOURS
-            var optimusHawards = new OptimusHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_HOURS),
-                HawardsBasisVal, WorkSheetHrsVal);
-            // ReducedHours		REDUCED_HOURS
-            var reducedHawards = new ReducedHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_HOURS),
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_HAWARDS_TARGETS));
-            // OptimusFixed		OPTIMUS_FIXED
-            var optPremiumBase = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED), 
-                FPremiumBaseVal);
-            var optPremiumBoss = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED), 
-                FPremiumBossVal);
-            var optPremiumPers = new OptimusFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_FIXED), 
-                FPremiumPersVal);
-            // ReducedFixed		REDUCED_FIXED
-            var redPremiumBase = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS));           
-            var redPremiumBoss = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMADV_TARGETS));   
-            var redPremiumPers = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_RESULTS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_FIXED), 
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMEXT_TARGETS));          
-            // AgrworkHours		AGRWORK_HOURS
-            var allowceAgrwork = new AgrworkHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS), 
-                AgrWorkTarifVal, AgrWorkRatioVal, AgrWorkLimitVal, AgrHourLimitVal);
-            // AllowceHfull		ALLOWCE_HFULL
-            var allowceHOffice = new AllowceHfullTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HFULL), 
-                HomeOffTarifVal, HomeOffHoursVal);
-            // AllowceHours		ALLOWCE_HOURS
-            var allowceClotHrs = new AllowceHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHRS),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS),
-                ClothesHoursVal);
-            // AllowceDaily		ALLOWCE_DAILY
-            var allowceClotDay = new AllowceDailyTarget(montCode, contractEmp, positionEmp, variant1Emp,
-                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY),
-                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY),
-                ClothesDailyVal);
-
-            var targets = new ITermTarget[] {
-                contractTimePlan,
-                contractTimeWork,
-                contractTimeActa,
-            };
-
-            if (MSalaryBasisVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { paymentMSalary }).ToArray();
-            }
-            if (MawardsBasisVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { optimusMawards, reducedMawards }).ToArray();
-            }
-            if (HawardsBasisVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { optimusHawards, reducedHawards }).ToArray();
-            }
-            if (FPremiumBaseVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { optPremiumBase, redPremiumBase }).ToArray();
-            }
-            if (FPremiumBossVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { optPremiumBoss, redPremiumBoss }).ToArray();
-            }
-            if (FPremiumPersVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { optPremiumPers, redPremiumPers }).ToArray();
-            }
-            if (AgrWorkTarifVal != 0 && AgrWorkRatioVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { allowceAgrwork }).ToArray();
-            }
-            if (HomeOffTarifVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { allowceHOffice }).ToArray();
-            }
-            if (ClothesDailyVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { allowceClotDay }).ToArray();
-            }
-            if (ClothesHoursVal != 0)
-            {
-                targets = targets.Concat(new ITermTarget[] { allowceClotHrs }).ToArray();
-            }
-
-            return targets;
         }
         public static double ResultDivDouble(double dblUpper, double dblDown, double multiplex = 1.0)
         {

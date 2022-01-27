@@ -181,6 +181,26 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OptimusNetto		OPTIMUS_NETTO
+    public class OptimusNettoTarget : OptimulaTermTarget 
+    {
+        public Int32 OptimusBasisVal { get; private set; }
+        public Int32 OptimusExtraVal { get; private set; }
+    
+        public OptimusNettoTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 optimusBasisVal, Int32 optimusExtraVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            OptimusBasisVal = optimusBasisVal;
+            OptimusExtraVal = optimusExtraVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Basis: {OperationsDec.Divide(this.OptimusBasisVal, 100)}, Target Extra: {OperationsDec.Divide(this.OptimusExtraVal, 100)}";
+        }
+    }
+
     // ReducedBasis		REDUCED_BASIS
     public class ReducedBasisTarget : OptimulaTermTarget
     {
@@ -259,6 +279,47 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // AgrtaskHours		AGRTASK_HOURS
+    public class AgrtaskHoursTarget : OptimulaTermTarget {
+        public Int32 AgrWorkTarifVal { get; private set; }
+        public Int32 AgrWorkRatioVal { get; private set; }
+        public Int32 AgrWorkLimitVal { get; private set; }
+        public Int32 AgrHourLimitVal { get; private set; }
+
+        public AgrtaskHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 agrWorkTarifVal, Int32 agrWorkRatioVal, Int32 agrWorkLimitVal, Int32 agrHourLimitVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AgrWorkTarifVal = agrWorkTarifVal;
+            AgrWorkRatioVal = agrWorkRatioVal;
+            AgrWorkLimitVal = agrWorkLimitVal;
+            AgrHourLimitVal = agrHourLimitVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AgrWorkTarifVal, 100)}, Target Ratio: {OperationsDec.Divide(this.AgrWorkRatioVal, 100)}, Limit Value: {OperationsDec.Divide(this.AgrWorkLimitVal, 100)}, Limit Hours: {OperationsDec.Divide(this.AgrHourLimitVal, 60)}";
+        }
+    }
+
+    // AllowceMfull		ALLOWCE_Mfull
+    public class AllowceMfullTarget : OptimulaTermTarget
+    {
+        public Int32 AllowceBasisVal { get; private set; }
+
+        public AllowceMfullTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceBasisVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceBasisVal = allowceBasisVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Basis: {OperationsDec.Divide(this.AllowceBasisVal, 100)}";
+        }
+    }
+
     // AllowceHfull		ALLOWCE_HFULL
     public class AllowceHfullTarget : OptimulaTermTarget
     {
@@ -315,6 +376,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // AlldownDaily		ALLDOWN_DAILY
+    public class AlldownDailyTarget : OptimulaTermTarget {
+        public Int32 AllowceDailyVal { get; private set; }
+
+        public AlldownDailyTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceDailyVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceDailyVal = allowceDailyVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Daily: {OperationsDec.Divide(this.AllowceDailyVal, 100)}";
+        }
+    }
+
     // OffworkHours		OFFWORK_HOURS
     public class OffworkHoursTarget : OptimulaTermTarget
     {
@@ -323,8 +401,30 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         public Int32 AgrWorkLimitVal { get; private set; }
         public Int32 AgrHourLimitVal { get; private set; }
 
-
         public OffworkHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 agrWorkTarifVal, Int32 agrWorkRatioVal, Int32 agrWorkLimitVal, Int32 agrHourLimitVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AgrWorkTarifVal = agrWorkTarifVal;
+            AgrWorkRatioVal = agrWorkRatioVal;
+            AgrWorkLimitVal = agrWorkLimitVal;
+            AgrHourLimitVal = agrHourLimitVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Tariff: {OperationsDec.Divide(this.AgrWorkTarifVal, 100)}, Target Ratio: {OperationsDec.Divide(this.AgrWorkRatioVal, 100)}, Limit Value: {OperationsDec.Divide(this.AgrWorkLimitVal, 100)}, Limit Hours: {OperationsDec.Divide(this.AgrHourLimitVal, 60)}";
+        }
+    }
+
+    // OfftaskHours		OFFTASK_HOURS
+    public class OfftaskHoursTarget : OptimulaTermTarget {
+        public Int32 AgrWorkTarifVal { get; private set; }
+        public Int32 AgrWorkRatioVal { get; private set; }
+        public Int32 AgrWorkLimitVal { get; private set; }
+        public Int32 AgrHourLimitVal { get; private set; }
+
+        public OfftaskHoursTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 agrWorkTarifVal, Int32 agrWorkRatioVal, Int32 agrWorkLimitVal, Int32 agrHourLimitVal) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
@@ -396,10 +496,37 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // OffdownDaily		OFFDOWN_DAILY
+    public class OffdownDailyTarget : OptimulaTermTarget {
+        public Int32 AllowceDailyVal { get; private set; }
+
+        public OffdownDailyTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            Int32 allowceDailyVal) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            AllowceDailyVal = allowceDailyVal;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Daily: {OperationsDec.Divide(this.AllowceDailyVal, 100)}";
+        }
+    }
+
     // SettlemTargets   SETTLEM_TARGETS
     public class SettlemTargetsTarget : OptimulaTermTarget
     {
         public SettlemTargetsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // SettlemTarnett	SETTLEM_TARNETT
+    public class SettlemTarnettTarget : OptimulaTermTarget
+    {
+        public SettlemTarnettTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
@@ -416,6 +543,15 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // SettlemAgrtask		SETTLEM_AGRTASK
+    public class SettlemAgrtaskTarget : OptimulaTermTarget {
+        public SettlemAgrtaskTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) : 
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
     // SettlemAllowce   SETTLEM_ALLOWCE
     public class SettlemAllowceTarget : OptimulaTermTarget
     {
@@ -426,10 +562,29 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // SettlemAllnett		SETTLEM_ALLNETT
+    public class SettlemAllnettTarget : OptimulaTermTarget
+    {
+        public SettlemAllnettTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
     // SettlemOffwork		SETTLEM_OFFWORK
     public class SettlemOffworkTarget : OptimulaTermTarget
     {
         public SettlemOffworkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // SettlemOfftask		SETTLEM_OFFTASK
+    public class SettlemOfftaskTarget : OptimulaTermTarget {
+        public SettlemOfftaskTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
@@ -451,6 +606,16 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     {
         public SettlemResultsTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+        }
+    }
+
+    // SettlemResnett	SETTLEM_RESNETT
+    public class SettlemResnettTarget : OptimulaTermTarget 
+    {
+        public SettlemResnettTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept) : 
             base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
         }
