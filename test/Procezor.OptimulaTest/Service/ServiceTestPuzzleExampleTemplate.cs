@@ -41,12 +41,14 @@ namespace Procezor.OptimulaTest.Service
 
         protected static readonly OptimulaGenerator[] _genTests = new OptimulaGenerator[] {
             OptimulaPuzzleGenerator.Spec(1, "Dohoda_DPP_DPC_ZERO", "101").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal(168*60).WithWorkSheetDayVal(21*100)
+                .WithFPremiumBaseVal( 7798*100).WithFPremiumPersVal(0*100)
                 .WithHomeOffMonthVal(3947*100).WithClothesDailyVal(66*100).WithMealConDailyVal(82*100+60)
-                .WithAgrWorkLimitVal(  860*100).WithAgrHourLimitVal( 5*100).WithAgrWorkTarifVal(170*100),
+                .WithAgrWorkLimitVal(  860*100).WithAgrHourLimitVal( 5*60).WithAgrWorkTarifVal(170*100),
             OptimulaPuzzleGenerator.Spec(2, "Dohoda_DPP_DPC_VALS", "102").WithFullSheetHrsVal(168*60).WithTimeSheetHrsVal(168*60).WithWorkSheetHrsVal( 80*60).WithWorkSheetDayVal(10*100)
+                .WithFPremiumBaseVal(14350*100).WithFPremiumPersVal(0*100)
                 .WithHomeOffMonthVal(   0*100).WithClothesDailyVal(50*100).WithMealConDailyVal(82*100+60)
-                .WithAgrWorkLimitVal(10000*100).WithAgrHourLimitVal(21*100).WithAgrWorkTarifVal(380*100)
-                .WithAgtWorkLimitVal( 3499*100).WithAgtHourLimitVal(20*100).WithAgtWorkTarifVal(170*100),
+                .WithAgrWorkLimitVal(10000*100).WithAgrHourLimitVal(21*60).WithAgrWorkTarifVal(380*100)
+                .WithAgtWorkLimitVal( 3499*100).WithAgtHourLimitVal(20*60).WithAgtWorkTarifVal(170*100),
         };
 
         public static IEnumerable<object[]> GetGenTestDecData(IEnumerable<OptimulaGenerator> tests, IPeriod testPeriod, Int32 testPeriodCode, Int32 prevPeriodCode)
@@ -130,46 +132,23 @@ namespace Procezor.OptimulaTest.Service
         {
             string[] headerList = new string[]
             {
-                "EmployeeNumb", // A
-                "EmployeeName", // B
-                "PeriodName",   // C
-                "AgrWorkTarif", // D
-                "AgrWorkRatio", // E
-                "AgrHourLimit", // F
-                "AgrWorkLimit", // G
-                "ClothesHours", // H
-                "ClothesDaily", // I
-                "MealConDaily", // J
-                "HomeOffTarif", // K
-                "HomeOffHours", // L
-                "MSalaryAward", // M
-                "HsalaryAward", // N
-                "FPremiumBase", // O  
-                "FPremiumBoss", // P  
-                "FPremiumPers", // Q  
-                "FullSheetHrs", // R  
-                "TimeSheetHrs", // S  
-                "HoliSheetHrs", // T 
-                "WorkSheetHrs", // U
-                "WorkSheetDay", // V
-                "OverSheetHrs", // W  
-                "VacaRecomHrs", // X
-                "PaidRecomHrs", // Y
-                "HoliRecomHrs", // Z
-                "OverAllowHrs", // AA
-                "OverAllowRio", // AB
-                "RestAllowHrs", // AC
-                "RestAllowRio", // AD
-                "WendAllowHrs", // AE
-                "WendAllowRio", // AF
-                "NighAllowHrs", // AG
-                "NighAllowRio", // AH
-                "HoliAllowHrs", // AI
-                "HoliAllowRio", // AJ
-                "QClothesBase", // AK
-                "QHOfficeBase", // AL
-                "QAgrWorkBase", // AM
-                "QSumWorkHour", // AN
+                "EmployeeNumb", // A//   1  //Evideční číslo  	101
+                "EmployeeName", // B//   2  //Jméno a příjmení 	Drahota Jakub
+                "PeriodName",   // C//   3  //Mzdové období 	    202201
+                "FPremiumBase", // D//   4  //Celková částka v čistém
+                "FPremiumPers", // E//   5  //ODMĚNY
+                "ClothesDaily", // F//   6  //Ošatné/den
+                "HomeOffMonth", // G//   7  //Home office/měs.
+                "MealConDaily", // H//   8  //Strav.paušál/den
+                "AgrWorkLimit", // I//   9  //DPP/měs.-základní
+                "AgrHourLimit", // J//  10  //DPP hodiny/měs.-základní
+                "AgrWorkTarif", // K//  11  //Sazba DPP/hod
+                "AgtWorkLimit", // L//  12  //DPČ/měs.-základní
+                "AgtHourLimit", // M//  13  //DPČ hodiny/měs.-základní
+                "AgtWorkTarif", // N//  14  //Sazba DPČ/hod
+                "WorkSheetHrs", // O//  15  //Odpracované dny
+                "WorkSheetDay", // P//  16  //Odpracované hodiny
+                "TimeSheetHrs", // Q//  17  //Fond
             };                     
             protokol.WriteLine(string.Join('\t', headerList));
         }
@@ -177,46 +156,23 @@ namespace Procezor.OptimulaTest.Service
         {
             string[] headerList = new string[]
             {
-                "EmployeeNumb", // A
-                "EmployeeName", // B
-                "PeriodName",   // C
-                "AgrWorkTarif", // D
-                "AgrWorkRatio", // E
-                "AgrHourLimit", // F
-                "AgrWorkLimit", // G
-                "ClothesHours", // H
-                "ClothesDaily", // I
-                "MealConDaily", // J
-                "HomeOffTarif", // K
-                "HomeOffHours", // L
-                "MSalaryAward", // M
-                "HsalaryAward", // N
-                "FPremiumBase", // O 
-                "FPremiumBoss", // P  
-                "FPremiumPers", // Q  
-                "FullSheetHrs", // R  
-                "TimeSheetHrs", // S  
-                "HoliSheetHrs", // T  
-                "WorkSheetHrs", // U
-                "WorkSheetDay", // V
-                "OverSheetHrs", // W 
-                "VacaRecomHrs", // X 
-                "PaidRecomHrs", // Y
-                "HoliRecomHrs", // Z
-                "OverAllowHrs", // AA
-                "OverAllowRio", // AB
-                "RestAllowHrs", // AC
-                "RestAllowRio", // AD
-                "WendAllowHrs", // AE
-                "WendAllowRio", // AF
-                "NighAllowHrs", // AG
-                "NighAllowRio", // AH
-                "HoliAllowHrs", // AI
-                "HoliAllowRio", // AJ
-                "QClothesBase", // AK
-                "QHOfficeBase", // AL
-                "QAgrWorkBase", // AM
-                "QSumWorkHour", // AN
+                "EmployeeNumb", // A//   1  //Evideční číslo  	101
+                "EmployeeName", // B//   2  //Jméno a příjmení 	Drahota Jakub
+                "PeriodName",   // C//   3  //Mzdové období 	    202201
+                "FPremiumBase", // D//   4  //Celková částka v čistém
+                "FPremiumPers", // E//   5  //ODMĚNY
+                "ClothesDaily", // F//   6  //Ošatné/den
+                "HomeOffMonth", // G//   7  //Home office/měs.
+                "MealConDaily", // H//   8  //Strav.paušál/den
+                "AgrWorkLimit", // I//   9  //DPP/měs.-základní
+                "AgrHourLimit", // J//  10  //DPP hodiny/měs.-základní
+                "AgrWorkTarif", // K//  11  //Sazba DPP/hod
+                "AgtWorkLimit", // L//  12  //DPČ/měs.-základní
+                "AgtHourLimit", // M//  13  //DPČ hodiny/měs.-základní
+                "AgtWorkTarif", // N//  14  //Sazba DPČ/hod
+                "WorkSheetHrs", // O//  15  //Odpracované dny
+                "WorkSheetDay", // P//  16  //Odpracované hodiny
+                "TimeSheetHrs", // Q//  17  //Fond
             };                     
             protokol.WriteLine(string.Join(';', headerList)+";");
         }
@@ -500,34 +456,19 @@ namespace Procezor.OptimulaTest.Service
         public OptimulaGenerator Example_1_Dohoda_DPP_DPC_ZERO()
         {
             return OptimulaPuzzleGenerator.Spec(1, "Dohoda_DPP_DPC_ZERO", "101")
-                .WithFullSheetHrsVal(157 * 60 + 30)
-                .WithTimeSheetHrsVal(157 * 60 + 30)
-                .WithWorkSheetHrsVal(142 * 60 + 30)
-                .WithWorkSheetDayVal(19 * 100)
-                .WithOverSheetHrsVal(0 * 60)
-                .WithHoliSheetHrsVal(0 * 60)
-                .WithMSalaryAwardVal(2993 * 100)
-                .WithFPremiumBaseVal(0 * 100)
-                .WithClothesDailyVal(106 * 100)
-                .WithAgrWorkRatioVal(0 * 100 + 14)
-                .WithAgrWorkTarifVal(91 * 100);
+                .WithFPremiumBaseVal(7798 * 100).WithFPremiumPersVal(0 * 100)
+                .WithFullSheetHrsVal(168 * 60).WithTimeSheetHrsVal(168 * 60).WithWorkSheetHrsVal(168 * 60).WithWorkSheetDayVal(21 * 100)
+                .WithHomeOffMonthVal(3947 * 100).WithClothesDailyVal(66 * 100).WithMealConDailyVal(82 * 100 + 60)
+                .WithAgrWorkLimitVal(860 * 100).WithAgrHourLimitVal(5 * 100).WithAgrWorkTarifVal(170 * 100);
         }
         public OptimulaGenerator Example_2_Dohoda_DPP_DPC_VALS()
         {
             return OptimulaPuzzleGenerator.Spec(2, "Dohoda_DPP_DPC_VALS", "102")
-                .WithFullSheetHrsVal(168 * 60)
-                .WithTimeSheetHrsVal(168 * 60)
-                .WithWorkSheetHrsVal(168 * 60)
-                .WithWorkSheetDayVal(19 * 100)
-                .WithOverSheetHrsVal(0 * 60)
-                .WithHoliSheetHrsVal(0 * 60)
-                .WithMSalaryAwardVal(2700 * 100)
-                .WithFPremiumBaseVal(2000 * 100)
-                .WithHomeOffTarifVal(110 * 100)
-                .WithHomeOffHoursVal(40 * 60)
-                .WithClothesDailyVal(106 * 100) // 106 Kč
-                .WithAgrWorkRatioVal(0 * 100 + 14) // procent 0,14
-                .WithAgrWorkTarifVal(100 * 100);
+                .WithFPremiumBaseVal(14350 * 100).WithFPremiumPersVal(0 * 100)
+                .WithFullSheetHrsVal(168 * 60).WithTimeSheetHrsVal(168 * 60).WithWorkSheetHrsVal(80 * 60).WithWorkSheetDayVal(10 * 100)
+                .WithHomeOffMonthVal(0 * 100).WithClothesDailyVal(50 * 100).WithMealConDailyVal(82 * 100 + 60)
+                .WithAgrWorkLimitVal(10000 * 100).WithAgrHourLimitVal(21 * 100).WithAgrWorkTarifVal(380 * 100)
+                .WithAgtWorkLimitVal(3499 * 100).WithAgtHourLimitVal(20 * 100).WithAgtWorkTarifVal(170 * 100);
         }
     }
 }

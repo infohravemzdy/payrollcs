@@ -67,6 +67,10 @@ namespace Procezor.OptimulaTest.Examples
             AgrWorkRatioFunc = DefaultAgrWorkRatio;
             AgrHourLimitFunc = DefaultAgrHourLimit;
             AgrWorkLimitFunc = DefaultAgrWorkLimit;
+            AgtWorkTarifFunc = DefaultAgtWorkTarif;
+            AgtWorkRatioFunc = DefaultAgtWorkRatio;
+            AgtHourLimitFunc = DefaultAgtHourLimit;
+            AgtWorkLimitFunc = DefaultAgtWorkLimit;
             ClothesHoursFunc = DefaultClothesHours;
             ClothesDailyFunc = DefaultClothesDaily;
             MealConDailyFunc = DefaultMealConDaily;

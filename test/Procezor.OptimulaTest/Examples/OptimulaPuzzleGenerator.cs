@@ -51,7 +51,7 @@ namespace Procezor.OptimulaTest.Examples
                 ParseDecNumber,   //  12  //DPČ/měs.-základní
                 ParseHrsNumber,   //  13  //DPČ hodiny/měs.-základní
                 ParseDecNumber,   //  14  //Sazba DPČ/hod
-                ParseHrsNumber,   //  15  //Odpracované dny
+                ParseDecNumber,   //  15  //Odpracované dny
                 ParseHrsNumber,   //  16  //Odpracované hodiny
                 ParseHrsNumber,   //  17  //Fond
             };
@@ -73,8 +73,8 @@ namespace Procezor.OptimulaTest.Examples
                 gen.WithAgtWorkLimitVal,   //  12  //DPČ/měs.-základní
                 gen.WithAgtHourLimitVal,   //  13  //DPČ hodiny/měs.-základní
                 gen.WithAgtWorkTarifVal,   //  14  //Sazba DPČ/hod
-                gen.WithWorkSheetHrsVal,   //  15  //Odpracované dny
-                gen.WithWorkSheetDayVal,   //  16  //Odpracované hodiny
+                gen.WithWorkSheetDayVal,   //  15  //Odpracované dny
+                gen.WithWorkSheetHrsVal,   //  16  //Odpracované hodiny
                 gen.WithTimeSheetHrsVal,   //  17  //Fond
             };
             specIntValues.Zip(specGenerator).Select((x) => x.Second(x.First)).ToArray();
@@ -143,8 +143,8 @@ namespace Procezor.OptimulaTest.Examples
                 $"{CcyFormatIntX100(AgtWorkLimitVal)}", // L//DPČ/měs.-základní
                 $"{HrsFormatIntX060(AgtHourLimitVal)}", // M  //DPČ hodiny/měs.-základní
                 $"{CcyFormatIntX100(AgtWorkTarifVal)}", // N  //Sazba DPČ/hod
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // O  //Odpracované dny 
-                $"{HrsFormatIntX060(WorkSheetDayVal)}", // P  //Odpracované hodiny  
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // O  //Odpracované dny 
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // P  //Odpracované hodiny  
                 $"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q  //Fond
             };
             if (WorkSheetHrsVal != 0)
@@ -217,11 +217,10 @@ namespace Procezor.OptimulaTest.Examples
                 $"{CcyFormatIntX100(AgtWorkLimitVal)}", // L//DPČ/měs.-základní
                 $"{HrsFormatIntX060(AgtHourLimitVal)}", // M  //DPČ hodiny/měs.-základní
                 $"{CcyFormatIntX100(AgtWorkTarifVal)}", // N  //Sazba DPČ/hod
-                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // O  //Odpracované dny 
-                $"{HrsFormatIntX060(WorkSheetDayVal)}", // P  //Odpracované hodiny  
+                $"{DayFormatIntX100(WorkSheetDayVal)}", // O  //Odpracované dny  
+                $"{HrsFormatIntX060(WorkSheetHrsVal)}", // P  //Odpracované hodiny 
                 $"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q  //Fond
-            };         
-            
+            };                   
             if (WorkSheetHrsVal != 0)
             {
                 string[] importResult = new string[] { string.Join(';', valuesList) + ";" };
@@ -252,9 +251,9 @@ namespace Procezor.OptimulaTest.Examples
             Int32 HomeOffMonthVal = HomeOffMonthFunc(this, period, ruleset, prevset);//$"{CcyFormatIntX100(AgtWorkLimitVal)}", // L//DPČ/měs.-základní
             Int32 FPremiumBaseVal = FPremiumBaseFunc(this, period, ruleset, prevset);//$"{HrsFormatIntX060(AgtHourLimitVal)}", // M  //DPČ hodiny/měs.-základní
             Int32 FPremiumPersVal = FPremiumPersFunc(this, period, ruleset, prevset);//$"{CcyFormatIntX100(AgtWorkTarifVal)}", // N  //Sazba DPČ/hod
-            Int32 TimeSheetHrsVal = TimeSheetHrsFunc(this, period, ruleset, prevset);//$"{HrsFormatIntX060(WorkSheetHrsVal)}", // O  //Odpracované dny 
-            Int32 WorkSheetHrsVal = WorkSheetHrsFunc(this, period, ruleset, prevset);//$"{HrsFormatIntX060(WorkSheetDayVal)}", // P  //Odpracované hodiny  
-            Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);//$"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q  //Fond
+            Int32 WorkSheetDayVal = WorkSheetDayFunc(this, period, ruleset, prevset);//$"{DayFormatIntX100(WorkSheetDayVal)}", // O  //Odpracované dny 
+            Int32 WorkSheetHrsVal = WorkSheetHrsFunc(this, period, ruleset, prevset);//$"{HrsFormatIntX060(WorkSheetHrsVal)}", // P  //Odpracované hodiny  
+            Int32 TimeSheetHrsVal = TimeSheetHrsFunc(this, period, ruleset, prevset);//$"{HrsFormatIntX060(TimeSheetHrsVal)}", // Q  //Fond
 
             // ContractTimePlan	CONTRACT_TIME_PLAN
             var contractTimePlan = new TimesheetsPlanTarget(montCode, contractEmp, positionEmp, variant1Emp,
@@ -284,6 +283,11 @@ namespace Procezor.OptimulaTest.Examples
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRWORK_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRWORK_HOURS), 
                 AgrWorkTarifVal, 0, AgrWorkLimitVal, AgrHourLimitVal);
+            // AgtworkHours		AGRTASK_HOURS
+            var allowceAgrtask = new AgrtaskHoursTarget(montCode, contractEmp, positionEmp, variant1Emp,
+                ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_AGRTASK_TARGETS),
+                ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_AGRTASK_HOURS), 
+                AgtWorkTarifVal, 0, AgtWorkLimitVal, AgtHourLimitVal);
             // AllowceHfull		ALLOWCE_HFULL
             var allowceHOffice = new AllowceMfullTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE),
@@ -313,6 +317,10 @@ namespace Procezor.OptimulaTest.Examples
             if (AgrWorkTarifVal != 0)
             {
                 targets = targets.Concat(new ITermTarget[] { allowceAgrwork }).ToArray();
+            }
+            if (AgtWorkTarifVal != 0)
+            {
+                targets = targets.Concat(new ITermTarget[] { allowceAgrtask }).ToArray();
             }
             if (HomeOffMonthVal != 0)
             {
