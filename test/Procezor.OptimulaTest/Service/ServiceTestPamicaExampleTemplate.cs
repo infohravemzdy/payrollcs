@@ -319,7 +319,7 @@ namespace Procezor.OptimulaTest.Service
         {
             this.output = output;
 
-            this._sut = new ServiceOptimulaEps();
+            this._sut = new ServiceOptimulaPamicaEps();
             this._leg = new ServiceLegalios();
         }
         public static IPeriod PrevYear(IPeriod period)

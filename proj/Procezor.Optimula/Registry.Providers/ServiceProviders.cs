@@ -10,13 +10,12 @@ using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Optimula.Registry.Constants;
 using ResultMonad;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 {
     class OptimulaConceptSpec : ConceptSpec
     {
-        protected static readonly decimal INT_ROUNDING_CONST = 0.5m;
-
         public const Int32 VALUE_ZERO = 0;
         public const Int32 BASIS_ZERO = 0;
 
@@ -27,9 +26,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public Int32 RoundToInt(decimal valueDec)
         {
-            decimal roundRet = decimal.Floor(Math.Abs(valueDec) + INT_ROUNDING_CONST);
-
-            return decimal.ToInt32(valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
+            return OperationsRound.RoundToInt(valueDec);
         }
         public static Result<T, ITermResultError> GetTypedTarget<T>(ITermTarget target, IPeriod period)
             where T : class, ITermTarget

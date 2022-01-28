@@ -416,22 +416,22 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Factories
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE, ARTICLE_DEFAULT_SEQUENS, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS,
             new Int32[] {
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLNETT,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTHRS, ARTICLE_DEFAULT_SEQUENS, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_HOURS,
             new Int32[] {
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLNETT,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY, ARTICLE_DEFAULT_SEQUENS, (Int32)OptimulaConceptConst.CONCEPT_ALLOWCE_DAILY,
             new Int32[] {
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLNETT,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_ALLOWCE_MEALDAY, ARTICLE_DEFAULT_SEQUENS, (Int32)OptimulaConceptConst.CONCEPT_ALLDOWN_DAILY,
             new Int32[] {
-                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLOWCE,
+                (Int32)OptimulaArticleConst.ARTICLE_SETTLEM_ALLNETT,
                 (Int32)OptimulaArticleConst.ARTICLE_INCOMES_TAXFREE,
             }),
         new ProviderRecord((Int32)OptimulaArticleConst.ARTICLE_OFFWORK_TARGETS, ARTICLE_DEFAULT_SEQUENS, (Int32)OptimulaConceptConst.CONCEPT_OFFWORK_HOURS,

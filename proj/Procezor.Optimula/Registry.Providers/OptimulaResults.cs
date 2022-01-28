@@ -247,6 +247,23 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // ReducedNetto	REDUCED_NETTO
+    public class ReducedNettoResult : OptimulaTermResult
+    {
+        public ReducedNettoResult(ITermTarget target, IArticleSpec spec,
+            decimal paymentBasisVal,
+            Int32 value, Int32 basis) : base(target, spec, value, basis)
+        {
+            ReducedBasisVal = paymentBasisVal;
+        }
+        public decimal ReducedBasisVal { get; private set; }
+
+        public override string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}; Reduced Basis: {this.ReducedBasisVal}";
+        }
+    }
+
     // AgrworkHours	AGRWORK_HOURS
     public class AgrworkHoursResult : OptimulaTermResult
     {

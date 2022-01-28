@@ -273,8 +273,8 @@ namespace Procezor.OptimulaTest.Examples
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_OPTIMUS_NETTO), 
                 FPremiumBaseVal, FPremiumPersVal);
-            // ReducedFixed		REDUCED_FIXED
-            var redPremiumBase = new ReducedFixedTarget(montCode, contractEmp, positionEmp, variant1Emp,
+            // ReducedNetto		REDUCED_NETTO
+            var redPremiumBase = new ReducedNettoTarget(montCode, contractEmp, positionEmp, variant1Emp,
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS),
                 ConceptCode.Get((Int32)OptimulaConceptConst.CONCEPT_REDUCED_NETTO), 
                 ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS));           

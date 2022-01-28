@@ -252,15 +252,22 @@ namespace Procezor.OptimulaTest.Service
                 OptimulaArticleConst.ARTICLE_ALLOWCE_CLOTDAY, (x) => (x.ResultValue)); 
             decimal RES_MEALDAYPAYMT = GetDecResultSelect<AlldownDailyResult>(results,
                 OptimulaArticleConst.ARTICLE_ALLOWCE_MEALDAY, (x) => (x.ResultValue)); 
-            decimal RES_HOMEOFFPAYMT = GetDecResultSelect<AllowceHfullResult>(results,
+            decimal RES_HOMEOFFPAYMT = GetDecResultSelect<AllowceMfullResult>(results,
                 OptimulaArticleConst.ARTICLE_ALLOWCE_HOFFICE, (x) => (x.ResultValue)); 
-            decimal IMP_FPREMIUMBASE = GetDecResultSelect<OptimusFixedResult>(results,
+            decimal IMP_FPREMIUMBASE = GetDecResultSelect<OptimusNettoResult>(results,
                 OptimulaArticleConst.ARTICLE_PREMIUM_TARGETS, (x) => (x.OptimusBasisVal)); 
-            decimal RES_FPREMIUMBASE = GetDecResultSelect<ReducedFixedResult>(results,
+            decimal RES_FPREMIUMBASE = GetDecResultSelect<ReducedNettoResult>(results,
                 OptimulaArticleConst.ARTICLE_PREMIUM_RESULTS, (x) => (x.ResultValue)); 
-            decimal RES_ALLOWCENETTO = GetDecResultSelect<ReducedFixedResult>(results,
+            decimal RES_ALLOWCENETTO = GetDecResultSelect<SettlemAllnettResult>(results,
                 OptimulaArticleConst.ARTICLE_SETTLEM_ALLNETT, (x) => (x.ResultValue)); 
-            decimal RES_SETTLEMNETTO = GetDecResultSelect<ReducedFixedResult>(results,
+            decimal RES_TARGETSNETTO = GetDecResultSelect<SettlemTarnettResult>(results,
+                OptimulaArticleConst.ARTICLE_SETTLEM_TARNETT, (x) => (x.ResultValue)); 
+            decimal RES_AGRWORKGROSS = GetDecResultSelect<SettlemAgrworkResult>(results,
+                OptimulaArticleConst.ARTICLE_SETTLEM_AGRWORK, (x) => (x.ResultValue)); 
+            decimal RES_AGRTASKGROSS = GetDecResultSelect<SettlemAgrtaskResult>(results,
+                OptimulaArticleConst.ARTICLE_SETTLEM_AGRTASK, (x) => (x.ResultValue)); 
+            decimal RES_SETTLEMNETTO = RES_ALLOWCENETTO + OperationsRound.RoundToInt(OperationsDec.Multiply(RES_AGRWORKGROSS + RES_AGRTASKGROSS, 0.85m));
+            decimal RES_RESULTSNETTO = GetDecResultSelect<SettlemResnettResult>(results,
                 OptimulaArticleConst.ARTICLE_SETTLEM_RESNETT, (x) => (x.ResultValue)); 
 
             string[] resultLine = new string[]
@@ -277,9 +284,9 @@ namespace Procezor.OptimulaTest.Service
                 DecFormatDouble(RES_AGRWORKHOURS), //"DPP hodiny/měs.",
                 DecFormatDouble(RES_AGRTASKPAYMT), //"DPČ/měs.",
                 DecFormatDouble(RES_AGRTASKHOURS), //"DPČ hodiny/měs.",
-                DecFormatDouble(RES_ALLOWCENETTO), //"CELKEM ČISTÉHO K VYPLACENÍ",
+                DecFormatDouble(RES_TARGETSNETTO), //"CELKEM ČISTÉHO K VYPLACENÍ",
                 DecFormatDouble(RES_SETTLEMNETTO), //"ČISTÉHO K VÝPLATĚ CELKEM",
-                DecFormatDouble(RES_FPREMIUMBASE), //"ROZDÍL V ČISTÉM",
+                DecFormatDouble(RES_RESULTSNETTO), //"ROZDÍL V ČISTÉM",
             };
 
             return string.Join(";", resultLine) + ";";
@@ -459,7 +466,7 @@ namespace Procezor.OptimulaTest.Service
                 .WithFPremiumBaseVal(7798 * 100).WithFPremiumPersVal(0 * 100)
                 .WithFullSheetHrsVal(168 * 60).WithTimeSheetHrsVal(168 * 60).WithWorkSheetHrsVal(168 * 60).WithWorkSheetDayVal(21 * 100)
                 .WithHomeOffMonthVal(3947 * 100).WithClothesDailyVal(66 * 100).WithMealConDailyVal(82 * 100 + 60)
-                .WithAgrWorkLimitVal(860 * 100).WithAgrHourLimitVal(5 * 100).WithAgrWorkTarifVal(170 * 100);
+                .WithAgrWorkLimitVal(860 * 100).WithAgrHourLimitVal(5 * 60).WithAgrWorkTarifVal(170 * 100);
         }
         public OptimulaGenerator Example_2_Dohoda_DPP_DPC_VALS()
         {
@@ -467,8 +474,8 @@ namespace Procezor.OptimulaTest.Service
                 .WithFPremiumBaseVal(14350 * 100).WithFPremiumPersVal(0 * 100)
                 .WithFullSheetHrsVal(168 * 60).WithTimeSheetHrsVal(168 * 60).WithWorkSheetHrsVal(80 * 60).WithWorkSheetDayVal(10 * 100)
                 .WithHomeOffMonthVal(0 * 100).WithClothesDailyVal(50 * 100).WithMealConDailyVal(82 * 100 + 60)
-                .WithAgrWorkLimitVal(10000 * 100).WithAgrHourLimitVal(21 * 100).WithAgrWorkTarifVal(380 * 100)
-                .WithAgtWorkLimitVal(3499 * 100).WithAgtHourLimitVal(20 * 100).WithAgtWorkTarifVal(170 * 100);
+                .WithAgrWorkLimitVal(10000 * 100).WithAgrHourLimitVal(21 * 60).WithAgrWorkTarifVal(380 * 100)
+                .WithAgtWorkLimitVal(3499 * 100).WithAgtHourLimitVal(20 * 60).WithAgtWorkTarifVal(170 * 100);
         }
     }
 }

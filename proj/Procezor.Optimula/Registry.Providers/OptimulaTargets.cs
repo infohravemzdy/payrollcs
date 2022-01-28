@@ -255,6 +255,24 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
     }
 
+    // ReducedNetto		REDUCED_NETTO
+    public class ReducedNettoTarget : OptimulaTermTarget
+    {
+        public ArticleCode ArticleTarget { get; private set; }
+
+        public ReducedNettoTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
+            ArticleCode article, ConceptCode concept,
+            ArticleCode articleTarget) :
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
+        {
+            ArticleTarget = articleTarget;
+        }
+        public override string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}, Target Article: {ServiceArticleEnumUtils.GetSymbol(this.ArticleTarget.Value)}";
+        }
+    }
+
     // AgrworkHours		AGRWORK_HOURS
     public class AgrworkHoursTarget : OptimulaTermTarget
     {
