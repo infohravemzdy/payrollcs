@@ -48,8 +48,8 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         decimal HoursToQuartHoursDown(decimal hoursVakue);
         decimal HoursToHalfHoursNorm(decimal hoursVakue);
         decimal HoursToQuartHoursNorm(decimal hoursVakue);
-        decimal MoneyToRoundDown(decimal moneyVakue);
-        decimal MoneyToRoundUp(decimal moneyVakue);
-        decimal MoneyToRoundNorm(decimal moneyVakue);
+        decimal MoneyToRoundDown(decimal moneyValue);
+        decimal MoneyToRoundUp(decimal moneyValue);
+        decimal MoneyToRoundNorm(decimal moneyValue);
     }
 }

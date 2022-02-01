@@ -242,17 +242,17 @@ namespace HraveMzdy.Legalios.Props
         {
             return OperationsRound.DecRoundNorm25(hoursVakue);
         }
-        public decimal MoneyToRoundDown(decimal moneyVakue)
+        public decimal MoneyToRoundDown(decimal moneyValue)
         {
-            return OperationsRound.DecRoundDown01(moneyVakue);
+            return OperationsRound.DecRoundDown01(moneyValue);
         }
-        public decimal MoneyToRoundUp(decimal moneyVakue)
+        public decimal MoneyToRoundUp(decimal moneyValue)
         {
-            return OperationsRound.DecRoundUp01(moneyVakue);
+            return OperationsRound.DecRoundUp01(moneyValue);
         }
-        public decimal MoneyToRoundNorm(decimal moneyVakue)
+        public decimal MoneyToRoundNorm(decimal moneyValue)
         {
-            return OperationsRound.DecRoundNorm01(moneyVakue);
+            return OperationsRound.DecRoundNorm01(moneyValue);
         }
 
         public decimal FactorizeValue(decimal baseVakue, decimal factor)
