@@ -330,9 +330,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 perAnnuityBasis = 0;
 
-            var resultOrdersList = healthRules.AnnualsBasisCut<TaxingIncomeHealthResult>(incomeOrdersList, perAnnuityBasis);
+            var resultOrdersList = healthRules.AnnualsBasisCut(incomeOrdersList, perAnnuityBasis);
 
-            return BuildOkResults(resultOrdersList.Item3);
+            return BuildOkResults(resultOrdersList.Item3.Select((x) => (x as TaxingIncomeHealthResult)).ToArray());
         }
     }
 
@@ -444,9 +444,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 perAnnuityBasis = 0;
 
-            var resultOrdersList = socialRules.AnnualsBasisCut<TaxingIncomeSocialResult>(incomeOrdersList, perAnnuityBasis);
+            var resultOrdersList = socialRules.AnnualsBasisCut(incomeOrdersList, perAnnuityBasis);
 
-            return BuildOkResults(resultOrdersList.Item3);
+            return BuildOkResults(resultOrdersList.Item3.Select((x) => (x as TaxingIncomeHealthResult)).ToArray());
         }
     }
 

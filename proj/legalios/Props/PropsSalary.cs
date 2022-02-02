@@ -89,9 +89,9 @@ namespace HraveMzdy.Legalios.Props
 
             return payment;
         }
-        public decimal CoeffWithPartAndFullHours(decimal fullHours, decimal partHours)
+        public decimal CoeffWithPartAndFullHours(decimal fullWorkHours, decimal partWorkHours)
         {
-            decimal coeffWorking = Math.Min(1.0m, OperationsDec.Divide(partHours, fullHours));
+            decimal coeffWorking = Math.Min(1.0m, OperationsDec.Divide(partWorkHours, fullWorkHours));
 
             return coeffWorking;
         }
@@ -166,19 +166,19 @@ namespace HraveMzdy.Legalios.Props
             return MoneyToRoundNorm(tariffValue);
         }
 
-        public decimal PaymentWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullworkHours, Int32 workingsHours)
+        public decimal PaymentWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullWorkHours, Int32 partWorkHours)
         {
             decimal amountCoeffs = FactorizeValue(amountMonthly, monthlyCoeff);
 
-            decimal paymentValue = DecPaymentWithMonthlyAndFullAndWorkHours(amountCoeffs, fullworkHours, workingsHours);
+            decimal paymentValue = DecPaymentWithMonthlyAndFullAndWorkHours(amountCoeffs, fullWorkHours, partWorkHours);
 
             return OperationsRound.DecRoundNorm(paymentValue);
         }
-        public decimal PaymentRoundUpWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullworkHours, Int32 workingsHours)
+        public decimal PaymentRoundUpWithMonthlyAndCoeffAndFullAndWorkHours(decimal amountMonthly, decimal monthlyCoeff, Int32 fullworkHours, Int32 partWorkHours)
         {
             decimal amountCoeffs = FactorizeValue(amountMonthly, monthlyCoeff);
 
-            decimal paymentValue = DecPaymentWithMonthlyAndFullAndWorkHours(amountCoeffs, fullworkHours, workingsHours);
+            decimal paymentValue = DecPaymentWithMonthlyAndFullAndWorkHours(amountCoeffs, fullworkHours, partWorkHours);
 
             return OperationsRound.DecRoundUp(paymentValue);
         }

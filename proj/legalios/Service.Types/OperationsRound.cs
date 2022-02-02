@@ -45,7 +45,6 @@ namespace HraveMzdy.Legalios.Service.Types
 
             return RoundToInt(multiRet);
         }
-
         public static Int32 NearRoundDown(decimal valueDec, Int32 nearest = 100)
         {
             decimal dividRet = OperationsDec.Divide(valueDec, nearest);
@@ -71,7 +70,6 @@ namespace HraveMzdy.Legalios.Service.Types
 
             return (valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
         }
-
         public static decimal DecRoundDown(decimal valueDec)
         {
             decimal roundRet = decimal.Floor(Math.Abs(valueDec));
@@ -84,7 +82,6 @@ namespace HraveMzdy.Legalios.Service.Types
 
             return (valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
         }
-
         public static decimal DecNearRoundUp(decimal valueDec, Int32 nearest = 100)
         {
             decimal dividRet = OperationsDec.Divide(valueDec, nearest);
@@ -93,8 +90,6 @@ namespace HraveMzdy.Legalios.Service.Types
 
             return multiRet;
         }
-
-
         public static decimal DecNearRoundDown(decimal valueDec, Int32 nearest = 100)
         {
             decimal dividRet = OperationsDec.Divide(valueDec, nearest);

@@ -6,7 +6,7 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsBase : IProps
+    public abstract class PropsBase : IProps
     {
         public const Int16 VERSION_ZERO = 0;
         public PropsBase(Int16 version)
@@ -21,12 +21,11 @@ namespace HraveMzdy.Legalios.Props
 
         public bool IsValid() { return Version.Value != VERSION_ZERO; }
 
-        public Tuple<Int32, Int32, T[]> MaximResultCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis, Int32 annualyMaxim)
-            where T : IParticyResult
+        public Tuple<Int32, Int32, IEnumerable<IParticyResult>> MaximResultCut(IEnumerable<IParticyResult> incomeList, Int32 annuityBasis, Int32 annualyMaxim)
         {
             Int32 annualsBasis = Math.Max(0, annualyMaxim - annuityBasis);
-            var resultInit = new Tuple<Int32, Int32, T[]>(
-                annualyMaxim, annualsBasis, Array.Empty<T>());
+            var resultInit = new Tuple<Int32, Int32, IEnumerable<IParticyResult>>(
+                annualyMaxim, annualsBasis, Array.Empty<IParticyResult>());
 
             var resultList = incomeList.Aggregate(resultInit,
                 (agr, x) => {
@@ -46,8 +45,8 @@ namespace HraveMzdy.Legalios.Props
                     }
 
                     x.SetResultValue(Math.Max(0, cutAnnualsBasis));
-                    return new Tuple<Int32, Int32, T[]>(
-                        agr.Item1, remAnnualsBasis, agr.Item3.Concat(new T[] { x }).ToArray());
+                    return new Tuple<Int32, Int32, IEnumerable<IParticyResult>>(
+                        agr.Item1, remAnnualsBasis, agr.Item3.Concat(new IParticyResult[] { x }).ToArray());
                 });
 
             return resultList;
