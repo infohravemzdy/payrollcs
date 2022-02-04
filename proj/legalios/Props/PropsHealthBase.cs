@@ -163,9 +163,10 @@ namespace HraveMzdy.Legalios.Props
             return employerPayment;
         }
 
-        public Tuple<Int32, Int32, IEnumerable<IParticyResult>> AnnualsBasisCut(IEnumerable<IParticyResult> incomeList, Int32 annuityBasis)
+        public Tuple<Int32, Int32, IEnumerable<T>> AnnualsBasisCut<T>(IEnumerable<T> particyList, IEnumerable<T> incomeList, Int32 annuityBasis) 
+            where T : IParticyResult
         {
-            return MaximResultCut(incomeList, annuityBasis, MaxAnnualsBasis);
+            return MaximResultCut<T>(particyList, incomeList, annuityBasis, MaxAnnualsBasis);
         }
     }
 }

@@ -22,6 +22,6 @@ namespace HraveMzdy.Legalios.Service.Interfaces
         Int32 RoundedAugmentEmployeePaym(Int32 basisGenerals, Int32 basisAugment);
         Int32 RoundedAugmentEmployerPaym(Int32 basisGenerals, Int32 baseEmployee, Int32 baseEmployer);
         Int32 RoundedEmployerPaym(Int32 basisResult);
-        Tuple<Int32, Int32, IEnumerable<IParticyResult>> AnnualsBasisCut(IEnumerable<IParticyResult> incomeList, Int32 annuityBasis);
+        Tuple<Int32, Int32, IEnumerable<T>> AnnualsBasisCut<T>(IEnumerable<T> particyList, IEnumerable<T> incomeList, Int32 annuityBasis) where T : IParticyResult;
     }
 }
