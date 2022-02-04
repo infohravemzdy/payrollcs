@@ -206,6 +206,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Contract.Equals(evalTarget.Contract) && v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.ResultValue)).ToArray();
 
             decimal incomeSum = incomeList.Aggregate(decimal.Zero,
@@ -214,7 +215,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 incomeRes = RoundToInt(incomeSum);
 
             ITermResult resultsValues = new TaxingIncomeSubjectResult(target, spec,
-                evalSubjectsType, incomeRes, 0, DESCRIPTION_EMPTY);
+                evalSubjectsType, incomeRes, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -277,6 +278,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeContractList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.Contract, tr.ResultValue)).ToArray();
 
             var incomeResultInit = Array.Empty<TaxingIncomeHealthResult>();
@@ -316,7 +318,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     {
                         contractResult = new TaxingIncomeHealthResult(evalTarget, x.Contract, spec,
                             evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, 
-                            VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                            VALUE_ZERO, BASIS_ZERO);
                         agr = agr.Concat(new TaxingIncomeHealthResult[] { contractResult }).ToArray();
                     }
                     contractResult.AddResultBasis(x.ResultValue);
@@ -328,9 +330,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 perAnnuityBasis = 0;
 
-            var resultOrdersList = healthRules.AnnualsBasisCut<TaxingIncomeHealthResult>(incomeOrdersList, perAnnuityBasis);
+            var resultOrdersInit = new List<TaxingIncomeHealthResult>();
+            var resultOrdersList = healthRules.AnnualsBasisCut<TaxingIncomeHealthResult>(resultOrdersInit, incomeOrdersList, perAnnuityBasis);
 
-            return BuildOkResults(resultOrdersList.Item3);
+            return BuildOkResults(resultOrdersList.Item3.ToArray());
         }
     }
 
@@ -391,6 +394,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             var incomeContractList = results
                 .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                 .Where((v) => (v.Spec.Sums.Contains(evalTarget.Article)))
+                .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.Contract, tr.ResultValue)).ToArray();
 
             var incomeResultInit = Array.Empty<TaxingIncomeSocialResult>();
@@ -429,7 +433,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                     {
                         contractResult = new TaxingIncomeSocialResult(evalTarget, x.Contract, spec,
                             evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, 
-                            VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                            VALUE_ZERO, BASIS_ZERO);
                         agr = agr.Concat(new TaxingIncomeSocialResult[] { contractResult }).ToArray();
                     }
                     contractResult.AddResultBasis(x.ResultValue);
@@ -441,9 +445,10 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 perAnnuityBasis = 0;
 
-            var resultOrdersList = socialRules.AnnualsBasisCut<TaxingIncomeSocialResult>(incomeOrdersList, perAnnuityBasis);
+            var resultOrdersInit = new List<TaxingIncomeSocialResult>();
+            var resultOrdersList = socialRules.AnnualsBasisCut<TaxingIncomeSocialResult>(resultOrdersInit, incomeOrdersList, perAnnuityBasis);
 
-            return BuildOkResults(resultOrdersList.Item3);
+            return BuildOkResults(resultOrdersList.Item3.ToArray());
         }
     }
 
@@ -538,7 +543,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 resValue = incomeRes;
             }
             ITermResult resultsValues = new TaxingAdvancesIncomeResult(target, spec,
-                resValue, 0, DESCRIPTION_EMPTY);
+                resValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -662,7 +667,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 resValue += incomeRestRes;
             }
             ITermResult resultsValues = new TaxingAdvancesIncomeResult(target, spec,
-                resValue, 0, DESCRIPTION_EMPTY);
+                resValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -784,7 +789,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesHealthResult(target, spec,
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -963,7 +968,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesHealthResult(target, spec,
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -1083,7 +1088,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesSocialResult(target, spec,
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -1260,7 +1265,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingAdvancesSocialResult(target, spec,
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -1367,7 +1372,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancesBase = taxingRules.RoundedBaseAdvances(incomeRes, healthRes, socialRes);
 
-            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableSuper);
 
             return BuildOkResults(resultsValues);
         }
@@ -1430,7 +1435,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancesBase = taxingRules.RoundedBaseAdvances(incomeRes);
 
-            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableBasis, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesBasisResult(target, spec, advancesBase, taxableBasis);
 
             return BuildOkResults(resultsValues);
         }
@@ -1504,7 +1509,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 solidaryBase = taxingRules.RoundedBaseSolidary(taxableIncome);
 
-            ITermResult resultsValues = new TaxingSolidaryBasisResult(target, spec, solidaryBase, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingSolidaryBasisResult(target, spec, solidaryBase, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -1584,7 +1589,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancePaym = taxingRules.RoundedAdvancesPaym(advanceSuper, advanceBasis);
 
-            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceSuper);
 
             return BuildOkResults(resultsValues);
         }
@@ -1646,7 +1651,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancePaym = taxingRules.RoundedAdvancesPaym(advanceFound, advanceBasis);
 
-            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceFound, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesResult(target, spec, advancePaym, advanceFound);
 
             return BuildOkResults(resultsValues);
         }
@@ -1722,7 +1727,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             if (solidaryPaym != 0)
             {
-                ITermResult resultsValues = new TaxingSolidaryResult(target, spec, solidaryPaym, 0, DESCRIPTION_EMPTY);
+                ITermResult resultsValues = new TaxingSolidaryResult(target, spec, solidaryPaym, 0);
 
                 return BuildOkResults(resultsValues);
             }
@@ -1808,7 +1813,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancesTotals = (advancesTaxing + solidaryTaxing);
 
-            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -1861,7 +1866,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancesTotals = (advancesTaxing);
 
-            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingAdvancesTotalResult(target, spec, advancesTotals, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -1961,7 +1966,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
 
             ITermResult resultsValues = new TaxingWithholdIncomeResult(target, spec,
-                resValue, 0, DESCRIPTION_EMPTY);
+                resValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -2086,7 +2091,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
 
             ITermResult resultsValues = new TaxingWithholdIncomeResult(target, spec,
-                resValue, 0, DESCRIPTION_EMPTY);
+                resValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -2208,7 +2213,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdHealthResult(target, spec,
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -2388,7 +2393,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = healthRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdHealthResult(target, spec,
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -2509,7 +2514,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdSocialResult(target, spec, 
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -2686,7 +2691,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             Int32 employerPayment = socialRules.RoundedEmployerPaym(baseValue);
 
             ITermResult resultsValues = new TaxingWithholdSocialResult(target, spec, 
-                employerPayment, 0, DESCRIPTION_EMPTY);
+                employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -2792,7 +2797,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdBase = taxingRules.RoundedBaseWithhold(taxableSuper);
 
-            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableSuper);
 
             return BuildOkResults(resultsValues);
         }
@@ -2854,7 +2859,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdBase = taxingRules.RoundedBaseWithhold(taxableBasis);
 
-            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableBasis, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingWithholdBasisResult(target, spec, withholdBase, taxableBasis);
 
             return BuildOkResults(resultsValues);
         }
@@ -2930,7 +2935,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdPaym = taxingRules.RoundedWithholdPaym(withholdSuper, withholdBasis);
 
-            ITermResult resultsValues = new TaxingWithholdTotalResult(target, spec, withholdPaym, withholdSuper, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingWithholdTotalResult(target, spec, withholdPaym, withholdSuper);
 
             return BuildOkResults(resultsValues);
         }
@@ -2953,7 +2958,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowancePayerConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -2981,10 +2988,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowancePayerTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowancePayer(evalTarget.BenefitApply);
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowancePayer(evalDeclSignOpts, evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowancePayerResult(target, spec,
-                evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
+                evalTarget.BenefitApply, benefitValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -3008,7 +3027,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowanceChildConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -3034,11 +3055,23 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceChildTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowanceChild(
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowanceChild(evalDeclSignOpts, 
                 evalTarget.BenefitApply, evalTarget.BenefitOrder, evalTarget.BenefitDisab);
 
             ITermResult resultsValues = new TaxingAllowanceChildResult(target, spec,
-                evalTarget.BenefitApply, evalTarget.BenefitDisab, evalTarget.BenefitOrder, benefitValue, 0, DESCRIPTION_EMPTY);
+                evalTarget.BenefitApply, evalTarget.BenefitDisab, evalTarget.BenefitOrder, benefitValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -3062,7 +3095,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowanceDisabConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -3088,10 +3123,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceDisabTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowanceDisab(evalTarget.BenefitApply);
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowanceDisab(evalDeclSignOpts, evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowanceDisabResult(target, spec,
-                evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
+                evalTarget.BenefitApply, benefitValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -3115,7 +3162,9 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     {
         public TaxingAllowanceStudyConSpec(Int32 code) : base(code)
         {
-            Path = new List<ArticleCode>();
+            Path = ConceptSpec.ConstToPathArray(new List<Int32>() {
+                (Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING,
+            });
 
             ResultDelegate = ConceptEval;
         }
@@ -3141,10 +3190,22 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
             }
             TaxingAllowanceStudyTarget evalTarget = resTarget.Value;
 
-            Int32 benefitValue = taxingRules.BenefitAllowanceStudy(evalTarget.BenefitApply);
+            var resTaxSigning = GetContractResult<TaxingSigningResult>(target, period, results,
+                target.Contract, ArticleCode.Get((Int32)PayrolexArticleConst.ARTICLE_TAXING_SIGNING));
+
+            if (resTaxSigning.IsFailure)
+            {
+                return BuildFailResults(resTaxSigning.Error);
+            }
+
+            var evalTaxSigning = resTaxSigning.Value;
+
+            var evalDeclSignOpts = evalTaxSigning.DeclSignOpts;
+
+            Int32 benefitValue = taxingRules.BenefitAllowanceStudy(evalDeclSignOpts, evalTarget.BenefitApply);
 
             ITermResult resultsValues = new TaxingAllowanceStudyResult(target, spec, 
-                evalTarget.BenefitApply, benefitValue, 0, DESCRIPTION_EMPTY);
+                evalTarget.BenefitApply, benefitValue, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -3248,7 +3309,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 taxPayerRebat = TaxPayerRebate(advancesTotal, allowancePayer + allowanceDisab + allowanceStudy, 0);
 
-            ITermResult resultsValues = new TaxingRebatePayerResult(target, spec, taxPayerRebat, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingRebatePayerResult(target, spec, taxPayerRebat, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -3349,7 +3410,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 taxChildRebat = TaxChildRebate(advancesTotal, allowanceChild, rebPayerTotal);
 
-            ITermResult resultsValues = new TaxingRebateChildResult(target, spec, taxChildRebat, allowanceChild, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingRebateChildResult(target, spec, taxChildRebat, allowanceChild);
 
             return BuildOkResults(resultsValues);
         }
@@ -3470,7 +3531,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 fixBonusValue = taxingRules.BonusChildFix(incomeTaxs, summarChild, rebateChild);
 
-            ITermResult resultsValues = new TaxingBonusChildResult(target, spec, fixBonusValue, rawBonusValue, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingBonusChildResult(target, spec, fixBonusValue, rawBonusValue);
 
             return BuildOkResults(resultsValues);
         }
@@ -3560,7 +3621,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 advancesPayment = (evalAdvancesTotal.ResultValue - rebatePayer - rebateChild);
 
-            ITermResult resultsValues = new TaxingPaymAdvancesResult(target, spec, advancesPayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingPaymAdvancesResult(target, spec, advancesPayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -3625,7 +3686,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 withholdPayment = evalWithholdTotal.ResultValue;
 
-            ITermResult resultsValues = new TaxingPaymWithholdResult(target, spec, withholdPayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new TaxingPaymWithholdResult(target, spec, withholdPayment, 0);
 
             return BuildOkResults(resultsValues);
         }

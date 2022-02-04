@@ -17,14 +17,14 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public WorkSocialTerms ContractType { get; private set; }
         public SocialDeclareResult(ITermTarget target, IArticleSpec spec,
             Int16 interestCode, WorkSocialTerms contractType) 
-            : base(target, spec, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY)
+            : base(target, spec, VALUE_ZERO, BASIS_ZERO)
         {
             InterestCode = interestCode;
             ContractType = contractType;
         }
         public override string ResultMessage()
         {
-            return $"Interrest: {this.InterestCode}, Type: {Enum.GetName<WorkSocialTerms>(this.ContractType)}";
+            return $"Interrest: {this.InterestCode}; Type: {Enum.GetName<WorkSocialTerms>(this.ContractType)}";
         }
     }
 
@@ -36,7 +36,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public SocialIncomeResult(ITermTarget target, ContractCode con, IArticleSpec spec,
             Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, 
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -44,7 +44,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Interrest: {this.InterestCode}, Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}, Particy: {this.ParticyCode}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Interrest: {this.InterestCode}; Term: {Enum.GetName<WorkSocialTerms>(this.IncomeTerm())}; Particy: {this.ParticyCode}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int16 SetParticyCode(Int16 particyCode)
         {
@@ -184,7 +184,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32 AnnuityBase { get; private set; }
         public SocialBaseResult(ITermTarget target, IArticleSpec spec,
             Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, 
-            Int32 annuityBase, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 annuityBase, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -193,31 +193,31 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Annuity Base: {this.AnnuityBase}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Annuity Base: {this.AnnuityBase}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
     // SocialBaseEmployee		SOCIAL_BASE_EMPLOYEE
     public class SocialBaseEmployeeResult : PayrolexTermResult
     {
-        public SocialBaseEmployeeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public SocialBaseEmployeeResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
     // SocialBaseEmployer		SOCIAL_BASE_EMPLOYER
     public class SocialBaseEmployerResult : PayrolexTermResult
     {
-        public SocialBaseEmployerResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public SocialBaseEmployerResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
@@ -229,7 +229,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int16 ParticyCode { get; private set; }
         public SocialBaseOvercapResult(ITermTarget target, ContractCode con, IArticleSpec spec,
             Int16 interestCode, WorkSocialTerms subjectType, Int16 particyCode, 
-            Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+            Int32 value, Int32 basis) : base(target, con, spec, value, basis)
         {
             InterestCode = interestCode;
             SubjectType = subjectType;
@@ -237,7 +237,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         }
         public override string ResultMessage()
         {
-            return $"Type: {Enum.GetName<WorkSocialTerms>(this.SubjectType)}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Type: {Enum.GetName<WorkSocialTerms>(this.SubjectType)}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 IncomeScore()
         {
@@ -305,14 +305,14 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32 EmployeeBasis { get; private set; }
         public Int32 GeneralsBasis { get; private set; }
         public SocialPaymEmployeeResult(ITermTarget target, IArticleSpec spec,
-            Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employeeBasis, Int32 generalsBasis, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             EmployeeBasis = employeeBasis;
             GeneralsBasis = generalsBasis;
         }
         public override string ResultMessage()
         {
-            return $"Employee: {this.EmployeeBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Employee: {this.EmployeeBasis}; Generals: {this.GeneralsBasis}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 TotalBasic()
         {
@@ -326,14 +326,14 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public Int32 EmployerBasis { get; private set; }
         public Int32 GeneralsBasis { get; private set; }
         public SocialPaymEmployerResult(ITermTarget target, IArticleSpec spec,
-            Int32 employerBasis, Int32 generalsBasis, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+            Int32 employerBasis, Int32 generalsBasis, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
             EmployerBasis = employerBasis;
             GeneralsBasis = generalsBasis;
         }
         public override string ResultMessage()
         {
-            return $"Employer: {this.EmployerBasis}, Generals: {this.GeneralsBasis}, Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Employer: {this.EmployerBasis}; Generals: {this.GeneralsBasis}; Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
         public Int32 TotalBasic()
         {

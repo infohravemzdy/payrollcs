@@ -16,12 +16,12 @@ namespace HraveMzdy.Procezor.Models
         {
         }
         public override ITermList<ITermSymbol, ITermTarget> AddItem(MonthCode period, ContractCode contract, PositionCode position,
-            ArticleCode article, ConceptCode concept, Int32 basis, string descr)
+            ArticleCode article, ConceptCode concept, Int32 basis)
         {
             var variant = GetNewVariant(InternalList, contract, position, article);
 
             ITermTarget target = new TermTarget(period, contract, position, new VariantCode(variant),
-                article, concept, basis, descr);
+                article, concept);
 
             return Add(target);
         }

@@ -10,16 +10,14 @@ using HraveMzdy.Procezor.Service.Providers;
 using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Optimula.Registry.Constants;
 using ResultMonad;
+using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Procezor.Optimula.Registry.Providers
 {
     class OptimulaConceptSpec : ConceptSpec
     {
-        protected static readonly decimal INT_ROUNDING_CONST = 0.5m;
-
         public const Int32 VALUE_ZERO = 0;
         public const Int32 BASIS_ZERO = 0;
-        public const string DESCRIPTION_EMPTY = "result from input value";
 
         public static readonly UInt16 TERM_BEG_FINISHED = 32;
         public static readonly UInt16 TERM_END_FINISHED = 0;
@@ -28,9 +26,7 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         }
         public Int32 RoundToInt(decimal valueDec)
         {
-            decimal roundRet = decimal.Floor(Math.Abs(valueDec) + INT_ROUNDING_CONST);
-
-            return decimal.ToInt32(valueDec < 0m ? decimal.Negate(roundRet) : roundRet);
+            return OperationsRound.RoundToInt(valueDec);
         }
         public static Result<T, ITermResultError> GetTypedTarget<T>(ITermTarget target, IPeriod period)
             where T : class, ITermTarget
@@ -137,18 +133,21 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     public class OptimulaTermTarget : TermTarget
     {
         public const Int32 BASIS_ZERO = 0;
-        public const string DESCRIPTION_EMPTY = "result from input value";
+
         public OptimulaTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
-            Int32 basis, string descr) :
-            base(monthCode, contract, position, variant, article, concept, basis, descr)
+            Int32 basis) :
+            base(monthCode, contract, position, variant, article, concept)
         {
+            TargetBasis = basis;
         }
         public OptimulaTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept) :
             base(monthCode, contract, position, variant, article, concept)
         {
+            TargetBasis = 0;
         }
+        public Int32 TargetBasis { get; private set; }
         public override string ArticleDescr()
         {
             return ServiceArticleEnumUtils.GetSymbol(Article.Value);
@@ -156,6 +155,10 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         public override string ConceptDescr()
         {
             return ServiceConceptEnumUtils.GetSymbol(Concept.Value);
+        }
+        public virtual string TargetMessage()
+        {
+            return $"Basis: {this.TargetBasis}";
         }
     }
 
@@ -163,16 +166,21 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
     {
         public const Int32 VALUE_ZERO = 0;
         public const Int32 BASIS_ZERO = 0;
-        public const string DESCRIPTION_EMPTY = "result from input value";
 
         public static readonly UInt16 TERM_BEG_FINISHED = 32;
         public static readonly UInt16 TERM_END_FINISHED = 0;
-        public OptimulaTermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public OptimulaTermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec)
         {
+            ResultValue = value;
+            ResultBasis = basis;
         }
-        public OptimulaTermResult(ITermTarget target, ContractCode con, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, con, spec, value, basis, descr)
+        public OptimulaTermResult(ITermTarget target, ContractCode con, IArticleSpec spec, Int32 value, Int32 basis) : base(target, con, spec)
         {
+            ResultValue = value;
+            ResultBasis = basis;
         }
+        public Int32 ResultBasis { get; private set; }
+        public Int32 ResultValue { get; private set; }
         public override string ArticleDescr()
         {
             return ServiceArticleEnumUtils.GetSymbol(Article.Value);
@@ -180,6 +188,30 @@ namespace HraveMzdy.Procezor.Optimula.Registry.Providers
         public override string ConceptDescr()
         {
             return ServiceConceptEnumUtils.GetSymbol(Concept.Value);
+        }
+        public virtual string ResultMessage()
+        {
+            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+        }
+        public Int32 AddResultBasis(Int32 basis)
+        {
+            ResultBasis += basis;
+            return ResultBasis;
+        }
+        public Int32 SetResultBasis(Int32 basis)
+        {
+            ResultBasis = basis;
+            return ResultBasis;
+        }
+        public Int32 AddResultValue(Int32 value)
+        {
+            ResultValue += value;
+            return ResultValue;
+        }
+        public Int32 SetResultValue(Int32 value)
+        {
+            ResultValue = value;
+            return ResultValue;
         }
     }
 

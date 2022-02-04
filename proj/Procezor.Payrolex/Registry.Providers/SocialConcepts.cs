@@ -167,12 +167,13 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 if (contractResult == null)
                 {
                     contractResult = new SocialIncomeResult(evalTarget, x.Contract, spec,
-                        evalInterestCode, evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        evalInterestCode, evalSubjectsType, VALUE_ZERO, VALUE_ZERO, BASIS_ZERO);
                     agr = agr.Concat(new SocialIncomeResult[] { contractResult }).ToArray();
                 }
                 var incomeList = results
                     .Where((x) => (x.IsSuccess)).Select((r) => (r.Value))
                     .Where((v) => (v.Contract.Equals(x.Contract) && v.Spec.Sums.Contains(evalTarget.Article)))
+                    .Select((v) => (v as PayrolexTermResult))
                     .Select((tr) => (tr.ResultValue)).ToArray();
 
                 decimal resValue = incomeList.Aggregate(decimal.Zero,
@@ -279,7 +280,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             ITermResult resultsValues = new SocialBaseResult(target, spec,
                 evalIncomes.InterestCode, evalIncomes.SubjectType, evalIncomes.ParticyCode, 
-                evalTarget.AnnuityBase, resGeneralBase, 0, DESCRIPTION_EMPTY);
+                evalTarget.AnnuityBase, resGeneralBase, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -330,7 +331,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 resBasis = 0;
 
-            ITermResult resultsValues = new SocialBaseEmployeeResult(target, spec, resBasis, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialBaseEmployeeResult(target, spec, resBasis, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -381,7 +382,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 resBasis = 0;
 
-            ITermResult resultsValues = new SocialBaseEmployerResult(target, spec, resBasis, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialBaseEmployerResult(target, spec, resBasis, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -461,7 +462,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 {
                     contractResult = new SocialBaseOvercapResult(evalTarget, x.Contract, spec,
                         evalInterestCode, evalSubjectType, evalParticyCode, 
-                        VALUE_ZERO, BASIS_ZERO, DESCRIPTION_EMPTY);
+                        VALUE_ZERO, BASIS_ZERO);
                     agr = agr.Concat(new SocialBaseOvercapResult[] { contractResult }).ToArray();
                 }
                 contractResult.AddResultBasis(x.ResultValue);
@@ -591,7 +592,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 employeePayment = socialRules.RoundedEmployeePaym(sumBaseEmployee);
 
-            ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, maxBaseEmployee, maxBaseGenerals, employeePayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialPaymEmployeeResult(target, spec, maxBaseEmployee, maxBaseGenerals, employeePayment, 0);
 
             return BuildOkResults(resultsValues);
         }
@@ -698,7 +699,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
             Int32 employerPayment = socialRules.RoundedEmployerPaym(sumBaseEmployer);
 
-            ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, maxBaseEmployer, maxBaseGenerals, employerPayment, 0, DESCRIPTION_EMPTY);
+            ITermResult resultsValues = new SocialPaymEmployerResult(target, spec, maxBaseEmployer, maxBaseGenerals, employerPayment, 0);
 
             return BuildOkResults(resultsValues);
         }

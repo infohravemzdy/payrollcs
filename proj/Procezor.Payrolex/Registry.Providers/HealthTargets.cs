@@ -19,7 +19,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthDeclareTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int16 interestCode, WorkHealthTerms contractType, Int16 mandatorBase) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             InterestCode = interestCode;
             ContractType = contractType;
@@ -35,7 +35,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthIncomeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -49,7 +49,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthBaseTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 annuityBase) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             AnnuityBase = annuityBase;
         }
@@ -63,7 +63,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthBaseEmployeeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -77,7 +77,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthBaseEmployerTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -91,7 +91,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthBaseMandateTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -105,7 +105,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthBaseOvercapTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -119,7 +119,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthPaymEmployeeTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -133,7 +133,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public HealthPaymEmployerTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }

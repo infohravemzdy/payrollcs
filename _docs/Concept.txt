@@ -1,0 +1,42 @@
+            var resPrSalary = GetSalaryPropsResult(ruleset, target, period);
+            if (resPrSalary.IsFailure)
+            {
+                return BuildFailResults(resPrSalary.Error);
+            }
+            IPropsSalary salaryRules = resPrSalary.Value;
+
+            var resTarget = GetTypedTarget<OptimusBasisTarget>(target, period);
+            if (resTarget.IsFailure)
+            {
+                return BuildFailResults(resTarget.Error);
+            }
+            OptimusBasisTarget evalTarget = resTarget.Value;
+
+            decimal paymentBasisVal = OperationsDec.Divide(evalTarget.OptimusBasisVal, 100);
+
+            var resTimeWork = GetContractResult<TimesheetsWorkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMESHEETS_WORK));
+
+            if (resTimeWork.IsFailure)
+            {
+                return BuildFailResults(resTimeWork.Error);
+            }
+
+            var evalTimeWork = resTimeWork.Value;
+
+            decimal hoursTimeCoef = evalTimeWork.WorkLoadHrsCoef;
+
+            var resTimeActa = GetContractResult<TimeactualWorkResult>(target, period, results,
+               target.Contract, ArticleCode.Get((Int32)OptimulaArticleConst.ARTICLE_TIMEACTUAL_WORK));
+
+            if (resTimeActa.IsFailure)
+            {
+                return BuildFailResults(resTimeActa.Error);
+            }
+
+            var evalTimeActa = resTimeActa.Value;
+
+            decimal hoursWorkCoef = evalTimeActa.WorkTimeHrsCoef;
+
+            decimal paymentValueRes = salaryRules.SalaryTariffWorkHourCoeff(
+                paymentBasisVal, hoursTimeCoef, hoursWorkCoef);

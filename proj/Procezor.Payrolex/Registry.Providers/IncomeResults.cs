@@ -11,35 +11,35 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
     // IncomeGross		INCOME_GROSS
     public class IncomeGrossResult : PayrolexTermResult
     {
-        public IncomeGrossResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public IncomeGrossResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 
     // IncomeNetto		INCOME_NETTO
     public class IncomeNettoResult : PayrolexTermResult
     {
-        public IncomeNettoResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public IncomeNettoResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
     // EmployerCosts		EMPLOYER_COSTS
     public class EmployerCostsResult : PayrolexTermResult
     {
-        public EmployerCostsResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base(target, spec, value, basis, descr)
+        public EmployerCostsResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis) : base(target, spec, value, basis)
         {
         }
         public override string ResultMessage()
         {
-            return $"Value: {this.ResultValue}, Basis: {this.ResultBasis}";
+            return $"Value: {this.ResultValue}; Basis: {this.ResultBasis}";
         }
     }
 }

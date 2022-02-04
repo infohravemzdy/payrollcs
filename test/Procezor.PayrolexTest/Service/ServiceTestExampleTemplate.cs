@@ -118,7 +118,7 @@ namespace Procezor.PayrolexTest.Service
 
         protected static readonly ExampleGenerator[] _genTests = new ExampleGenerator[] {
             ExampleGenerator.Spec(101, "PP-Mzda_DanPoj-SlevyZaklad",      "101").WithContracts(ContractGenerator.SpecEmp(1)),
-            ExampleGenerator.Spec(102, "PP-Mzda_DanPoj-SlevyDite1",       "102").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(15600))).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(102, "PP-Mzda_DanPoj-SlevyDite1",       "102").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(15600)).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15600    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(103, "PP-Mzda_DanPoj-BonusDite1",       "103").WithContracts(ContractGenerator.SpecEmp(1)).WithChild(ChildGenerator.SpecDisb1(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 1,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(104, "PP-Mzda_DanPoj-BonusDite2",       "104").WithContracts(ContractGenerator.SpecEmp(1)).WithChild(ChildGenerator.SpecDisb(1, 1, 0)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 2,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(105, "PP-Mzda_DanPoj-MaxBonus",         "105").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(MaxBonus())).WithChild(ChildGenerator.SpecDisb(1, 1, 5)), //, CZK 10000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 7,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
@@ -129,29 +129,29 @@ namespace Procezor.PayrolexTest.Service
             ExampleGenerator.Spec(110, "PP-Mzda_DanPoj-MaxSocialPrev",    "110").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(MaxSocPrev(100))), //, CZK 1206676  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(111, "PP-Mzda_DanPoj-MaxSocialCurr",    "111").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(MaxSoc(100))), //, CZK 1242532  ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(112, "PP-Mzda_DanPoj-DuchSpor",         "112").WithContracts(ContractGenerator.SpecEmp(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(113, "PP-Mzda_DanPoj-SlevyInv1",        "113").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(20000))).WithBenDisab1(GenValue(1)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  YES, NO, NO              ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(114, "PP-Mzda_DanPoj-SlevyInv2",        "114").WithContracts(ContractGenerator.SpecEmp(1)).WithBenDisab2(GenValue(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(115, "PP-Mzda_DanPoj-SlevyInv3",        "115").WithContracts(ContractGenerator.SpecEmp(1)).WithBenDisab3(GenValue(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(120, "PP-Mzda_DanPoj-SlevyStud",        "120").WithContracts(ContractGenerator.SpecEmp(1)).WithBenStudy(GenValue(1)), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  YES                  ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(121, "PP-Mzda_DanPoj-SlevyZakl020",     "121").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(20000 ))), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(122, "PP-Mzda_DanPoj-SlevyZakl025",     "122").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(25000 ))), //, CZK 25000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(123, "PP-Mzda_DanPoj-SlevyZakl030",     "123").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(30000 ))), //, CZK 30000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(124, "PP-Mzda_DanPoj-SlevyZakl035",     "124").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(35000 ))), //, CZK 35000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(125, "PP-Mzda_DanPoj-SlevyZakl040",     "125").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(40000 ))), //, CZK 40000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(126, "PP-Mzda_DanPoj-SlevyZakl045",     "126").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(45000 ))), //, CZK 45000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(127, "PP-Mzda_DanPoj-SlevyZakl050",     "127").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(50000 ))), //, CZK 50000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(128, "PP-Mzda_DanPoj-SlevyZakl055",     "128").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(55000 ))), //, CZK 55000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(129, "PP-Mzda_DanPoj-SlevyZakl060",     "129").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(60000 ))), //, CZK 60000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(130, "PP-Mzda_DanPoj-SlevyZakl065",     "130").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(65000 ))), //, CZK 65000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(131, "PP-Mzda_DanPoj-SlevyZakl070",     "131").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(70000 ))), //, CZK 70000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(132, "PP-Mzda_DanPoj-SlevyZakl075",     "132").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(75000 ))), //, CZK 75000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(133, "PP-Mzda_DanPoj-SlevyZakl080",     "133").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(80000 ))), //, CZK 80000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(134, "PP-Mzda_DanPoj-SlevyZakl085",     "134").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(85000 ))), //, CZK 85000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(135, "PP-Mzda_DanPoj-SlevyZakl090",     "135").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(90000 ))), //, CZK 90000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(136, "PP-Mzda_DanPoj-SlevyZakl095",     "136").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(95000 ))), //, CZK 95000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(137, "PP-Mzda_DanPoj-SlevyZakl100",     "137").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(100000))), //, CZK 100000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(138, "PP-Mzda_DanPoj-SlevyZakl105",     "138").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(105000))), //, CZK 105000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(139, "PP-Mzda_DanPoj-SlevyZakl110",     "139").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(110000))), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(113, "PP-Mzda_DanPoj-SlevyInv1",        "113").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(20000)).WithBenDisab1Val(1), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  YES, NO, NO              ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(114, "PP-Mzda_DanPoj-SlevyInv2",        "114").WithContracts(ContractGenerator.SpecEmp(1)).WithBenDisab2Val(1), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(115, "PP-Mzda_DanPoj-SlevyInv3",        "115").WithContracts(ContractGenerator.SpecEmp(1)).WithBenDisab3Val(1), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, YES, NO              ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(120, "PP-Mzda_DanPoj-SlevyStud",        "120").WithContracts(ContractGenerator.SpecEmp(1)).WithBenStudyVal(1), //, CZK 15000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  YES                  ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(121, "PP-Mzda_DanPoj-SlevyZakl020",     "121").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(20000 )), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(122, "PP-Mzda_DanPoj-SlevyZakl025",     "122").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(25000 )), //, CZK 25000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(123, "PP-Mzda_DanPoj-SlevyZakl030",     "123").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(30000 )), //, CZK 30000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(124, "PP-Mzda_DanPoj-SlevyZakl035",     "124").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(35000 )), //, CZK 35000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(125, "PP-Mzda_DanPoj-SlevyZakl040",     "125").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(40000 )), //, CZK 40000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(126, "PP-Mzda_DanPoj-SlevyZakl045",     "126").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(45000 )), //, CZK 45000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(127, "PP-Mzda_DanPoj-SlevyZakl050",     "127").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(50000 )), //, CZK 50000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(128, "PP-Mzda_DanPoj-SlevyZakl055",     "128").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(55000 )), //, CZK 55000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(129, "PP-Mzda_DanPoj-SlevyZakl060",     "129").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(60000 )), //, CZK 60000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(130, "PP-Mzda_DanPoj-SlevyZakl065",     "130").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(65000 )), //, CZK 65000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(131, "PP-Mzda_DanPoj-SlevyZakl070",     "131").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(70000 )), //, CZK 70000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(132, "PP-Mzda_DanPoj-SlevyZakl075",     "132").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(75000 )), //, CZK 75000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(133, "PP-Mzda_DanPoj-SlevyZakl080",     "133").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(80000 )), //, CZK 80000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(134, "PP-Mzda_DanPoj-SlevyZakl085",     "134").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(85000 )), //, CZK 85000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(135, "PP-Mzda_DanPoj-SlevyZakl090",     "135").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(90000 )), //, CZK 90000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(136, "PP-Mzda_DanPoj-SlevyZakl095",     "136").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(95000 )), //, CZK 95000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(137, "PP-Mzda_DanPoj-SlevyZakl100",     "137").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(100000)), //, CZK 100000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(138, "PP-Mzda_DanPoj-SlevyZakl105",     "138").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(105000)), //, CZK 105000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(139, "PP-Mzda_DanPoj-SlevyZakl110",     "139").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(110000)), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(140, "PP-Mzda_DanPoj-TaxRate2DanPrevX", "140").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(Rate2TaxPrev(0))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(141, "PP-Mzda_DanPoj-TaxRate2DanPrev1", "141").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(Rate2TaxPrev(1000))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(142, "PP-Mzda_DanPoj-TaxRate2DanPrevY", "142").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(Rate2TaxPrev(1))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
@@ -164,332 +164,332 @@ namespace Procezor.PayrolexTest.Service
             ExampleGenerator.Spec(153, "PP-Mzda_DanPoj-SolidarDanCurrX",  "153").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SolTax(0))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(154, "PP-Mzda_DanPoj-SolidarDanCurr1",  "154").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SolTax(1000))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
             ExampleGenerator.Spec(155, "PP-Mzda_DanPoj-SolidarDanCurrY",  "155").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SolTax(0))), //, CZK 104536   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(190, "PP-Mzda_DanPoj-ZaporPlat",        "190").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(-10000))), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(191, "PP-Mzda_DanPoj-ZaporDohod",       "191").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(0)).WithAgreem(ConValue(-5000))), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(193, "PP-Mzda_NepodPoj-ZaporPlat",      "193").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(-10000))).WithTaxDecl(GenValue(0)), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(194, "PP-Mzda_NepodPoj-ZaporDohod",     "194").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(0)).WithAgreem(ConValue(-5000))).WithTaxDecl(GenValue(0)), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(190, "PP-Mzda_DanPoj-ZaporPlat",        "190").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(-10000)), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(191, "PP-Mzda_DanPoj-ZaporDohod",       "191").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(0).WithAgreemVal(-5000)), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(193, "PP-Mzda_NepodPoj-ZaporPlat",      "193").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(-10000)).WithTaxDeclVal(0), //, CZK 110000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(194, "PP-Mzda_NepodPoj-ZaporDohod",     "194").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(0).WithAgreemVal(-5000)).WithTaxDeclVal(0), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-            ExampleGenerator.Spec(201, "PP-Mzda_NepodPoj-PrevLo",         "201").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNepPrev(0))).WithTaxDecl(GenValue(0)), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(202, "PP-Mzda_NepodPoj-PrevHi",         "202").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNepPrev(1))).WithTaxDecl(GenValue(0)), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(203, "PP-Mzda_NepodPoj-CurrLo",         "203").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNep(0))).WithTaxDecl(GenValue(0)), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(204, "PP-Mzda_NepodPoj-CurrHi",         "204").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNep(1))).WithTaxDecl(GenValue(0)), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(201, "PP-Mzda_NepodPoj-PrevLo",         "201").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNepPrev(0))).WithTaxDeclVal(0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(202, "PP-Mzda_NepodPoj-PrevHi",         "202").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNepPrev(1))).WithTaxDeclVal(0), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(203, "PP-Mzda_NepodPoj-CurrLo",         "203").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNep(0))).WithTaxDeclVal(0), //, CZK 5000     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(204, "PP-Mzda_NepodPoj-CurrHi",         "204").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(SrazNep(1))).WithTaxDeclVal(0), //, CZK 5001     ,  YES       , NO,  YES          ,  YES          ,  YES          ,  NO            ,  NO                , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-            ExampleGenerator.Spec(301, "PP-Mzda_DanPoj-Dan099",           "301").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(0)).WithAgreem(ConValue(74)).WithHealthMinim(ConValue(0))), //, CZK 74       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(302, "PP-Mzda_DanPoj-Dan100",           "302").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(75)).WithHealthMinim(ConValue(0))), //, CZK 75       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(303, "PP-Mzda_DanPoj-Dan101",           "303").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(100)).WithHealthMinim(ConValue(0))), //, CZK 100      ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(301, "PP-Mzda_DanPoj-Dan099",           "301").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(0).WithAgreemVal(74).WithHealthMinimVal(0)), //, CZK 74       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(302, "PP-Mzda_DanPoj-Dan100",           "302").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(75).WithHealthMinimVal(0)), //, CZK 75       ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(303, "PP-Mzda_DanPoj-Dan101",           "303").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(100).WithHealthMinimVal(0)), //, CZK 100      ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-            ExampleGenerator.Spec(401, "PP-Mzda_DanPoj-Neodpr064",        "401").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(20000)).WithAbsence(ConValue(46))), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(402, "PP-Mzda_DanPoj-Neodpr184",        "402").WithContracts(ContractGenerator.SpecEmp(1).WithSalary(ConValue(20000)).WithHealthMinim(ConValue(0)).WithAbsence(ConValue(184))), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(401, "PP-Mzda_DanPoj-Neodpr064",        "401").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(20000).WithAbsenceVal(46)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(402, "PP-Mzda_DanPoj-Neodpr184",        "402").WithContracts(ContractGenerator.SpecEmp(1).WithSalaryVal(20000).WithHealthMinimVal(0).WithAbsenceVal(184)), //, CZK 20000    ,  YES          ,  YES          ,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-            ExampleGenerator.Spec(501, "DPC-Mzda_NeUcastZdrav-Prev",      "501").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastZdrPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(502, "DPC-Mzda_UcastZdrav-Prev",        "502").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastZdrPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(503, "DPC-Mzda_NeUcastNemoc-Prev",      "503").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(504, "DPC-Mzda_UcastNemoc-Prev",        "504").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(505, "DPP-Mzda_NeUcastZdrav-Prev",      "505").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastZdrEmpPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(506, "DPP-Mzda_UcastZdrav-Prev",        "506").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastZdrEmpPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(507, "DPC-Mzda_NeUcastZdrav-Curr",      "507").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastZdr(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(508, "DPC-Mzda_UcastZdrav-Curr",        "508").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastZdr(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(509, "DPC-Mzda_NeUcastNemoc-Curr",      "509").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastNem(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(510, "DPC-Mzda_UcastNemoc-Curr",        "510").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(UcastNem(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(511, "DPP-Mzda_NeUcastZdrav-Curr",      "511").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastZdrEmp(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(512, "DPP-Mzda_UcastZdrav-Curr",        "512").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastZdrEmp(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(551, "DPC-Mzda_DanPoj-ZaporDohod",      "551").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(ConValue(-5000))), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(552, "DPP-Mzda_DanPoj-ZaporDohod",      "552").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(ConValue(-5000))), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(553, "DPC-Mzda_NepodPoj-ZaporDohod",    "553").WithContracts(ContractGenerator.SpecDpc(1).WithSalary(ConValue(0)).WithAgreem(ConValue(-5000))).WithTaxDecl(GenValue(0)), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(554, "DPP-Mzda_NepodPoj-ZaporDohod",    "554").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(ConValue(-5000))).WithTaxDecl(GenValue(0)), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(501, "DPC-Mzda_NeUcastZdrav-Prev",      "501").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastZdrPrev(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(502, "DPC-Mzda_UcastZdrav-Prev",        "502").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastZdrPrev(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(503, "DPC-Mzda_NeUcastNemoc-Prev",      "503").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastNemPrev(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(504, "DPC-Mzda_UcastNemoc-Prev",        "504").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastNemPrev(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(505, "DPP-Mzda_NeUcastZdrav-Prev",      "505").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastZdrEmpPrev(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(506, "DPP-Mzda_UcastZdrav-Prev",        "506").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastZdrEmpPrev(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(507, "DPC-Mzda_NeUcastZdrav-Curr",      "507").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastZdr(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(508, "DPC-Mzda_UcastZdrav-Curr",        "508").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastZdr(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(509, "DPC-Mzda_NeUcastNemoc-Curr",      "509").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastNem(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(510, "DPC-Mzda_UcastNemoc-Curr",        "510").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreem(UcastNem(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(511, "DPP-Mzda_NeUcastZdrav-Curr",      "511").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreem(UcastZdrEmp(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(512, "DPP-Mzda_UcastZdrav-Curr",        "512").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreem(UcastZdrEmp(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(551, "DPC-Mzda_DanPoj-ZaporDohod",      "551").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreemVal(-5000)), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(552, "DPP-Mzda_DanPoj-ZaporDohod",      "552").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreemVal(-5000)), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(553, "DPC-Mzda_NepodPoj-ZaporDohod",    "553").WithContracts(ContractGenerator.SpecDpc(1).WithSalaryVal(0).WithAgreemVal(-5000)).WithTaxDeclVal(0), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(554, "DPP-Mzda_NepodPoj-ZaporDohod",    "554").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreemVal(-5000)).WithTaxDeclVal(0), //, CZK -5000   ,  YES          ,  YES          ,  YES          ,  YES          ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
-            ExampleGenerator.Spec(601, "DPP-Mzda_NeUcastNemoc-Prev",      "601").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(602, "DPP-Mzda_UcastNemoc-Prev",        "602").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNemPrev(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(603, "DPP-Mzda_NeUcastNemoc-Curr",      "603").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNem(-1)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
-            ExampleGenerator.Spec(604, "DPP-Mzda_UcastNemoc-Curr",        "604").WithContracts(ContractGenerator.SpecDpp(1).WithSalary(ConValue(0)).WithAgreem(UcastNem(0)).WithHealthMinim(ConValue(0))).WithTaxDecl(GenValue(0)), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(601, "DPP-Mzda_NeUcastNemoc-Prev",      "601").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreem(UcastNemPrev(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(602, "DPP-Mzda_UcastNemoc-Prev",        "602").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreem(UcastNemPrev(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(603, "DPP-Mzda_NeUcastNemoc-Curr",      "603").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreem(UcastNem(-1)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
+            ExampleGenerator.Spec(604, "DPP-Mzda_UcastNemoc-Curr",        "604").WithContracts(ContractGenerator.SpecDpp(1).WithSalaryVal(0).WithAgreem(UcastNem(0)).WithHealthMinimVal(0)).WithTaxDeclVal(0), //,CZK 0,  YES       , NO,  YES          ,  NO           ,  YES          ,  NO            ,  YES               , 0,  NO, NO, NO               ,  NO                   ,  YES             ,  YES             , 
 
             ExampleGenerator.Spec(701, "MPOM-PPOM-Mzda_NeUcastNemoc",     "701").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(UcastNem(-1))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(702, "MDPC-PPOM-Mzda_NeUcastNemoc",     "702").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastNem(-1))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(703, "XDPP-PPOM-Mzda_NeUcastNemoc",     "703").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastNem(-1))
-                    .WithHealthMinim(ConValue(0)),
+                    .WithHealthMinimVal(0),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(711, "MPOM-PPOM-Mzda_UcastNemoc",     "711").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(UcastNem(0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(712, "MDPC-PPOM-Mzda_UcastNemoc",     "712").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastNem(0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(713, "XDPP-PPOM-Mzda_UcastNemoc",     "713").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastNem(0))
-                    .WithHealthMinim(ConValue(0)),
+                    .WithHealthMinimVal(0),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
 
              ExampleGenerator.Spec(731, "MPOM2-PPOM-Mzda_NeUcastNemoc",     "731").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, -1))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(732, "MDPC2-PPOM-Mzda_NeUcastNemoc",     "732").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, -1))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(733, "XDPP2-PPOM-Mzda_NeUcastNemoc",     "733").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, -1))
-                    .WithHealthMinim(ConValue(0)),
+                    .WithHealthMinimVal(0),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0)),
+                    .WithHealthMinimVal(0),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(741, "MPOM2-PPOM-Mzda_UcastNemoc",     "741").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(742, "MDPC2-PPOM-Mzda_UcastNemoc",     "742").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(743, "XDPP2-PPOM-Mzda_UcastNemoc",     "743").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0)),
+                    .WithHealthMinimVal(0),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 0))
-                    .WithHealthMinim(ConValue(0)),
+                    .WithHealthMinimVal(0),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(UcastNem(0)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(751, "MPOM2-PPOM-Mzda_MinZdrav",     "751").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearBW(2011, 2022), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(752, "MDPC2-PPOM-Mzda_MinZdrav",     "752").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(753, "XDPP2-PPOM-Mzda_MinZdrav",     "753").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(761, "MPOM2-PPOM-Mzda_MaxZdrav",     "761").WithContracts(
                 ContractGenerator.SpecEmp(1).WithPriority(IIf(YearBW(2014, 2022), ConValue(1), ConValue(0)))
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2).WithPriority(IIf(YearBW(2014, 2022), ConValue(2), ConValue(0)))
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearBW(2014, 2022), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(762, "MDPC2-PPOM-Mzda_MaxZdrav",     "762").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(763, "XDPP2-PPOM-Mzda_MaxZdrav",     "763").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(765, "MPOM2-PPOM-Mzda_MaxZdrav",     "765").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)))
-             .WithTaxDecl(GenValue(0)),
+                    .WithSocialLoIncomeVal(1))
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(766, "MDPC2-PPOM-Mzda_MaxZdrav",     "766").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(3)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)))
-             .WithTaxDecl(GenValue(0)),
+                    .WithSocialLoIncomeVal(1))
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(767, "XDPP2-PPOM-Mzda_MaxZdrav",     "767").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(3)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(771, "MPOM2-PPOM-Mzda_MaxSocial",     "771").WithContracts(
                 ContractGenerator.SpecEmp(1).WithPriority(IIf(YearBW(2014, 2022), ConValue(2), ConValue(0)))
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2).WithPriority(IIf(YearBW(2014, 2022), ConValue(1), ConValue(0)))
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearBW(2014, 2022), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(772, "MDPC2-PPOM-Mzda_MaxSocial",     "772").WithContracts(
                 ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(773, "XDPP2-PPOM-Mzda_MaxSocial",     "773").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(775, "MPOM2-PPOM-Mzda_MaxSocial",     "775").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)))
-             .WithTaxDecl(GenValue(0)),
+                    .WithSocialLoIncomeVal(1))
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(776, "MDPC2-PPOM-Mzda_MaxSocial",     "776").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecDpc(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecDpc(3)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)))
-             .WithTaxDecl(GenValue(0)),
+                    .WithSocialLoIncomeVal(1))
+             .WithTaxDeclVal(0),
             ExampleGenerator.Spec(777, "XDPP2-PPOM-Mzda_MaxSocial",     "777").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(3)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)))
-             .WithTaxDecl(GenValue(0)),
+             .WithTaxDeclVal(0),
         };
 
         public static IEnumerable<object[]> GetGenTestDecData(IEnumerable<ExampleGenerator> tests, IPeriod testPeriod, Int32 testPeriodCode, Int32 prevPeriodCode)
@@ -532,8 +532,8 @@ namespace Procezor.PayrolexTest.Service
         {
             return ExampleGenerator.Spec(193, "PP-Mzda_NepodPoj-ZaporPlat", "193")
                 .WithContracts(ContractGenerator.SpecEmp(1)
-                    .WithSalary(ConValue(-10000)))
-                .WithTaxDecl(GenValue(0));
+                    .WithSalaryVal(-10000))
+                .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_201_PPomMzdaNepodPojPrevLo()
@@ -541,46 +541,46 @@ namespace Procezor.PayrolexTest.Service
             return ExampleGenerator.Spec(201, "PP-Mzda_NepodPoj-PrevLo", "201")
                 .WithContracts(ContractGenerator.SpecEmp(1)
                     .WithSalary(SrazNepPrev(0)))
-                .WithTaxDecl(GenValue(0));
+                .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_301_PPomMzdaDanPojDan099()
         {
             return ExampleGenerator.Spec(301, "PP-Mzda_DanPoj-Dan099", "301")
                 .WithContracts(ContractGenerator.SpecEmp(1)
-                    .WithSalary(ConValue(0))
-                    .WithAgreem(ConValue(74))
-                    .WithHealthMinim(ConValue(0)));
+                    .WithSalaryVal(0)
+                    .WithAgreemVal(74)
+                    .WithHealthMinimVal(0));
         }
 
         public ExampleGenerator Example_501_PPomMzdaNeUcastZdravPrev()
         {
             return ExampleGenerator.Spec(501, "DPC-Mzda_NeUcastZdrav-Prev", "501")
                 .WithContracts(ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastZdrPrev(-1))
-                    .WithHealthMinim(ConValue(0)))
-                .WithTaxDecl(GenValue(0));
+                    .WithHealthMinimVal(0))
+                .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_502_PPomMzdaUcastZdravPrev()
         {
             return ExampleGenerator.Spec(502, "DPC-Mzda_UcastZdrav-Prev", "502")
                 .WithContracts(ContractGenerator.SpecDpc(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastZdrPrev(0))
-                    .WithHealthMinim(ConValue(0)))
-                .WithTaxDecl(GenValue(0));
+                    .WithHealthMinimVal(0))
+                .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_601_PPomMzdaNeUcastNemocPrev()
         {
             return ExampleGenerator.Spec(601, "DPP-Mzda_NeUcastNemoc-Prev", "601")
                 .WithContracts(ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(UcastNemPrev(-1))
-                    .WithHealthMinim(ConValue(0)))
-                .WithTaxDecl(GenValue(0));
+                    .WithHealthMinimVal(0))
+                .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_701_PPomMzdaNeUcastNemoc()
@@ -588,11 +588,11 @@ namespace Procezor.PayrolexTest.Service
             return ExampleGenerator.Spec(701, "MPOM-PPOM-Mzda_NeUcastNemoc", "701").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(UcastNem(-1))
-                    .WithHealthMinim(ConValue(0))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithHealthMinimVal(0)
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
-                    .WithSalary(ConValue(2500)))
-             .WithTaxDecl(GenValue(0));
+                    .WithSalaryVal(2500))
+             .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_751_Mpom2_PPomMzdaMinZdrav()
@@ -600,55 +600,55 @@ namespace Procezor.PayrolexTest.Service
             return ExampleGenerator.Spec(751, "MPOM2-PPOM-Mzda_MinZdrav", "751").WithContracts(
                 ContractGenerator.SpecEmp(1)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(2)
                     .WithSalary(Div(UcastNem(1), 2, 1))
-                    .WithSocialLoIncome(ConValue(1)),
+                    .WithSocialLoIncomeVal(1),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2014), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
-             .WithTaxDecl(GenValue(0));
+             .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_753_XDpp2_PPomMzdaMinZdrav()
         {
             return ExampleGenerator.Spec(753, "XDPP2-PPOM-Mzda_MinZdrav", "753").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3).WithPriority(IIf(YearLE(2013), ConValue(3), ConValue(0)))
                     .WithSalary(Sub(MinZdr(0), UcastNem(0), -1000)))
-             .WithTaxDecl(GenValue(0));
+             .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_763_XDpp2_PPomMzdaMaxZdrav()
         {
             return ExampleGenerator.Spec(763, "XDPP2-PPOM-Mzda_MaxZdrav", "763").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxZdr(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0));
+             .WithTaxDeclVal(0);
         }
 
         public ExampleGenerator Example_773_XDpp2_PPomMzdaMaxSocial()
         {
             return ExampleGenerator.Spec(773, "XDPP2-PPOM-Mzda_MaxSocial", "773").WithContracts(
                 ContractGenerator.SpecDpp(1)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecDpp(2)
-                    .WithSalary(ConValue(0))
+                    .WithSalaryVal(0)
                     .WithAgreem(Div(UcastNem(1), 2, 1)),
                 ContractGenerator.SpecEmp(3)
                     .WithSalary(Sub(MaxSoc(0), UcastNem(0), 2000)))
-             .WithTaxDecl(GenValue(0));
+             .WithTaxDeclVal(0);
         }
 
         protected void ServiceExamplesCreateImport(IEnumerable<ExampleGenerator> tests, IPeriod testPeriod, Int32 testPeriodCode, Int32 prevPeriodCode)
@@ -752,7 +752,7 @@ namespace Procezor.PayrolexTest.Service
                 {
                     var articleSymbol = target.ArticleDescr();
                     var conceptSymbol = target.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; con: {3}; pos: {4}; var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
                 }
 
                 var initService = _sut.InitWithPeriod(testPeriod);
@@ -767,17 +767,17 @@ namespace Procezor.PayrolexTest.Service
                 {
                     if (result.IsSuccess)
                     {
-                        var resultValue = result.Value;
+                        var resultValue = result.Value as PayrolexTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                     }
                     else if (result.IsFailure)
                     {
                         var errorValue = result.Error;
                         var articleSymbol = errorValue.ArticleDescr();
                         var conceptSymbol = errorValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                     }
                 }
             }
@@ -919,7 +919,7 @@ namespace Procezor.PayrolexTest.Service
                 {
                     var articleSymbol = target.ArticleDescr();
                     var conceptSymbol = target.ConceptDescr();
-                    output.WriteLine("Index: {0}, ART: {1}, CON: {2}, con: {3}, pos: {4}, var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
+                    output.WriteLine("Index: {0}; ART: {1}; CON: {2}; con: {3}; pos: {4}; var: {5}", index, articleSymbol, conceptSymbol, target.Contract.Value, target.Position.Value, target.Variant.Value);
                 }
 
                 var initService = _sut.InitWithPeriod(testPeriod);
@@ -948,17 +948,17 @@ namespace Procezor.PayrolexTest.Service
                 {
                     if (result.IsSuccess)
                     {
-                        var resultValue = result.Value;
+                        var resultValue = result.Value as PayrolexTermResult;
                         var articleSymbol = resultValue.ArticleDescr();
                         var conceptSymbol = resultValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Result: {3}", index, articleSymbol, conceptSymbol, resultValue.ResultMessage());
                     }
                     else if (result.IsFailure)
                     {
                         var errorValue = result.Error;
                         var articleSymbol = errorValue.ArticleDescr();
                         var conceptSymbol = errorValue.ConceptDescr();
-                        output.WriteLine("Index: {0}, ART: {1}, CON: {2}, Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
+                        output.WriteLine("Index: {0}; ART: {1}; CON: {2}; Error: {3}", index, articleSymbol, conceptSymbol, errorValue.Description());
                     }
                 }
             }
@@ -978,7 +978,7 @@ namespace Procezor.PayrolexTest.Service
         protected string GetResultValue(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode)
         {
             var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
-            var resultValue = result.FirstOrDefault();
+            var resultValue = result.FirstOrDefault() as PayrolexTermResult;
             if (resultValue == null)
             {
                 return "";
@@ -1044,7 +1044,7 @@ namespace Procezor.PayrolexTest.Service
         protected Int32 GetIntResultValue(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, PayrolexArticleConst artCode)
         {
             var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
-            var resultValue = result.FirstOrDefault();
+            var resultValue = result.FirstOrDefault() as PayrolexTermResult;
             if (resultValue == null)
             {
                 return 0;
@@ -1094,7 +1094,7 @@ namespace Procezor.PayrolexTest.Service
         protected Int32 GetIntResultContractValue(IEnumerable<ResultMonad.Result<ITermResult, HraveMzdy.Procezor.Service.Errors.ITermResultError>> res, Int32 contract, PayrolexArticleConst artCode)
         {
             var result = res.Where((e) => (e.IsSuccess && e.Value.Article.Value == (Int32)artCode)).Select((x) => (x.Value)).ToList();
-            var resultValue = result.FirstOrDefault((x) => (x.Contract.Value == contract));
+            var resultValue = result.FirstOrDefault((x) => (x.Contract.Value == contract)) as PayrolexTermResult;
             if (resultValue == null)
             {
                 return 0;

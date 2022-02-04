@@ -20,7 +20,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PositionWorkPlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             WorkScheduleType workType, Int32 shiftPlaned, Int32 shiftLiable, Int32 shiftActual) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             WorkType = workType;
             WeekShiftPlaned = shiftPlaned;
@@ -37,7 +37,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PositionTimePlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -51,7 +51,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PositionTimeWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -65,7 +65,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PositionTimeAbscTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -79,7 +79,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public ContractTimePlanTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -93,7 +93,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public ContractTimeWorkTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }
@@ -107,7 +107,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public ContractTimeAbscTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 targetVals) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TargetVals = targetVals;
         }

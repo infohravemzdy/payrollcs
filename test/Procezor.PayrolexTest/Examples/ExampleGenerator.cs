@@ -19,8 +19,17 @@ namespace Procezor.PayrolexTest.Examples
             Id = id;
             Name = name;
             Number = number;
+
             ContractList = Array.Empty<ContractGenerator>();
             ChildrenGen = new ChildGenerator();
+
+            DefaultTaxDeclValue = 1;
+            DefaultBenPayerValue = 1;
+            DefaultBenDisab1Value = 0;
+            DefaultBenDisab2Value = 0;
+            DefaultBenDisab3Value = 0;
+            DefaultBenStudyValue = 0;
+
             TaxDeclFunc = DefaultTaxDeclFunc;
             BenPayerFunc = DefaultBenPayerFunc;
             BenDisab1Func = DefaultBenDisab1Func;
@@ -31,27 +40,27 @@ namespace Procezor.PayrolexTest.Examples
 
         private Int32 DefaultTaxDeclFunc(ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultTaxDeclValue;
         }
         private Int32 DefaultBenPayerFunc(ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultBenPayerValue;
         }
         private Int32 DefaultBenDisab1Func(ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultBenDisab1Value;
         }
         private Int32 DefaultBenDisab2Func(ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultBenDisab2Value;
         }
         private Int32 DefaultBenDisab3Func(ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultBenDisab3Value;
         }
         private Int32 DefaultBenStudyFunc(ExampleGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultBenStudyValue;
         }
 
         public int Id { get; }
@@ -59,6 +68,13 @@ namespace Procezor.PayrolexTest.Examples
         public string Number { get; }
         public ContractGenerator[] ContractList { get; private set; }
         public ChildGenerator ChildrenGen { get; private set; }
+        public Int32 DefaultTaxDeclValue { get; private set; }
+        public Int32 DefaultBenPayerValue { get; private set; }
+        public Int32 DefaultBenDisab1Value { get; private set; }
+        public Int32 DefaultBenDisab2Value { get; private set; }
+        public Int32 DefaultBenDisab3Value { get; private set; }
+        public Int32 DefaultBenStudyValue { get; private set; }
+
         public Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> TaxDeclFunc { get; private set; }
         public Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> BenPayerFunc { get; private set; }
         public Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> BenDisab1Func { get; private set; }
@@ -82,6 +98,37 @@ namespace Procezor.PayrolexTest.Examples
             ChildrenGen = children;
             return this;
         }
+        public ExampleGenerator WithTaxDeclVal(Int32 val)
+        {
+            DefaultTaxDeclValue = val;
+            return this;
+        }
+        public ExampleGenerator WithBenPayerVal(Int32 val)
+        {
+            DefaultBenPayerValue = val;
+            return this;
+        }
+        public ExampleGenerator WithBenDisab1Val(Int32 val)
+        {
+            DefaultBenDisab1Value = val;
+            return this;
+        }
+        public ExampleGenerator WithBenDisab2Val(Int32 val)
+        {
+            DefaultBenDisab2Value = val;
+            return this;
+        }
+        public ExampleGenerator WithBenDisab3Val(Int32 val)
+        {
+            DefaultBenDisab3Value = val;
+            return this;
+        }
+        public ExampleGenerator WithBenStudyVal(Int32 val)
+        {
+            DefaultBenStudyValue = val;
+            return this;
+        }
+
         public ExampleGenerator WithTaxDecl(Func<ExampleGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             TaxDeclFunc = func;
@@ -499,6 +546,26 @@ namespace Procezor.PayrolexTest.Examples
             return $"{number}-{Id}";
         }
         public WorkContractTerms Term { get; set; }
+
+        public Int32 DefaultEmpPriorityValue { get; private set; }
+        public Int32 DefaultWeekValue { get; private set; }
+        public Int32 DefaultAbsenceValue { get; private set; }
+        public Int32 DefaultSalaryValue { get; private set; }
+        public Int32 DefaultAgreemValue { get; private set; }
+        public Int32 DefaultHealthPayerValue { get; private set; }
+        public Int32 DefaultHealthMinimValue { get; private set; }
+        public Int32 DefaultHealthForeignValue { get; private set; }
+        public Int32 DefaultHealthForeignEhsValue { get; private set; }
+        public Int32 DefaultHealthEmperValue { get; private set; }
+        public Int32 DefaultSocialPayerValue { get; private set; }
+        public Int32 DefaultSocialLoIncomeValue { get; private set; }
+        public Int32 DefaultSocialForeignValue { get; private set; }
+        public Int32 DefaultSocialForeignEhsValue { get; private set; }
+        public Int32 DefaultSocialEmperValue { get; private set; }
+        public Int32 DefaultPenzisPayerValue { get; private set; }
+        public Int32 DefaultTaxingPayerValue { get; private set; }
+
+
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> EmpPriorityFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> WeekFunc { get; private set; }
         public Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, int> AbsenceFunc { get; private set; }
@@ -521,6 +588,24 @@ namespace Procezor.PayrolexTest.Examples
         {
             Id = id;
             Term = term;
+            DefaultEmpPriorityValue = 0;
+            DefaultWeekValue = 40;
+            DefaultAbsenceValue = 0;
+            DefaultSalaryValue = 15000;
+            DefaultAgreemValue = 0;
+            DefaultHealthPayerValue = 1;
+            DefaultHealthEmperValue = 1;
+            DefaultHealthMinimValue = 1;
+            DefaultHealthForeignValue = 0;
+            DefaultHealthForeignEhsValue = 0;
+            DefaultSocialPayerValue = 1;
+            DefaultSocialLoIncomeValue = 0;
+            DefaultSocialForeignValue = 0;
+            DefaultSocialForeignEhsValue = 0;
+            DefaultSocialEmperValue = 1;
+            DefaultPenzisPayerValue = 0;
+            DefaultTaxingPayerValue = 1;
+
             EmpPriorityFunc = DefaultEmpPriorityFunc;
             WeekFunc = DefaultWeekFunc;
             AbsenceFunc = DefaultAbsenceFunc;
@@ -654,75 +739,75 @@ namespace Procezor.PayrolexTest.Examples
 
         private Int32 DefaultEmpPriorityFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultEmpPriorityValue;
         }
         private Int32 DefaultWeekFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 40;
+            return DefaultWeekValue;
         }
         private Int32 DefaultAbsenceFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultAbsenceValue;
         }
         private Int32 DefaultSalaryFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 15000;
+            return DefaultSalaryValue;
         }
         private Int32 DefaultAgreemFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultAgreemValue;
         }
         private Int32 DefaultHealthPayerFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultHealthPayerValue;
         }
         private Int32 DefaultHealthEmperFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultHealthEmperValue;
         }
         private Int32 DefaultHealthMinimFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
             if (HealthPayerFunc(gen, period, ruleset, prevset)==1)
             {
-                return 1;
+                return DefaultHealthMinimValue;
             }
             return 0;
         }
         private Int32 DefaultHealthForeignFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultHealthForeignValue;
         }
         private Int32 DefaultHealthForeignEhsFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultHealthForeignEhsValue;
         }
         private Int32 DefaultSocialPayerFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultSocialPayerValue;
         }
         private Int32 DefaultSocialLoIncomeFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultSocialLoIncomeValue;
         }
         private Int32 DefaultSocialForeignFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultSocialForeignValue;
         }
         private Int32 DefaultSocialForeignEhsFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultSocialForeignEhsValue;
         }
         private Int32 DefaultSocialEmperFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultSocialEmperValue;
         }
         private Int32 DefaultPenzisPayerFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultPenzisPayerValue;
         }
         private Int32 DefaultTaxingPayerFunc(ContractGenerator gen, IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 1;
+            return DefaultTaxingPayerValue;
         }
 
         public static ContractGenerator SpecEmp(Int32 id)
@@ -741,6 +826,73 @@ namespace Procezor.PayrolexTest.Examples
         {
             return new ContractGenerator(id, WorkContractTerms.WORKTERM_PARTNER_STAT);
         }
+        public ContractGenerator WithPriorityVal(Int32 val)
+        {
+            DefaultEmpPriorityValue = val;
+            return this;
+        }
+        public ContractGenerator WithWeekVal(Int32 val)
+        {
+            DefaultWeekValue = val;
+            return this;
+        }
+        public ContractGenerator WithAbsenceVal(Int32 val)
+        {
+            DefaultAbsenceValue = val;
+            return this;
+        }
+        public ContractGenerator WithSalaryVal(Int32 val)
+        {
+            DefaultSalaryValue = val;
+            return this;
+        }
+        public ContractGenerator WithAgreemVal(Int32 val)
+        {
+            DefaultAgreemValue = val;
+            return this;
+        }
+        public ContractGenerator WithHealthPayerVal(Int32 val)
+        {
+            DefaultHealthPayerValue = val;
+            return this;
+        }
+        public ContractGenerator WithHealthMinimVal(Int32 val)
+        {
+            DefaultHealthMinimValue = val;
+            return this;
+        }
+        public ContractGenerator WithHealthEmperVal(Int32 val)
+        {
+            DefaultHealthEmperValue = val;
+            return this;
+        }
+        public ContractGenerator WithSocialPayerVal(Int32 val)
+        {
+            DefaultSocialPayerValue = val;
+            return this;
+        }
+        public ContractGenerator WithSocialLoIncomeVal(Int32 val)
+        {
+            DefaultSocialLoIncomeValue = val;
+            return this;
+        }
+        public ContractGenerator WithSocialEmperVal(Int32 val)
+        {
+            DefaultSocialEmperValue = val;
+            return this;
+        }
+        public ContractGenerator WithPenzisPayerVal(Int32 val)
+        {
+            DefaultPenzisPayerValue = val;
+            return this;
+        }
+        public ContractGenerator WithTaxingPayerVal(Int32 val)
+        {
+            DefaultTaxingPayerValue = val;
+            return this;
+        }
+
+
         public ContractGenerator WithPriority(Func<ContractGenerator, IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             EmpPriorityFunc = func;
@@ -826,6 +978,13 @@ namespace Procezor.PayrolexTest.Examples
     }
     public class ChildGenerator
     {
+        public Int32 DefaultNorm1Value { get; private set; }
+        public Int32 DefaultNorm2Value { get; private set; }
+        public Int32 DefaultNorm3Value { get; private set; }
+        public Int32 DefaultDisb1Value { get; private set; }
+        public Int32 DefaultDisb2Value { get; private set; }
+        public Int32 DefaultDisb3Value { get; private set; }
+
         public Func<IPeriod, IBundleProps, IBundleProps, int> Norm1Func { get; private set; }
         public Func<IPeriod, IBundleProps, IBundleProps, int> Norm2Func { get; private set; }
         public Func<IPeriod, IBundleProps, IBundleProps, int> Norm3Func { get; private set; }
@@ -834,17 +993,44 @@ namespace Procezor.PayrolexTest.Examples
         public Func<IPeriod, IBundleProps, IBundleProps, int> Disb3Func { get; private set; }
         public ChildGenerator()
         {
-            Norm1Func = DefaultChildFunc;
-            Norm2Func = DefaultChildFunc;
-            Norm3Func = DefaultChildFunc;
-            Disb1Func = DefaultChildFunc;
-            Disb2Func = DefaultChildFunc;
-            Disb3Func = DefaultChildFunc;
+            DefaultNorm1Value = 0;
+            DefaultNorm2Value = 0;
+            DefaultNorm3Value = 0;
+            DefaultDisb1Value = 0;
+            DefaultDisb2Value = 0;
+            DefaultDisb3Value = 0;
+
+            Norm1Func = DefaultNorm1Func;
+            Norm2Func = DefaultNorm2Func;
+            Norm3Func = DefaultNorm3Func;
+            Disb1Func = DefaultDisb1Func;
+            Disb2Func = DefaultDisb2Func;
+            Disb3Func = DefaultDisb3Func;
         }
 
-        private Int32 DefaultChildFunc(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        private Int32 DefaultNorm1Func(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
         {
-            return 0;
+            return DefaultNorm1Value;
+        }
+        private Int32 DefaultNorm2Func(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultNorm2Value;
+        }
+        private Int32 DefaultNorm3Func(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultNorm3Value;
+        }
+        private Int32 DefaultDisb1Func(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultDisb1Value;
+        }
+        private Int32 DefaultDisb2Func(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultDisb2Value;
+        }
+        private Int32 DefaultDisb3Func(IPeriod period, IBundleProps ruleset, IBundleProps prevset)
+        {
+            return DefaultDisb3Value;
         }
 
         private static Func<IPeriod, IBundleProps, IBundleProps, Int32> IntValue(Int32 val)
@@ -857,36 +1043,67 @@ namespace Procezor.PayrolexTest.Examples
         }
         public static ChildGenerator SpecNorm(Int32 val1, Int32 val2, Int32 val3)
         {
-            return new ChildGenerator().WithNorm1(IntValue(val1)).WithNorm2(IntValue(val2)).WithNorm3(IntValue(val3));
+            return new ChildGenerator().WithNorm1Val(val1).WithNorm2Val(val2).WithNorm3Val(val3);
         }
         public static ChildGenerator SpecNorm1(Int32 val)
         {
-            return new ChildGenerator().WithNorm1(IntValue(val));
+            return new ChildGenerator().WithNorm1Val(val);
         }
         public static ChildGenerator SpecNorm2(Int32 val)
         {
-            return new ChildGenerator().WithNorm2(IntValue(val));
+            return new ChildGenerator().WithNorm2Val(val);
         }
         public static ChildGenerator SpecNorm3(Int32 val)
         {
-            return new ChildGenerator().WithNorm3(IntValue(val));
+            return new ChildGenerator().WithNorm3Val(val);
         }
         public static ChildGenerator SpecDisb(Int32 val1, Int32 val2, Int32 val3)
         {
-            return new ChildGenerator().WithDisb1(IntValue(val1)).WithDisb2(IntValue(val2)).WithDisb3(IntValue(val3));
+            return new ChildGenerator().WithDisb1Val(val1).WithDisb2Val(val2).WithDisb3Val(val3);
         }
         public static ChildGenerator SpecDisb1(Int32 val)
         {
-            return new ChildGenerator().WithDisb1(IntValue(val));
+            return new ChildGenerator().WithDisb1Val(val);
         }
         public static ChildGenerator SpecDisb2(Int32 val)
         {
-            return new ChildGenerator().WithDisb2(IntValue(val));
+            return new ChildGenerator().WithDisb2Val(val);
         }
         public static ChildGenerator SpecDisb3(Int32 val)
         {
-            return new ChildGenerator().WithDisb3(IntValue(val));
+            return new ChildGenerator().WithDisb3Val(val);
         }
+        public ChildGenerator WithNorm1Val(Int32 val)
+        {
+            DefaultNorm1Value = val;
+            return this;
+        }
+        public ChildGenerator WithNorm2Val(Int32 val)
+        {
+            DefaultNorm2Value = val;
+            return this;
+        }
+        public ChildGenerator WithNorm3Val(Int32 val)
+        {
+            DefaultNorm3Value = val;
+            return this;
+        }
+        public ChildGenerator WithDisb1Val(Int32 val)
+        {
+            DefaultDisb1Value = val;
+            return this;
+        }
+        public ChildGenerator WithDisb2Val(Int32 val)
+        {
+            DefaultDisb2Value = val;
+            return this;
+        }
+        public ChildGenerator WithDisb3Val(Int32 val)
+        {
+            DefaultDisb3Value = val;
+            return this;
+        }
+
         public ChildGenerator WithNorm1(Func<IPeriod, IBundleProps, IBundleProps, Int32> func)
         {
             Norm1Func = func;

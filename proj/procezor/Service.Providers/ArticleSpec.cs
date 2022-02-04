@@ -13,17 +13,24 @@ namespace HraveMzdy.Procezor.Service.Providers
         public ConceptCode Role { get; protected set; }
 
         public ArticleCode Code { get; protected set; }
+        public ArticleSeqs Seqs { get; protected set; }
 
+        public ArticleTerm Term()
+        {
+            return ArticleTerm.Get(Code.Value, Seqs.Value);
+        }
         public IArticleDefine Defs()
         {
-            return new ArticleDefine(Code.Value, Role.Value);
+            return new ArticleDefine(Code.Value, Seqs.Value, Role.Value);
         }
 
-        public ArticleSpec(Int32 code, Int32 role)
+        public ArticleSpec(Int32 code, Int16 seqs, Int32 role)
         {
             Code = new ArticleCode(code);
 
             Role = new ConceptCode(role);
+
+            Seqs = new ArticleSeqs(seqs);
         }
         public int CompareTo(object obj)
         {

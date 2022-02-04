@@ -13,18 +13,18 @@ namespace HraveMzdy.Procezor.Registry.Factories
         private ArticleSpecConfig articleSpec = null;
         class ArticleSpecConfig : ArticleSpec
         {
-            public ArticleSpecConfig(Int32 code, Int32 role, IEnumerable<ArticleCode> sums) : base(code, role)
+            public ArticleSpecConfig(Int32 code, Int16 seqs, Int32 role, IEnumerable<ArticleCode> sums) : base(code, seqs, role)
             {
                 Sums = sums.ToList();
             }
         }
-        public ArticleProviderConfig(ISpecCode article, ISpecCode concept, IEnumerable<ISpecCode> sums) : base(article.Value)
+        public ArticleProviderConfig(ISpecCode article, ISpecSeqs sequens, ISpecCode concept, IEnumerable<ISpecCode> sums) : base(article.Value)
         {
-            articleSpec = new ArticleSpecConfig(article.Value, concept.Value, SpecsToSumsList(sums));
+            articleSpec = new ArticleSpecConfig(article.Value, sequens.Value, concept.Value, SpecsToSumsList(sums));
         }
-        public ArticleProviderConfig(Int32 article, Int32 concept, IEnumerable<Int32> sums) : base(article)
+        public ArticleProviderConfig(Int32 article, Int16 sequens, Int32 concept, IEnumerable<Int32> sums) : base(article)
         {
-            articleSpec = new ArticleSpecConfig(article, concept, ConstToSumsList(sums));
+            articleSpec = new ArticleSpecConfig(article, sequens, concept, ConstToSumsList(sums));
         }
         public override IArticleSpec GetSpec(IPeriod period, VersionCode version)
         {

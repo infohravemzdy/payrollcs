@@ -20,7 +20,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public ContractWorkTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             WorkContractTerms termType, DateTime? dateFrom, DateTime? dateStop) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TermType = termType;
             DateFrom = dateFrom;
@@ -37,7 +37,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PositionWorkTermTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             string termName, DateTime? dateFrom, DateTime? dateStop) :
-            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, BASIS_ZERO)
         {
             TermName = termName;
             DateFrom = dateFrom;

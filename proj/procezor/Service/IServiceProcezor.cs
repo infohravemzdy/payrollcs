@@ -12,8 +12,8 @@ namespace HraveMzdy.Procezor.Service
     {
         VersionCode Version { get; }
         IList<ArticleCode> CalcArticles { get; }
-        IList<ArticleCode> BuilderOrder { get; }
-        IDictionary<ArticleCode, IEnumerable<IArticleDefine>> BuilderPaths { get; }
+        IList<ArticleTerm> BuilderOrder { get; }
+        IDictionary<ArticleTerm, IEnumerable<IArticleDefine>> BuilderPaths { get; }
 
         IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets);
         IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets);

@@ -8,11 +8,8 @@ namespace HraveMzdy.Procezor.Service.Types
         public ITermTarget Target { get; protected set; }
         public IArticleSpec Spec { get; protected set; }
         public ConceptCode Concept { get; private set; }
-        public string ResultDescr { get; private set; }
-        public Int32 ResultBasis { get; private set; }
-        public Int32 ResultValue { get; private set; }
 
-        public TermResult(ITermTarget target, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base()
+        public TermResult(ITermTarget target, IArticleSpec spec) : base()
         {
             Target = target;
             Spec = spec;
@@ -28,12 +25,8 @@ namespace HraveMzdy.Procezor.Service.Types
                 Article = Target.Article;
                 Variant = Target.Variant;
             }
-
-            ResultValue = value;
-            ResultBasis = basis;
-            ResultDescr = descr;
         }
-        public TermResult(ITermTarget target, ContractCode con, IArticleSpec spec, Int32 value, Int32 basis, string descr) : base()
+        public TermResult(ITermTarget target, ContractCode con, IArticleSpec spec) : base()
         {
             Target = target;
             Spec = spec;
@@ -51,33 +44,10 @@ namespace HraveMzdy.Procezor.Service.Types
             }
 
             Contract = con;
-            ResultValue = value;
-            ResultBasis = basis;
-            ResultDescr = descr;
         }
         public virtual string ConceptDescr()
         {
             return Target?.ConceptDescr() ?? string.Format("ConceptCode for {0}", Concept.Value);
-        }
-        public virtual string ResultMessage()
-        {
-            return ResultDescr;
-        }
-        public Int32 AddResultBasis(Int32 basis) { 
-            ResultBasis += basis;
-            return ResultBasis;
-        }
-        public Int32 SetResultBasis(Int32 basis) { 
-            ResultBasis = basis;
-            return ResultBasis;
-        }
-        public Int32 AddResultValue(Int32 value) { 
-            ResultValue += value;
-            return ResultValue;
-        }
-        public Int32 SetResultValue(Int32 value) { 
-            ResultValue = value;
-            return ResultValue;
         }
     }
 }

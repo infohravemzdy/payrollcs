@@ -25,7 +25,7 @@ namespace ProcezorTests.Registry.Providers
     class TimeshtWorkingArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TIMESHT_WORKING;
-        public TimeshtWorkingArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TimeshtWorkingArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -48,7 +48,7 @@ namespace ProcezorTests.Registry.Providers
     class PaymentSalaryArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_BASIS;
-        public PaymentSalaryArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentSalaryArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                 (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
@@ -76,7 +76,7 @@ namespace ProcezorTests.Registry.Providers
     class PaymentBonusArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-        public PaymentBonusArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentBonusArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                 (Int32)ExampleArticleConst.ARTICLE_INCOME_GROSS,
@@ -104,7 +104,7 @@ namespace ProcezorTests.Registry.Providers
     class PaymentBarterArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-        public PaymentBarterArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public PaymentBarterArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                 (Int32)ExampleArticleConst.ARTICLE_HEALTH_INSBASE,
@@ -131,7 +131,7 @@ namespace ProcezorTests.Registry.Providers
     class AllowceHofficeArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_AMOUNT_FIXED;
-        public AllowceHofficeArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public AllowceHofficeArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = ArticleSpec.ConstToSumsArray(new List<Int32>() {
                 (Int32)ExampleArticleConst.ARTICLE_INCOME_NETTO,
@@ -156,7 +156,7 @@ namespace ProcezorTests.Registry.Providers
     class HealthInsbaseArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSBASE;
-        public HealthInsbaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthInsbaseArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -179,7 +179,7 @@ namespace ProcezorTests.Registry.Providers
     class SocialInsbaseArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSBASE;
-        public SocialInsbaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialInsbaseArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -202,7 +202,7 @@ namespace ProcezorTests.Registry.Providers
     class HealthInspaymArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_HEALTH_INSPAYM;
-        public HealthInspaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public HealthInspaymArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -225,7 +225,7 @@ namespace ProcezorTests.Registry.Providers
     class SocialInspaymArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_SOCIAL_INSPAYM;
-        public SocialInspaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public SocialInspaymArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -248,7 +248,7 @@ namespace ProcezorTests.Registry.Providers
     class TaxingAdvbaseArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVBASE;
-        public TaxingAdvbaseArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvbaseArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -271,7 +271,7 @@ namespace ProcezorTests.Registry.Providers
     class TaxingAdvpaymArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_TAXING_ADVPAYM;
-        public TaxingAdvpaymArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public TaxingAdvpaymArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -294,7 +294,7 @@ namespace ProcezorTests.Registry.Providers
     class IncomeGrossArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_GROSS;
-        public IncomeGrossArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomeGrossArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }
@@ -317,7 +317,7 @@ namespace ProcezorTests.Registry.Providers
     class IncomeNettoArtSpec : ArticleSpec
     {
         public const Int32 CONCEPT_CODE = (Int32)ExampleConceptConst.CONCEPT_INCOME_NETTO;
-        public IncomeNettoArtSpec(Int32 code) : base(code, CONCEPT_CODE)
+        public IncomeNettoArtSpec(Int32 code) : base(code, ArticleSeqs.ZeroCode, CONCEPT_CODE)
         {
             Sums = new List<ArticleCode>();
         }

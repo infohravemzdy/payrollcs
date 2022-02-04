@@ -15,7 +15,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PaymentBasisTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 monthBasis) :
-            base(monthCode, contract, position, variant, article, concept, monthBasis, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, monthBasis)
         {
         }
     }
@@ -26,7 +26,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
         public PaymentFixedTarget(MonthCode monthCode, ContractCode contract, PositionCode position, VariantCode variant,
             ArticleCode article, ConceptCode concept,
             Int32 fixedBasis) :
-            base(monthCode, contract, position, variant, article, concept, fixedBasis, DESCRIPTION_EMPTY)
+            base(monthCode, contract, position, variant, article, concept, fixedBasis)
         {
         }
     }

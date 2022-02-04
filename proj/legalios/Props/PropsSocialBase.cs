@@ -107,12 +107,12 @@ namespace HraveMzdy.Legalios.Props
         protected abstract bool HasIncomeCumulatedParticy(WorkSocialTerms term);
         public decimal DecInsuranceRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
 
         public Int32 IntInsuranceRoundUp(decimal valueDec)
         {
-            return RoundUp(valueDec);
+            return OperationsRound.RoundUp(valueDec);
         }
 
         public Int32 RoundedEmployeePaym(Int32 basisResult)
@@ -139,10 +139,10 @@ namespace HraveMzdy.Legalios.Props
             return new Tuple<Int32, Int32>(maxBaseEmployee, valBaseOvercaps);
         }
 
-        public Tuple<Int32, Int32, T[]> AnnualsBasisCut<T>(IEnumerable<T> incomeList, Int32 annuityBasis)
+        public Tuple<Int32, Int32, IEnumerable<T>> AnnualsBasisCut<T>(IEnumerable<T> particyList, IEnumerable<T> incomeList, Int32 annuityBasis)
             where T : IParticyResult
         {
-            return MaximResultCut(incomeList, annuityBasis, MaxAnnualsBasis);
+            return MaximResultCut<T>(particyList, incomeList, annuityBasis, MaxAnnualsBasis);
         }
     }
 }

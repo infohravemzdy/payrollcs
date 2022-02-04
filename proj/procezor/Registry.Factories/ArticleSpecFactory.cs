@@ -10,7 +10,7 @@ using HraveMzdy.Procezor.Service.Types;
 
 namespace HraveMzdy.Procezor.Registry.Factories
 {
-    public record ProviderRecord(Int32 article, Int32 concept, Int32[] sums)
+    public record ProviderRecord(Int32 article, Int16 sequens, Int32 concept, Int32[] sums)
     {
     }
     class NotFoundArticleProvider : ArticleSpecProvider
@@ -21,7 +21,7 @@ namespace HraveMzdy.Procezor.Registry.Factories
 
             const Int32 CONCEPT_CODE = (Int32)ConceptConst.CONCEPT_NOTFOUND;
 
-            public NotFoundArticleSpec() : base(ARTICLE_CODE, CONCEPT_CODE)
+            public NotFoundArticleSpec() : base(ARTICLE_CODE, ArticleSeqs.ZeroCode, CONCEPT_CODE)
             {
                 Sums = new List<ArticleCode>();
             }
@@ -48,7 +48,7 @@ namespace HraveMzdy.Procezor.Registry.Factories
         static protected IReadOnlyDictionary<Int32, IArticleSpecProvider> BuildProvidersFromRecords(IEnumerable<ProviderRecord> records)
         {
             var providers = records.Select(x => 
-                new ArticleProviderConfig(x.article, x.concept, x.sums))
+                new ArticleProviderConfig(x.article, x.sequens, x.concept, x.sums))
                 .Cast<IArticleSpecProvider>()
                 .ToImmutableDictionary(k => k.Code.Value, v => v);
 

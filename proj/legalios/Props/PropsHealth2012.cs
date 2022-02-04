@@ -4,7 +4,7 @@ using HraveMzdy.Legalios.Service.Types;
 
 namespace HraveMzdy.Legalios.Props
 {
-    public class PropsHealth2012 : PropsHealth, IPropsHealth
+    public class PropsHealth2012 : PropsHealthBase, IPropsHealth
     {
         public PropsHealth2012(Int16 version) : base(version)
         {
