@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HraveMzdy.Legalios.Service.Interfaces;
 using HraveMzdy.Legalios.Service.Types;
 
@@ -139,10 +140,36 @@ namespace HraveMzdy.Legalios.Props
             return new Tuple<Int32, Int32>(maxBaseEmployee, valBaseOvercaps);
         }
 
-        public Tuple<Int32, Int32, IEnumerable<T>> AnnualsBasisCut<T>(IEnumerable<T> particyList, IEnumerable<T> incomeList, Int32 annuityBasis)
-            where T : IParticyResult
+        public Tuple<Int32, Int32, IEnumerable<ParticySocialResult>> AnnualsBasisCut(IEnumerable<ParticySocialTarget> incomeList, Int32 annuityBasis)
         {
-            return MaximResultCut<T>(particyList, incomeList, annuityBasis, MaxAnnualsBasis);
+            Int32 annualyMaxim = this.MaxAnnualsBasis;
+            Int32 annualsBasis = Math.Max(0, annualyMaxim - annuityBasis);
+            var resultInit = new Tuple<Int32, Int32, IEnumerable<ParticySocialResult>>(
+                annualyMaxim, annualsBasis, Array.Empty<ParticySocialResult>());
+
+            var resultList = incomeList.Aggregate(resultInit,
+                (agr, x) => {
+                    Int32 cutAnnualsBasis = 0;
+                    Int32 rawAnnualsBasis = x.TargetsBase;
+                    Int32 remAnnualsBasis = agr.Item2;
+
+                    if (x.ParticyCode != 0)
+                    {
+                        cutAnnualsBasis = rawAnnualsBasis;
+                        if (agr.Item1 > 0)
+                        {
+                            var ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
+                            cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
+                        }
+                        remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+                    }
+
+                    ParticySocialResult r = new ParticySocialResult(x.ContractCode, x.SubjectType, x.InterestCode, x.SubjectTerm, x.ParticyCode, x.TargetsBase, Math.Max(0, cutAnnualsBasis));
+                    return new Tuple<Int32, Int32, IEnumerable<ParticySocialResult>>(
+                        agr.Item1, remAnnualsBasis, agr.Item3.Concat(new ParticySocialResult[] { r }).ToArray());
+                });
+
+            return resultList;
         }
     }
 }

@@ -163,10 +163,36 @@ namespace HraveMzdy.Legalios.Props
             return employerPayment;
         }
 
-        public Tuple<Int32, Int32, IEnumerable<T>> AnnualsBasisCut<T>(IEnumerable<T> particyList, IEnumerable<T> incomeList, Int32 annuityBasis) 
-            where T : IParticyResult
+        public Tuple<Int32, Int32, IEnumerable<ParticyHealthResult>> AnnualsBasisCut(IEnumerable<ParticyHealthTarget> incomeList, Int32 annuityBasis)
         {
-            return MaximResultCut<T>(particyList, incomeList, annuityBasis, MaxAnnualsBasis);
+            Int32 annualyMaxim = this.MaxAnnualsBasis;
+            Int32 annualsBasis = Math.Max(0, annualyMaxim - annuityBasis);
+            var resultInit = new Tuple<Int32, Int32, IEnumerable<ParticyHealthResult>>(
+                annualyMaxim, annualsBasis, Array.Empty<ParticyHealthResult>());
+
+            var resultList = incomeList.Aggregate(resultInit,
+                (agr, x) => {
+                    Int32 cutAnnualsBasis = 0;
+                    Int32 rawAnnualsBasis = x.TargetsBase;
+                    Int32 remAnnualsBasis = agr.Item2;
+
+                    if (x.ParticyCode != 0)
+                    {
+                        cutAnnualsBasis = rawAnnualsBasis;
+                        if (agr.Item1 > 0)
+                        {
+                            var ovrAnnualsBasis = Math.Max(0, rawAnnualsBasis - agr.Item2);
+                            cutAnnualsBasis = (rawAnnualsBasis - ovrAnnualsBasis);
+                        }
+                        remAnnualsBasis = Math.Max(0, (agr.Item2 - cutAnnualsBasis));
+                    }
+
+                    ParticyHealthResult r = new ParticyHealthResult(x.ContractCode, x.SubjectType, x.InterestCode, x.SubjectTerm, x.ParticyCode, x.TargetsBase, Math.Max(0, cutAnnualsBasis));
+                    return new Tuple<Int32, Int32, IEnumerable<ParticyHealthResult>>(
+                        agr.Item1, remAnnualsBasis, agr.Item3.Concat(new ParticyHealthResult[] { r }).ToArray());
+                });
+
+            return resultList;
         }
     }
 }

@@ -6,6 +6,10 @@ namespace HraveMzdy.Legalios.Props
 {
     public class PropsHealth2012 : PropsHealthBase, IPropsHealth
     {
+        public static IPropsHealth Empty()
+        {
+            return new PropsHealth2012(VERSION_ZERO);
+        }
         public PropsHealth2012(Int16 version) : base(version)
         {
         }

@@ -12,7 +12,7 @@ using HraveMzdy.Procezor.Service.Types;
 using HraveMzdy.Procezor.Payrolex.Registry.Constants;
 using MaybeMonad;
 using ResultMonad;
-
+using HraveMzdy.Legalios.Props;
 
 namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 {
@@ -281,7 +281,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.Contract, tr.ResultValue)).ToArray();
 
-            var incomeResultInit = Array.Empty<TaxingIncomeHealthResult>();
+            var incomeResultInit = Array.Empty<ParticyHealthTarget>();
             var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
             {
                 var resTaxDeclare = GetContractResult<TaxingDeclareResult>(target, period, results,
@@ -310,30 +310,30 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 var evalSubjectsTerm = evalHealthInc.SubjectType;
                 var evalParticyCode = evalHealthInc.ParticyCode;
 
-
                 if (evalInterestCode != 0)
                 {
-                    var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                    var contractResult = agr.FirstOrDefault((a) => (a.ContractCode.Equals(x.Contract.Value)));
                     if (contractResult == null)
                     {
-                        contractResult = new TaxingIncomeHealthResult(evalTarget, x.Contract, spec,
-                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, 
-                            VALUE_ZERO, BASIS_ZERO);
-                        agr = agr.Concat(new TaxingIncomeHealthResult[] { contractResult }).ToArray();
+                        contractResult = new ParticyHealthTarget(x.Contract.Value, 
+                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, BASIS_ZERO);
+                        agr = agr.Concat(new ParticyHealthTarget[] { contractResult }).ToArray();
                     }
-                    contractResult.AddResultBasis(x.ResultValue);
+                    contractResult.AddTargetsBase(x.ResultValue);
                 }
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), TaxingIncomeHealthResult.ResultComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), ParticyHealthTarget.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
 
-            var resultOrdersInit = new List<TaxingIncomeHealthResult>();
-            var resultOrdersList = healthRules.AnnualsBasisCut<TaxingIncomeHealthResult>(resultOrdersInit, incomeOrdersList, perAnnuityBasis);
+            var resultOrdersList = healthRules.AnnualsBasisCut(incomeOrdersList, perAnnuityBasis);
 
-            return BuildOkResults(resultOrdersList.Item3.ToArray());
+            return BuildOkResults(resultOrdersList.Item3.Select((x) => new TaxingIncomeHealthResult(evalTarget, 
+                ContractCode.Get(x.ContractCode), spec, 
+                x.SubjectType, x.InterestCode, x.SubjectTerm, x.ParticyCode,
+                x.ResultsBase, x.TargetsBase)).ToArray());
         }
     }
 
@@ -397,7 +397,7 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
                 .Select((v) => (v as PayrolexTermResult))
                 .Select((tr) => (tr.Contract, tr.ResultValue)).ToArray();
 
-            var incomeResultInit = Array.Empty<TaxingIncomeSocialResult>();
+            var incomeResultInit = Array.Empty<ParticySocialTarget>();
             var incomeResultList = incomeContractList.Aggregate(incomeResultInit, (agr, x) =>
             {
                 var resTaxDeclare = GetContractResult<TaxingDeclareResult>(target, period, results,
@@ -428,27 +428,28 @@ namespace HraveMzdy.Procezor.Payrolex.Registry.Providers
 
                 if (evalInterestCode != 0)
                 {
-                    var contractResult = agr.FirstOrDefault((a) => (a.Contract.Equals(x.Contract)));
+                    var contractResult = agr.FirstOrDefault((a) => (a.ContractCode.Equals(x.Contract.Value)));
                     if (contractResult == null)
                     {
-                        contractResult = new TaxingIncomeSocialResult(evalTarget, x.Contract, spec,
-                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, 
-                            VALUE_ZERO, BASIS_ZERO);
-                        agr = agr.Concat(new TaxingIncomeSocialResult[] { contractResult }).ToArray();
+                        contractResult = new ParticySocialTarget(x.Contract.Value, 
+                            evalSubjectsType, evalInterestCode, evalSubjectsTerm, evalParticyCode, BASIS_ZERO);
+                        agr = agr.Concat(new ParticySocialTarget[] { contractResult }).ToArray();
                     }
-                    contractResult.AddResultBasis(x.ResultValue);
+                    contractResult.AddTargetsBase(x.ResultValue);
                 }
                 return agr;
             });
 
-            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), TaxingIncomeSocialResult.ResultComparator()).ToArray();
+            var incomeOrdersList = incomeResultList.OrderBy((x) => (x), ParticySocialTarget.ResultComparator()).ToArray();
 
             Int32 perAnnuityBasis = 0;
 
-            var resultOrdersInit = new List<TaxingIncomeSocialResult>();
-            var resultOrdersList = socialRules.AnnualsBasisCut<TaxingIncomeSocialResult>(resultOrdersInit, incomeOrdersList, perAnnuityBasis);
+            var resultOrdersList = socialRules.AnnualsBasisCut(incomeOrdersList, perAnnuityBasis);
 
-            return BuildOkResults(resultOrdersList.Item3.ToArray());
+            return BuildOkResults(resultOrdersList.Item3.Select((x) => new TaxingIncomeSocialResult(evalTarget, 
+                ContractCode.Get(x.ContractCode), spec, 
+                x.SubjectType, x.InterestCode, x.SubjectTerm, x.ParticyCode,
+                x.ResultsBase, x.TargetsBase)).ToArray());
         }
     }
 
