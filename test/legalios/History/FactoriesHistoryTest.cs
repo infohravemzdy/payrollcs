@@ -174,50 +174,6 @@ namespace LegaliosTests.History
                 List<Tuple<Int16, Int16, string, string>> VECT_TAXING_MARGIN_INCOME_OF_WHT_EMP = new List<Tuple<Int16, Int16, string, string>>();
                 List<Tuple<Int16, Int16, string, string>> VECT_TAXING_MARGIN_INCOME_OF_WHT_AGR = new List<Tuple<Int16, Int16, string, string>>();
 
-                List<Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>> tableData = new List<Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>>() {
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MIN_MONTHLY_BASIS         , VECT_HEALTH_MIN_MONTHLY_BASIS),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MAX_ANNUALS_BASIS         , VECT_HEALTH_MAX_ANNUALS_BASIS),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_LIM_MONTHLY_STATE         , VECT_HEALTH_LIM_MONTHLY_STATE),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_LIM_MONTHLY_DIS50         , VECT_HEALTH_LIM_MONTHLY_DIS50),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_FACTOR_COMPOUND           , VECT_HEALTH_FACTOR_COMPOUND),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_FACTOR_EMPLOYEE           , VECT_HEALTH_FACTOR_EMPLOYEE),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MARGIN_INCOME_EMP         , VECT_HEALTH_MARGIN_INCOME_EMP),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MARGIN_INCOME_AGR         , VECT_HEALTH_MARGIN_INCOME_AGR),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_WORKING_SHIFT_WEEK        , VECT_SALARY_WORKING_SHIFT_WEEK),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_WORKING_SHIFT_TIME        , VECT_SALARY_WORKING_SHIFT_TIME),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_MIN_MONTHLY_WAGE          , VECT_SALARY_MIN_MONTHLY_WAGE),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_MIN_HOURLY_WAGE           , VECT_SALARY_MIN_HOURLY_WAGE),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_MAX_ANNUALS_BASIS         , VECT_SOCIAL_MAX_ANNUALS_BASIS),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYER           , VECT_SOCIAL_FACTOR_EMPLOYER),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYER_HIGHER    , VECT_SOCIAL_FACTOR_EMPLOYER_HIGHER),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYEE           , VECT_SOCIAL_FACTOR_EMPLOYEE),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYEE_GARANT    , VECT_SOCIAL_FACTOR_EMPLOYEE_GARANT),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYEE_REDUCE    , VECT_SOCIAL_FACTOR_EMPLOYEE_REDUCE),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_MARGIN_INCOME_EMP         , VECT_SOCIAL_MARGIN_INCOME_EMP),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_MARGIN_INCOME_AGR         , VECT_SOCIAL_MARGIN_INCOME_AGR),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_PAYER           , VECT_TAXING_ALLOWANCE_PAYER),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_DISAB_1ST       , VECT_TAXING_ALLOWANCE_DISAB_1ST),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_DISAB_2ND       , VECT_TAXING_ALLOWANCE_DISAB_2ND),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_DISAB_3RD       , VECT_TAXING_ALLOWANCE_DISAB_3RD),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_STUDY           , VECT_TAXING_ALLOWANCE_STUDY),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_CHILD_1ST       , VECT_TAXING_ALLOWANCE_CHILD_1ST),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_CHILD_2ND       , VECT_TAXING_ALLOWANCE_CHILD_2ND),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_CHILD_3RD       , VECT_TAXING_ALLOWANCE_CHILD_3RD),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_ADVANCES           , VECT_TAXING_FACTOR_ADVANCES),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_WITHHOLD           , VECT_TAXING_FACTOR_WITHHOLD),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_SOLIDARY           , VECT_TAXING_FACTOR_SOLIDARY),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_TAXRATE2           , VECT_TAXING_FACTOR_TAXRATE2),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MIN_AMOUNT_OF_TAXBONUS    , VECT_TAXING_MIN_AMOUNT_OF_TAXBONUS),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MAX_AMOUNT_OF_TAXBONUS    , VECT_TAXING_MAX_AMOUNT_OF_TAXBONUS),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_TAXBONUS , VECT_TAXING_MARGIN_INCOME_OF_TAXBONUS),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_ROUNDING , VECT_TAXING_MARGIN_INCOME_OF_ROUNDING),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_WITHHOLD , VECT_TAXING_MARGIN_INCOME_OF_WITHHOLD),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_SOLIDARY , VECT_TAXING_MARGIN_INCOME_OF_SOLIDARY),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_TAXRATE2 , VECT_TAXING_MARGIN_INCOME_OF_TAXRATE2),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_WHT_EMP  , VECT_TAXING_MARGIN_INCOME_OF_WHT_EMP),
-                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_WHT_AGR  , VECT_TAXING_MARGIN_INCOME_OF_WHT_AGR),
-                };
-
                 for (Int16 testYear = testMinYear; testYear <= testMaxYear; testYear++)
                 {
                     Int16 MES_HEALTH_MIN_MONTHLY_BASIS         = 0;
@@ -410,6 +366,50 @@ namespace LegaliosTests.History
                     VECT_TAXING_MARGIN_INCOME_OF_WHT_EMP.Add(new Tuple<Int16, Int16, string, string>(testYear, MES_TAXING_MARGIN_INCOME_OF_WHT_EMP, JAN_TAXING_MARGIN_INCOME_OF_WHT_EMP, PropsValueToString(testTaxingProp.MarginIncomeOfWthEmp)));
                     VECT_TAXING_MARGIN_INCOME_OF_WHT_AGR.Add(new Tuple<Int16, Int16, string, string>(testYear, MES_TAXING_MARGIN_INCOME_OF_WHT_AGR, JAN_TAXING_MARGIN_INCOME_OF_WHT_AGR, PropsValueToString(testTaxingProp.MarginIncomeOfWthAgr)));
                 }
+
+                List<Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>> tableData = new List<Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>>() {
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MIN_MONTHLY_BASIS         , VECT_HEALTH_MIN_MONTHLY_BASIS),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MAX_ANNUALS_BASIS         , VECT_HEALTH_MAX_ANNUALS_BASIS),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_LIM_MONTHLY_STATE         , VECT_HEALTH_LIM_MONTHLY_STATE),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_LIM_MONTHLY_DIS50         , VECT_HEALTH_LIM_MONTHLY_DIS50),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_FACTOR_COMPOUND           , VECT_HEALTH_FACTOR_COMPOUND),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_FACTOR_EMPLOYEE           , VECT_HEALTH_FACTOR_EMPLOYEE),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MARGIN_INCOME_EMP         , VECT_HEALTH_MARGIN_INCOME_EMP),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(HEALTH_MARGIN_INCOME_AGR         , VECT_HEALTH_MARGIN_INCOME_AGR),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_WORKING_SHIFT_WEEK        , VECT_SALARY_WORKING_SHIFT_WEEK),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_WORKING_SHIFT_TIME        , VECT_SALARY_WORKING_SHIFT_TIME),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_MIN_MONTHLY_WAGE          , VECT_SALARY_MIN_MONTHLY_WAGE),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SALARY_MIN_HOURLY_WAGE           , VECT_SALARY_MIN_HOURLY_WAGE),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_MAX_ANNUALS_BASIS         , VECT_SOCIAL_MAX_ANNUALS_BASIS),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYER           , VECT_SOCIAL_FACTOR_EMPLOYER),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYER_HIGHER    , VECT_SOCIAL_FACTOR_EMPLOYER_HIGHER),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYEE           , VECT_SOCIAL_FACTOR_EMPLOYEE),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYEE_GARANT    , VECT_SOCIAL_FACTOR_EMPLOYEE_GARANT),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_FACTOR_EMPLOYEE_REDUCE    , VECT_SOCIAL_FACTOR_EMPLOYEE_REDUCE),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_MARGIN_INCOME_EMP         , VECT_SOCIAL_MARGIN_INCOME_EMP),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(SOCIAL_MARGIN_INCOME_AGR         , VECT_SOCIAL_MARGIN_INCOME_AGR),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_PAYER           , VECT_TAXING_ALLOWANCE_PAYER),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_DISAB_1ST       , VECT_TAXING_ALLOWANCE_DISAB_1ST),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_DISAB_2ND       , VECT_TAXING_ALLOWANCE_DISAB_2ND),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_DISAB_3RD       , VECT_TAXING_ALLOWANCE_DISAB_3RD),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_STUDY           , VECT_TAXING_ALLOWANCE_STUDY),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_CHILD_1ST       , VECT_TAXING_ALLOWANCE_CHILD_1ST),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_CHILD_2ND       , VECT_TAXING_ALLOWANCE_CHILD_2ND),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_ALLOWANCE_CHILD_3RD       , VECT_TAXING_ALLOWANCE_CHILD_3RD),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_ADVANCES           , VECT_TAXING_FACTOR_ADVANCES),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_WITHHOLD           , VECT_TAXING_FACTOR_WITHHOLD),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_SOLIDARY           , VECT_TAXING_FACTOR_SOLIDARY),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_FACTOR_TAXRATE2           , VECT_TAXING_FACTOR_TAXRATE2),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MIN_AMOUNT_OF_TAXBONUS    , VECT_TAXING_MIN_AMOUNT_OF_TAXBONUS),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MAX_AMOUNT_OF_TAXBONUS    , VECT_TAXING_MAX_AMOUNT_OF_TAXBONUS),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_TAXBONUS , VECT_TAXING_MARGIN_INCOME_OF_TAXBONUS),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_ROUNDING , VECT_TAXING_MARGIN_INCOME_OF_ROUNDING),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_WITHHOLD , VECT_TAXING_MARGIN_INCOME_OF_WITHHOLD),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_SOLIDARY , VECT_TAXING_MARGIN_INCOME_OF_SOLIDARY),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_TAXRATE2 , VECT_TAXING_MARGIN_INCOME_OF_TAXRATE2),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_WHT_EMP  , VECT_TAXING_MARGIN_INCOME_OF_WHT_EMP),
+                    new Tuple<Int32, List<Tuple<Int16, Int16, string, string>>>(TAXING_MARGIN_INCOME_OF_WHT_AGR  , VECT_TAXING_MARGIN_INCOME_OF_WHT_AGR),
+                };
 
                 foreach (var data in tableData)
                 {
