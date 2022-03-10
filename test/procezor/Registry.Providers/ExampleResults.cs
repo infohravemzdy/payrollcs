@@ -3,6 +3,7 @@ using HraveMzdy.Procezor.Service.Interfaces;
 
 namespace ProcezorTests.Registry.Providers
 {
+    // TimeshtWorking		TIMESHT_WORKING
     class TimeshtWorkingResult : ExampleTermResult
     {
         public TimeshtWorkingResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -10,6 +11,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // AmountBasis		AMOUNT_BASIS
     class AmountBasisResult : ExampleTermResult
     {
         public AmountBasisResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -17,6 +19,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // AmountFixed		AMOUNT_FIXED
     class AmountFixedResult : ExampleTermResult
     {
         public AmountFixedResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -24,6 +27,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // HealthInsbase		HEALTH_INSBASE
     class HealthInsbaseResult : ExampleTermResult
     {
         public HealthInsbaseResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -31,6 +35,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // SocialInsbase		SOCIAL_INSBASE
     class SocialInsbaseResult : ExampleTermResult
     {
         public SocialInsbaseResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -38,6 +43,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // HealthInspaym		HEALTH_INSPAYM
     class HealthInspaymResult : ExampleTermResult
     {
         public HealthInspaymResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -45,6 +51,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // SocialInspaym		SOCIAL_INSPAYM
     class SocialInspaymResult : ExampleTermResult
     {
         public SocialInspaymResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -52,6 +59,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // TaxingAdvbase		TAXING_ADVBASE
     class TaxingAdvbaseResult : ExampleTermResult
     {
         public TaxingAdvbaseResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -59,6 +67,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // TaxingAdvpaym		TAXING_ADVPAYM
     class TaxingAdvpaymResult : ExampleTermResult
     {
         public TaxingAdvpaymResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -66,6 +75,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // IncomeGross		INCOME_GROSS
     class IncomeGrossResult : ExampleTermResult
     {
         public IncomeGrossResult(ITermTarget target, IArticleSpec spec) : base(target, spec)
@@ -73,6 +83,7 @@ namespace ProcezorTests.Registry.Providers
         }
     }
 
+    // IncomeNetto		INCOME_NETTO
     class IncomeNettoResult : ExampleTermResult
     {
         public IncomeNettoResult(ITermTarget target, IArticleSpec spec) : base(target, spec)

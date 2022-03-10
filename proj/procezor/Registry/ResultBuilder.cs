@@ -138,8 +138,6 @@ namespace HraveMzdy.Procezor.Registry
 
             var initTargets = init.Where((x) => (x.Article == articleDefs.Code));
 
-            VariantCode variant = VariantCode.Get(1);
-
             var targetList = GetTargetList(period, ruleset, conceptModel, 
                 contractTerms, positionTerms, initTargets, articleDefs.Code, articleDefs.Role);
 
@@ -152,11 +150,6 @@ namespace HraveMzdy.Procezor.Registry
             IEnumerable<IContractTerm> contractTerms, IEnumerable<IPositionTerm> positionTerms, 
             IEnumerable<ITermTarget> init, IEnumerable<IArticleDefine> calcDefines)
         {
-            MonthCode monthCode = MonthCode.Get(period.Code);
-
-            ContractCode contract = ContractCode.New();
-            PositionCode position = PositionCode.New();
-
             IEnumerable<ITermTarget> resultList = init.ToList();
 
             var defineList = calcDefines.Where((x) => init.FirstOrDefault((t) => (t.Article == x.Code))==null);

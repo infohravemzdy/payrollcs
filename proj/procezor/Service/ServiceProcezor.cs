@@ -28,8 +28,6 @@ namespace HraveMzdy.Procezor.Service
             this.CalcArticles = calcArticles.ToList();
 
             this.Builder = new ResultBuilder();
-
-            BuildFactories();
         }
         public abstract IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets);
         public abstract IEnumerable<IPositionTerm> GetPositionTerms(IPeriod period, IEnumerable<IContractTerm> contracts, IEnumerable<ITermTarget> targets);
@@ -73,6 +71,9 @@ namespace HraveMzdy.Procezor.Service
                 initResult = Builder.InitWithPeriod(Version, period, ArticleFactory, ConceptFactory);
             }
 
+            if (initResult == false) {
+                Console.WriteLine($"Period: {period.Code}, init with period failed");
+            }
             return initResult;
         }
         public bool BuildFactories()
@@ -81,6 +82,9 @@ namespace HraveMzdy.Procezor.Service
 
             bool conceptFactorySuccess = BuildConceptFactory();
 
+            if (!(articleFactorySuccess && conceptFactorySuccess)) {
+                Console.WriteLine($"ServiceProcezor::BuildFactories(): Version: {this.Version}, build factories failed");
+            }
             return (articleFactorySuccess && conceptFactorySuccess);
         }
         public IArticleSpec GetArticleSpec(ArticleCode code, IPeriod period, VersionCode version)

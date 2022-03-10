@@ -26,17 +26,12 @@ namespace HraveMzdy.Procezor.Registry
 
         public IEnumerable<Result<ITermResult, ITermResultError>> GetResults(IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
         {
-            var resultTarget = CallResultDelegate(Target, Spec, period, ruleset, results);
-            return resultTarget.ToArray();
-        }
-        public IEnumerable<Result<ITermResult, ITermResultError>> CallResultDelegate(ITermTarget target, IArticleSpec spec, IPeriod period, IBundleProps ruleset, IList<Result<ITermResult, ITermResultError>> results)
-        {
             if (ResultDelegate == null)
             {
-                var resultError = NoResultFuncError.CreateResultError(period, target);
+                var resultError = NoResultFuncError.CreateResultError(period, Target);
                 return new Result<ITermResult, ITermResultError>[] { resultError };
             }
-            var resultTarget = ResultDelegate(target, spec, period, ruleset, results);
+            var resultTarget = ResultDelegate(Target, Spec, period, ruleset, results);
             return resultTarget.ToArray();
         }
     }

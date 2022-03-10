@@ -24,6 +24,11 @@ namespace ProcezorTests.Service
 
         public ExampleService() : base(TEST_VERSION, TEST_FINAL_DEFS)
         {
+            var buildSuccess = BuildFactories();
+            if (buildSuccess == false)
+            {
+                Console.WriteLine($"Version: {this.Version}, build factories failed");
+            }
         }
 
         public override IEnumerable<IContractTerm> GetContractTerms(IPeriod period, IEnumerable<ITermTarget> targets)

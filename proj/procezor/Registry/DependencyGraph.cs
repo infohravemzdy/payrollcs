@@ -90,8 +90,9 @@ namespace HraveMzdy.Procezor.Registry
                     }
                 });
             }
-            if (index != vertModel.Count())
-            {
+            var modelLength = vertModel.Count();
+            if (index != modelLength) {
+                Console.WriteLine($"CreateTopoModel, build graph failed: {index}<>{modelLength}");
                 return new List<ArticleTerm>();
             }
             return articlesOrder;
