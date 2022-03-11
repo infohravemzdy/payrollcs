@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>HraveMzdy.Procezor</AssemblyName>
     <RootNamespace>HraveMzdy.Procezor</RootNamespace>
-    <Version>0.0.3</Version>
+    <Version>0.22.1</Version>
     <Authors>Ladislav Lisy</Authors>
     <Description>General payroll procesor</Description>
     <Copyright>Copyright 2022</Copyright>
