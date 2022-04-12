@@ -67,19 +67,19 @@ namespace HraveMzdy.Legalios.Props
 
             return payment;
         }
-        protected decimal DecPaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
+        protected decimal DecPaymentWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits)
         {
-            decimal totalHours = Math.Max(0m, workingsHours);
+            decimal totalHours = Math.Max(0m, workingsUnits);
 
-            decimal payment = OperationsDec.Multiply(totalHours, tariffHourly);
+            decimal payment = OperationsDec.Multiply(totalHours, tariffPerUnit);
 
             return payment;
         }
-        protected decimal DecTariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours)
+        protected decimal DecTariffWithPaymentAndUnits(decimal amountPerUnit, decimal workingsUnits)
         {
-            decimal totalHours = Math.Max(0m, workingsHours);
+            decimal totalUnits = Math.Max(0m, workingsUnits);
 
-            decimal tariff = OperationsDec.Divide(amountHourly, totalHours);
+            decimal tariff = OperationsDec.Divide(amountPerUnit, totalUnits);
 
             return tariff;
         }
@@ -147,21 +147,27 @@ namespace HraveMzdy.Legalios.Props
 
             return OperationsRound.DecRoundUp(paymentValue);
         }
-        public decimal PaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
+        public decimal PaymentWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits)
         {
-            decimal paymentValue = DecPaymentWithTariffAndHours(tariffHourly, workingsHours);
+            decimal paymentValue = DecPaymentWithTariffAndUnits(tariffPerUnit, workingsUnits);
 
             return OperationsRound.DecRoundNorm(paymentValue);
         }
-        public decimal PaymentRoundUpWithTariffAndHours(decimal tariffHourly, decimal workingsHours)
+        public decimal PaymentRoundUpWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits)
         {
-            decimal paymentValue = DecPaymentWithTariffAndHours(tariffHourly, workingsHours);
+            decimal paymentValue = DecPaymentWithTariffAndUnits(tariffPerUnit, workingsUnits);
 
             return OperationsRound.DecRoundUp(paymentValue);
         }
-        public decimal TariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours)
+        public decimal PaymentRoundDownWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits)
         {
-            decimal tariffValue = DecTariffWithPaymentAndHours(amountHourly, workingsHours);
+            decimal paymentValue = DecPaymentWithTariffAndUnits(tariffPerUnit, workingsUnits);
+
+            return OperationsRound.DecRoundDown(paymentValue);
+        }
+        public decimal TariffWithPaymentAndUnits(decimal amountPerUnit, decimal workingsUnits)
+        {
+            decimal tariffValue = DecTariffWithPaymentAndUnits(amountPerUnit, workingsUnits);
 
             return MoneyToRoundNorm(tariffValue);
         }

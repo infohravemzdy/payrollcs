@@ -37,9 +37,10 @@ namespace HraveMzdy.Legalios.Service.Interfaces
             decimal monthlyCoeff, decimal workingCoeff);
         decimal ReverzedPaymentWithMonthlyAndCoeffAndWorkCoeff(decimal amountMonthly, 
             decimal monthlyCoeff, decimal workingCoeff);
-        decimal PaymentWithTariffAndHours(decimal tariffHourly, decimal workingsHours);
-        decimal PaymentRoundUpWithTariffAndHours(decimal tariffHourly, decimal workingsHours);
-        decimal TariffWithPaymentAndHours(decimal amountHourly, decimal workingsHours);
+        decimal PaymentWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits);
+        decimal PaymentRoundUpWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits);
+        decimal PaymentRoundDownWithTariffAndUnits(decimal tariffPerUnit, decimal workingsUnits);
+        decimal TariffWithPaymentAndUnits(decimal amountPerUnit, decimal workingsUnits);
         decimal PaymentWithAmountFixed(decimal amountFixed);
         decimal PaymentRoundUpWithAmountFixed(decimal amountFixed);
         decimal HoursToHalfHoursUp(decimal hoursVakue);
